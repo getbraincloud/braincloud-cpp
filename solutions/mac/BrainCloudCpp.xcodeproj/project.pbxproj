@@ -75,6 +75,9 @@
 		DF22307E1CE38BE6003A7D8D /* cURLFileUploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C801CD9231B0085137C /* cURLFileUploader.cpp */; };
 		DF2230CE1CE3953E003A7D8D /* cURLFileUploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C801CD9231B0085137C /* cURLFileUploader.cpp */; };
 		DF2230CF1CE39540003A7D8D /* cURLLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C811CD9231B0085137C /* cURLLoader.cpp */; };
+		DF7757741CEDE838001FD58D /* BrainCloudGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 249F589C1CE3B6E2009D03E4 /* BrainCloudGroup.cpp */; };
+		DF7757751CEDE839001FD58D /* BrainCloudGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 249F589C1CE3B6E2009D03E4 /* BrainCloudGroup.cpp */; };
+		DF7757761CEDE839001FD58D /* BrainCloudGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 249F589C1CE3B6E2009D03E4 /* BrainCloudGroup.cpp */; };
 		DF932C981CD9231B0085137C /* AuthenticationType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C561CD9231B0085137C /* AuthenticationType.cpp */; };
 		DF932C991CD9231B0085137C /* BrainCloudAsyncMatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C571CD9231B0085137C /* BrainCloudAsyncMatch.cpp */; };
 		DF932C9A1CD9231B0085137C /* BrainCloudAuthentication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C581CD9231B0085137C /* BrainCloudAuthentication.cpp */; };
@@ -241,6 +244,10 @@
 		DF932E311CD92B680085137C /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932E2E1CD92B680085137C /* jsoncpp.cpp */; };
 		DF932E321CD92B680085137C /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932E2E1CD92B680085137C /* jsoncpp.cpp */; };
 		DF932E331CD92B680085137C /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932E2E1CD92B680085137C /* jsoncpp.cpp */; };
+		DF9D06B91CEDE70E0011F98A /* BrainCloudWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF9D06B81CEDE70E0011F98A /* BrainCloudWrapper.cpp */; };
+		DF9D06BA1CEDE71B0011F98A /* BrainCloudWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF9D06B81CEDE70E0011F98A /* BrainCloudWrapper.cpp */; };
+		DF9D06BB1CEDE71B0011F98A /* BrainCloudWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF9D06B81CEDE70E0011F98A /* BrainCloudWrapper.cpp */; };
+		DF9D06BC1CEDE71C0011F98A /* BrainCloudWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF9D06B81CEDE70E0011F98A /* BrainCloudWrapper.cpp */; };
 		DFEC5DC81CE268C20091952A /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEC5D661CE268C20091952A /* libcurl.a */; };
 		DFEC5DCB1CE268C20091952A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEC5DBA1CE268C20091952A /* libcrypto.a */; };
 		DFEC5DCC1CE268C20091952A /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEC5DBB1CE268C20091952A /* libssl.a */; };
@@ -353,6 +360,7 @@
 		DF932E2C1CD92B680085137C /* json-forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-forwards.h"; sourceTree = "<group>"; };
 		DF932E2D1CD92B680085137C /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		DF932E2E1CD92B680085137C /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
+		DF9D06B81CEDE70E0011F98A /* BrainCloudWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainCloudWrapper.cpp; sourceTree = "<group>"; };
 		DFEC5D5C1CE268C20091952A /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
 		DFEC5D5D1CE268C20091952A /* curlbuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlbuild.h; sourceTree = "<group>"; };
 		DFEC5D5E1CE268C20091952A /* curlrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlrules.h; sourceTree = "<group>"; };
@@ -526,7 +534,6 @@
 		DF932C551CD9231B0085137C /* src */ = {
 			isa = PBXGroup;
 			children = (
-				249F589C1CE3B6E2009D03E4 /* BrainCloudGroup.cpp */,
 				DF932C561CD9231B0085137C /* AuthenticationType.cpp */,
 				DF932C571CD9231B0085137C /* BrainCloudAsyncMatch.cpp */,
 				DF932C581CD9231B0085137C /* BrainCloudAuthentication.cpp */,
@@ -541,6 +548,7 @@
 				DF932C611CD9231B0085137C /* BrainCloudGlobalApp.cpp */,
 				DF932C621CD9231B0085137C /* BrainCloudGlobalEntity.cpp */,
 				DF932C631CD9231B0085137C /* BrainCloudGlobalStatistics.cpp */,
+				249F589C1CE3B6E2009D03E4 /* BrainCloudGroup.cpp */,
 				DF932C641CD9231B0085137C /* BrainCloudIdentity.cpp */,
 				DF932C651CD9231B0085137C /* BrainCloudMatchmaking.cpp */,
 				DF932C661CD9231B0085137C /* BrainCloudOneWayMatch.cpp */,
@@ -558,6 +566,7 @@
 				DF932C721CD9231B0085137C /* BrainCloudSteam.cpp */,
 				DF932C731CD9231B0085137C /* BrainCloudTime.cpp */,
 				DF932C741CD9231B0085137C /* BrainCloudTwitter.cpp */,
+				DF9D06B81CEDE70E0011F98A /* BrainCloudWrapper.cpp */,
 				DF932C751CD9231B0085137C /* FriendPlatform.cpp */,
 				DF932C761CD9231B0085137C /* GUID.cpp */,
 				DF932C771CD9231B0085137C /* IBrainCloudComms.cpp */,
@@ -991,6 +1000,7 @@
 				DF932C991CD9231B0085137C /* BrainCloudAsyncMatch.cpp in Sources */,
 				DF932CC81CD9231B0085137C /* TimerCallback.cpp in Sources */,
 				DF932CB81CD9231B0085137C /* GUID.cpp in Sources */,
+				DF9D06B91CEDE70E0011F98A /* BrainCloudWrapper.cpp in Sources */,
 				DF932CC61CD9231B0085137C /* StringUtil.cpp in Sources */,
 				DF932CAC1CD9231B0085137C /* BrainCloudPlayerStatisticsEvent.cpp in Sources */,
 				DF932CA81CD9231B0085137C /* BrainCloudOneWayMatch.cpp in Sources */,
@@ -1033,6 +1043,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF7757751CEDE839001FD58D /* BrainCloudGroup.cpp in Sources */,
 				DF932DCE1CD92AAB0085137C /* BrainCloudClient.cpp in Sources */,
 				DF932DD61CD92AAB0085137C /* BrainCloudGlobalApp.cpp in Sources */,
 				DF2230321CE27DED003A7D8D /* SSKeychain.m in Sources */,
@@ -1075,6 +1086,7 @@
 				DF932DD51CD92AAB0085137C /* BrainCloudGamification.cpp in Sources */,
 				DF932E201CD92AB60085137C /* TimerCallback.cpp in Sources */,
 				DF932DD11CD92AAB0085137C /* BrainCloudEntity.cpp in Sources */,
+				DF9D06BB1CEDE71B0011F98A /* BrainCloudWrapper.cpp in Sources */,
 				DF932E331CD92B680085137C /* jsoncpp.cpp in Sources */,
 				DF932E1A1CD92AB60085137C /* Platform.cpp in Sources */,
 				DF932DED1CD92AAB0085137C /* JsonUtil.cpp in Sources */,
@@ -1098,6 +1110,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF7757741CEDE838001FD58D /* BrainCloudGroup.cpp in Sources */,
 				DF932DAB1CD92AAB0085137C /* BrainCloudClient.cpp in Sources */,
 				DF932DB31CD92AAB0085137C /* BrainCloudGlobalApp.cpp in Sources */,
 				DF2230311CE27DED003A7D8D /* SSKeychain.m in Sources */,
@@ -1140,6 +1153,7 @@
 				DF932DAE1CD92AAB0085137C /* BrainCloudEntity.cpp in Sources */,
 				DF932E0D1CD92AB50085137C /* TimerCallback.cpp in Sources */,
 				DF932DCA1CD92AAB0085137C /* JsonUtil.cpp in Sources */,
+				DF9D06BA1CEDE71B0011F98A /* BrainCloudWrapper.cpp in Sources */,
 				DF932E321CD92B680085137C /* jsoncpp.cpp in Sources */,
 				DF932E071CD92AB50085137C /* Platform.cpp in Sources */,
 				DF932DBB1CD92AAB0085137C /* BrainCloudPlayerStatistics.cpp in Sources */,
@@ -1193,6 +1207,7 @@
 				DF2230551CE38B06003A7D8D /* URLLoaderClient.cpp in Sources */,
 				DF2230571CE38B06003A7D8D /* BrainCloudTime.cpp in Sources */,
 				DF2230581CE38B06003A7D8D /* BrainCloudDataStream.cpp in Sources */,
+				DF7757761CEDE839001FD58D /* BrainCloudGroup.cpp in Sources */,
 				DF2230591CE38B06003A7D8D /* BrainCloudGlobalStatistics.cpp in Sources */,
 				DF22305A1CE38B06003A7D8D /* BrainCloudAuthentication.cpp in Sources */,
 				DF22305B1CE38B06003A7D8D /* BrainCloudSteam.cpp in Sources */,
@@ -1217,6 +1232,7 @@
 				DF22306C1CE38B06003A7D8D /* TimeUtil.cpp in Sources */,
 				DF22306D1CE38B06003A7D8D /* BrainCloudProfanity.cpp in Sources */,
 				DF22306E1CE38B06003A7D8D /* BrainCloudTwitter.cpp in Sources */,
+				DF9D06BC1CEDE71C0011F98A /* BrainCloudWrapper.cpp in Sources */,
 				DF22306F1CE38B06003A7D8D /* IBrainCloudComms.cpp in Sources */,
 				DF2230701CE38B06003A7D8D /* BrainCloudFile.cpp in Sources */,
 				DF2230711CE38B06003A7D8D /* SSKeychainQuery.m in Sources */,
