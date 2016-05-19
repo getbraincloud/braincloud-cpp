@@ -78,6 +78,8 @@
 		DF7757741CEDE838001FD58D /* BrainCloudGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 249F589C1CE3B6E2009D03E4 /* BrainCloudGroup.cpp */; };
 		DF7757751CEDE839001FD58D /* BrainCloudGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 249F589C1CE3B6E2009D03E4 /* BrainCloudGroup.cpp */; };
 		DF7757761CEDE839001FD58D /* BrainCloudGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 249F589C1CE3B6E2009D03E4 /* BrainCloudGroup.cpp */; };
+		DF8F8EAC1CEDEA31007562F8 /* SaveDataHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = DFEC5DDA1CE2690F0091952A /* SaveDataHelper.mm */; };
+		DF8F8EAD1CEDEA32007562F8 /* SaveDataHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = DFEC5DDA1CE2690F0091952A /* SaveDataHelper.mm */; };
 		DF932C981CD9231B0085137C /* AuthenticationType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C561CD9231B0085137C /* AuthenticationType.cpp */; };
 		DF932C991CD9231B0085137C /* BrainCloudAsyncMatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C571CD9231B0085137C /* BrainCloudAsyncMatch.cpp */; };
 		DF932C9A1CD9231B0085137C /* BrainCloudAuthentication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF932C581CD9231B0085137C /* BrainCloudAuthentication.cpp */; };
@@ -1069,6 +1071,7 @@
 				DF932DDA1CD92AAB0085137C /* BrainCloudMatchmaking.cpp in Sources */,
 				DF932DE31CD92AAB0085137C /* BrainCloudRedemptionCode.cpp in Sources */,
 				DF932E1E1CD92AB60085137C /* StringUtil.cpp in Sources */,
+				DF8F8EAD1CEDEA32007562F8 /* SaveDataHelper.mm in Sources */,
 				DF932E231CD92AB60085137C /* URLLoaderClient.cpp in Sources */,
 				DF932DE01CD92AAB0085137C /* BrainCloudProduct.cpp in Sources */,
 				DF932DE51CD92AAB0085137C /* BrainCloudScript.cpp in Sources */,
@@ -1136,6 +1139,7 @@
 				DF932E0A1CD92AB50085137C /* ServiceOperation.cpp in Sources */,
 				DF932DB71CD92AAB0085137C /* BrainCloudMatchmaking.cpp in Sources */,
 				DF932DC01CD92AAB0085137C /* BrainCloudRedemptionCode.cpp in Sources */,
+				DF8F8EAC1CEDEA31007562F8 /* SaveDataHelper.mm in Sources */,
 				DF932E0B1CD92AB50085137C /* StringUtil.cpp in Sources */,
 				DF932E101CD92AB50085137C /* URLLoaderClient.cpp in Sources */,
 				DF932DBD1CD92AAB0085137C /* BrainCloudProduct.cpp in Sources */,
