@@ -59,7 +59,7 @@ namespace BrainCloud
 	// Public methods
 	////////////////////////////////////////////////////////
 
-	void BrainCloudComms::initialize(const char * serverURL, const char * gameId, const char * secretKey)
+	void BrainCloudComms::initialize(const char * serverURL, const char * appId, const char * secretKey)
 	{
 		_serverUrl = serverURL;
 		_uploadUrl = serverURL;
@@ -69,7 +69,7 @@ namespace BrainCloud
 			_uploadUrl = _uploadUrl.substr(0, index);
 		}
 		_uploadUrl += "/uploader";
-		_gameId = gameId;
+		_appId = appId;
 		_secretKey = secretKey;
 		_isInitialized = true;
 	}
@@ -953,7 +953,7 @@ namespace BrainCloud
 				authenticating = true;
 			}
 
-			// break, right away so that theres only ONE message with authenticate
+			// break, right away so that there is only ONE message with authenticate
 			if (bFoundAuthCallInCurrentMarker)
 				break;
 		}
@@ -970,7 +970,7 @@ namespace BrainCloud
 
 			Json::Value allMessages;
 			allMessages["messages"] = messages;
-			allMessages["gameId"] = _gameId;
+			allMessages["gameId"] = _appId;
 			allMessages["sessionId"] = _sessionId;
 			allMessages["packetId"] = (Json::Int64) _expectedPacketId;
 
