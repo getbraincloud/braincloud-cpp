@@ -93,9 +93,9 @@ namespace BrainCloud
 		 *     Currently this should be:  https://sharedprod.braincloudservers.com/dispatcherv2
 		 * @param in_secretKey The secret key for your game
 		 * @param in_appId The app id
-		 * @param in_version The version
+		 * @param in_appVersion The version
 		 */
-		void initialize(const char * in_serverURL, const char * in_secretKey, const char * in_appId, const char * in_version);
+		void initialize(const char * in_serverURL, const char * in_secretKey, const char * in_appId, const char * in_appVersion);
 
 		/**
 		* Initialize - initializes the identity service with the saved
@@ -116,6 +116,19 @@ namespace BrainCloud
 		 * Run callbacks, to be called once per frame from your main thread
 		 */
 		void runCallbacks();
+
+		/**
+  		 * The brainCloud client considers itself reauthenticated
+  		 * with the given session
+  		 *
+  		 * Warning: ensure the user is within your session expiry (set on the dashboard)
+  		 * before using this call. This optional method exists to reduce
+  		 * authentication calls, in event the user needs to restart the app
+  		 * in rapid succession.
+  		 *
+  		 * @param in_sessionId A recently returned session Id
+  		 */
+		void restoreRecentSession(const char * in_sessionId);
 
 		/**
 		 * Sets a callback handler for any out of band event messages that come from
@@ -292,17 +305,39 @@ namespace BrainCloud
 		BrainCloudGroup * getGroupService() { return _groupService; }
 		BrainCloudMail * getMailService() { return _mailService; }
 
+		/**
+		* @deprecated Use getAppId() instead - Removal after September 1 2017
+		*/
+		DEPRECATED
 		const std::string & getGameId() const
 		{
 			if (_brainCloudComms != NULL) {
-				return _brainCloudComms->getGameId();
+				return _brainCloudComms->getAppId();
 			}
-			static std::string noGameId;
-			return noGameId;
+			static std::string noAppId;
+			return noAppId;
+		}
+
+		const std::string & getAppId() const
+		{
+			if (_brainCloudComms != NULL) {
+				return _brainCloudComms->getAppId();
+			}
+			static std::string noAppId;
+			return noAppId;
 		}
 
 		const std::string & getReleasePlatform() const { return _releasePlatform; };
-		const std::string & getGameVersion() const { return _version; };
+
+		/**
+		* @deprecated Use getAppVersion() instead - Removal after September 1 2017
+		*/
+		DEPRECATED
+		const std::string & getGameVersion() const { return _appVersion; }
+
+		const std::string & getAppVersion() const { return _appVersion; };
+		
+
 		const std::string & getBrainCloudClientVersion() const { return s_brainCloudClientVersion; };
 
 		const std::string& getCountryCode() const { return _countryCode; }
@@ -549,7 +584,7 @@ namespace BrainCloud
 		static std::string s_brainCloudClientVersion;
 
 		std::string _releasePlatform;
-		std::string _version;
+		std::string _appVersion;
 
 		std::string _countryCode;
 		std::string _languageCode;

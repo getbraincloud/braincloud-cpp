@@ -42,10 +42,16 @@ namespace BrainCloud {
 		static const ServiceOperation Register;
 		static const ServiceOperation SendSimple;
 		static const ServiceOperation SendRich;
+		static const ServiceOperation SendRaw;
+		static const ServiceOperation SendRawToGroup;
+		static const ServiceOperation SendRawBatch;
 		static const ServiceOperation SendTemplatedToGroup;
 		static const ServiceOperation SendNormalizedToGroup;
 		static const ServiceOperation SendNormalized;
 		static const ServiceOperation SendNormalizedBatch;
+		static const ServiceOperation ScheduleRichNotification;
+		static const ServiceOperation ScheduleNormalizedNotification;
+		static const ServiceOperation ScheduleRawNotification;
 
 		static const ServiceOperation Trigger;
 		static const ServiceOperation TriggerMultiple;
@@ -207,6 +213,8 @@ namespace BrainCloud {
 		static const ServiceOperation AddEvent;
 		static const ServiceOperation GetStreamSummariesForInitiatingPlayer;
 		static const ServiceOperation GetStreamSummariesForTargetPlayer;
+		static const ServiceOperation GetRecentStreamsForInitiatingPlayer;
+		static const ServiceOperation GetRecentStreamsForTargetPlayer;
 
 		static const ServiceOperation GetUserInfo;
 
@@ -296,7 +304,7 @@ namespace BrainCloud {
 		//mail
 		static const ServiceOperation SendBasicEmail;
 		static const ServiceOperation SendAdvancedEmail;
-
+		static const ServiceOperation SendAdvancedEmailByAddress;
 
 		//tournament
 		static const ServiceOperation GetTournamentStatus;

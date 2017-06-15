@@ -72,6 +72,11 @@ namespace BrainCloud {
 		return _isAuthenticated;
 	}
 
+	void IBrainCloudComms::setAuthenticated()
+	{
+		_isAuthenticated = true;
+	}
+
 	void IBrainCloudComms::setHeartbeatInterval(int milliseconds)
 	{
 		_heartbeatInterval = milliseconds;
@@ -84,7 +89,12 @@ namespace BrainCloud {
 
 	const std::string& IBrainCloudComms::getGameId() const
 	{
-		return _gameId;
+		return _appId;
+	}
+
+	const std::string& IBrainCloudComms::getAppId() const
+	{
+		return _appId;
 	}
 
 	void IBrainCloudComms::clearSessionId()

@@ -37,10 +37,16 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::Register = ServiceOperation("REGISTER");
 	const ServiceOperation ServiceOperation::SendSimple = ServiceOperation("SEND_SIMPLE");
 	const ServiceOperation ServiceOperation::SendRich = ServiceOperation("SEND_RICH");
+	const ServiceOperation ServiceOperation::SendRaw = ServiceOperation("SEND_RAW");
+	const ServiceOperation ServiceOperation::SendRawToGroup = ServiceOperation("SEND_RAW_TO_GROUP");
+	const ServiceOperation ServiceOperation::SendRawBatch = ServiceOperation("SEND_RAW_BATCH");
 	const ServiceOperation ServiceOperation::SendTemplatedToGroup = ServiceOperation("SEND_TEMPLATED_TO_GROUP");
 	const ServiceOperation ServiceOperation::SendNormalizedToGroup = ServiceOperation("SEND_NORMALIZED_TO_GROUP");
 	const ServiceOperation ServiceOperation::SendNormalized = ServiceOperation("SEND_NORMALIZED");
 	const ServiceOperation ServiceOperation::SendNormalizedBatch = ServiceOperation("SEND_NORMALIZED_BATCH");
+	const ServiceOperation ServiceOperation::ScheduleRichNotification = ServiceOperation("SCHEDULE_RICH_NOTIFICATION");
+	const ServiceOperation ServiceOperation::ScheduleNormalizedNotification = ServiceOperation("SCHEDULE_NORMALIZED_NOTIFICATION");
+	const ServiceOperation ServiceOperation::ScheduleRawNotification = ServiceOperation("SCHEDULE_RAW_NOTIFICATION");
 
 	const ServiceOperation ServiceOperation::Trigger = ServiceOperation("TRIGGER");
 	const ServiceOperation ServiceOperation::TriggerMultiple = ServiceOperation("TRIGGER_MULTIPLE");
@@ -201,6 +207,8 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::AddEvent = ServiceOperation("ADD_EVENT");
 	const ServiceOperation ServiceOperation::GetStreamSummariesForInitiatingPlayer = ServiceOperation("GET_STREAM_SUMMARIES_FOR_INITIATING_PLAYER");
 	const ServiceOperation ServiceOperation::GetStreamSummariesForTargetPlayer = ServiceOperation("GET_STREAM_SUMMARIES_FOR_TARGET_PLAYER");
+	const ServiceOperation ServiceOperation::GetRecentStreamsForInitiatingPlayer = ServiceOperation("GET_RECENT_STREAMS_FOR_INITIATING_PLAYER");
+	const ServiceOperation ServiceOperation::GetRecentStreamsForTargetPlayer = ServiceOperation("GET_RECENT_STREAMS_FOR_TARGET_PLAYER");
 
 	const ServiceOperation ServiceOperation::GetUserInfo = ServiceOperation("GET_USER_INFO");
 
@@ -300,6 +308,7 @@ namespace BrainCloud
 	//mail
 	const ServiceOperation ServiceOperation::SendBasicEmail = ServiceOperation("SEND_BASIC_EMAIL");
 	const ServiceOperation ServiceOperation::SendAdvancedEmail = ServiceOperation("SEND_ADVANCED_EMAIL");
+	const ServiceOperation ServiceOperation::SendAdvancedEmailByAddress = ServiceOperation("SEND_ADVANCED_EMAIL_BY_ADDRESS");
 
 	ServiceOperation::ServiceOperation(const char * value)
 	{

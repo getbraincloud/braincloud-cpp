@@ -16,6 +16,12 @@ namespace BrainCloud {
 		static const OperationParam PushNotificationSendParamSubstitution;
 		static const OperationParam AlertContent;
 		static const OperationParam CustomData;
+		static const OperationParam StartDateUTC;
+		static const OperationParam MinutesFromNow;
+		static const OperationParam FcmContent;
+		static const OperationParam IosContent;
+		static const OperationParam FacebookContent;
+
 
 		//Push Notification Service - Register Params
 		static const OperationParam PushNotificationRegisterParamDeviceType;
@@ -275,6 +281,7 @@ namespace BrainCloud {
 
 		static const OperationParam PlaybackStreamServicePlaybackStreamId;
 		static const OperationParam PlaybackStreamServiceTargetPlayerId;
+		static const OperationParam PlaybackMaxNumberOfStreams;
 		static const OperationParam PlaybackStreamServiceInitiatingPlayerId;
 		static const OperationParam PlaybackStreamServiceIncludeSharedData;
 		static const OperationParam PlaybackStreamServiceEventData;
@@ -347,6 +354,7 @@ namespace BrainCloud {
 		static const OperationParam GroupWhere;
 
 		//mail
+		static const OperationParam EmailAddress;
 		static const OperationParam Subject;
 		static const OperationParam Body;
 		static const OperationParam ServiceParams;

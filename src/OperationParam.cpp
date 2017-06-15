@@ -9,6 +9,11 @@ namespace BrainCloud
 	const OperationParam OperationParam::PushNotificationSendParamSubstitution = OperationParam("substitutions");
 	const OperationParam OperationParam::AlertContent = OperationParam("alertContent");
 	const OperationParam OperationParam::CustomData = OperationParam("customData");
+	const OperationParam OperationParam::StartDateUTC = OperationParam("startDateUTC");
+	const OperationParam OperationParam::MinutesFromNow = OperationParam("minutesFromNow");
+	const OperationParam OperationParam::FcmContent = OperationParam("fcmContent");
+	const OperationParam OperationParam::IosContent = OperationParam("iosContent");
+	const OperationParam OperationParam::FacebookContent = OperationParam("facebookContent");
 
 	//Push Notification Service - Register Params
 	const OperationParam OperationParam::PushNotificationRegisterParamDeviceType = OperationParam("deviceType");
@@ -269,6 +274,7 @@ namespace BrainCloud
 
 	const OperationParam OperationParam::PlaybackStreamServicePlaybackStreamId = OperationParam("playbackStreamId");
 	const OperationParam OperationParam::PlaybackStreamServiceTargetPlayerId = OperationParam("targetPlayerId");
+	const OperationParam OperationParam::PlaybackMaxNumberOfStreams = OperationParam("maxNumStreams");
 	const OperationParam OperationParam::PlaybackStreamServiceInitiatingPlayerId = OperationParam("initiatingPlayerId");
 	const OperationParam OperationParam::PlaybackStreamServiceIncludeSharedData = OperationParam("includeSharedData");
 	const OperationParam OperationParam::PlaybackStreamServiceEventData = OperationParam("eventData");
@@ -341,6 +347,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::GroupWhere = OperationParam("where");
 
 	//mail
+	const OperationParam OperationParam::EmailAddress = OperationParam("emailAddress");
 	const OperationParam OperationParam::Subject = OperationParam("subject");
 	const OperationParam OperationParam::Body = OperationParam("body");
 	const OperationParam OperationParam::ServiceParams = OperationParam("serviceParams");

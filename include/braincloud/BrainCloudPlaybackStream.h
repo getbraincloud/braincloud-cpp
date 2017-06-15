@@ -74,26 +74,40 @@ namespace BrainCloud
         void addEvent(const char * in_playbackStreamId, const char * in_jsonEventData, const char * in_jsonSummary, IServerCallback * in_callback = NULL);
 
         /**
-        * Gets stream summaries for initiating player
-        *
-        * Service Name - PlaybackStream
-        * Service Operation - GetStreamSummariesForInitiatingPlayer
-        *
-        * @param in_initiatingPlayerId The player that started the stream
-        * @param in_callback The method to be invoked when the server response is received
-        */
+		* @deprecated Use getRecentStreamsForInitiatingPlayer() instead - Removal after September 1 2017
+		*/
+		DEPRECATED
         void getStreamSummariesForInitiatingPlayer(const char * in_initiatingPlayerId, IServerCallback * in_callback = NULL);
 
         /**
-        * Gets stream summaries for target player
+		* @deprecated Use getRecentStreamsForTargetPlayer() instead - Removal after September 1 2017
+		*/
+		DEPRECATED
+        void getStreamSummariesForTargetPlayer(const char * in_targetPlayerId, IServerCallback * in_callback = NULL);
+
+        /**
+        * Gets recent stream summaries for initiating player
         *
         * Service Name - PlaybackStream
-        * Service Operation - GetStreamSummariesForTargetPlayer
+        * Service Operation - GetRecentStreamsForInitiatingPlayer
         *
-        * @param in_targetPlayerId The player that started the stream
-        * @param in_callback The method to be invoked when the server response is received
+        * @param targetPlayerId The player that started the stream
+        * @param maxNumStreams The max number of streams to query
+        * @param callback The callback.
         */
-        void getStreamSummariesForTargetPlayer(const char * in_targetPlayerId, IServerCallback * in_callback = NULL);
+        void getRecentStreamsForInitiatingPlayer(const char * in_initiatingPlayerId, int in_maxNumStreams, IServerCallback * in_callback = NULL);
+
+        /**
+        * Gets recent stream summaries for target player
+        *
+        * Service Name - PlaybackStream
+        * Service Operation - GetRecentStreamsForTargetPlayer
+        *
+        * @param targetPlayerId The player that was target of the stream
+        * @param maxNumStreams The max number of streams to query
+        * @param callback The callback.
+        */
+        void getRecentStreamsForTargetPlayer(const char * in_targetPlayerId, int in_maxNumStreams, IServerCallback * in_callback = NULL);
 
     private:
         BrainCloudClient * m_client;
