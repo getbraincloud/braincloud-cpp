@@ -32,10 +32,10 @@ namespace BrainCloud
 {
     class BrainCloudClient;
 
-    class DefaultBrainCloudComms : public IBrainCloudComms
+    class BrainCloudComms : public IBrainCloudComms
     {
     public:
-        virtual ~DefaultBrainCloudComms();
+        virtual ~BrainCloudComms();
 
         // from IBrainCloudComms
         virtual void initialize(const char * serverURL, const char * appId, const char * secretKey);
@@ -72,7 +72,7 @@ namespace BrainCloud
     protected:
         friend class IBrainCloudComms;
 
-        DefaultBrainCloudComms(BrainCloudClient* in_client);
+        BrainCloudComms(BrainCloudClient* in_client);
 
         virtual void startFileUpload(const Json::Value & in_jsonPrepareUploadResponse);
 
