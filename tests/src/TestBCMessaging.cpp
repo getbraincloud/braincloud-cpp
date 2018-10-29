@@ -67,10 +67,14 @@ TEST_F(TestBCMessaging, GetMessagesPageOffset)
 TEST_F(TestBCMessaging, SendMessage)
 {
 	TestResult tr;
-	auto profileId = m_bc->getAuthenticationService()->getProfileId();
+	
+	Json::Value contentJson;
+	contentJson["Subject"] = "Test";
+	contentJson["Text"] = "BlahBlah"; 
 
+	auto profileId = m_bc->getAuthenticationService()->getProfileId();
 	std::vector<std::string> toProfileIds = {profileId};
-	m_bc->getMessagingService()->sendMessage(toProfileIds, "This is text", "This is subject", &tr);
+	m_bc->getMessagingService()->sendMessage(toProfileIds, contentJson, &tr);
 	tr.run(m_bc);
 }
 
