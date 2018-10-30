@@ -7,7 +7,6 @@
 
 #include <string>
 #include <vector>
-#include "json/json.h"
 
 namespace BrainCloud
 {
@@ -94,7 +93,7 @@ namespace BrainCloud
 		 * @param contentJson the message you are sending
 		 * @param callback The method to be invoked when the server response is received
 		 */
-		void sendMessage(const std::vector<std::string>& in_toProfileIds, Json::Value contentJson, IServerCallback* in_callback = NULL);
+		void sendMessage(const std::vector<std::string>& in_toProfileIds, std::string in_contentJson, IServerCallback* in_callback = NULL);
 
 		/**
 		 * Sends a simple message to specified list of users.

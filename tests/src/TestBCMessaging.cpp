@@ -68,9 +68,7 @@ TEST_F(TestBCMessaging, SendMessage)
 {
 	TestResult tr;
 	
-	Json::Value contentJson;
-	contentJson["Subject"] = "Test";
-	contentJson["Text"] = "BlahBlah"; 
+	std::string contentJson = "{\"subject\": \"Chat and messaging features are here!\", \"text\": \"hi.\"}";
 
 	auto profileId = m_bc->getAuthenticationService()->getProfileId();
 	std::vector<std::string> toProfileIds = {profileId};
