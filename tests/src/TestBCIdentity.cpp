@@ -48,9 +48,6 @@ TEST_F(TestBCIdentity, SwitchToSingletonChildProfile)
 	TestResult tr;
 	m_bc->getIdentityService()->switchToSingletonChildProfile("invalid_appId", true, &tr);
 	tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_APP_ID);
-
-	//if (tr.run(m_bc))
-		//detachParent();
 }
 
 TEST_F(TestBCIdentity, DetachParent)
@@ -85,17 +82,16 @@ TEST_F(TestBCIdentity, AttachParentWithIdentity)
 	tr.run(m_bc);
 	*/
 
-	GoToChildProfile();
-
+//running this without it having a parent
 	TestResult tr;
-	m_bc->getIdentityService()->attachParentWithIdentity(
-		"invalid_playerId",
-		"invalid_password",
+	m_bc->getIdentityService()->attachParentWithIdentity(GetUser(
+		UserA)->m_id,
+		GetUser(UserA)->m_password,
 		AuthenticationType::Universal,
 		NULL,
 		true,
 		&tr);
-	tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, PARENT_ALREADY_ATTACHED);
+	tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, MISSING_GAME_PARENT);
 }
 
 TEST_F(TestBCIdentity, SwitchToParentProfile)
@@ -107,10 +103,9 @@ TEST_F(TestBCIdentity, SwitchToParentProfile)
 	m_bc->getIdentityService()->switchToParentProfile(m_parentLevelName.c_str(), &tr);
 	tr.run(m_bc);
 	*/
-
+//also running this as if app doesnt have a parent
 	TestResult tr;
-	GoToChildProfile();
-	m_bc->getIdentityService()->switchToParentProfile("invalid_parentLevel", &tr);
+	m_bc->getIdentityService()->switchToParentProfile(m_parentLevelName.c_str(), &tr);
 	tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, MISSING_GAME_PARENT);
 	
 }
