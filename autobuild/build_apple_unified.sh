@@ -122,6 +122,8 @@ function build_app()
   cp "$output_folder_osx/libBrainCloud-OSX.a" brainCloud/libs/brainCloudClient_osx.a
 
   cp -r ../include/braincloud brainCloud/include
+
+  #update the libwebsocket dependencies
   git submodule update --init
 
   # copy in the thirdparty dependencies
