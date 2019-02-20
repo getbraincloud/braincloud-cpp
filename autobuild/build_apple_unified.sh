@@ -122,6 +122,7 @@ function build_app()
   cp "$output_folder_osx/libBrainCloud-OSX.a" brainCloud/libs/brainCloudClient_osx.a
 
   cp -r ../include/braincloud brainCloud/include
+  git submodule update --init
 
   # copy in the thirdparty dependencies
   cp -r ../lib/jsoncpp-1.0.0 brainCloud/thirdparty
