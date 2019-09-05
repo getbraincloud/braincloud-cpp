@@ -410,6 +410,14 @@ namespace BrainCloud
 					}
 				}
 			}
+			
+			//if its a switch call, we need to update the appId and secret
+			if (serverCall->getOperation() == ServiceOperation::SwitchToChildProfile || serverCall->getOperation()  == ServiceOperation::SwitchToParentProfile)
+			{
+				std::cout << "MEEEEEEEEESSAGE";
+				std::cout << messages[i]["data"];
+				ProcessSwitchResponse(messages[i]["data"]);
+			}
 
 			if (!error)
 			{
@@ -872,6 +880,28 @@ namespace BrainCloud
 			delete _inProgress.back();
 			_inProgress.pop_back();
 		}
+	}
+
+	void DefaultBrainCloudComms::ProcessSwitchResponse(Json::Value in_responses)
+	{
+		std::cout<<"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH";
+		Json::FastWriter fastWriter;
+		std::string switchToAppId = fastWriter.write(in_responses["switchToAppId"]);
+		std::cout << switchToAppId;
+		//if the response data contains a switchToAppId
+		if(switchToAppId != "" || switchToAppId != "unknown")
+		{
+			std::cout << "HEY";
+			std::cout << _appId;
+			_appId = switchToAppId;
+			std::cout << _appId;
+
+			//update secretKey
+			std::cout << _secretKey;
+			_secretKey = _secretMap[_appId];
+			std::cout << _secretKey;
+		}
+		std::cout<<"AFFFFFFFFFFFFFFFFFFFFFFFFTER";
 	}
 
 	void DefaultBrainCloudComms::resetErrorCache()
