@@ -212,11 +212,6 @@ namespace BrainCloud
             return;
         }
 
-        for(auto elem : in_secretMap)
-        {
-        std::cout << "SECRETMAP: " << elem.first << " : " << elem.second;
-        }
-
         initializeComms(in_serverURL, in_defaultAppId, in_secretMap);
         setupOSLocaleData();
 
@@ -226,10 +221,6 @@ namespace BrainCloud
 
     void BrainCloudClient::initializeWithApps(const char* in_defaultAppId, const std::map<std::string, std::string>& in_secretMap, const char* in_appVersion)
     {
-        for(auto elem : in_secretMap)
-        {
-        std::cout << " SECRETMAP: " << elem.first << " : " << elem.second;
-        }
         initializeWithApps(BC_SERVER_URL, in_defaultAppId, in_secretMap, in_appVersion);
     }
 
