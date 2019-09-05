@@ -884,7 +884,6 @@ namespace BrainCloud
 
 	void DefaultBrainCloudComms::ProcessSwitchResponse(Json::Value in_responses)
 	{
-		std::cout<<"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH";
 		Json::FastWriter fastWriter;
 		std::string switchToAppId = fastWriter.write(in_responses["switchToAppId"]);
 		std::cout << switchToAppId;
@@ -892,16 +891,15 @@ namespace BrainCloud
 		if(switchToAppId != "" || switchToAppId != "unknown")
 		{
 			std::cout << "HEY";
-			std::cout << _appId;
+			//std::cout << _appId;
 			_appId = switchToAppId;
-			std::cout << _appId;
+			//std::cout << _appId;
 
 			//update secretKey
-			std::cout << _secretKey;
+			//std::cout << _secretKey;
 			_secretKey = _secretMap[_appId];
-			std::cout << _secretKey;
+			//std::cout << _secretKey;
 		}
-		std::cout<<"AFFFFFFFFFFFFFFFFFFFFFFFFTER";
 	}
 
 	void DefaultBrainCloudComms::resetErrorCache()

@@ -211,8 +211,7 @@ namespace BrainCloud
             std::cout << "ERROR | Failed to initialize brainCloud - " << error;
             return;
         }
-        std::cout << "LOOOOOOOOOOOOOOOOOOOOOOOOOOK HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEREEEEEEEEEEEEEEEEEEEEEEEEEEE";
-        std::cout << "SERVER: " << BC_SERVER_URL << " APPID: " << in_defaultAppId << " APPVERSION: " << in_appVersion;
+
         for(auto elem : in_secretMap)
         {
         std::cout << "SECRETMAP: " << elem.first << " : " << elem.second;
@@ -227,8 +226,6 @@ namespace BrainCloud
 
     void BrainCloudClient::initializeWithApps(const char* in_defaultAppId, const std::map<std::string, std::string>& in_secretMap, const char* in_appVersion)
     {
-        std::cout << "LOOOOOOOOOOOOOOOOOOOOOOOOOOK HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEREEEEEEEEEEEEEEEEEEEEEEEEEEE";
-        std::cout << "SERVER: " << BC_SERVER_URL << " APPID: " << in_defaultAppId << " APPVERSION: " << in_appVersion;
         for(auto elem : in_secretMap)
         {
         std::cout << " SECRETMAP: " << elem.first << " : " << elem.second;
