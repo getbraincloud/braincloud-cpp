@@ -414,8 +414,6 @@ namespace BrainCloud
 			//if its a switch call, we need to update the appId and secret
 			if (serverCall->getOperation() == ServiceOperation::SwitchToChildProfile || serverCall->getOperation()  == ServiceOperation::SwitchToParentProfile)
 			{
-				std::cout << "MEEEEEEEEESSAGE";
-				std::cout << messages[i]["data"];
 				ProcessSwitchResponse(messages[i]["data"]);
 			}
 
@@ -890,7 +888,6 @@ namespace BrainCloud
 		//if the response data contains a switchToAppId
 		if(switchToAppId != "" || switchToAppId != "unknown")
 		{
-			std::cout << "HEY";
 			//std::cout << _appId;
 			_appId = switchToAppId;
 			//std::cout << _appId;
