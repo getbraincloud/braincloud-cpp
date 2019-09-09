@@ -116,7 +116,7 @@ namespace BrainCloud
 		 *
 		 * @param in_serverURL The url to the brainCloud server
 		 *     Currently this should be:  https://sharedprod.braincloudservers.com/dispatcherv2
-		 * @param in_secretKey The secret key for your game
+		 * @param in The secret key for your game
 		 * @param in_appId The app id
 		 * @param in_appVersion The version
 		 */
