@@ -180,10 +180,7 @@ namespace BrainCloud
         }
 
         std::map<std::string, std::string> secretMap;
-        std::cout << "\nTHE IN_SECRETKEY: " << in_secretKey;
         secretMap[in_appId] = in_secretKey;
-        std::cout << "\nTHE SECRET KEY IN MAP: " << secretMap[in_appId];
-        
 
         initializeComms(in_serverURL, in_appId, secretMap);
         setupOSLocaleData();
@@ -194,7 +191,6 @@ namespace BrainCloud
 
     void BrainCloudClient::initialize(const char * in_secretKey, const char * in_appId, const char * in_appVersion)
     {
-        std::cout << "\nTHE IN_SECRETKEY ON INIT: " << in_secretKey;
         initialize(BC_SERVER_URL, in_secretKey, in_appId, in_appVersion);
     }
 
@@ -209,13 +205,6 @@ namespace BrainCloud
             error = "appVersion was null or empty";
         else if (in_secretMap.find(in_defaultAppId) == in_secretMap.end())
             error = "not secretKey match for appid";
-
-        std::cout << "\nLOOOOOOOOOOOOOOOOOOOOOOOOOOK ";
-        std::cout << "\nSERVER: " << BC_SERVER_URL << "\nAPPID: " << in_defaultAppId << "\nAPPVERSION: " << in_appVersion;
-        for(auto elem : in_secretMap)
-        {
-        std::cout << "\nSECRETMAP: " << elem.first << " : " << elem.second;
-        }
 
         if (error.length() > 0)
         {
@@ -232,14 +221,6 @@ namespace BrainCloud
 
     void BrainCloudClient::initializeWithApps(const char* in_defaultAppId, const std::map<std::string, std::string>& in_secretMap, const char* in_appVersion)
     {
-        std::cout << "\nTHE OTHER INITIALIZEWITHAPPS";
-        std::cout << "\nLOOOOOOOOOOOOOOOOOOOOOOOOOOK ";
-        std::cout << "\nSERVER: " << BC_SERVER_URL << "\nAPPID: " << in_defaultAppId << "\nAPPVERSION: " << in_appVersion;
-        for(auto elem : in_secretMap)
-        {
-        std::cout << "\nSECRETMAP: " << elem.first << " : " << elem.second;
-        }
-
         initializeWithApps(BC_SERVER_URL, in_defaultAppId, in_secretMap, in_appVersion);
     }
 

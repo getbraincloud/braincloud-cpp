@@ -55,21 +55,10 @@ namespace BrainCloud
 			_uploadUrl = _uploadUrl.substr(0, index);
 		}
 		_uploadUrl += "/uploader";
-		std::cout << "\nTHE _APPID BEFORE: " << _appId;
-		std::cout << "\nTHE APPID BEING PASSED IN: " << appId;
+
 		_appId = appId;
-		std::cout << "\nTHE _APPID AFTER: " << _appId;
-
-		std::cout << "\nTHE _SecretKEY BEFORE: " << _secretKey;
-		std::cout << "\nTHE _SecretKEY BEING PASSED IN: " << secretKey;\
-		////////////////////////////Might have to change this
 		_secretKey = secretKey;
-		std::cout << "\nTHE _SecretKEY AFTER: " << _secretKey;
-
-		std::cout << "\nTHE _SecretMapValue BEFORE: " << _secretMap[appId];
-		std::cout << "\nTHE _SecretMapValue BEING PASSED IN: " << _secretKey;
 		_secretMap[_appId] = _secretKey;
-		std::cout << "\nTHE _SecretMapValue AFTER: " << _secretMap[appId];
 
 		_isInitialized = true;
 	}
@@ -895,27 +884,19 @@ namespace BrainCloud
 
 	void DefaultBrainCloudComms::ProcessSwitchResponse(Json::Value in_responses)
 	{
-		std::cout << "\nthe current secretKey " << _secretKey;
-		std::cout << "\nProcessing switch response...";
 		Json::FastWriter fastWriter;
 		std::string switchToAppId = fastWriter.write(in_responses["switchToAppId"]);
-		std::cout << "\nthe appid we're switching to: "<< switchToAppId;
 		//if the response data contains a switchToAppId
 		if(switchToAppId != "" || switchToAppId != "unknown")
 		{
-			std::cout << "\ncurrentAppId: " << _appId;
 			_appId = switchToAppId;
-			std::cout << "\nnewAppId" << _appId;
 
 			//update secretKey
-			std::cout << "\nthe current secretKey " << _secretKey;
 			std::map<std::string, std::string>::const_iterator it = _secretMap.find(_appId);
 			if (it != _secretMap.end())
         	{
 				_secretKey = it->second;
 			}
-			//_secretKey = getSecretKey(_appId);
-			std::cout << "\nthe updated" << _secretKey;
 		}
 	}
 
@@ -931,7 +912,6 @@ namespace BrainCloud
 	 */
 	void DefaultBrainCloudComms::createAndSendBundle()
 	{
-		std::cout << "\n" << _secretKey << "THE SECRET KEY"; 
 		bool authenticating = false;
 		Json::Value messages(Json::arrayValue);
 

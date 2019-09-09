@@ -66,7 +66,6 @@ namespace BrainCloud {
         if (it != _secretMap.end())
         {
             _secretKey = it->second;
-			std::cout << "\n_secretKEY IN IBRAINCLOUD: " << _secretKey;
         }
 
         initialize(serverURL, defaultAppId, _secretKey.c_str());
