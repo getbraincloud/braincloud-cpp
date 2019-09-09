@@ -894,7 +894,7 @@ namespace BrainCloud
 			//update secretKey
 			std::map<std::string, std::string>::const_iterator it = _secretMap.find(_appId);
 			if (it != _secretMap.end())
-        	{
+			{
 				_secretKey = it->second;
 			}
 		}
