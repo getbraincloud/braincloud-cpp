@@ -52,6 +52,7 @@ namespace BrainCloud
 		m_client->sendRequest(sc);
 	}
 
+	[[deprecated("use getEntityPage(entityType,context)")]]
 	void BrainCloudCustomEntity::getEntityPage(const char * in_entityType, int32_t in_rowsPerPage, const std::string& in_searchJson, const std::string& in_sortJson, bool in_doCount, IServerCallback * in_callback)
 	{
 		Json::Value message;
