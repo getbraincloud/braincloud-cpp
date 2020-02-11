@@ -180,7 +180,7 @@ namespace BrainCloud
         * Remove user's attributes.
         *
         * Service Name - PlayerState
-        * Service Operation - RemoveAttributes
+        * Service Operation - RemoveAttribute
         *
         * @param in_attributeNames Collection of attribute names.
         * @param in_callback The method to be invoked when the server response is received
