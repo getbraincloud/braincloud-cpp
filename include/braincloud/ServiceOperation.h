@@ -275,6 +275,9 @@ namespace BrainCloud {
 		static const ServiceOperation UpdatePlayerPicture;
 		static const ServiceOperation UpdateContactEmail;
 
+		static const ServiceOperation UpdateTimeZoneOffset;
+		static const ServiceOperation UpdateLanguageCode;
+
 		static const ServiceOperation ReadProperties;
 
 		static const ServiceOperation GetUpdatedFiles;

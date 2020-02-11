@@ -258,6 +258,9 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::UpdatePlayerPicture = ServiceOperation("UPDATE_PICTURE_URL");
 	const ServiceOperation ServiceOperation::UpdateContactEmail = ServiceOperation("UPDATE_CONTACT_EMAIL");
 
+	const ServiceOperation ServiceOperation::UpdateTimeZoneOffset = ServiceOperation("UPDATE_TIMEZONE_OFFSET");
+	const ServiceOperation ServiceOperation::UpdateLanguageCode = ServiceOperation("UPDATE_LANGUAGE_CODE");
+
 	const ServiceOperation ServiceOperation::ReadProperties = ServiceOperation("READ_PROPERTIES");
 
 	const ServiceOperation ServiceOperation::GetUpdatedFiles = ServiceOperation("GET_UPDATED_FILES");
