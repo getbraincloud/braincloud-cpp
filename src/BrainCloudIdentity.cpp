@@ -122,6 +122,21 @@ namespace BrainCloud
 		detachIdentity(in_googleId, AuthenticationType::Google, in_continueAnon, in_callback);
 	}
 
+	void BrainCloudIdentity::attachGoogleOpenIdentity(const char * in_googleOpenId, const char * in_authenticationToken, IServerCallback * in_callback)
+	{
+		attachIdentity(in_googleOpenId, in_authenticationToken, AuthenticationType::Google, in_callback);
+	}
+
+	void BrainCloudIdentity::mergeGoogleOpenIdentity(const char * in_googleOpenId, const char * in_authenticationToken, IServerCallback * in_callback)
+	{
+		mergeIdentity(in_googleOpenId, in_authenticationToken, AuthenticationType::Google, in_callback);
+	}
+
+	void BrainCloudIdentity::detachGoogleOpenIdentity(const char * in_googleOpenId, bool in_continueAnon, IServerCallback * in_callback)
+	{
+		detachIdentity(in_googleOpenId, AuthenticationType::Google, in_continueAnon, in_callback);
+	}
+
 	void BrainCloudIdentity::attachTwitterIdentity(const char * in_twitterId, const char * in_authenticationToken, const char * in_secret, IServerCallback * in_callback)
 	{
 		std::string buffer(in_authenticationToken);

@@ -110,12 +110,12 @@ TEST_F(TestBCScript, RunPeerScript)
 // 	}
 // }
 
-TEST_F(TestBCScript, GetRunningOrQueuedScripts)
-{
-		TestResult tr;
-		m_bc->getScriptService()->getRunningOrScheduledScripts(&tr);
-		tr.run(m_bc);
-}
+// TEST_F(TestBCScript, GetRunningOrQueuedScripts)
+// {
+// 		TestResult tr;
+// 		m_bc->getScriptService()->getRunningOrScheduledScripts(&tr);
+// 		tr.run(m_bc);
+// }
 
 TEST_F(TestBCScript, RunPeerScriptAsync)
 {
