@@ -96,7 +96,7 @@ namespace BrainCloud
 		Json::Value message;
 		message[OperationParam::ScriptServiceJobId.getValue()] = in_jobId;
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::CancelScheduledScript, message, in_callback);
+		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::GetScheduledCloudScripts, message, in_callback);
 		m_client->sendRequest(sc);
 	}
 
@@ -105,7 +105,7 @@ namespace BrainCloud
 		// Json::Value message;
 		// message[OperationParam::ScriptServiceJobId.getValue()] = in_jobId;
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::CancelScheduledScript, in_callback);
+		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::GetRunningOrQueuedCloudScripts, in_callback);
 		m_client->sendRequest(sc);
 	}
 

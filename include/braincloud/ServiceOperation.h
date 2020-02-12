@@ -287,6 +287,9 @@ namespace BrainCloud {
 		static const ServiceOperation RunParentScript;
 		static const ServiceOperation CancelScheduledScript;
 
+		static const ServiceOperation GetRunningOrQueuedCloudScripts;
+		static const ServiceOperation GetScheduledCloudScripts;
+
 		static const ServiceOperation RedeemCode;
 		static const ServiceOperation GetRedeemedCodes;
 

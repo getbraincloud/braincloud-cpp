@@ -270,6 +270,9 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::RunParentScript = ServiceOperation("RUN_PARENT_SCRIPT");
 	const ServiceOperation ServiceOperation::CancelScheduledScript = ServiceOperation("CANCEL_SCHEDULED_SCRIPT");
 
+	const ServiceOperation ServiceOperation::GetRunningOrQueuedCloudScripts = ServiceOperation("GET_RUNNING_OR_QUEUED_CLOUD_SCRIPTS");
+	const ServiceOperation ServiceOperation::GetScheduledCloudScripts = ServiceOperation("GET_SCHEDULED_CLOUD_SCRIPTS");
+
 	const ServiceOperation ServiceOperation::RedeemCode = ServiceOperation("REDEEM_CODE");
 	const ServiceOperation ServiceOperation::GetRedeemedCodes = ServiceOperation("GET_REDEEMED_CODES");
 
