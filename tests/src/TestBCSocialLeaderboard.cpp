@@ -5,6 +5,7 @@
 #include "TestResult.h"
 #include "json/json.h"
 #include "TestBCSocialLeaderboard.h"
+#include <chrono>
 
 using namespace BrainCloud;
 
@@ -297,7 +298,9 @@ TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicGroupLeaderboard)
     Json::Value jsonData;
     jsonData["testKey"] = "TestValue";
 
-    m_bc->getSocialLeaderboardService()->postScoreToDynamicGroupLeaderboard(GROUP_LB_ID, groupId.c_str(), 0, fw.write(jsonData), "HIGH_VALUE", "WEEKLY", 157116287, 2, &tr);
+    int64_t milliseconds_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+    m_bc->getSocialLeaderboardService()->postScoreToDynamicGroupLeaderboard(GROUP_LB_ID, groupId.c_str(), 0, fw.write(jsonData), "HIGH_VALUE", "WEEKLY", milliseconds_since_epoch, 2, &tr);
     tr.run(m_bc);
 
     m_bc->getGroupService()->deleteGroup(groupId.c_str(), -1, &tr);
