@@ -60,8 +60,6 @@ namespace BrainCloud
 			message[OperationParam::ScriptServiceRunScriptData.getValue()] = jsonData;
 		}
 
-		//struct tm timeInfo = *in_startDateInUTC;
-		//message[OperationParam::ScriptServiceStartDateUTC.getValue()] = (Json::Int64) ((int64_t)internal_timegm(&timeInfo)) * 1000;
 		message[OperationParam::ScriptServiceStartDateUTC.getValue()] = (Json::Int64) in_startDateInUTC;
 
 		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::ScheduleCloudScript, message, in_callback);

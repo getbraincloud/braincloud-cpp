@@ -115,15 +115,14 @@ namespace BrainCloud
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudTournament::postTournamentScoreUTC(const char * in_leaderboardId, int64_t in_score, const std::string & in_jsonData, const tm * in_roundStartedTimeUTC, IServerCallback * in_callback)
+	void BrainCloudTournament::postTournamentScoreUTC(const char * in_leaderboardId, int64_t in_score, const std::string & in_jsonData, tm * in_roundStartedTimeUTC, IServerCallback * in_callback)
 	{
 		Json::Value message;
 		message[OperationParam::LeaderboardId.getValue()] = in_leaderboardId;
 		message[OperationParam::Score.getValue()] = (Json::Int64) in_score;
 
-		//struct tm timeInfo = *in_roundStartedTime;
-		//message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64) ((int64_t)internal_timegm(&timeInfo)) * 1000;
-		message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64) in_roundStartedTimeUTC;
+		//Convert tm to UTC miliseconds
+		message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64) ((int64_t)mktime(in_roundStartedTimeUTC)) * 1000;
 
 		if (StringUtil::IsOptionalParameterValid(in_jsonData))
 			message[OperationParam::Data.getValue()] = JsonUtil::jsonStringToValue(in_jsonData);
@@ -166,7 +165,7 @@ namespace BrainCloud
 		const char * in_leaderboardId,
 		int64_t in_score,
 		const std::string & in_jsonData,
-		const tm * in_roundStartedTimeUTC,
+		tm * in_roundStartedTimeUTC,
 		SortOrder in_sort,
 		int32_t in_beforeCount,
 		int32_t in_afterCount,
@@ -177,9 +176,8 @@ namespace BrainCloud
 		message[OperationParam::LeaderboardId.getValue()] = in_leaderboardId;
 		message[OperationParam::Score.getValue()] = (Json::Int64) in_score;
 
-		//struct tm timeInfo = *in_roundStartedTimeUTC;
-		//message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64) ((int64_t)internal_timegm(&timeInfo)) * 1000;
-		message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64) in_roundStartedTimeUTC;
+		//convert tm to time_t
+		message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64) ((int64_t)mktime(in_roundStartedTimeUTC)) * 1000;
 
 		if (StringUtil::IsOptionalParameterValid(in_jsonData))
 			message[OperationParam::Data.getValue()] = JsonUtil::jsonStringToValue(in_jsonData);

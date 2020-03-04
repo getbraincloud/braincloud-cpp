@@ -140,7 +140,7 @@ namespace BrainCloud
 		 * @param in_roundStartedTimeUTC Time the user started the match resulting in the score being posted in UTC.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void postTournamentScoreUTC(const char* in_leaderboardId, int64_t in_score, const std::string& in_jsonData, const struct tm* in_roundStartedTimeUTC, IServerCallback * in_callback = NULL);
+		void postTournamentScoreUTC(const char* in_leaderboardId, int64_t in_score, const std::string& in_jsonData, struct tm* in_roundStartedTimeUTC, IServerCallback * in_callback = NULL);
 
 
 		/**
@@ -192,7 +192,7 @@ namespace BrainCloud
 			const char* in_leaderboardId,
 			int64_t in_score,
 			const std::string& in_jsonData,
-			const struct tm* in_roundStartedTimeUTC,
+			struct tm* in_roundStartedTimeUTC,
 			SortOrder in_sort,
 			int32_t in_beforeCount,
 			int32_t in_afterCount,
