@@ -203,3 +203,18 @@ TEST_F(TestBCCustomEntity, ReadSingleton)
 	m_bc->getCustomEntityService()->readSingleton(m_entityType,  &tr2);
 	tr2.run(m_bc);
 }
+
+TEST_F(TestBCCustomEntity, IncrementData)
+{
+	TestResult tr;
+	std::string id;
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	if (tr.run(m_bc))
+	{
+		id = tr.m_response["data"]["entityId"].asString();
+		ASSERT_NE("", id);
+	}
+	TestResult tr2;
+	m_bc->getCustomEntityService()->incrementData(m_entityType, id.c_str(),  "{\"entityId\": \1}",   &tr2);
+	tr2.run(m_bc);
+}

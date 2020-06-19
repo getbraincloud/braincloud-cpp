@@ -40,6 +40,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::Verify = ServiceOperation("VERIFY");
 	const ServiceOperation ServiceOperation::ReadShared = ServiceOperation("READ_SHARED");
 	const ServiceOperation ServiceOperation::ReadSharedEntity = ServiceOperation("READ_SHARED_ENTITY");
+	const ServiceOperation ServiceOperation::IncrementData = ServiceOperation("INCREMENT_DATA");
 
 	// push notification
 	const ServiceOperation ServiceOperation::Deregister = ServiceOperation("DEREGISTER");
