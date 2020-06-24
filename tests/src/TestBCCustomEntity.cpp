@@ -216,7 +216,6 @@ TEST_F(TestBCCustomEntity, IncrementData)
 		ASSERT_NE("", id);
 	}
 	TestResult tr2;
-	m_bc->getCustomEntityService()->incrementData(m_entityType, "{\"test\": \"Testing\"}",  "{\"goals\": \1}",   &tr2);
 	m_bc->getCustomEntityService()->incrementData(m_entityType, id,  "{\"goals\":1, \"assists\":4}",   &tr2);
 	tr2.run(m_bc);
 
