@@ -57,6 +57,19 @@ namespace BrainCloud {
 		 */
 		void getCount(const char * in_entityType, const std::string& in_whereJson, IServerCallback * in_callback = NULL);
 
+		/**
+		 * Deletes the specified custom entity on the server.
+		 *
+		 * Service Name - CustomEntity
+		 * Service Operation - GetRandomEntitiesMatching
+		 *
+		 * @param in_entityType The entity type as defined by the user
+		 * @param in_whereJson
+		 * @param in_maxReturn
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getRandomEntitiesMatching(const char * in_entityType, const std::string& in_whereJson, const int32_t in_maxReturn, IServerCallback * in_callback = NULL);
+
 		 /**
 		 * Method uses a paging system to iterate through Custom Entities
 		 * After retrieving a page of Custom Entities with this method,

@@ -382,6 +382,7 @@ namespace BrainCloud
 
 	//customEntity
 	const OperationParam OperationParam::CustomEntityServiceEntityType = OperationParam("entityType");
+	const OperationParam OperationParam::CustomEntityServiceMaxReturn = OperationParam("maxReturn");
 	const OperationParam OperationParam::CustomEntityServiceData = OperationParam("dataJson");
 	const OperationParam OperationParam::CustomEntityServiceAcl = OperationParam("entityAcl");
 	const OperationParam OperationParam::CustomEntityServiceTimeToLive = OperationParam("timeToLive");
