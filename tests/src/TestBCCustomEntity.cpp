@@ -135,6 +135,23 @@ TEST_F(TestBCCustomEntity, GetCount)
 	tr2.run(m_bc);
 }
 
+TEST_F(TestBCCustomEntity, GetRandomEntitiesMatching)
+{
+	TestResult tr;
+	std::string id;
+
+	Json::FastWriter fw;
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	if (tr.run(m_bc))
+	{
+		id = tr.m_response["data"]["entityId"].asString();
+		ASSERT_NE("", id);
+	}
+	TestResult tr2;
+	m_bc->getCustomEntityService()->getRandomEntitiesMatching(m_entityType, "{\"data.position\": \"defense\"}", 2, &tr2);
+	tr2.run(m_bc);
+}
+
 TEST_F(TestBCCustomEntity, DeleteEntity)
 {
 	TestResult tr;
