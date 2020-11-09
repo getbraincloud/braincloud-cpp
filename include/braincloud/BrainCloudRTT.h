@@ -18,12 +18,12 @@ namespace BrainCloud
 		BrainCloudRTT(RTTComms* in_comms, BrainCloudClient* in_client);
 		
 		enum RTTConnectionStatus
-        {
-            Connected,
-            Disconnected,
-            Connecting,
-            Disconnecting
-        };
+		{
+			Connected,
+			Disconnected,
+			Connecting,
+			Disconnecting
+		};
 
 		/**
 		 * Requests the event server address
@@ -58,7 +58,7 @@ namespace BrainCloud
 		/**
 		 *returns rtt connection Status
 		 */
-		BrainCloudRTT::RTTConnectionStatus getConnectionStatus();
+		BrainCloudRTTRTTConnectionStatus getConnectionStatus();
 
 		const std::string& getRTTConnectionId() const;
 
