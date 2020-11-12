@@ -15,14 +15,6 @@ namespace BrainCloud
     public:
         BrainCloudPlayerStatisticsEvent(BrainCloudClient* in_client);
 
-
-        /**
-		* @deprecated Use triggerStatsEvent() instead - Removal after September 1 2017
-		*/
-        DEPRECATED
-        void triggerPlayerStatisticsEvent(const char * in_eventName, int32_t in_eventMultiplier, IServerCallback * in_callback = NULL);
-
-
         /**
          * Trigger an event server side that will increase the user's statistics.
          * This may cause one or more awards to be sent back to the user -
@@ -43,15 +35,8 @@ namespace BrainCloud
         void triggerStatsEvent(const char *in_eventName, int32_t in_eventMultiplier,
                                IServerCallback *in_callback = NULL);
 
-
         /**
-		* @deprecated Use triggerStatsEvents() instead - Removal after September 1 2017
-		*/
-        DEPRECATED
-        void triggerPlayerStatisticsEvents(const std::string& in_jsonData, IServerCallback * in_callback = NULL);
-
-        /**
-         * See documentation for TriggerPlayerStatisticsEvent for more
+         * See documentation for TriggerStatisticsEvent for more
          * documentation.
          *
          * Service Name - PlayerStatisticsEvent

@@ -16,13 +16,18 @@
 
 namespace BrainCloud
 {
+    // This call is deprecated in a pure virtual class. We create an empty declaration here so we can clean up the warnings everywhere
+    void IServerCallback::serverWarning( ServiceName serviceName, ServiceOperation serviceOperation, int statusCode, int reasonCode, int numRetries, const std::string & statusMessage)
+    {
+    }
+
     // Define all static member variables.
     bool BrainCloudClient::EnableSingletonMode = false;
     const char * BrainCloudClient::SingletonUseErrorMessage =
             "Singleton usage is disabled. If called by mistake, use your own variable that holds an instance of the bcWrapper/bcClient.";
 
     BrainCloudClient * BrainCloudClient::_instance = NULL;
-    std::string BrainCloudClient::s_brainCloudClientVersion = "4.5.7";
+    std::string BrainCloudClient::s_brainCloudClientVersion = "4.6.0";
     const char* BC_SERVER_URL = "https://sharedprod.braincloudservers.com/dispatcherv2"; 
 
     /**
@@ -57,7 +62,6 @@ namespace BrainCloud
         _playerStatisticsService(new BrainCloudPlayerStatistics(this)),
         _playerStatisticsEventService(new BrainCloudPlayerStatisticsEvent(this)),
         _presenceService(new BrainCloudPresence(this)),
-        _productService(new BrainCloudProduct(this)),
         _virtualCurrencyService(new BrainCloudVirtualCurrency(this)),
         _appStoreService(new BrainCloudAppStore(this)),
         _profanityService(new BrainCloudProfanity(this)),
@@ -98,7 +102,6 @@ namespace BrainCloud
         delete _profanityService;
         delete _appStoreService;
         delete _virtualCurrencyService;
-        delete _productService;
         delete _presenceService;
         delete _playerStatisticsEventService;
         delete _playerStatisticsService;

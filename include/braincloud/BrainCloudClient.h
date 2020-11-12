@@ -27,7 +27,6 @@
 #include "braincloud/BrainCloudPlayerStatistics.h"
 #include "braincloud/BrainCloudGlobalStatistics.h"
 #include "braincloud/BrainCloudIdentity.h"
-#include "braincloud/BrainCloudProduct.h"
 #include "braincloud/BrainCloudVirtualCurrency.h"
 #include "braincloud/BrainCloudAppStore.h"
 #include "braincloud/BrainCloudEntity.h"
@@ -116,7 +115,7 @@ namespace BrainCloud
 		 *
 		 * @deprecated Use of the *singleton* has been deprecated. We recommend that you create your own *variable* to hold an instance of the brainCloudWrapper. Explanation here: http://getbraincloud.com/blog
 		 */
-		static BrainCloudClient * getInstance();
+		DEPRECATED static BrainCloudClient * getInstance();
 
 		/**
 		 * BrainCloudClient can be instantiated as a single object. Do not use getInstance() when
@@ -347,7 +346,6 @@ namespace BrainCloud
 		BrainCloudPlayerStatistics * getPlayerStatisticsService() { return _playerStatisticsService; }
 		BrainCloudGlobalStatistics * getGlobalStatisticsService() { return _globalStatisticsService; }
 		BrainCloudIdentity * getIdentityService() { return _identityService; }
-		BrainCloudProduct * getProductService() { return _productService; }
 		BrainCloudVirtualCurrency * getVirtualCurrencyService() { return _virtualCurrencyService; }
 		BrainCloudAppStore * getAppStoreService() { return _appStoreService; }
 		BrainCloudEntity * getEntityService() { return _entityService; }
@@ -387,19 +385,6 @@ namespace BrainCloud
 		BrainCloudMessaging * getMessagingService() { return _messagingService; }
 		BrainCloudPresence * getPresenceService() { return _presenceService; }
 
-		/**
-		* @deprecated Use getAppId() instead - Removal after September 1 2017
-		*/
-		DEPRECATED
-		const std::string & getGameId() const
-		{
-			if (_brainCloudComms != NULL) {
-				return _brainCloudComms->getAppId();
-			}
-			static std::string noAppId;
-			return noAppId;
-		}
-
 		const std::string & getAppId() const
 		{
 			if (_brainCloudComms != NULL) {
@@ -410,12 +395,6 @@ namespace BrainCloud
 		}
 
 		const std::string & getReleasePlatform() const { return _releasePlatform; };
-
-		/**
-		* @deprecated Use getAppVersion() instead - Removal after September 1 2017
-		*/
-		DEPRECATED
-		const std::string & getGameVersion() const { return _appVersion; }
 
 		const std::string & getAppVersion() const { return _appVersion; };
 		
@@ -639,7 +618,6 @@ namespace BrainCloud
 		BrainCloudPlayerStatistics * _playerStatisticsService;
 		BrainCloudGlobalStatistics * _globalStatisticsService;
 		BrainCloudIdentity * _identityService;
-		BrainCloudProduct * _productService;
 		BrainCloudVirtualCurrency * _virtualCurrencyService;
 		BrainCloudAppStore * _appStoreService;
 		BrainCloudEntity * _entityService;

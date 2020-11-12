@@ -2,6 +2,7 @@
 
 #include "braincloud/IServerCallback.h"
 #include "braincloud/ServiceName.h"
+#include "braincloud/BrainCloudRTT.h"
 
 #include <json/json.h>
 
@@ -38,6 +39,7 @@ namespace BrainCloud
         void disableRTT();
         bool isRTTEnabled();
         bool getLoggingEnabled();
+        BrainCloudRTT::RTTConnectionStatus getConnectionStatus();
         void enableLogging(bool isEnabled);
         const std::string& getConnectionId();
 
@@ -70,7 +72,6 @@ namespace BrainCloud
         // IServerCallback
         void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, const std::string& jsonData);
         void serverError(ServiceName serviceName, ServiceOperation serviceOperation, int statusCode, int reasonCode, const std::string& jsonError);
-        void serverWarning(ServiceName serviceName, ServiceOperation serviceOperation, int statusCode, int reasonCode, int numRetries, const std::string& statusMessage);
 
         void processRTTMessage(const ServiceOperation& serviceOperation, const Json::Value& jsonData);
         Json::Value getEndpointToUse(const Json::Value& endpoints) const;
@@ -103,7 +104,7 @@ namespace BrainCloud
         Json::Value _endpoint;
 
         ISocket* _socket;
-        std::atomic<bool> _isConnected;
+        BrainCloudRTT::RTTConnectionStatus _rttConnectionStatus;
         std::mutex _socketMutex;
         std::condition_variable _threadsCondition;
         std::mutex _heartBeatMutex;
