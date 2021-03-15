@@ -591,6 +591,7 @@ namespace BrainCloud
                 {
                     _isAuthenticated = false;
                     _sessionId.clear();
+                    _packetId = 0;
 
                     //cache error if session related
                     _statusCodeCache = statusCode;
@@ -604,6 +605,7 @@ namespace BrainCloud
                     {
                         _isAuthenticated = false;
                         _sessionId.clear();
+                        _packetId = 0;
                     }
                 }
             }
@@ -670,6 +672,7 @@ namespace BrainCloud
         _isInitialized = false;
         _isAuthenticated = false;
         _sessionId.clear();
+        _packetId = 0;
         resetErrorCache();
 #ifdef VERBOSE
         std::cout << "Exiting resetCommunication()" << std::endl;
