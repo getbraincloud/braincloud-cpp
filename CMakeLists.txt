@@ -445,6 +445,15 @@ if (USE_LIBWEBSOCKETS)
         set(LWS_MBEDTLS_LIBRARIES 
             "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
+
+    # Latest xcode broke lws. lws did a fix in their latest, but this broke
+    # their mbedtls impl... So we are using different lws version on
+    # apple (latest) vs our usual one on all other platforms...
+    if (APPLE)
+        set(LWS_DIR lib/libwebsockets)
+    else()
+        set(LWS_DIR lib/lwsv3/libwebsockets)
+    endif()
     
     # LibWebSockets
     option(LWS_WITHOUT_SERVER "" ON)
@@ -454,10 +463,10 @@ if (USE_LIBWEBSOCKETS)
     option(LWS_WITHOUT_TEST_PING "" ON)
     option(LWS_WITHOUT_TEST_CLIENT "" ON)
     option(LWS_WITH_SHARED "" OFF)
-    add_subdirectory(./lib/libwebsockets/)
+    add_subdirectory(${LWS_DIR})
     list(APPEND libs websockets)
     list(APPEND includes 
-        PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/libwebsockets/include/)
+        PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR}/include/)
 endif()
 
 # Setup includes and linked libraries
