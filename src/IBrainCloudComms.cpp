@@ -276,6 +276,7 @@ namespace BrainCloud {
 		{
 			_isAuthenticated = false;
 			_sessionId.clear();
+			_packetId = 0;
 			_client->getAuthenticationService()->clearSavedProfileId();
 		}
 		else if (servercall->getService() == ServiceName::File

@@ -27,7 +27,7 @@ namespace BrainCloud
             "Singleton usage is disabled. If called by mistake, use your own variable that holds an instance of the bcWrapper/bcClient.";
 
     BrainCloudClient * BrainCloudClient::_instance = NULL;
-    std::string BrainCloudClient::s_brainCloudClientVersion = "4.6.1";
+    std::string BrainCloudClient::s_brainCloudClientVersion = "4.7.0";
     const char* BC_SERVER_URL = "https://sharedprod.braincloudservers.com/dispatcherv2"; 
 
     /**
@@ -70,7 +70,6 @@ namespace BrainCloud
         _s3HandlingService(new BrainCloudS3Handling(this)),
         _scriptService(new BrainCloudScript(this)),
         _socialLeaderboardService(new BrainCloudSocialLeaderboard(this)),
-        _steamService(new BrainCloudSteam(this)),
         _timeService(new BrainCloudTime(this)),
         _tournamentService(new BrainCloudTournament(this)),
         _customEntityService(new BrainCloudCustomEntity(this)),
@@ -93,7 +92,6 @@ namespace BrainCloud
         delete _customEntityService;
         delete _itemCatalogService;
         delete _timeService;
-        delete _steamService;
         delete _socialLeaderboardService;
         delete _scriptService;
         delete _s3HandlingService;

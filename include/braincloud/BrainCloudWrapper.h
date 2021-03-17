@@ -51,7 +51,6 @@ namespace BrainCloud {
         BrainCloudUserItems* getUserItemsService() { return client->getUserItemsService(); }
         BrainCloudPushNotification * getPushNotificationService() { return client->getPushNotificationService(); }
         BrainCloudPlayerStatisticsEvent * getPlayerStatisticsEventService() { return client->getPlayerStatisticsEventService(); }
-        BrainCloudSteam * getSteamService() { return client->getSteamService(); }
         BrainCloudGlobalApp * getGlobalAppService() { return client->getGlobalAppService(); }
         BrainCloudS3Handling * getS3HandlingService() { return client->getS3HandlingService(); }
         BrainCloudRedemptionCode * getRedemptionCodeService() { return client->getRedemptionCodeService(); }
@@ -201,6 +200,21 @@ namespace BrainCloud {
          *
          */
         void authenticateFacebook(const char * in_fbUserId, const char * in_fbAuthToken, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
+        /*
+         * Authenticate the user with brainCloud using their Oculus Credentials
+         *
+         * Service Name - Authenticate
+         * Service Operation - Authenticate
+         *
+         * @param in_oculusUserId The oculus id of the user
+         * @param in_oculusNonce oculus token from the Oculus SDK
+         * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param in_callback The method to be invoked when the server response is received
+         *
+         */
+        void authenticateOculus(const char * in_oculusUserId, const char * in_oculusNonce, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
 
         /*
          * Authenticate the user using their Game Center id
@@ -374,6 +388,25 @@ namespace BrainCloud {
          *
          */
         void smartSwitchAuthenticateFacebook(const char * in_fbUserId, const char * in_fbAuthToken, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
+        /*
+         * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
+	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         *
+         * Authenticate the user with brainCloud using their Oculus Credentials
+         *
+         * Service Name - Authenticate
+         * Service Operation - Authenticate
+         *
+         * @param in_oculusUserId The oculus id of the user
+         * @param in_oculusNonce oculus token from the Oculus SDK
+         * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param in_callback The method to be invoked when the server response is received
+         *
+         */
+        void smartSwitchAuthenticateOculus(const char * in_oculusUserId, const char * in_oculusNonce, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
 
         /*
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.

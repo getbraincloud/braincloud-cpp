@@ -442,6 +442,7 @@ namespace BrainCloud
 				{
 					_isAuthenticated = false;
 					_sessionId.clear();
+					_packetId = 0;
 
 					//cache error if session related
 					_statusCodeCache = statusCode;
@@ -455,6 +456,7 @@ namespace BrainCloud
 					{
 						_isAuthenticated = false;
 						_sessionId.clear();
+						_packetId = 0;
 					}
 				}
 
