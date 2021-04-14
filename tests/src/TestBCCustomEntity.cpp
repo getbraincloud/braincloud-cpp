@@ -230,7 +230,7 @@ TEST_F(TestBCCustomEntity, IncrementData)
 {
 	m_bc->getAuthenticationService()->authenticateAnonymous(true);
 	TestResult tr;
-	const char *id;
+	const char *id = "";
 	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
 	if (tr.run(m_bc))
 	{
