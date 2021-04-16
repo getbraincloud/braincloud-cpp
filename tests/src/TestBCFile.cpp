@@ -121,7 +121,7 @@ TEST_F(TestBCFile, UploadSimpleFileAndCancel)
             transferHasStarted = true;
             break; // We don't want to get hit by the sleep
         }
-        TestResult::sleep(SLEEP_INTERVAL_MS);
+        TestResult::sleep(10);
     }
     if (!transferHasStarted)
     {
