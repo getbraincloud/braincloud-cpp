@@ -99,6 +99,7 @@ TEST_F(TestBCFile, UploadSimpleFileAndCancel)
     createFile(localPath.c_str(), 3*1024*1024);
     
     TestResult tr;
+    m_bc->registerFileUploadCallback(this);
     m_bc->getFileService()->uploadFile("", localPath.c_str(), true, true, localPath.c_str(), &tr);
     if (!tr.run(m_bc))
     {
@@ -106,7 +107,6 @@ TEST_F(TestBCFile, UploadSimpleFileAndCancel)
     }
     std::string uploadId = tr.m_response["data"]["fileDetails"]["uploadId"].asString();
     
-    m_bc->registerFileUploadCallback(this);
     bool transferHasStarted = false;
     while(!transferHasStarted)
     {
@@ -119,6 +119,7 @@ TEST_F(TestBCFile, UploadSimpleFileAndCancel)
         if (transferred > 0)
         {
             transferHasStarted = true;
+            break; // We don't want to get hit by the sleep
         }
         TestResult::sleep(SLEEP_INTERVAL_MS);
     }
