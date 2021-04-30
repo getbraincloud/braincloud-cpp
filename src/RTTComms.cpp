@@ -51,31 +51,37 @@ namespace BrainCloud
         , _heartbeatSeconds(30)
         , _lastHeartbeatTime(0)
     {
+        std::cout << "VERBOSE: RTTComms::RTTComms" << std::endl;
     }
 
     RTTComms::~RTTComms()
     {
+        std::cout << "VERBOSE: RTTComms::~RTTComms" << std::endl;
         shutdown();
     }
 
     void RTTComms::initialize()
     {
+        std::cout << "VERBOSE: RTTComms::initialize" << std::endl;
         _isInitialized = true;
     }
 
     bool RTTComms::isInitialized() const
     {
+        std::cout << "VERBOSE: RTTComms::isInitialized" << std::endl;
         return _isInitialized;
     }
 
     void RTTComms::shutdown()
     {
+        std::cout << "VERBOSE: RTTComms::shutdown" << std::endl;
         resetCommunication();
         _isInitialized = false;
     }
 
     void RTTComms::resetCommunication()
     {
+        std::cout << "VERBOSE: RTTComms::resetCommunication" << std::endl;
         if (isRTTEnabled())
         {
             _rttConnectionStatus = BrainCloudRTT::RTTConnectionStatus::Disconnecting;
@@ -89,6 +95,7 @@ namespace BrainCloud
 
     void RTTComms::closeSocket()
     {
+        std::cout << "VERBOSE: RTTComms::closeSocket" << std::endl;
         std::unique_lock<std::mutex> lock(_socketMutex);
 
         if (_socket)
@@ -120,6 +127,7 @@ namespace BrainCloud
 
     void RTTComms::enableRTT(IRTTConnectCallback* in_callback, bool in_useWebSocket)
     {
+        std::cout << "VERBOSE: RTTComms::enableRTT" << std::endl;
         if(isRTTEnabled() || _rttConnectionStatus == BrainCloudRTT::RTTConnectionStatus::Connecting)
         {
             return;
@@ -139,6 +147,7 @@ namespace BrainCloud
 
     void RTTComms::disableRTT()
     {
+        std::cout << "VERBOSE: RTTComms::disableRTT" << std::endl;
         if(!isRTTEnabled() || _rttConnectionStatus == BrainCloudRTT::RTTConnectionStatus::Disconnecting)
         {
             return;
@@ -176,6 +185,7 @@ namespace BrainCloud
 
     void RTTComms::runCallbacks()
     {
+        std::cout << "VERBOSE: RTTComms::runCallbacks" << std::endl;
         _eventQueueMutex.lock();
         auto eventsCopy = _callbackEventQueue;
         _callbackEventQueue.clear();
@@ -218,11 +228,13 @@ namespace BrainCloud
 
     void RTTComms::registerRTTCallback(const ServiceName& serviceName, IRTTCallback* in_callback)
     {
+        std::cout << "VERBOSE: RTTComms::registerRTTCallback" << std::endl;
         _callbacks[serviceName.getValue()] = in_callback;
     }
 
     void RTTComms::deregisterRTTCallback(const ServiceName& serviceName)
     {
+        std::cout << "VERBOSE: RTTComms::deregisterRTTCallback" << std::endl;
         std::map<std::string, IRTTCallback*>::iterator it = _callbacks.find(serviceName.getValue());
         if (it != _callbacks.end())
         {
@@ -232,12 +244,14 @@ namespace BrainCloud
 
     void RTTComms::deregisterAllRTTCallbacks()
     {
+        std::cout << "VERBOSE: RTTComms::deregisterAllRTTCallbacks" << std::endl;
         _callbacks.clear();
     }
 
     // IServerCallback
     void RTTComms::serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, const std::string& jsonData)
     {
+        std::cout << "VERBOSE: RTTComms::serverCallback()" << serviceName.getValue() << ", " << serviceOperation.getValue() << ", " << jsonData << std::endl;
         if (serviceName == ServiceName::RTTRegistration)
         {
             Json::Reader reader;
@@ -249,6 +263,7 @@ namespace BrainCloud
 
     void RTTComms::serverError(ServiceName serviceName, ServiceOperation serviceOperation, int statusCode, int reasonCode, const std::string& jsonError)
     {
+        std::cout << "VERBOSE: RTTComms::serverError()" << serviceName.getValue() << ", " << serviceOperation.getValue() << ", " << statusCode << ", " << reasonCode << ", " << jsonError << std::endl;
         if (_connectCallback)
         {
             _connectCallback->rttConnectFailure(jsonError);
@@ -257,6 +272,7 @@ namespace BrainCloud
 
     void RTTComms::processRTTMessage(const ServiceOperation& serviceOperation, const Json::Value& jsonData)
     {
+        std::cout << "VERBOSE: RTTComms::processRTTMessage" << std::endl;
         if (serviceOperation == ServiceOperation::RequestClientConnection)
         {
             const Json::Value& data = jsonData["data"];
@@ -277,6 +293,7 @@ namespace BrainCloud
 
     Json::Value RTTComms::getEndpointToUse(const Json::Value& endpoints) const
     {
+        std::cout << "VERBOSE: RTTComms::getEndpointToUse" << std::endl;
         if (_useWebSocket)
         {
             //   1st choice: websocket + ssl
@@ -303,6 +320,7 @@ namespace BrainCloud
 
     Json::Value RTTComms::getEndpointForType(const Json::Value& endpoints, const std::string& type, bool wantSsl)
     {
+        std::cout << "VERBOSE: RTTComms::getEndpointForType" << std::endl;
         for (int i = 0; i < (int)endpoints.size(); ++i)
         {
             const Json::Value& endpoint = endpoints[i];
@@ -328,6 +346,7 @@ namespace BrainCloud
 
     void RTTComms::connect()
     {
+        std::cout << "VERBOSE: RTTComms::connect" << std::endl;
         _rttConnectionStatus = BrainCloudRTT::RTTConnectionStatus::Connecting;
 #if (TARGET_OS_WATCH != 1)
         _disconnectedWithReason = false;
@@ -409,6 +428,7 @@ namespace BrainCloud
 
     void RTTComms::failedToConnect()
     {
+        std::cout << "VERBOSE: RTTComms::failedToConnect" << std::endl;
         std::string host;
         int port = 0;
 
@@ -425,6 +445,7 @@ namespace BrainCloud
 
     Json::Value RTTComms::buildConnectionRequest(const std::string& protocol)
     {
+        std::cout << "VERBOSE: RTTComms::buildConnectionRequest" << std::endl;
         Json::Value json;
         json["operation"] = "CONNECT";
         json["service"] = "rtt";
@@ -446,6 +467,7 @@ namespace BrainCloud
 
     void RTTComms::onSocketConnected()
     {
+        std::cout << "VERBOSE: RTTComms::onSocketConnected" << std::endl;
         startReceiving();
 
         if (!send(buildConnectionRequest("tcp")))
@@ -475,6 +497,7 @@ namespace BrainCloud
 
     void RTTComms::startReceiving()
     {
+        std::cout << "VERBOSE: RTTComms::startReceiving" << std::endl;
         _receivingRunning = true;
         std::thread receiveThread([this]
         {
@@ -497,6 +520,7 @@ namespace BrainCloud
 
     void RTTComms::startHeartbeat()
     {
+        std::cout << "VERBOSE: RTTComms::startHeartbeat" << std::endl;
         _heartbeatRunning = true;
         std::thread heartbeatThread([this]
         {
@@ -542,12 +566,13 @@ namespace BrainCloud
         }
 
         std::string serviceName = jsonData["service"].asString();
-        printf("serviceName: %s", serviceName.c_str());
+        printf("  serviceName: %s, %s\n", serviceName.c_str(), message.c_str());
         processRttMessage(jsonData, message);
     }
 
     void RTTComms::processRttMessage(const Json::Value& json, const std::string& message)
     {
+        std::cout << "VERBOSE: RTTComms::processRttMessage(" << message << std::endl;
         std::string serviceName = json["service"].asString();
         std::string operation = json["operation"].asString();
         if (serviceName == "rtt")
