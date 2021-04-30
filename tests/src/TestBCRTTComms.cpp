@@ -42,7 +42,7 @@ public:
         // We wait 10 seconds
         auto startTime = std::chrono::steady_clock::now();
         while (
-            std::chrono::steady_clock::now() - startTime <
+            std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - startTime) <
             std::chrono::seconds(m_waitTimeSec))
         {
             m_pBC->runCallbacks();
@@ -96,7 +96,7 @@ TEST_F(TestBCRTTComms, RequestClientConnection)
     tr.run(m_bc);
 }
 
-TEST_F(TestBCRTTComms, EnableDisableRTTWithTCP)
+TEST_F(TestBCRTTComms, DISABLED_EnableDisableRTTWithTCP)
 {
     TestResult tr;
     // disable, then re-enable. Should still succeed
@@ -105,7 +105,7 @@ TEST_F(TestBCRTTComms, EnableDisableRTTWithTCP)
     tr.run(m_bc);
 }
 
-TEST_F(TestBCRTTComms, EnableDisableRTTWithWS)
+TEST_F(TestBCRTTComms, DISABLED_EnableDisableRTTWithWS)
 {
     TestResult tr;
     // disable, then re-enable. Should still succeed
