@@ -129,7 +129,12 @@ namespace BrainCloud
             connectInfo.port = port;
             if (useSSL)
             {
-                connectInfo.ssl_connection = LCCSCF_USE_SSL | LCCSCF_ALLOW_SELFSIGNED | LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK; //iUseSSL;
+                connectInfo.ssl_connection = 
+                    LCCSCF_USE_SSL
+                    | LCCSCF_ALLOW_SELFSIGNED
+                    // | LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK
+                    // | LCCSCF_ALLOW_EXPIRED
+                    ;
             }
             else
             {
