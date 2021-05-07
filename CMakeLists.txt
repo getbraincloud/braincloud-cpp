@@ -29,6 +29,7 @@ endif()
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
 option(USE_CURL "Force use libCurl on Win32" OFF)
+option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
 
 #=============================================================================
 # Definitions
@@ -45,6 +46,9 @@ if (UWP)
             "Use shared (DLL) run-time lib even when Google Test is built as static lib."
             ON)
     endif()
+endif()
+if (SSL_ALLOW_SELFSIGNED)
+    add_definitions(-DBC_SSL_ALLOW_SELFSIGNED)
 endif()
 
 # lets use libwebsockets by default

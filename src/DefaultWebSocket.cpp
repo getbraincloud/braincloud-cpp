@@ -131,7 +131,9 @@ namespace BrainCloud
             {
                 connectInfo.ssl_connection = 
                     LCCSCF_USE_SSL
+#if defined(BC_SSL_ALLOW_SELFSIGNED)
                     | LCCSCF_ALLOW_SELFSIGNED
+#endif
                     // | LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK
                     // | LCCSCF_ALLOW_EXPIRED
                     ;
