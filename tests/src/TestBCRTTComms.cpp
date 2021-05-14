@@ -14,7 +14,7 @@ public:
         BrainCloud::BrainCloudClient* pBC,
         const std::string& expectedServiceName,
         const std::string& expectedOperation = "",
-        int waitTimeSec = 10)
+        int waitTimeSec = 30)
         : m_pBC(pBC)
         , m_expectedServiceName(expectedServiceName)
         , m_expectedOperation(expectedOperation)
@@ -131,7 +131,7 @@ TEST_F(TestBCRTTComms, RTTChatCallback)
     tr.run(m_bc);
 
     // Register for RTT chat
-    RTTCallback rttCallback(m_bc, "chat", "INCOMING", 10);
+    RTTCallback rttCallback(m_bc, "chat", "INCOMING");
     m_bc->getRTTService()->registerRTTChatCallback(&rttCallback);
 
     // Send a chat message
