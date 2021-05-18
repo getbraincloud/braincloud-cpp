@@ -2,15 +2,15 @@
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/http_codes.h"
 #include "braincloud/reason_codes.h"
+#include "braincloud/IRTTCallback.h"
 #include "TestResult.h"
 #include "TestBCLobby.h"
+#include <functional>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
 
 using namespace BrainCloud;
-
-// Lot of expect fail here. This is ok, but we make sure the failed reason 
-// is not about a bad or missing argument. We validate that the API is
-// written correctly, not that the output from BC is correct. This is
-// verified more in depth by use case and JS unit tests.
 
 TEST_F(TestBCLobby, FindLobby)
 {
@@ -20,6 +20,181 @@ TEST_F(TestBCLobby, FindLobby)
 	m_bc->getLobbyService()->findLobby("MATCH_UNRANKED", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, true, "{}", "all", &tr);
 
 	tr.run(m_bc);
+}
+
+class RTTCallback : public IRTTCallback
+{
+public:
+	RTTCallback(const std::function<void(const Json::Value&)>& callback)
+		: m_callback(callback)
+	{
+	}
+
+	void rttCallback(const std::string& jsonData) override
+	{
+		std::stringstream ss(jsonData);
+		Json::Value json;
+		ss >> json;
+		m_callback(json);
+	}
+
+private:
+	std::function<void(const Json::Value&)> m_callback;
+};
+
+TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
+{
+	std::mutex mutex;
+	std::condition_variable cond;
+	std::atomic_bool userBConnected(false);
+
+	std::thread userAThread([this, &mutex, &cond, &userBConnected]
+	{
+		bool BJoined = false;
+
+		// SetUp
+		TestResult tr;
+		BrainCloudWrapper wrapper("bctests_userA");
+		wrapper.initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "", "");
+		auto bc = wrapper.getBCClient();
+		bc->enableLogging(true);
+		bc->getAuthenticationService()->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
+		tr.run(bc);
+
+		// Wait for the other user to connect to RTT (Put that at 60sec timeout)
+		// because we will send him an RTT event after we created the lobby
+		std::unique_lock<std::mutex> lock(mutex);
+		cond.wait_until(lock, std::chrono::steady_clock::now() + std::chrono::seconds(60));
+		if (!userBConnected)
+		{
+			GTEST_NONFATAL_FAILURE_("timeout 60 sec while waiting for userB to connect to RTT\n");
+			return;
+		}
+
+		// User A will create the lobby
+		bc->getRTTService()->enableRTT(&tr);
+		tr.run(bc);
+
+		RTTCallback rttCallback([this, bc, &BJoined](const Json::Value &message)
+		{
+			if (message["service"] == "lobby" && 
+				message["operation"] == "MEMBER_JOIN")
+			{
+				auto profileId = message["data"]["member"]["profileId"].asString();
+				if (profileId == GetUser(UserA)->m_profileId)
+				{
+					auto lobbyId = message["data"]["lobbyId"].asString();
+					bc->getEventService()->sendEvent(GetUser(UserB)->m_profileId, "lobbyid", "{\"lobbyId\":\"" + lobbyId + "\"}");
+				}
+				else if (profileId == GetUser(UserB)->m_profileId)
+				{
+					// Success! He joinned our game
+					printf("B joined our game!\n");
+					BJoined = true;
+				}
+			}
+		});
+		bc->getRTTService()->registerRTTLobbyCallback(&rttCallback);
+
+		bc->getLobbyService()->createLobby("JoinLobby", 0, {}, false, "{}", "all", "{}", &tr);
+		tr.run(bc);
+
+		// Main loop
+		auto timeBefore = std::chrono::steady_clock::now();
+		while (!BJoined)
+		{
+			// Timeout so we don't infinite loop. 60sec seems fair for this test
+			auto timeNow = std::chrono::steady_clock::now();
+			if (timeNow - timeBefore > std::chrono::seconds(60))
+			{
+				// Timeout
+				GTEST_NONFATAL_FAILURE_("timeout 60 sec while waiting for UserB to join the game\n");
+				return;
+			}
+
+			bc->runCallbacks();
+
+			// Sleep a bit, simulate a game running at 60 fps
+			std::this_thread::sleep_for(std::chrono::milliseconds(16));
+		}
+
+		// TearDown
+		bc->getPlayerStateService()->logout(&tr);
+		tr.run(bc);
+	});
+
+	std::thread userBThread([this, &cond, &userBConnected]
+	{
+		bool joined = false;
+
+		// SetUp
+		TestResult tr;
+		BrainCloudWrapper wrapper("bctests_userB");
+		wrapper.initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "", "");
+		auto bc = wrapper.getBCClient();
+		bc->enableLogging(true);
+		bc->getAuthenticationService()->authenticateUniversal(GetUser(UserB)->m_id, GetUser(UserB)->m_password, true, &tr);
+		tr.run(bc);
+
+		bc->getRTTService()->enableRTT(&tr);
+		tr.run(bc);
+
+		RTTCallback rttCallback([this, bc, &tr, &joined](const Json::Value &message)
+		{
+			auto service = message["service"].asString();
+			auto operation = message["operation"].asString();
+
+			if (service == "event" && operation == "GET_EVENTS")
+			{
+				if (message["data"]["eventType"] == "lobbyid")
+				{
+					auto lobbyId = message["data"]["eventData"]["lobbyId"].asString();
+
+					bc->getLobbyService()->joinLobby(lobbyId, false, "{}", "all", {}, &tr);
+					tr.run(bc);
+				}
+			}
+			else if (service == "lobby" && operation == "MEMBER_JOIN")
+			{
+				auto profileId = message["data"]["member"]["profileId"].asString();
+				if (profileId == GetUser(UserB)->m_profileId)
+				{
+					// Success! We joinned his game
+					printf("We joined A's game!\n");
+					joined = true;
+				}
+			}
+		});
+		bc->getRTTService()->registerRTTLobbyCallback(&rttCallback);
+		bc->getRTTService()->registerRTTEventCallback(&rttCallback);
+
+		userBConnected = true;
+		cond.notify_one();
+
+		// Main loop
+		auto timeBefore = std::chrono::steady_clock::now();
+		while (!joined)
+		{
+			// Timeout so we don't infinite loop. 120sec seems fair for this test
+			auto timeNow = std::chrono::steady_clock::now();
+			if (timeNow - timeBefore > std::chrono::seconds(120))
+			{
+				// Timeout
+				GTEST_NONFATAL_FAILURE_("timeout 120 sec while waiting to join UserA's game\n");
+				return;
+			}
+
+			bc->runCallbacks();
+		}
+
+		// TearDown
+		bc->getPlayerStateService()->logout(&tr);
+		tr.run(bc);
+	});
+
+	// Join threads
+	userAThread.join();
+	userBThread.join();
 }
 
 TEST_F(TestBCLobby, CreateLobby)
@@ -42,12 +217,16 @@ TEST_F(TestBCLobby, FindOrCreateLobby)
 	tr.run(m_bc);
 }
 
+// Lot of expect fail here. This is ok, but we make sure the failed reason 
+// is not about a bad or missing argument. We validate that the API is
+// written correctly, not that the output from BC is correct. This is
+// verified more in depth by use case and JS unit tests.
+
 TEST_F(TestBCLobby, GetLobbyData)
 {
 	TestResult tr;
 
 	m_bc->getLobbyService()->getLobbyData("wrongLobbyId", &tr);
-
 	tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, LOBBY_NOT_FOUND);
 }
 

@@ -48,13 +48,14 @@ protected:
 	bool DetachPeer();
     void Logout();
 
+    void LoadIds();
+    void Init();
+
 private:
     static bool m_init;
-    void Init();
 
     static bool m_initUsers;
     static std::vector<TestUser*> m_testUsers;
-    void LoadIds();
     std::string ParseIdLine(std::string line);
 };
 #endif
