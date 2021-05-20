@@ -66,7 +66,7 @@ namespace BrainCloud
         std::condition_variable _recvCondition;
 
         // Context
-        struct lws_context* _pLwsContext = NULL;
+        struct lws_context* _pLwsContext;
         struct lws* _pLws;
         std::map<std::string, std::string> _authHeaders;
     };

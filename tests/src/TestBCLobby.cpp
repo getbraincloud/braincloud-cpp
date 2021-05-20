@@ -22,10 +22,10 @@ TEST_F(TestBCLobby, FindLobby)
 	tr.run(m_bc);
 }
 
-class RTTCallback : public IRTTCallback
+class TestBCLobbyRTTCallback final : public IRTTCallback
 {
 public:
-	RTTCallback(const std::function<void(const Json::Value&)>& callback)
+	TestBCLobbyRTTCallback(const std::function<void(const Json::Value&)>& callback)
 		: m_callback(callback)
 	{
 	}
@@ -54,9 +54,9 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 
 		// SetUp
 		TestResult tr;
-		BrainCloudWrapper wrapper("bctests_userA");
-		wrapper.initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "", "");
-		auto bc = wrapper.getBCClient();
+		BrainCloudWrapper *wrapper = new BrainCloudWrapper("bctests_userA");
+		wrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "", "");
+		auto bc = wrapper->getBCClient();
 		bc->enableLogging(true);
 		bc->getAuthenticationService()->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
 		tr.run(bc);
@@ -75,7 +75,7 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		bc->getRTTService()->enableRTT(&tr);
 		tr.run(bc);
 
-		RTTCallback rttCallback([this, bc, &BJoined](const Json::Value &message)
+		TestBCLobbyRTTCallback rttCallback([this, bc, &BJoined](const Json::Value &message)
 		{
 			if (message["service"] == "lobby" && 
 				message["operation"] == "MEMBER_JOIN")
@@ -121,6 +121,7 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		// TearDown
 		bc->getPlayerStateService()->logout(&tr);
 		tr.run(bc);
+		delete wrapper;
 	});
 
 	std::thread userBThread([this, &cond, &userBConnected]
@@ -129,9 +130,9 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 
 		// SetUp
 		TestResult tr;
-		BrainCloudWrapper wrapper("bctests_userB");
-		wrapper.initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "", "");
-		auto bc = wrapper.getBCClient();
+		BrainCloudWrapper *wrapper = new BrainCloudWrapper("bctests_userB");
+		wrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "", "");
+		auto bc = wrapper->getBCClient();
 		bc->enableLogging(true);
 		bc->getAuthenticationService()->authenticateUniversal(GetUser(UserB)->m_id, GetUser(UserB)->m_password, true, &tr);
 		tr.run(bc);
@@ -139,7 +140,7 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		bc->getRTTService()->enableRTT(&tr);
 		tr.run(bc);
 
-		RTTCallback rttCallback([this, bc, &tr, &joined](const Json::Value &message)
+		TestBCLobbyRTTCallback rttCallback([this, bc, &tr, &joined](const Json::Value &message)
 		{
 			auto service = message["service"].asString();
 			auto operation = message["operation"].asString();

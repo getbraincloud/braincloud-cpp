@@ -51,6 +51,7 @@ namespace BrainCloud
 
     DefaultWebSocket::DefaultWebSocket(const std::string& uri, int port, const std::map<std::string, std::string>& headers)
         : _isValid(false)
+        , _pLwsContext(NULL)
         , _pLws(NULL)
         , _isConnecting(true)
         , _authHeaders(headers)
