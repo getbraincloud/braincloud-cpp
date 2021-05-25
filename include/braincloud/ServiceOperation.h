@@ -480,6 +480,7 @@ namespace BrainCloud {
         static const ServiceOperation AppStoreGetSalesInventory;
         static const ServiceOperation AppStoreStartPurchase;
         static const ServiceOperation AppStoreFinalizePurchase;
+        static const ServiceOperation AppStoreRefreshPromotions;
 
 
 		std::string getValue() const { return _value; }

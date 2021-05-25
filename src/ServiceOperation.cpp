@@ -423,6 +423,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::AppStoreGetSalesInventory = ServiceOperation("GET_INVENTORY");
 	const ServiceOperation ServiceOperation::AppStoreStartPurchase = ServiceOperation("START_PURCHASE");
 	const ServiceOperation ServiceOperation::AppStoreFinalizePurchase = ServiceOperation("FINALIZE_PURCHASE");
+	const ServiceOperation ServiceOperation::AppStoreRefreshPromotions = ServiceOperation("REFRESH_PROMOTIONS");
 
 	//UserItems
 	const ServiceOperation ServiceOperation::AwardUserItem = ServiceOperation("AWARD_USER_ITEM");
