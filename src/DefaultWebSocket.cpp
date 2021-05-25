@@ -156,7 +156,7 @@ namespace BrainCloud
             _pLws = lws_client_connect_via_info(&connectInfo);
             if (!_pLws)
             {
-                std::cout << "Failed to create websocket context" << std::endl;
+                std::cout << "Failed to create websocket client" << std::endl;
                 return;
             }
         }
