@@ -133,7 +133,10 @@ namespace BrainCloud {
 		static const OperationParam EventServiceUpdateEventDataFromId;
 		static const OperationParam EventServiceUpdateEventDataEventId;
 		static const OperationParam EventServiceUpdateEventDataData;
-		static const OperationParam EvId;
+		static const OperationParam EvId;	
+		static const OperationParam EventServiceEvIds;	
+		static const OperationParam EventServiceDateMillis;	
+		static const OperationParam EventServiceEventType;
 
 		// Event Service - Delete Incoming Params
 		static const OperationParam EventServiceDeleteIncomingEventId;
