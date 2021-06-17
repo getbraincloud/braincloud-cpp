@@ -80,4 +80,12 @@ namespace BrainCloud
         ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreFinalizePurchase, message, in_callback);
         m_client->sendRequest(sc);
     }
+
+    void BrainCloudAppStore::refreshPromotions(IServerCallback* in_callback)
+    {
+        Json::Value message;
+
+        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreRefreshPromotions, message, in_callback);
+        m_client->sendRequest(sc);
+    }
 }

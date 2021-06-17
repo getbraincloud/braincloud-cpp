@@ -125,6 +125,14 @@ namespace BrainCloud
         */
         void finalizePurchase(const std::string& in_storeId, const std::string& in_transactionId, const std::string& in_jsonTransactionData, IServerCallback* in_callback = NULL);
 
+        /**
+        * Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing.
+        *
+        * Service Name - AppStore
+        * Service Operation - RefreshPromotions
+        */
+        void refreshPromotions(IServerCallback* in_callback = NULL);
+
     private:
         BrainCloudClient * m_client;
     };

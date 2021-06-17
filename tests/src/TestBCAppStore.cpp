@@ -48,3 +48,11 @@ TEST_F(TestBCAppStore, FinalizePurchase)
     m_bc->getAppStoreService()->finalizePurchase("_invalid_store_id_", "_invalid_transaction_id_", "{}", &tr);
     tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_STORE_ID);
 }
+
+TEST_F(TestBCAppStore, RefreshPromotions)
+{
+    TestResult tr;
+    m_bc->getAppStoreService()->refreshPromotions(&tr);
+    tr.run(m_bc);
+}
+
