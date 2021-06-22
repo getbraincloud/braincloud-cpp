@@ -152,6 +152,7 @@ namespace BrainCloud {
 		static const OperationParam FriendServiceAuthenticationType;
 		static const OperationParam FriendServiceEntityId;
 		static const OperationParam FriendServiceExternalId;
+		static const OperationParam FriendServiceExternalIds;
 		static const OperationParam FriendServiceProfileId;
 		static const OperationParam FriendServiceFriendId;
 		static const OperationParam FriendServiceEntityType;
@@ -162,6 +163,7 @@ namespace BrainCloud {
 		static const OperationParam FriendServiceMaxResults;
 		static const OperationParam FriendServiceFriendPlatform;
 		static const OperationParam FriendServiceProfileIds;
+		static const OperationParam FriendServiceMode;
 		static const OperationParam ExternalAuthType;
 
 		//Achievements Event Data Params

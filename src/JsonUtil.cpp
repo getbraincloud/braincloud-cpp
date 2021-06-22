@@ -53,7 +53,7 @@ namespace BrainCloud
 
     Json::Value JsonUtil::stringVectorToJson(const std::vector<std::string> & in_stringVec)
     {
-        Json::Value value;
+        Json::Value value(Json::arrayValue);
         for (size_t i = 0, isize = in_stringVec.size(); i < isize; ++i)
         {
             value.append(in_stringVec[i]);
