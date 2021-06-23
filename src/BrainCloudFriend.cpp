@@ -160,6 +160,18 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudFriend::addFriendsFromPlatform(const FriendPlatform &in_friendPlatform, const std::string &in_mode, const std::vector<std::string> &in_externalIds, IServerCallback *in_callback)
+	{
+		Json::Value message;
+
+		message[OperationParam::FriendServiceFriendPlatform.getValue()] = in_friendPlatform.toString();
+		message[OperationParam::FriendServiceMode.getValue()] = in_mode;
+		message[OperationParam::FriendServiceExternalIds.getValue()] = JsonUtil::stringVectorToJson(in_externalIds);
+
+		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::AddFriendsFromPlatform, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudFriend::removeFriends(const std::vector<std::string>& in_profileIds, IServerCallback * in_callback)
 	{
 		Json::Value message;

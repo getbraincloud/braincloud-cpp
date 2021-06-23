@@ -78,6 +78,13 @@ TEST_F(TestBCFriend, GetSummaryDataForProfileId)
 	tr.run(m_bc);
 }
 
+TEST_F(TestBCFriend, AddFriendsFromPlatform)
+{
+	TestResult tr;
+	m_bc->getFriendService()->addFriendsFromPlatform(FriendPlatform::Facebook, "ADD", {}, &tr);
+	tr.run(m_bc);
+}
+
 TEST_F(TestBCFriend, AddFriends)
 {
 	AddFriends();
