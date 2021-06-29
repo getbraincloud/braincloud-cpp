@@ -14,7 +14,7 @@ public:
         BrainCloud::BrainCloudClient* pBC,
         const std::string& expectedServiceName,
         const std::string& expectedOperation = "",
-        int waitTimeSec = 10)
+        int waitTimeSec = 30)
         : m_pBC(pBC)
         , m_expectedServiceName(expectedServiceName)
         , m_expectedOperation(expectedOperation)
@@ -42,7 +42,7 @@ public:
         // We wait 10 seconds
         auto startTime = std::chrono::steady_clock::now();
         while (
-            std::chrono::steady_clock::now() - startTime <
+            std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - startTime) <
             std::chrono::seconds(m_waitTimeSec))
         {
             m_pBC->runCallbacks();
@@ -53,6 +53,7 @@ public:
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
 
+        printf("RTT receivedCallback timeout after %isec\n", m_waitTimeSec);
         return false; // Timed out
     }
 
@@ -76,10 +77,6 @@ TEST_F(TestBCRTTComms, RTTRegisterWithoutEnableRTT)
     // Register for RTT lobby
     RTTCallback rttCallback(m_bc, "event");
     m_bc->getRTTService()->registerRTTEventCallback(&rttCallback);
-
-
-    m_bc->getRTTService()->enableRTT(&tr, true);
-    tr.run(m_bc);
     
     // Create a lobby
     auto& profileId = m_bc->getAuthenticationService()->getProfileId();
@@ -87,9 +84,9 @@ TEST_F(TestBCRTTComms, RTTRegisterWithoutEnableRTT)
         profileId.c_str(), "test", "{\"testData\":42}", &tr);
     tr.run(m_bc);
 
-    // Now check if we get the chat message
-    // Wait 60sec, creating lobby can take time
-    EXPECT_TRUE(rttCallback.receivedCallback());
+    // Now check if we get the event
+    // Wait 10sec. We shouldn't get it, because RTT is not enabled
+    EXPECT_FALSE(rttCallback.receivedCallback());
 }
 
 TEST_F(TestBCRTTComms, RequestClientConnection)
@@ -100,7 +97,7 @@ TEST_F(TestBCRTTComms, RequestClientConnection)
     tr.run(m_bc);
 }
 
-TEST_F(TestBCRTTComms, EnableDisableRTTWithTCP)
+TEST_F(TestBCRTTComms, DISABLED_EnableDisableRTTWithTCP)
 {
     TestResult tr;
     // disable, then re-enable. Should still succeed
@@ -109,7 +106,7 @@ TEST_F(TestBCRTTComms, EnableDisableRTTWithTCP)
     tr.run(m_bc);
 }
 
-TEST_F(TestBCRTTComms, EnableDisableRTTWithWS)
+TEST_F(TestBCRTTComms, DISABLED_EnableDisableRTTWithWS)
 {
     TestResult tr;
     // disable, then re-enable. Should still succeed
@@ -135,7 +132,7 @@ TEST_F(TestBCRTTComms, RTTChatCallback)
     tr.run(m_bc);
 
     // Register for RTT chat
-    RTTCallback rttCallback(m_bc, "chat", "INCOMING", 10);
+    RTTCallback rttCallback(m_bc, "chat", "INCOMING");
     m_bc->getRTTService()->registerRTTChatCallback(&rttCallback);
 
     // Send a chat message

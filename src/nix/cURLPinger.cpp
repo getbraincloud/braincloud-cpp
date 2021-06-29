@@ -26,6 +26,7 @@ namespace BrainCloud
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 2);
         curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
+        curl_easy_setopt(curl, CURLOPT_NOSIGNAL, (long)1);
 
         auto startTime = std::chrono::high_resolution_clock::now();
         res = curl_easy_perform(curl);

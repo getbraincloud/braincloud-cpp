@@ -133,7 +133,10 @@ namespace BrainCloud {
 		static const OperationParam EventServiceUpdateEventDataFromId;
 		static const OperationParam EventServiceUpdateEventDataEventId;
 		static const OperationParam EventServiceUpdateEventDataData;
-		static const OperationParam EvId;
+		static const OperationParam EvId;	
+		static const OperationParam EventServiceEvIds;	
+		static const OperationParam EventServiceDateMillis;	
+		static const OperationParam EventServiceEventType;
 
 		// Event Service - Delete Incoming Params
 		static const OperationParam EventServiceDeleteIncomingEventId;
@@ -149,6 +152,7 @@ namespace BrainCloud {
 		static const OperationParam FriendServiceAuthenticationType;
 		static const OperationParam FriendServiceEntityId;
 		static const OperationParam FriendServiceExternalId;
+		static const OperationParam FriendServiceExternalIds;
 		static const OperationParam FriendServiceProfileId;
 		static const OperationParam FriendServiceFriendId;
 		static const OperationParam FriendServiceEntityType;
@@ -159,6 +163,7 @@ namespace BrainCloud {
 		static const OperationParam FriendServiceMaxResults;
 		static const OperationParam FriendServiceFriendPlatform;
 		static const OperationParam FriendServiceProfileIds;
+		static const OperationParam FriendServiceMode;
 		static const OperationParam ExternalAuthType;
 
 		//Achievements Event Data Params

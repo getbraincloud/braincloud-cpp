@@ -8,6 +8,8 @@
 
 #define MAX_PAYLOAD (64 * 1024)
 
+static std::mutex lwsContextMutex;
+
 namespace BrainCloud
 {
     static struct lws_protocols protocols[] = {
@@ -40,7 +42,7 @@ namespace BrainCloud
         return new DefaultWebSocket(address, port, headers);
     }
 
-    struct lws_context* DefaultWebSocket::s_pLwsContext = NULL;
+    //struct lws_context* DefaultWebSocket::_pLwsContext = NULL;
 
     DefaultWebSocket::~DefaultWebSocket()
     {
@@ -49,6 +51,7 @@ namespace BrainCloud
 
     DefaultWebSocket::DefaultWebSocket(const std::string& uri, int port, const std::map<std::string, std::string>& headers)
         : _isValid(false)
+        , _pLwsContext(NULL)
         , _pLws(NULL)
         , _isConnecting(true)
         , _authHeaders(headers)
@@ -84,7 +87,7 @@ namespace BrainCloud
         bool useSSL = protocolCaps == "WSS";
 
         // Create context
-        if (!s_pLwsContext)
+        //if (!_pLwsContext)
         {
             struct lws_context_creation_info info;
             memset(&info, 0, sizeof info);
@@ -97,8 +100,9 @@ namespace BrainCloud
             info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
 
-            s_pLwsContext = lws_create_context(&info);
-            if (!s_pLwsContext)
+            std::unique_lock<std::mutex> lock(lwsContextMutex);
+            _pLwsContext = lws_create_context(&info);
+            if (!_pLwsContext)
             {
                 std::cout << "Failed to create websocket context" << std::endl;
                 return;
@@ -112,8 +116,8 @@ namespace BrainCloud
             while (_isConnecting || _isValid)
             {
                 _mutex.unlock();
-                lws_callback_on_writable_all_protocol(s_pLwsContext, &protocols[0]);
-                lws_service(s_pLwsContext, 100);
+                lws_callback_on_writable_all_protocol(_pLwsContext, &protocols[0]);
+                lws_service(_pLwsContext, 100);
                 _mutex.lock();
             }
             _mutex.unlock();
@@ -124,12 +128,19 @@ namespace BrainCloud
             struct lws_client_connect_info connectInfo;
             memset(&connectInfo, 0, sizeof(connectInfo));
 
-            connectInfo.context = s_pLwsContext;
+            connectInfo.context = _pLwsContext;
             connectInfo.address = addr.c_str();
             connectInfo.port = port;
             if (useSSL)
             {
-                connectInfo.ssl_connection = LCCSCF_USE_SSL | LCCSCF_ALLOW_SELFSIGNED | LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK; //iUseSSL;
+                connectInfo.ssl_connection = 
+                    LCCSCF_USE_SSL
+#if defined(BC_SSL_ALLOW_SELFSIGNED)
+                    | LCCSCF_ALLOW_SELFSIGNED
+#endif
+                    // | LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK
+                    // | LCCSCF_ALLOW_EXPIRED
+                    ;
             }
             else
             {
@@ -145,7 +156,7 @@ namespace BrainCloud
             _pLws = lws_client_connect_via_info(&connectInfo);
             if (!_pLws)
             {
-                std::cout << "Failed to create websocket context" << std::endl;
+                std::cout << "Failed to create websocket client" << std::endl;
                 return;
             }
         }
@@ -312,9 +323,16 @@ namespace BrainCloud
         // Destroy libWebSockets
         if (_pLws)
         {
-            // lws_context_destroy(s_pLwsContext); // We keep out static instance around
             lws_set_timeout(_pLws, NO_PENDING_TIMEOUT, LWS_TO_KILL_SYNC);
             _pLws = NULL;
+        }
+
+        // Destroy the context
+        if (_pLwsContext)
+        {
+            std::unique_lock<std::mutex> lock(lwsContextMutex);
+            lws_context_destroy(_pLwsContext);
+            _pLwsContext = NULL;
         }
     }
 

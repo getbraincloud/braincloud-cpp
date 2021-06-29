@@ -46,6 +46,10 @@ namespace BrainCloud
 
     void BrainCloudPlayerState::logout(IServerCallback * in_callback)
     {
+        // [dsl] Before calling logout into the server, we need to reset communications on relay/rtt
+        m_client->getRelayComms()->resetCommunication();
+        m_client->getRTTComms()->resetCommunication();
+
         Json::Value data = Json::nullValue;
 
         ServerCall * sc = new ServerCall(ServiceName::PlayerState, ServiceOperation::Logout, data, in_callback);

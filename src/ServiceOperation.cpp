@@ -97,6 +97,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::FindUsersBySubstrName = ServiceOperation("FIND_USERS_BY_SUBSTR_NAME");
 	const ServiceOperation ServiceOperation::ListFriends = ServiceOperation("LIST_FRIENDS");
 	const ServiceOperation ServiceOperation::AddFriends = ServiceOperation("ADD_FRIENDS");
+	const ServiceOperation ServiceOperation::AddFriendsFromPlatform = ServiceOperation("ADD_FRIENDS_FROM_PLATFORM");
 	const ServiceOperation ServiceOperation::RemoveFriends = ServiceOperation("REMOVE_FRIENDS");
 	const ServiceOperation ServiceOperation::GetUsersOnlineStatus = ServiceOperation("GET_USERS_ONLINE_STATUS");
 	const ServiceOperation ServiceOperation::FindPlayerByUniversalId = ServiceOperation("FIND_PLAYER_BY_UNIVERSAL_ID");
@@ -152,6 +153,9 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::UpdateEventData = ServiceOperation("UPDATE_EVENT_DATA");
 	const ServiceOperation ServiceOperation::DeleteSent = ServiceOperation("DELETE_SENT");
 	const ServiceOperation ServiceOperation::DeleteIncoming = ServiceOperation("DELETE_INCOMING");
+	const ServiceOperation ServiceOperation::DeleteIncomingEvents = ServiceOperation("DELETE_INCOMING_EVENTS");
+	const ServiceOperation ServiceOperation::DeleteIncomingEventsOlderThan = ServiceOperation("DELETE_INCOMING_EVENTS_OLDER_THAN");
+	const ServiceOperation ServiceOperation::DeleteIncomingEventsByTypeOlderThan = ServiceOperation("DELETE_INCOMING_EVENTS_BY_TYPE_OLDER_THAN");
 	const ServiceOperation ServiceOperation::GetEvents = ServiceOperation("GET_EVENTS");
 
 	const ServiceOperation ServiceOperation::ProcessStatistics = ServiceOperation("PROCESS_STATISTICS");
@@ -423,6 +427,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::AppStoreGetSalesInventory = ServiceOperation("GET_INVENTORY");
 	const ServiceOperation ServiceOperation::AppStoreStartPurchase = ServiceOperation("START_PURCHASE");
 	const ServiceOperation ServiceOperation::AppStoreFinalizePurchase = ServiceOperation("FINALIZE_PURCHASE");
+	const ServiceOperation ServiceOperation::AppStoreRefreshPromotions = ServiceOperation("REFRESH_PROMOTIONS");
 
 	//UserItems
 	const ServiceOperation ServiceOperation::AwardUserItem = ServiceOperation("AWARD_USER_ITEM");

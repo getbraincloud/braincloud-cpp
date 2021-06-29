@@ -104,6 +104,7 @@ namespace BrainCloud {
 		static const ServiceOperation FindUsersByNameStartingWith;
 		static const ServiceOperation ListFriends;
 		static const ServiceOperation AddFriends;
+		static const ServiceOperation AddFriendsFromPlatform;
 		static const ServiceOperation RemoveFriends;
 		static const ServiceOperation GetUsersOnlineStatus;
 		static const ServiceOperation FindPlayerByUniversalId;
@@ -159,6 +160,9 @@ namespace BrainCloud {
 		static const ServiceOperation UpdateEventData;
 		static const ServiceOperation DeleteSent;
 		static const ServiceOperation DeleteIncoming;
+		static const ServiceOperation DeleteIncomingEvents;
+		static const ServiceOperation DeleteIncomingEventsOlderThan;
+		static const ServiceOperation DeleteIncomingEventsByTypeOlderThan;
 		static const ServiceOperation GetEvents;
 
 		static const ServiceOperation ProcessStatistics;
@@ -480,6 +484,7 @@ namespace BrainCloud {
         static const ServiceOperation AppStoreGetSalesInventory;
         static const ServiceOperation AppStoreStartPurchase;
         static const ServiceOperation AppStoreFinalizePurchase;
+        static const ServiceOperation AppStoreRefreshPromotions;
 
 
 		std::string getValue() const { return _value; }

@@ -24,6 +24,101 @@ TEST_F(TestBCEvent, DeleteIncoming)
 	DeleteIncomingMessage();
 }
 
+TEST_F(TestBCEvent, DeleteIncomingEvents)
+{
+	TestResult tr;
+
+	SendDefaultMessage();
+	auto id1 = m_eventId;
+
+	SendDefaultMessage();
+	auto id2 = m_eventId;
+
+	m_bc->getEventService()->deleteIncomingEvents({ id1, id2 }, &tr);
+	tr.run(m_bc);
+
+	// Get events and make sure they are not there anymore
+	m_bc->getEventService()->getEvents(&tr);
+	tr.run(m_bc);
+
+	bool foundDeletedEvents = false;
+	for (auto eventJson : tr.m_response["data"]["incoming_events"])
+	{
+		auto eventId = eventJson["evId"].asString();
+		foundDeletedEvents |= eventId == id1;
+		foundDeletedEvents |= eventId == id2;
+	}
+	EXPECT_FALSE(foundDeletedEvents);
+}
+
+TEST_F(TestBCEvent, DeleteIncomingEventsOlderThan)
+{
+	TestResult tr;
+
+	SendDefaultMessage();
+	auto id1 = m_eventId;
+
+	SendDefaultMessage();
+	auto id2 = m_eventId;
+
+	// Deleted older than now + 2mins so its within the time 
+	int64_t milliseconds_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() + (2 * 60 * 1000); //add 2 minutes 
+
+	m_bc->getEventService()->deleteIncomingEventsOlderThan(milliseconds_since_epoch, &tr);
+	tr.run(m_bc);
+
+	// Get events and make sure they are not there anymore
+	m_bc->getEventService()->getEvents(&tr);
+	tr.run(m_bc);
+
+	bool foundDeletedEvents = false;
+	for (auto eventJson : tr.m_response["data"]["incoming_events"])
+	{
+		auto eventId = eventJson["evId"].asString();
+		foundDeletedEvents |= eventId == id1;
+		foundDeletedEvents |= eventId == id2;
+	}
+	EXPECT_FALSE(foundDeletedEvents);
+}
+
+TEST_F(TestBCEvent, DeleteIncomingEventsByTypeOlderThan)
+{
+	TestResult tr;
+
+	SendDefaultMessage();
+	auto id1 = m_eventId;
+
+	SendDefaultMessage();
+	auto id2 = m_eventId;
+
+	m_bc->getEventService()->getEvents(&tr);
+	tr.run(m_bc);
+	int64_t createdAt2 = 0;
+	const auto &eventsJson = tr.m_response["data"]["incoming_events"];
+	for (const auto &eventJson : eventsJson)
+	{
+		if (eventJson["evId"] == id2)
+		{
+			createdAt2 = eventJson["createdAt"].asInt64();
+			break;
+		}
+	}
+
+	m_bc->getEventService()->deleteIncomingEventsByTypeOlderThan(m_eventType, createdAt2 + 1, &tr);
+	tr.run(m_bc);
+
+	m_bc->getEventService()->getEvents(&tr);
+	tr.run(m_bc);
+	bool foundDeletedEvents = false;
+	for (auto eventJson : tr.m_response["data"]["incoming_events"])
+	{
+		auto eventId = eventJson["evId"].asString();
+		foundDeletedEvents |= eventId == id1;
+		foundDeletedEvents |= eventId == id2;
+	}
+	EXPECT_FALSE(foundDeletedEvents);
+}
+
 TEST_F(TestBCEvent, UpdateIncoming)
 {
 	SendDefaultMessage();

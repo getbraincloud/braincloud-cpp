@@ -68,7 +68,7 @@ void TestBCFile::fileUploadCompleted(const char * in_fileUploadId, const std::st
 
 void TestBCFile::fileUploadFailed(const char * in_fileUploadId, int in_statusCode, int in_reasonCode, const std::string & in_jsonResponse)
 {
-    std::cout << "FileUploadFailed callback hit status(" << in_statusCode << ") reason(" << in_reasonCode << ")" << std::endl;
+    std::cout << "FileUploadFailed callback hit status(" << in_statusCode << ") reason(" << in_reasonCode << ") id(" << in_fileUploadId << ")" << std::endl;
 
     UploadFailedDetails details;
     details._fileUploadId = in_fileUploadId;
@@ -99,6 +99,7 @@ TEST_F(TestBCFile, UploadSimpleFileAndCancel)
     createFile(localPath.c_str(), 3*1024*1024);
     
     TestResult tr;
+    m_bc->registerFileUploadCallback(this);
     m_bc->getFileService()->uploadFile("", localPath.c_str(), true, true, localPath.c_str(), &tr);
     if (!tr.run(m_bc))
     {
@@ -106,7 +107,6 @@ TEST_F(TestBCFile, UploadSimpleFileAndCancel)
     }
     std::string uploadId = tr.m_response["data"]["fileDetails"]["uploadId"].asString();
     
-    m_bc->registerFileUploadCallback(this);
     bool transferHasStarted = false;
     while(!transferHasStarted)
     {
@@ -119,8 +119,9 @@ TEST_F(TestBCFile, UploadSimpleFileAndCancel)
         if (transferred > 0)
         {
             transferHasStarted = true;
+            break; // We don't want to get hit by the sleep
         }
-        TestResult::sleep(SLEEP_INTERVAL_MS);
+        TestResult::sleep(10);
     }
     if (!transferHasStarted)
     {
@@ -153,15 +154,15 @@ TEST_F(TestBCFile, ListUserFiles)
 
 TEST_F(TestBCFile, UploadMultipleFiles)
 {
-    std::string localPath = "uploadsimplefile.txt";
-    createFile(localPath.c_str(), 2*1024*1024);
-
 	m_bc->registerFileUploadCallback(this);
     
     std::vector<std::string> uploadIds;
     int numTransfers = 3;
     for (int i = 0; i < numTransfers; ++i)
     {
+        std::string localPath = "uploadmultiplefile"  + std::to_string(i + 1) + ".txt";
+        createFile(localPath.c_str(), 2*1024*1024);
+
         TestResult tr;
         m_bc->getFileService()->uploadFile("", localPath.c_str(), true, true, localPath.c_str(), &tr);
         if (!tr.run(m_bc))
@@ -195,6 +196,16 @@ TEST_F(TestBCFile, UploadMultipleFiles)
     ASSERT_TRUE(timeoutMs >= 0);
     ASSERT_EQ(_completedUploadDetails.size(), numTransfers);
     ASSERT_EQ(_failedUploadDetails.size(), 0);
+
+    // Delete them. expect errors if the test failed, that's fine
+    // So brainCloud doesn't grow indefinitely.
+    for (int i = 0; i < numTransfers; ++i)
+    {
+        TestResult tr;
+        std::string localPath = "uploadmultiplefile"  + std::to_string(i + 1) + ".txt";
+        m_bc->getFileService()->deleteUserFile("", localPath.c_str(), &tr);
+        tr.run(m_bc);
+    }
 }
 
 TEST_F(TestBCFile, DeleteUserFile)

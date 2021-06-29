@@ -168,6 +168,22 @@ namespace BrainCloud
 		void addFriends(const std::vector<std::string>& in_profileIds, IServerCallback * in_callback = NULL);
 
 		/**
+		 * Links the profiles for the specified externalIds for the given friend platform as internal friends.
+		 *
+		 * Service Name - Friend
+		 * Service Operation - ADD_FRIENDS_FROM_PLATFORM
+		 *
+		 * @param in_friendPlatform Platform to add from (i.e: FriendPlatform::Facebook)
+		 * @param in_mode ADD or SYNC
+		 * @param in_externalIds Collection of external IDs from the friend platform.
+		 * @param in_callback Method to be invoked when the server response is received.
+		 */
+		void addFriendsFromPlatform(const FriendPlatform &in_friendPlatform, 
+									const std::string &in_mode, 
+									const std::vector<std::string> &in_externalIds, 
+									IServerCallback *in_callback = NULL);
+
+		/**
 		* Unlinks the current user and the specified users as brainCloud friends.
 		*
 		* Service Name - Friend

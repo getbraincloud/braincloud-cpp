@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "braincloud/BrainCloudTypes.h"
 
 namespace BrainCloud
@@ -57,6 +58,40 @@ namespace BrainCloud
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void deleteIncomingEvent(const char * in_evId, IServerCallback * in_callback = NULL);
+
+		/**
+		 * Delete a list of events out of the user's incoming mailbox.
+		 *
+		 * Service Name - event
+		 * Service Operation - DELETE_INCOMING_EVENTS
+		 *
+		 * @param in_eventIds Collection of event ids
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void deleteIncomingEvents(const std::vector<std::string> & in_eventIds, IServerCallback * in_callback = NULL);
+
+		/**
+		 * Delete any events older than the given date out of the user's incoming mailbox.
+		 *
+		 * Service Name - event
+		 * Service Operation - DELETE_INCOMING_EVENTS_OLDER_THAN
+		 *
+		 * @param in_dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void deleteIncomingEventsOlderThan(int64_t in_dateMillis, IServerCallback * in_callback = NULL);
+
+		/**
+		 * Delete any events of the given type older than the given date out of the user's incoming mailbox.
+		 *
+		 * Service Name - event
+		 * Service Operation - DELETE_INCOMING_EVENTS_BY_TYPE_OLDER_THAN
+		 *
+		 * @param in_eventType The user-defined type of the event
+		 * @param in_dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void deleteIncomingEventsByTypeOlderThan(const std::string & in_eventType, int64_t in_dateMillis, IServerCallback * in_callback = NULL);
 
 		/**
 		 * Get the events currently queued for the user.

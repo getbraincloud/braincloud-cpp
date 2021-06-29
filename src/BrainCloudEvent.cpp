@@ -46,6 +46,37 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudEvent::deleteIncomingEvents(const std::vector<std::string> & in_eventIds, IServerCallback * in_callback)
+	{
+		Json::Value message;
+
+		message[OperationParam::EventServiceEvIds.getValue()] = JsonUtil::stringVectorToJson(in_eventIds);
+
+		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEvents, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
+	void BrainCloudEvent::deleteIncomingEventsOlderThan(int64_t in_dateMillis, IServerCallback * in_callback)
+	{
+		Json::Value message;
+
+		message[OperationParam::EventServiceDateMillis.getValue()] = (Json::UInt64)in_dateMillis;
+
+		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEventsOlderThan, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
+	void BrainCloudEvent::deleteIncomingEventsByTypeOlderThan(const std::string & in_eventType, int64_t in_dateMillis, IServerCallback * in_callback)
+	{
+		Json::Value message;
+		
+		message[OperationParam::EventServiceEventType.getValue()] = in_eventType;
+		message[OperationParam::EventServiceDateMillis.getValue()] = (Json::UInt64)in_dateMillis;
+
+		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEventsByTypeOlderThan, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudEvent::getEvents(IServerCallback * in_callback)
 	{
 		Json::Value message;

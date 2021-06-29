@@ -125,6 +125,9 @@ namespace BrainCloud
 	const OperationParam OperationParam::EventServiceUpdateEventDataEventId = OperationParam("eventId");
 	const OperationParam OperationParam::EventServiceUpdateEventDataData = OperationParam("eventData");
 	const OperationParam OperationParam::EvId = OperationParam("evId");
+	const OperationParam OperationParam::EventServiceEvIds = OperationParam("evIds");
+	const OperationParam OperationParam::EventServiceDateMillis = OperationParam("dateMillis");
+	const OperationParam OperationParam::EventServiceEventType = OperationParam("eventType");
 
 	// Event Service - Delete Incoming Params
 	const OperationParam OperationParam::EventServiceDeleteIncomingEventId = OperationParam("eventId");
@@ -140,6 +143,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::FriendServiceAuthenticationType = OperationParam("authenticationType");
 	const OperationParam OperationParam::FriendServiceEntityId = OperationParam("entityId");
 	const OperationParam OperationParam::FriendServiceExternalId = OperationParam("externalId");
+	const OperationParam OperationParam::FriendServiceExternalIds = OperationParam("externalIds");
 	const OperationParam OperationParam::FriendServiceProfileId = OperationParam("profileId");
 	const OperationParam OperationParam::FriendServiceFriendId = OperationParam("friendId");
 	const OperationParam OperationParam::FriendServiceEntityType = OperationParam("entityType");
@@ -150,6 +154,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::FriendServiceMaxResults = OperationParam("maxResults");
 	const OperationParam OperationParam::FriendServiceFriendPlatform = OperationParam("friendPlatform");
 	const OperationParam OperationParam::FriendServiceProfileIds = OperationParam("profileIds");
+	const OperationParam OperationParam::FriendServiceMode = OperationParam("mode");
 	const OperationParam OperationParam::ExternalAuthType = OperationParam("externalAuthType");
 
 	//Achievements Event Data Params
