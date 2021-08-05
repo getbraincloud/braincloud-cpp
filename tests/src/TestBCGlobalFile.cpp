@@ -5,9 +5,9 @@
 #include <vector>
 using namespace BrainCloud;
 
-static const std::string testfileName = "png1.png";
-static const std::string testFileId = "34802251-0da0-419e-91b5-59d91790af15";
-static const std::string testFolderPath = "/existingfolder/";
+static const std::string testfileName = "testGlobalFile.png";
+static const std::string testFileId = "ed2d2924-4650-4a88-b095-94b75ce9aa18";
+static const std::string testFolderPath = "/fname/";
 
 TEST_F(TestBCGlobalFile, GetFileInfo)
 {
