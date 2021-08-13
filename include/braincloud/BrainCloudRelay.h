@@ -71,6 +71,11 @@ namespace BrainCloud
         const std::string& getOwnerProfileId() const;
 
         /**
+         * Get the lobby's owner Connection Id.
+         */
+        const std::string& getOwnerCxId() const;
+
+        /**
          * Returns the profileId associated with a netId.
          */
         const std::string& getProfileIdForNetId(int in_netId) const;
@@ -79,6 +84,16 @@ namespace BrainCloud
          * Returns the netId associated with a profileId.
          */
         int getNetIdForProfileId(const std::string& in_profileId) const;
+
+        /**
+         * Returns the connection Id associated with a netId.
+         */
+        const std::string& getCxIdForNetId(int in_netId) const;
+
+        /**
+         * Returns the netId associated with a connection Id.
+         */
+        int getNetIdForCxId(const std::string& in_cxId) const;
 
         /**
          * Register callback for relay messages coming from peers.

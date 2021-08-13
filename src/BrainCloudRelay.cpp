@@ -43,6 +43,11 @@ namespace BrainCloud
         return m_commsLayer->getOwnerProfileId();
     }
 
+    const std::string& BrainCloudRelay::getOwnerCxId() const
+    {
+        return m_commsLayer->getOwnerCxId();
+    }
+
     const std::string& BrainCloudRelay::getProfileIdForNetId(int in_netId) const
     {
         return m_commsLayer->getProfileIdForNetId(in_netId);
@@ -51,6 +56,16 @@ namespace BrainCloud
     int BrainCloudRelay::getNetIdForProfileId(const std::string& in_profileId) const
     {
         return m_commsLayer->getNetIdForProfileId(in_profileId);
+    }
+
+    const std::string& BrainCloudRelay::getCxIdForNetId(int in_netId) const
+    {
+        return m_commsLayer->getCxIdForNetId(in_netId);
+    }
+
+    int BrainCloudRelay::getNetIdForCxId(const std::string& in_cxId) const
+    {
+        return m_commsLayer->getNetIdForCxId(in_cxId);
     }
 
     void BrainCloudRelay::registerRelayCallback(IRelayCallback* in_callback)

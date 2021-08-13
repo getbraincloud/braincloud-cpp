@@ -47,6 +47,9 @@ namespace BrainCloud
         const std::string& getOwnerProfileId() const;
         const std::string& getProfileIdForNetId(int in_netId) const;
         int getNetIdForProfileId(const std::string& in_profileId) const;
+        const std::string& getOwnerCxId() const;
+        const std::string& getCxIdForNetId(int in_netId) const;
+        int getNetIdForCxId(const std::string& in_cxId) const;
         void registerRelayCallback(IRelayCallback* in_callback);
         void deregisterRelayCallback();
         void registerSystemCallback(IRelaySystemCallback* in_callback);
@@ -186,11 +189,15 @@ namespace BrainCloud
         std::chrono::time_point<std::chrono::system_clock> m_lastPingTime;
         std::chrono::time_point<std::chrono::system_clock> m_lastRecvTime; // For UDP timeout
 
-        // Profile/Net IDs
+        // Profile/Cx/Net IDs
         int m_netId = -1;
+        std::string m_cxId = "";
         std::string m_ownerProfileId = "";
+        std::string m_ownerCxId = "";
         std::map<std::string, int> m_profileIdToNetId;
         std::map<int, std::string> m_netIdToProfileId;
+        std::map<std::string, int> m_cxIdToNetId;
+        std::map<int, std::string> m_netIdToCxId;
 
         // Packet ID/History
         std::vector<int> m_rsmgHistory;
