@@ -423,6 +423,17 @@ namespace BrainCloud
 		m_client->sendRequest(sc);
 	}
 
+	void BrainCloudLobby::getVisibleLobbyInstances(const std::string &in_lobbyType, int in_minRating, int in_maxRating, IServerCallback* in_callback)
+	{
+		Json::Value message;
+		message[OperationParam::LobbyType.getValue()] = in_lobbyType;
+		message[OperationParam::LobbyMinRating.getValue()] = in_minRating;
+		message[OperationParam::LobbyMaxRating.getValue()] = in_maxRating;
+
+		ServerCall* sc = new ServerCall(ServiceName::Lobby, ServiceOperation::GetVisibleLobbyInstances, message, in_callback);
+		m_client->sendRequest(sc);
+	}
+
 	void BrainCloudLobby::joinLobby(const std::string in_lobbyId, bool in_isReady, const std::string& in_extraJson, std::string in_teamCode, 
 			const std::vector<std::string>& in_otherUserCxIds, IServerCallback* in_callback)
 	{

@@ -446,6 +446,7 @@ namespace BrainCloud {
 		static const ServiceOperation UpdateReady;
 		static const ServiceOperation UpdateSettings;
 		static const ServiceOperation CancelFindRequest;
+		static const ServiceOperation GetVisibleLobbyInstances;
 
 		static const ServiceOperation SubmitCrashReport;
 

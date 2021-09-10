@@ -438,6 +438,8 @@ namespace BrainCloud {
 		static const OperationParam SignalData;
 		static const OperationParam ToTeamCode;
 		static const OperationParam PingData;
+		static const OperationParam LobbyMinRating;
+		static const OperationParam LobbyMaxRating;
 
 		//messaging
 		static const OperationParam MessagingMsgbox;

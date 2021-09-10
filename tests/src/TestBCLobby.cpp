@@ -357,3 +357,11 @@ TEST_F(TestBCLobby, PingRegions)
     m_bc->getLobbyService()->joinLobbyWithPingData("wrongLobbyId", true, "{}", "red", otherUserCxIds, &tr);
     tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, LOBBY_NOT_FOUND);
 }
+
+TEST_F(TestBCLobby, GetVisibleLobbyInstances)
+{
+    TestResult tr;
+
+    m_bc->getLobbyService()->getVisibleLobbyInstances("MATCH_UNRANKED", 1, 10000, &tr);
+    tr.run(m_bc);
+}

@@ -432,6 +432,8 @@ namespace BrainCloud
 	const OperationParam OperationParam::SignalData = OperationParam("signalData");
 	const OperationParam OperationParam::ToTeamCode = OperationParam("toTeamCode");
 	const OperationParam OperationParam::PingData = OperationParam("pingData");
+	const OperationParam OperationParam::LobbyMinRating = OperationParam("minRating");
+	const OperationParam OperationParam::LobbyMaxRating = OperationParam("maxRating");
 
 	//messaging
 	const OperationParam OperationParam::MessagingMsgbox = OperationParam("msgbox");
