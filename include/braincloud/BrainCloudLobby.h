@@ -277,6 +277,18 @@ namespace BrainCloud
 		 */
 		void runPingCallbacks();
 
+		/**
+		 * Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
+		 *
+		 * Service Name - Lobby
+		 * Service Operation - GetVisibleLobbyInstances
+		 *
+		 * @param lobbyType The type of lobby to look for.
+		 * @param minRating Minimum lobby rating.
+		 * @param maxRating Maximum lobby rating.
+		 */
+		void getVisibleLobbyInstances(const std::string &in_lobbyType, int in_minRating, int in_maxRating, IServerCallback* in_callback);
+
 	private:
 		class GetRegionsForLobbiesCallback final : public IServerCallback
 		{
