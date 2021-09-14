@@ -524,23 +524,42 @@ namespace BrainCloud
 			const char * in_rotationType, int64_t in_rotationResetUTC, int32_t in_retainedCount,  IServerCallback * in_callback = NULL);
 
 		/**
-		* Posts score to gorup leaderbopard and dynamically creates if necessary. leaderboardType, rotationReset, retainedCount and rotationType are required. uses UTC time in milliseconds since epoch
+		* Posts score to group leaderbopard and dynamically creates if necessary. leaderboardType, rotationReset, retainedCount and rotationType are required. uses UTC time in milliseconds since epoch
 		*
 		* Service Name - leaderboard
-		* Service Operation - POST_GROUP_SCORE
+		* Service Operation - POST_GROUP_SCORE_DYNAMIC
 		*
 		* @param in_leaderboardId the leaderboard to post to
 		* @param in_groupId the group's id
 		* @param in_score the score to post
 		* @param in_data optional user defined datat to post with scor
 		* @param in_leaderboardType type of leaderboard
-		* @param in_rotationType type of rtation
+		* @param in_rotationType type of rotation
 		* @param in_rotationResetUTC uses UTC time in milliseconds since epoch
 		* @param in_retainedCount how long to keep rotation
 		* @param in_callback The method to be invoked when the server response is received
 		*/
 		void postScoreToDynamicGroupLeaderboardUTC(const char * in_leaderboardId, const char * in_groupId, int32_t in_score, const std::string& in_jsonData, const char * in_leaderboardType, 
 			const char * in_rotationType, int64_t in_rotationResetUTC, int32_t in_retainedCount,  IServerCallback * in_callback = NULL);
+
+		/**
+		* Posts score to group leaderbopard and dynamically creates if necessary. leaderboardType, rotationReset, retainedCount and rotationType are required. uses UTC time in milliseconds since epoch
+		*
+		* Service Name - leaderboard
+		* Service Operation - POST_GROUP_SCORE_DYNAMIC
+		*
+		* @param in_leaderboardId the leaderboard to post to
+		* @param in_groupId the group's id
+		* @param in_score the score to post
+		* @param in_data optional user defined datat to post with scor
+		* @param in_leaderboardType type of leaderboard
+		* @param in_rotationResetUTC uses UTC time in milliseconds since epoch
+		* @param in_retainedCount how long to keep rotation
+		* @param in_numDaysToRotate How many days between each rotation
+		* @param in_callback The method to be invoked when the server response is received
+		*/
+		void postScoreToDynamicGroupLeaderboardDaysUTC(const char * in_leaderboardId, const char * in_groupId, int32_t in_score, const std::string& in_jsonData, const char * in_leaderboardType, 
+			int64_t in_rotationResetUTC, int32_t in_retainedCount, int32_t in_numDaysToRotate,  IServerCallback * in_callback = NULL);
 
 
 		/**
