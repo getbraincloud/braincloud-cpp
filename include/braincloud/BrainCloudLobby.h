@@ -284,10 +284,21 @@ namespace BrainCloud
 		 * Service Operation - GetVisibleLobbyInstances
 		 *
 		 * @param lobbyType The type of lobby to look for.
-		 * @param minRating Minimum lobby rating.
-		 * @param maxRating Maximum lobby rating.
+		 * @param criteriaJson A JSON string used to describe filter criteria.
 		 */
-		void getVisibleLobbyInstances(const std::string &in_lobbyType, int in_minRating, int in_maxRating, IServerCallback* in_callback);
+		void getLobbyInstances(const std::string &in_lobbyType, const std::string &in_criteriaJson, IServerCallback* in_callback);
+
+		/**
+		 * Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
+		 * Only lobby instances in the regions that satisfy the ping portion of the criteriaJson (based on the values provided in pingData) will be returned.
+		 *
+		 * Service Name - Lobby
+		 * Service Operation - GetVisibleLobbyInstances
+		 *
+		 * @param lobbyType The type of lobby to look for.
+		 * @param criteriaJson A JSON string used to describe filter criteria.
+		 */
+		void getLobbyInstancesWithPingData(const std::string &in_lobbyType, const std::string &in_criteriaJson, IServerCallback* in_callback);
 
 	private:
 		class GetRegionsForLobbiesCallback final : public IServerCallback
