@@ -391,7 +391,8 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::UpdateReady = ServiceOperation("UPDATE_READY");
 	const ServiceOperation ServiceOperation::UpdateSettings = ServiceOperation("UPDATE_SETTINGS");
 	const ServiceOperation ServiceOperation::CancelFindRequest = ServiceOperation("CANCEL_FIND_REQUEST");
-	const ServiceOperation ServiceOperation::GetVisibleLobbyInstances = ServiceOperation("GET_VISIBLE_LOBBY_INSTANCES");
+	const ServiceOperation ServiceOperation::GetLobbyInstances = ServiceOperation("GET_LOBBY_INSTANCES");
+	const ServiceOperation ServiceOperation::GetLobbyInstancesWithPingData = ServiceOperation("GET_LOBBY_INSTANCES_WITH_PING_DATA");
 
 	//messaging
 	const ServiceOperation ServiceOperation::DeleteMessages = ServiceOperation("DELETE_MESSAGES");
