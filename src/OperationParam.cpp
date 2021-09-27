@@ -370,6 +370,9 @@ namespace BrainCloud
 	const OperationParam OperationParam::UpdateContactEmail = OperationParam("updateContactEmail");
 	const OperationParam OperationParam::FieldAuthenticationToken = OperationParam("authenticationToken");
 
+	// Global Properties
+	const OperationParam OperationParam::GlobalAppPropertyNames = OperationParam("propertyNames");
+	const OperationParam OperationParam::GlobalAppCategories = OperationParam("categories");
 
 	//mail
 	const OperationParam OperationParam::EmailAddress = OperationParam("emailAddress");
