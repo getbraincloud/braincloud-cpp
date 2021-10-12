@@ -290,6 +290,8 @@ namespace BrainCloud {
 		static const ServiceOperation UpdateLanguageCode;
 
 		static const ServiceOperation ReadProperties;
+		static const ServiceOperation ReadSelectedProperties;
+		static const ServiceOperation ReadPropertiesInCategories;
 
 		static const ServiceOperation GetUpdatedFiles;
 		static const ServiceOperation GetFileList;
@@ -446,6 +448,8 @@ namespace BrainCloud {
 		static const ServiceOperation UpdateReady;
 		static const ServiceOperation UpdateSettings;
 		static const ServiceOperation CancelFindRequest;
+		static const ServiceOperation GetLobbyInstances;
+		static const ServiceOperation GetLobbyInstancesWithPingData;
 
 		static const ServiceOperation SubmitCrashReport;
 

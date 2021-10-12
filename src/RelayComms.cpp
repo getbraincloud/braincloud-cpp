@@ -61,6 +61,16 @@ static const double RELIABLE_RESEND_INTERVALS[] = {
     500.0       // Low priority
 };
 
+static std::string extractProfileIdFromCxId(const std::string &cxId)
+{
+    auto first = cxId.find_first_of(':');
+    auto last = cxId.find_last_of(':');
+    if (first == last) return ""; // If : not found, it should it npos for both too.
+    if (last - first < 2) return "";
+
+    return cxId.substr(first + 1, last - first - 1);
+}
+
 namespace BrainCloud
 {
     int RelayComms::Event::allocCount = 0;
@@ -125,6 +135,9 @@ namespace BrainCloud
         m_ownerProfileId.clear();
         m_profileIdToNetId.clear();
         m_netIdToProfileId.clear();
+        m_ownerCxId.clear();
+        m_cxIdToNetId.clear();
+        m_netIdToCxId.clear();
         m_sendPacketId.clear();
         m_recvPacketId.clear();
         m_reliables.clear();
@@ -194,6 +207,11 @@ namespace BrainCloud
         return m_ownerProfileId;
     }
 
+    const std::string& RelayComms::getOwnerCxId() const
+    {
+        return m_ownerCxId;
+    }
+
     const std::string& RelayComms::getProfileIdForNetId(int in_netId) const
     {
         auto it = m_netIdToProfileId.find(in_netId);
@@ -209,6 +227,24 @@ namespace BrainCloud
     {
         auto it = m_profileIdToNetId.find(in_profileId);
         if (it == m_profileIdToNetId.end()) return INVALID_NET_ID;
+        return it->second;
+    }
+
+    const std::string& RelayComms::getCxIdForNetId(int in_netId) const
+    {
+        auto it = m_netIdToCxId.find(in_netId);
+        if (it == m_netIdToCxId.end())
+        {
+            static std::string empty;
+            return empty;
+        }
+        return it->second;
+    }
+
+    int RelayComms::getNetIdForCxId(const std::string& in_cxId) const
+    {
+        auto it = m_cxIdToNetId.find(in_cxId);
+        if (it == m_cxIdToNetId.end()) return INVALID_NET_ID;
         return it->second;
     }
 
@@ -236,8 +272,10 @@ namespace BrainCloud
     {
         Json::Value request;
 
+        m_cxId = m_client->getRTTService()->getRTTConnectionId();
+
         request["lobbyId"] = m_connectOptions.lobbyId;
-        request["profileId"] = m_client->getAuthenticationService()->getProfileId();
+        request["cxId"] = m_cxId;
         request["passcode"] = m_connectOptions.passcode;
         request["version"] = m_client->getBrainCloudClientVersion();
 
@@ -518,15 +556,17 @@ namespace BrainCloud
         if (op == "CONNECT")
         {
             auto netId = json["netId"].asInt();
-            auto profileId = json["profileId"].asString();
-            {
-                m_netIdToProfileId[netId] = profileId;
-                m_profileIdToNetId[profileId] = netId;
-            }
-            if (profileId == m_client->getAuthenticationService()->getProfileId())
+            auto cxId = json["cxId"].asString();
+            auto profileId = extractProfileIdFromCxId(cxId);
+            m_netIdToCxId[netId] = cxId;
+            m_cxIdToNetId[cxId] = netId;
+            m_netIdToProfileId[netId] = profileId;
+            m_profileIdToNetId[profileId] = netId;
+            if (cxId == m_cxId)
             {
                 m_netId = netId;
-                m_ownerProfileId = json["ownerId"].asString();
+                m_ownerCxId = json["ownerCxId"].asString();
+                m_ownerProfileId = extractProfileIdFromCxId(m_ownerCxId);
                 m_lastPingTime = std::chrono::system_clock::now();
                 m_isConnected = true;
                 m_resendConnectRequest = false;
@@ -536,21 +576,24 @@ namespace BrainCloud
         else if (op == "NET_ID")
         {
             auto netId = json["netId"].asInt();
-            auto profileId = json["profileId"].asString();
+            auto cxId = json["cxId"].asString();
+            auto profileId = extractProfileIdFromCxId(cxId);
 
+            m_netIdToCxId[netId] = cxId;
+            m_cxIdToNetId[cxId] = netId;
             m_netIdToProfileId[netId] = profileId;
             m_profileIdToNetId[profileId] = netId;
         }
         else if (op == "MIGRATE_OWNER")
         {
-            auto profileId = json["profileId"].asString();
-            m_ownerProfileId = profileId;
+            auto cxId = json["cxId"].asString();
+            m_ownerCxId = cxId;
+            m_ownerProfileId = extractProfileIdFromCxId(m_ownerCxId);
         }
         else if (op == "DISCONNECT")
         {
-            auto profileId = json["profileId"].asString();
-            auto myProfileId = m_client->getAuthenticationService()->getProfileId();
-            if (myProfileId == profileId)
+            auto cxId = json["cxId"].asString();
+            if (m_cxId == cxId)
             {
                 // We are the one that got disconnected!
                 disconnect();

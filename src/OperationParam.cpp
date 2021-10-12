@@ -370,6 +370,9 @@ namespace BrainCloud
 	const OperationParam OperationParam::UpdateContactEmail = OperationParam("updateContactEmail");
 	const OperationParam OperationParam::FieldAuthenticationToken = OperationParam("authenticationToken");
 
+	// Global Properties
+	const OperationParam OperationParam::GlobalAppPropertyNames = OperationParam("propertyNames");
+	const OperationParam OperationParam::GlobalAppCategories = OperationParam("categories");
 
 	//mail
 	const OperationParam OperationParam::EmailAddress = OperationParam("emailAddress");
@@ -432,6 +435,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::SignalData = OperationParam("signalData");
 	const OperationParam OperationParam::ToTeamCode = OperationParam("toTeamCode");
 	const OperationParam OperationParam::PingData = OperationParam("pingData");
+	const OperationParam OperationParam::LobbyCriteria = OperationParam("criteriaJson");
 
 	//messaging
 	const OperationParam OperationParam::MessagingMsgbox = OperationParam("msgbox");

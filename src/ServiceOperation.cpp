@@ -271,6 +271,8 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::UpdateLanguageCode = ServiceOperation("UPDATE_LANGUAGE_CODE");
 
 	const ServiceOperation ServiceOperation::ReadProperties = ServiceOperation("READ_PROPERTIES");
+	const ServiceOperation ServiceOperation::ReadSelectedProperties = ServiceOperation("READ_SELECTED_PROPERTIES");
+	const ServiceOperation ServiceOperation::ReadPropertiesInCategories = ServiceOperation("READ_PROPERTIES_IN_CATEGORIES");
 
 	const ServiceOperation ServiceOperation::GetUpdatedFiles = ServiceOperation("GET_UPDATED_FILES");
 	const ServiceOperation ServiceOperation::GetFileList = ServiceOperation("GET_FILE_LIST");
@@ -391,6 +393,8 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::UpdateReady = ServiceOperation("UPDATE_READY");
 	const ServiceOperation ServiceOperation::UpdateSettings = ServiceOperation("UPDATE_SETTINGS");
 	const ServiceOperation ServiceOperation::CancelFindRequest = ServiceOperation("CANCEL_FIND_REQUEST");
+	const ServiceOperation ServiceOperation::GetLobbyInstances = ServiceOperation("GET_LOBBY_INSTANCES");
+	const ServiceOperation ServiceOperation::GetLobbyInstancesWithPingData = ServiceOperation("GET_LOBBY_INSTANCES_WITH_PING_DATA");
 
 	//messaging
 	const ServiceOperation ServiceOperation::DeleteMessages = ServiceOperation("DELETE_MESSAGES");

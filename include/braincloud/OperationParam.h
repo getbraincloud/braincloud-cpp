@@ -331,6 +331,10 @@ namespace BrainCloud {
 		static const OperationParam DataStreamEventName;
 		static const OperationParam DataStreamEventProperties;
 
+		// Global Properties
+		static const OperationParam GlobalAppPropertyNames;
+		static const OperationParam GlobalAppCategories;
+
 		// Profanity
 		static const OperationParam ProfanityText;
 		static const OperationParam ProfanityReplaceSymbol;
@@ -438,6 +442,7 @@ namespace BrainCloud {
 		static const OperationParam SignalData;
 		static const OperationParam ToTeamCode;
 		static const OperationParam PingData;
+		static const OperationParam LobbyCriteria;
 
 		//messaging
 		static const OperationParam MessagingMsgbox;
