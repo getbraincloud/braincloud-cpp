@@ -4,6 +4,7 @@
 #include "braincloud/reason_codes.h"
 #include "TestResult.h"
 #include "TestBCChat.h"
+#include <sstream>
 
 using namespace BrainCloud;
 
@@ -87,4 +88,26 @@ TEST_F(TestBCChat, UpdateChatMessage)
 	TestResult tr;
 	m_bc->getChatService()->updateChatMessage("bad_channel_id", "12345", 1, "{\"text\":\"edited message\"}", &tr);
 	tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, CHANNEL_NOT_FOUND);
+}
+
+TEST_F(TestBCChat, AttemptBreakWebPurify)
+{
+	TestResult tr;
+	m_bc->getChatService()->getChannelId("gl", "valid", &tr);
+	tr.run(m_bc);
+
+	auto channel_id = tr.m_response["data"]["channelId"].asString();
+	m_bc->getChatService()->postChatMessageSimple(channel_id, "{}", true, &tr);
+	tr.run(m_bc);
+}
+
+TEST_F(TestBCChat, KoreanCharacters)
+{
+	TestResult tr;
+	m_bc->getChatService()->getChannelId("gl", "valid", &tr);
+	tr.run(m_bc);
+
+	auto channel_id = tr.m_response["data"]["channelId"].asString();
+	m_bc->getChatService()->postChatMessageSimple(channel_id, "좋은아침이에요", true, &tr);
+	tr.run(m_bc);
 }
