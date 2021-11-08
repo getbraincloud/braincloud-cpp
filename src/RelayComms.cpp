@@ -130,7 +130,6 @@ namespace BrainCloud
         m_connectOptions.lobbyId = lobbyId;
         m_pRelayConnectCallback = in_callback;
         m_ping = 999;
-        m_pingInFlight = false;
         m_netId = -1;
         m_ownerProfileId.clear();
         m_profileIdToNetId.clear();
@@ -366,12 +365,6 @@ namespace BrainCloud
 
     void RelayComms::sendPing()
     {
-        if (m_pingInFlight)
-        {
-            return;
-        }
-
-        m_pingInFlight = true;
         m_lastPingTime = std::chrono::system_clock::now();
 
         uint8_t data[5];
@@ -607,17 +600,14 @@ namespace BrainCloud
 
     void RelayComms::onPONG()
     {
-        if (m_pingInFlight)
-        {
-            m_pingInFlight = false;
-            m_ping = (int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - m_lastPingTime).count();
+        m_ping = (int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - m_lastPingTime).count();
+        if (m_ping > 999) m_ping = 999;
 #if VERBOSE_LOG
-            if (m_loggingEnabled)
-            {
-                std::cout << "RELAY PONG: " << m_ping << std::endl;
-            }
-#endif
+        if (m_loggingEnabled)
+        {
+            std::cout << "RELAY PONG: " << m_ping << std::endl;
         }
+#endif
     }
 
     void RelayComms::onAck(const uint8_t* in_data)
