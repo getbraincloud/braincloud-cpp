@@ -208,21 +208,22 @@ TEST_F(TestBCFile, UploadMultipleFiles)
     }
 }
 
-TEST_F(TestBCFile, DeleteUserFile)
-{
-    std::string uploadId;
-    if (!simpleUpload(19, "", "uploadsimplefile.txt", uploadId))
-    {
-        return;
-    }
+// GetCDNUrl tests that too... redundant
+// TEST_F(TestBCFile, DeleteUserFile)
+// {
+//     std::string uploadId;
+//     if (!simpleUpload(19, "", "uploadsimplefile.txt", uploadId))
+//     {
+//         return;
+//     }
     
-    ASSERT_EQ(_completedUploadDetails.size(), 1);
-    ASSERT_EQ(_failedUploadDetails.size(), 0);
+//     ASSERT_EQ(_completedUploadDetails.size(), 1);
+//     ASSERT_EQ(_failedUploadDetails.size(), 0);
     
-    TestResult tr;
-    m_bc->getFileService()->deleteUserFile("", "uploadsimplefile.txt", &tr);
-    tr.run(m_bc);
-}
+//     TestResult tr;
+//     m_bc->getFileService()->deleteUserFile("", "uploadsimplefile.txt", &tr);
+//     tr.run(m_bc);
+// }
 
 TEST_F(TestBCFile, GetCDNUrl)
 {
