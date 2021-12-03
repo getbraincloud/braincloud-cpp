@@ -217,8 +217,13 @@ TEST_F(TestBCSocialLeaderboard, ListAllLeaderboards)
 {
 	TestResult tr;
 
+    auto defaultPacketTimeouts = m_bc->getPacketTimeouts();
+    m_bc->setPacketTimeouts({120}); // Give it 2mins, this call is sloooow
+
 	m_bc->getLeaderboardService()->listAllLeaderboards(&tr);
 	tr.run(m_bc);
+
+    m_bc->setPacketTimeouts(defaultPacketTimeouts);
 }
 
 TEST_F(TestBCSocialLeaderboard, GetGlobalLeaderboardEntryCount)
