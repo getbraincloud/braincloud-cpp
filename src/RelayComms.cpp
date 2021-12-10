@@ -804,7 +804,8 @@ namespace BrainCloud
                 }
 
                 // Ping. Which also works as an heartbeat
-                if (now - m_lastPingTime >= m_pingInterval)
+                if (now - m_lastPingTime >= m_pingInterval && 
+                    m_isConnected)
                 {
                     sendPing();
                 }
