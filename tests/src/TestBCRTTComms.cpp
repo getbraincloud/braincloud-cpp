@@ -126,7 +126,7 @@ TEST_F(TestBCRTTComms, RTTChatCallback)
     while (tries > 0)
     {
         m_bc->getRTTService()->enableRTT(&tr, true);
-        tr.run(m_bc);
+        tr.run(m_bc, true);
 
         tries--;
         if (tr.m_result) break; // success
