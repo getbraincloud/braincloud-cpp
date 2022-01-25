@@ -327,6 +327,21 @@ namespace BrainCloud {
         void authenticateUniversal(const char * in_userid, const char * in_password, bool in_forceCreate, IServerCallback * in_callback = NULL);
 
         /*
+         * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
+         * that will be passed along to pre- or post- hooks.
+         *
+         * Service Name - Authenticate
+         * Service Operation - Authenticate
+         *
+         * @param in_authenticationType Universal, Email, Facebook, etc
+         * @param in_ids Auth IDs structure
+         * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+
+        /*
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
 	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
 	     * Use this function to keep a clean designflow from anonymous to signed profiles
@@ -548,6 +563,25 @@ namespace BrainCloud {
          *
          */
         void smartSwitchAuthenticateUniversal(const char * in_userid, const char * in_password, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
+        /*
+         * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
+	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         *
+         * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
+         * that will be passed along to pre- or post- hooks.
+         *
+         * Service Name - Authenticate
+         * Service Operation - Authenticate
+         *
+         * @param in_authenticationType Universal, Email, Facebook, etc
+         * @param in_ids Auth IDs structure
+         * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void smartSwitchAuthenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
 
 	    /**
 		 * Reset Email password - Sends a password reset email to the specified address
