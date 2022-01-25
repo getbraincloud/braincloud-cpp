@@ -259,19 +259,20 @@ namespace BrainCloud
 		 */
 		void authenticateExternal(const char * in_userId, const char * in_token, const char * in_externalAuthName, bool in_forceCreate, IServerCallback * in_callback = NULL);
 
-		/*
-		 * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
-		 * that will be passed along to pre-post hooks.
-		 *
-		 * Service Name - Authenticate
-		 * Service Operation - Authenticate
-		 *
-		 * @param in_email  The e-mail address of the user
-		 * @param in_password  The password of the user
-		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
-		 * @param in_callback The method to be invoked when the server response is received
-		 */
-		void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+        /*
+         * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
+         * that will be passed along to pre- or post- hooks.
+         *
+         * Service Name - Authenticate
+         * Service Operation - Authenticate
+         *
+         * @param in_authenticationType Universal, Email, Facebook, etc
+         * @param in_ids Auth IDs structure
+         * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

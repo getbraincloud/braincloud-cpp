@@ -46,12 +46,12 @@ namespace BrainCloud {
     }
 
     void BrainCloudAuthentication::authenticateAdvanced(AuthenticationType in_authenticationType, 
-                                                        const AuthenticateAdvancedIds &ids, 
+                                                        const AuthenticateAdvancedIds &in_ids, 
                                                         bool in_forceCreate, 
                                                         const std::string &in_extraJson, 
                                                         IServerCallback * in_callback)
     {
-        authenticate(ids.externalId.c_str(), ids.authenticationToken.c_str(), in_authenticationType, ids.authenticationSubType.c_str(), in_forceCreate, in_extraJson, in_callback);
+        authenticate(in_ids.externalId.c_str(), in_ids.authenticationToken.c_str(), in_authenticationType, in_ids.authenticationSubType.c_str(), in_forceCreate, in_extraJson, in_callback);
     }
 
     void BrainCloudAuthentication::authenticateAnonymous(bool in_forceCreate, IServerCallback * in_callback)
