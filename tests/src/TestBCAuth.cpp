@@ -231,3 +231,14 @@ TEST_F(TestBCAuth, ResetUniversalIdPasswordAdvancedWithExpiry)
     m_bc->getAuthenticationService()->resetUniversalIdPasswordAdvancedWithExpiry(GetUser(UserA)->m_id, content, 1, &tr);
     tr.run(m_bc);
 }
+
+TEST_F(TestBCAuth, AuthenticateAdvanced)
+{
+    TestResult tr;
+
+    AuthenticateAdvancedIds ids = { "authAdvancedUser", "authAdvancedPass", "" };
+    m_bc->getAuthenticationService()->authenticateAdvanced(AuthenticationType::Universal, ids, true, "{\"AnswerToEverything\":42}", &tr);
+    tr.run(m_bc);
+
+    Logout();
+}

@@ -68,6 +68,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::AuthenticateServiceAuthenticateLanguageCode = OperationParam("languageCode");
 	const OperationParam OperationParam::AuthenticateServiceAuthenticateTimeZoneOffset = OperationParam("timeZoneOffset");
 	const OperationParam OperationParam::AuthenticateServiceAuthenticateAuthTwitter = OperationParam("Twitter");
+	const OperationParam OperationParam::AuthenticateServiceAuthenticateExtraJson = OperationParam("extraJson");
 
 	// Authenticate Service - Authenticate Params
 	const OperationParam OperationParam::IdentityServiceExternalId = OperationParam("externalId");

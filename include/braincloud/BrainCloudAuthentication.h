@@ -6,13 +6,20 @@
 #include <map>
 #include "json/json.h"
 #include "braincloud/BrainCloudTypes.h"
+#include "braincloud/AuthenticationType.h"
 
 
 namespace BrainCloud
 {
 	class BrainCloudClient;
 	class IServerCallback;
-	class AuthenticationType;
+
+    struct AuthenticateAdvancedIds
+    {
+        std::string externalId;
+        std::string authenticationToken;
+        std::string authenticationSubType; // Empty string for most auth types
+    };
 
 	class BrainCloudAuthentication
 	{
@@ -252,6 +259,22 @@ namespace BrainCloud
 		 */
 		void authenticateExternal(const char * in_userId, const char * in_token, const char * in_externalAuthName, bool in_forceCreate, IServerCallback * in_callback = NULL);
 
+		/*
+		 * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
+		 * that will be passed along to pre-post hooks.
+		 *
+		 * Service Name - Authenticate
+		 * Service Operation - Authenticate
+		 *
+		 * @param in_email  The e-mail address of the user
+		 * @param in_password  The password of the user
+		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		/**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
@@ -388,6 +411,6 @@ namespace BrainCloud
 		std::string _profileId;
 		std::string _clientLib;
 
-		void authenticate(const char * in_externalId, const char * in_authenticationToken, AuthenticationType in_authenticationType, const char * in_externalAuthName, bool in_forceCreate, IServerCallback * in_callback = NULL);
+		void authenticate(const char * in_externalId, const char * in_authenticationToken, AuthenticationType in_authenticationType, const char * in_externalAuthName, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback);
 	};
 }
