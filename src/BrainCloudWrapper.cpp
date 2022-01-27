@@ -1,6 +1,7 @@
 #include "braincloud/BrainCloudWrapper.h"
 #include "braincloud/internal/SaveDataHelper.h"
 #include "braincloud/BrainCloudClient.h"
+#include "braincloud/AuthenticationIds.h"
 
 #define PROFILE_ID_KEY "profileId"
 #define ANONYMOUS_ID_KEY "anonymousId"
@@ -252,7 +253,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateUniversal(in_userid, in_password, in_forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback)
+    void BrainCloudWrapper::authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback)
     {
         m_authenticateCallback = in_callback;
 
@@ -622,12 +623,12 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
     }
 
-    void BrainCloudWrapper::smartSwitchAuthenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback)
+    void BrainCloudWrapper::smartSwitchAuthenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback)
     {
         class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
         {
         public:
-            SmartSwitchAuthenticateCallback(BrainCloudWrapper *in_wrapper, AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback) : SmartSwitchCallback(in_wrapper, in_callback) {
+            SmartSwitchAuthenticateCallback(BrainCloudWrapper *in_wrapper, AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback) : SmartSwitchCallback(in_wrapper, in_callback) {
                 authenticationType = in_authenticationType;
                 ids = in_ids;
                 forceCreate = in_forceCreate;
@@ -635,7 +636,7 @@ namespace BrainCloud {
             }
 
             AuthenticationType authenticationType = AuthenticationType::Unknown;
-            AuthenticateAdvancedIds ids;
+            AuthenticationIds ids;
             bool forceCreate;
             std::string extraJson;
             

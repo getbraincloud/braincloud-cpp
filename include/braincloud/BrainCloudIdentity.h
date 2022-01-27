@@ -4,11 +4,13 @@
 
 #include <string>
 
+
 namespace BrainCloud
 {
 	class IServerCallback;
 	class BrainCloudClient;
 	class AuthenticationType;
+    struct AuthenticationIds;
 
 	class BrainCloudIdentity
 	{
@@ -135,8 +137,58 @@ namespace BrainCloud
 		 */
 		void detachOculusIdentity(const char * in_oculusId, bool in_continueAnon, IServerCallback * in_callback = NULL);
 
+        /**
+         * Attach the user's credentials to the current profile.
+         *
+         * Service Name - identity
+         * Service Operation - Attach
+         *
+         * @param in_authenticationType Universal, Email, Facebook, etc
+         * @param in_ids Auth IDs structure
+         * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
+         * @param in_callback The method to be invoked when the server response is received
+         *
+         * Errors to watch for:  SWITCHING_PROFILES - this means that the identity you provided
+         * already points to a different profile.  You will likely want to offer the user the
+         * choice to *SWITCH* to that profile, or *MERGE* the profiles.
+         *
+         * To switch profiles, call ClearSavedProfileID() and call AuthenticateAdvanced().
+         */
+        void attachAdvancedIdentity(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
 
-			/**
+        /**
+         * Merge the profile associated with the provided credentials with the
+         * current profile.
+         *
+         * Service Name - identity
+         * Service Operation - Merge
+         *
+         * @param in_authenticationType Universal, Email, Facebook, etc
+         * @param in_ids Auth IDs structure
+         * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
+         * @param in_callback The method to be invoked when the server response is received
+         *
+         */
+        void mergeAdvancedIdentity(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+
+        /**
+         * Detach the identity from this profile.
+         *
+         * Service Name - identity
+         * Service Operation - Detach
+         *
+         * @param in_authenticationType Universal, Email, Facebook, etc
+         * @param in_ids Auth IDs structure
+         * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
+         * @param in_callback The method to be invoked when the server response is received
+         *
+         * Watch for DOWNGRADING_TO_ANONYMOUS_ERROR - occurs if you set in_continueAnon to false, and
+         * disconnecting this identity would result in the profile being anonymous (which means that
+         * the profile wouldn't be retrievable if the user loses their device)
+         */
+        void detachAdvancedIdentity(AuthenticationType in_authenticationType, const std::string &in_externalId, bool in_continueAnon, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+
+		/**
 		 * Attach the user's Apple credentials to the current profile.
 		 *
 		 * Service Name - identity

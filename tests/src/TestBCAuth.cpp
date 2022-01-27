@@ -1,6 +1,7 @@
 #include "TestBCAuth.h"
 #include "braincloud/http_codes.h"
 #include "braincloud/reason_codes.h"
+#include "braincloud/AuthenticationIds.h"
 #include "json/json.h"
 #include <map>
 
@@ -236,7 +237,7 @@ TEST_F(TestBCAuth, AuthenticateAdvanced)
 {
     TestResult tr;
 
-    AuthenticateAdvancedIds ids = { "authAdvancedUser", "authAdvancedPass", "" };
+    AuthenticationIds ids = { "authAdvancedUser", "authAdvancedPass", "" };
     m_bc->getAuthenticationService()->authenticateAdvanced(AuthenticationType::Universal, ids, true, "{\"AnswerToEverything\":42}", &tr);
     tr.run(m_bc);
 

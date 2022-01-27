@@ -8,18 +8,11 @@
 #include "braincloud/BrainCloudTypes.h"
 #include "braincloud/AuthenticationType.h"
 
-
 namespace BrainCloud
 {
 	class BrainCloudClient;
 	class IServerCallback;
-
-    struct AuthenticateAdvancedIds
-    {
-        std::string externalId;
-        std::string authenticationToken;
-        std::string authenticationSubType; // Empty string for most auth types
-    };
+    struct AuthenticationIds;
 
 	class BrainCloudAuthentication
 	{
@@ -272,7 +265,7 @@ namespace BrainCloud
          * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
          * @param in_callback The method to be invoked when the server response is received
          */
-        void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+        void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

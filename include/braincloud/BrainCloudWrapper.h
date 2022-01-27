@@ -339,7 +339,7 @@ namespace BrainCloud {
          * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
          * @param in_callback The method to be invoked when the server response is received
          */
-        void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+        void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
 
         /*
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
@@ -581,7 +581,7 @@ namespace BrainCloud {
          * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
          * @param in_callback The method to be invoked when the server response is received
          */
-        void smartSwitchAuthenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticateAdvancedIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+        void smartSwitchAuthenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
 
 	    /**
 		 * Reset Email password - Sends a password reset email to the specified address

@@ -9,8 +9,10 @@
 #include "braincloud/ServiceOperation.h"
 #include "braincloud/OperationParam.h"
 #include "braincloud/AuthenticationType.h"
+#include "braincloud/AuthenticationIds.h"
 #include "json/json.h"
 
+#include "braincloud/internal/JsonUtil.h"
 #include "braincloud/internal/StringUtil.h"
 
 namespace BrainCloud
@@ -47,7 +49,63 @@ namespace BrainCloud
 		detachIdentity(in_oculusId, AuthenticationType::Oculus, in_continueAnon, in_callback);
 	}
 
-		void BrainCloudIdentity::attachAppleIdentity(const char * in_appleId, const char * in_authenticationToken, IServerCallback * in_callback)
+    void BrainCloudIdentity::attachAdvancedIdentity(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, const std::string &in_extraJson, IServerCallback * in_callback)
+    {
+        Json::Value message;
+        message[OperationParam::IdentityServiceExternalId.getValue()] = in_ids.externalId;
+        message[OperationParam::IdentityServiceAuthenticationType.getValue()] = in_authenticationType.toString();
+        message[OperationParam::AuthenticateServiceAuthenticateAuthenticationToken.getValue()] = in_ids.authenticationToken;
+        if (StringUtil::IsOptionalParameterValid(in_ids.authenticationSubType))
+        {
+            message[OperationParam::AuthenticateServiceAuthenticateExternalAuthName.getValue()] = in_ids.authenticationSubType;
+        }
+
+        if (StringUtil::IsOptionalParameterValid(in_extraJson))
+        {
+            message[OperationParam::AuthenticateServiceAuthenticateExtraJson.getValue()] = JsonUtil::jsonStringToValue(in_extraJson);
+        }
+
+        ServerCall * sc = new ServerCall(ServiceName::Identity, ServiceOperation::Attach, message, in_callback);
+        m_client->sendRequest(sc);
+    }
+
+    void BrainCloudIdentity::mergeAdvancedIdentity(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, const std::string &in_extraJson, IServerCallback * in_callback)
+    {
+        Json::Value message;
+        message[OperationParam::IdentityServiceExternalId.getValue()] = in_ids.externalId;
+        message[OperationParam::IdentityServiceAuthenticationType.getValue()] = in_authenticationType.toString();
+        message[OperationParam::AuthenticateServiceAuthenticateAuthenticationToken.getValue()] = in_ids.authenticationToken;
+        if (StringUtil::IsOptionalParameterValid(in_ids.authenticationSubType))
+        {
+            message[OperationParam::AuthenticateServiceAuthenticateExternalAuthName.getValue()] = in_ids.authenticationSubType;
+        }
+
+        if (StringUtil::IsOptionalParameterValid(in_extraJson))
+        {
+            message[OperationParam::AuthenticateServiceAuthenticateExtraJson.getValue()] = JsonUtil::jsonStringToValue(in_extraJson);
+        }
+
+        ServerCall * sc = new ServerCall(ServiceName::Identity, ServiceOperation::Merge, message, in_callback);
+        m_client->sendRequest(sc);
+    }
+
+    void BrainCloudIdentity::detachAdvancedIdentity(AuthenticationType in_authenticationType, const std::string &in_externalId, bool in_continueAnon, const std::string &in_extraJson, IServerCallback * in_callback)
+    {
+        Json::Value message;
+        message[OperationParam::IdentityServiceExternalId.getValue()] = in_externalId;
+        message[OperationParam::IdentityServiceAuthenticationType.getValue()] = in_authenticationType.toString();
+        message[OperationParam::IdentityServiceConfirmAnonymous.getValue()] = in_continueAnon;
+
+        if (StringUtil::IsOptionalParameterValid(in_extraJson))
+        {
+            message[OperationParam::AuthenticateServiceAuthenticateExtraJson.getValue()] = JsonUtil::jsonStringToValue(in_extraJson);
+        }
+
+        ServerCall * sc = new ServerCall(ServiceName::Identity, ServiceOperation::Detach, message, in_callback);
+        m_client->sendRequest(sc);
+    }
+
+    void BrainCloudIdentity::attachAppleIdentity(const char * in_appleId, const char * in_authenticationToken, IServerCallback * in_callback)
 	{
 		attachIdentity(in_appleId, in_authenticationToken, AuthenticationType::Apple, in_callback);
 	}
