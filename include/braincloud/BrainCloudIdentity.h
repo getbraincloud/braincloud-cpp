@@ -178,7 +178,8 @@ namespace BrainCloud
          * Service Operation - Detach
          *
          * @param in_authenticationType Universal, Email, Facebook, etc
-         * @param in_ids Auth IDs structure
+         * @param in_externalId User ID
+         * @param in_continueAnon Proceed even if the profile will revert to anonymous?
          * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
          * @param in_callback The method to be invoked when the server response is received
          *
