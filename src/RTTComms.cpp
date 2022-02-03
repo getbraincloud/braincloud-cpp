@@ -514,7 +514,7 @@ namespace BrainCloud
 #endif
         startReceiving();
 
-        if (!send(buildConnectionRequest("tcp")))
+        if (!send(buildConnectionRequest(_useWebSocket ? "ws" : "tcp")))
         {
             failedToConnect();
         }
