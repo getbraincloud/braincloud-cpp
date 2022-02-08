@@ -19,6 +19,11 @@ std::string TestFixtureBase::m_childAppId = "";
 std::string TestFixtureBase::m_childSecret = "";
 std::string TestFixtureBase::m_peerName = "";
 
+std::string TestFixtureBase::getServerUrl()
+{
+    return m_serverUrl;
+}
+
 bool TestFixtureBase::m_init = false;
 bool TestFixtureBase::m_initUsers = false;
 std::vector<TestUser*> TestFixtureBase::m_testUsers;

@@ -79,6 +79,11 @@ namespace BrainCloud {
         authenticate(in_email, in_password, AuthenticationType::Email, NULL, in_forceCreate, "", in_callback);
     }
 
+    void BrainCloudAuthentication::authenticateUltra(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, bool in_forceCreate, IServerCallback * in_callback)
+    {
+        authenticate(in_ultraUsername.c_str(), in_ultraIdToken.c_str(), AuthenticationType::Ultra, NULL, in_forceCreate, "", in_callback);
+    }
+
     void BrainCloudAuthentication::authenticateUniversal(const char * in_userid, const char * in_password, bool in_forceCreate, IServerCallback * in_callback)
     {
         authenticate(in_userid, in_password, AuthenticationType::Universal, NULL, in_forceCreate, "", in_callback);

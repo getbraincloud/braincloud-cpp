@@ -247,7 +247,7 @@ namespace BrainCloud
 		 * @param in_userId The user id
 		 * @param in_token The user token (password etc)
 		 * @param in_externalAuthName The name of the cloud script to call for external authentication
-		 * @param in_force Should a new profile be created for this user if the account does not exist?
+		 * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void authenticateExternal(const char * in_userId, const char * in_token, const char * in_externalAuthName, bool in_forceCreate, IServerCallback * in_callback = NULL);
@@ -266,6 +266,19 @@ namespace BrainCloud
          * @param in_callback The method to be invoked when the server response is received
          */
         void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+
+        /**
+         * Authenticate the user for Ultra.
+         *
+         * Service Name - Authenticate
+         * Server Operation - Authenticate
+         *
+         * @param in_ultraUsername it's what the user uses to log into the Ultra endpoint initially
+         * @param in_ultraIdToken The "id_token" taken from Ultra's JWT.
+         * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void authenticateUltra(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, bool in_forceCreate, IServerCallback * in_callback = NULL);
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

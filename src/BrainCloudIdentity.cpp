@@ -120,6 +120,21 @@ namespace BrainCloud
 		detachIdentity(in_appleId, AuthenticationType::Apple, in_continueAnon, in_callback);
 	}
 
+    void BrainCloudIdentity::attachUltraIdentity(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, IServerCallback * in_callback)
+    {
+        attachIdentity(in_ultraUsername.c_str(), in_ultraIdToken.c_str(), AuthenticationType::Ultra, in_callback);
+    }
+
+    void BrainCloudIdentity::mergeUltraIdentity(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, IServerCallback * in_callback)
+    {
+        mergeIdentity(in_ultraUsername.c_str(), in_ultraIdToken.c_str(), AuthenticationType::Ultra, in_callback);
+    }
+
+    void BrainCloudIdentity::detachUltraIdentity(const std::string &in_ultraUsername, bool in_continueAnon, IServerCallback * in_callback)
+    {
+        detachIdentity(in_ultraUsername.c_str(), AuthenticationType::Ultra, in_continueAnon, in_callback);
+    }
+
 	void BrainCloudIdentity::attachEmailIdentity(const char * in_email, const char * in_password, IServerCallback * in_callback)
 	{
 		attachIdentity(in_email, in_password, AuthenticationType::Email, in_callback);

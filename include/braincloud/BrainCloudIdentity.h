@@ -239,6 +239,54 @@ namespace BrainCloud
 		 */
 		void detachAppleIdentity(const char * in_appleId, bool in_continueAnon, IServerCallback * in_callback = NULL);
 
+        /**
+         * Attach the user's Ultra credentials to the current profile.
+         *
+         * Service Name - identity
+         * Service Operation - Attach
+         *
+         * @param in_ultraUsername it's what the user uses to log into the Ultra endpoint initially
+         * @param in_ultraIdToken The "id_token" taken from Ultra's JWT.
+         * @param in_callback The method to be invoked when the server response is received
+         *
+         * Errors to watch for:  SWITCHING_PROFILES - this means that the Ultra identity you provided
+         * already points to a different profile.  You will likely want to offer the user the
+         * choice to *SWITCH* to that profile, or *MERGE* the profiles.
+         *
+         * To switch profiles, call ClearSavedProfileID() and call AuthenticateApple().
+         */
+        void attachUltraIdentity(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, IServerCallback * in_callback = NULL);
+
+        /**
+         * Merge the profile associated with the provided Ultra credentials with the
+         * current profile.
+         *
+         * Service Name - identity
+         * Service Operation - Merge
+         *
+         * @param in_ultraUsername it's what the user uses to log into the Ultra endpoint initially
+         * @param in_ultraIdToken The "id_token" taken from Ultra's JWT.
+         * @param in_callback The method to be invoked when the server response is received
+         *
+         */
+        void mergeUltraIdentity(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, IServerCallback * in_callback = NULL);
+
+        /**
+         * Detach the Ultra identity from this profile.
+         *
+         * Service Name - identity
+         * Service Operation - Detach
+         *
+         * @param in_ultraUsername it's what the user uses to log into the Ultra endpoint initially
+         * @param in_continueAnon Proceed even if the profile will revert to anonymous?
+         * @param in_callback The method to be invoked when the server response is received
+         *
+         * Watch for DOWNGRADING_TO_ANONYMOUS_ERROR - occurs if you set in_continueAnon to false, and
+         * disconnecting this identity would result in the profile being anonymous (which means that
+         * the profile wouldn't be retrievable if the user loses their device)
+         */
+        void detachUltraIdentity(const std::string &in_ultraUsername, bool in_continueAnon, IServerCallback * in_callback = NULL);
+
 		/**
 		 * Attach a Game Center identity to the current profile.
 		 *
