@@ -243,3 +243,36 @@ TEST_F(TestBCAuth, AuthenticateAdvanced)
 
     Logout();
 }
+
+TEST_F(TestBCAuth, AuthenticateUltra)
+{
+    if (TestFixtureBase::getServerUrl().find("api-internal.braincloudservers.com") == std::string::npos &&
+        TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos &&
+        TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos/* &&
+        TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos*/)
+    {
+        printf("This env doesn't support Ultra authentication type\n");
+        return;
+    }
+
+    TestResult tr;
+
+    // Auth universal
+    m_bc->getAuthenticationService()->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
+    tr.run(m_bc);
+
+    // Run a cloud script to grab the ultra's JWT token
+    m_bc->getScriptService()->runScript("getUltraToken", "{}", &tr);
+    tr.run(m_bc);
+    auto id_token = tr.m_response["data"]["response"]["data"]["json"]["id_token"].asString();
+
+    // Logout
+    Logout();
+
+    // Auth Ultra using the token
+    m_bc->getAuthenticationService()->authenticateUltra("braincloud1", id_token, true, &tr);
+    tr.run(m_bc);
+
+    // Logout again (This test fixture doesn't do it)
+    Logout();
+}

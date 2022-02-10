@@ -17,6 +17,7 @@ namespace BrainCloud
     const AuthenticationType & AuthenticationType::Handoff = AuthenticationType("Handoff");
     const AuthenticationType & AuthenticationType::SettopHandoff = AuthenticationType("SettopHandoff");
     const AuthenticationType & AuthenticationType::External = AuthenticationType("External");
+    const AuthenticationType & AuthenticationType::Ultra = AuthenticationType("Ultra");
     const AuthenticationType & AuthenticationType::Unknown = AuthenticationType("Unknown");
 
     AuthenticationType::AuthenticationType(const std::string & in_AuthenticationType)
@@ -79,6 +80,10 @@ namespace BrainCloud
         if (in_AuthenticationType == Handoff)
         {
             return AuthenticationType::Handoff;
+        }
+        if (in_AuthenticationType == Ultra)
+        {
+            return AuthenticationType::Ultra;
         }
         if (in_AuthenticationType == External)
         {

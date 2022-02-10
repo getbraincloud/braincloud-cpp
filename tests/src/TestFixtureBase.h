@@ -34,6 +34,8 @@ protected:
     static std::string m_childSecret;
 	static std::string m_peerName;
 
+    static std::string getServerUrl();
+
     virtual void SetUp();
     virtual void TearDown();
     virtual bool ShouldSkipAuthenticate();

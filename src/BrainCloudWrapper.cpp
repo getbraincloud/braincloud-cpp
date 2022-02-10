@@ -253,6 +253,15 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateUniversal(in_userid, in_password, in_forceCreate, this);
     }
 
+    void BrainCloudWrapper::authenticateUltra(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, bool in_forceCreate, IServerCallback * in_callback)
+    {
+        m_authenticateCallback = in_callback;
+
+        initializeIdentity();
+
+        client->getAuthenticationService()->authenticateUltra(in_ultraUsername, in_ultraIdToken, in_forceCreate, this);
+    }
+
     void BrainCloudWrapper::authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback)
     {
         m_authenticateCallback = in_callback;
@@ -621,6 +630,31 @@ namespace BrainCloud {
 
 		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, in_userid, in_password, in_forceCreate, in_callback);
 		getIdentitiesCallback(smartCallback);
+    }
+
+    void BrainCloudWrapper::smartSwitchAuthenticateUltra(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, bool in_forceCreate, IServerCallback * in_callback)
+    {
+        class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
+        {
+        public:
+            SmartSwitchAuthenticateCallback(BrainCloudWrapper *in_wrapper, const std::string &in_ultraUsername, const std::string &in_ultraIdToken, bool in_forceCreate, IServerCallback * in_callback) : SmartSwitchCallback(in_wrapper, in_callback) {
+                ultraUsername = in_ultraUsername;
+                ultraIdToken = in_ultraIdToken;
+                forceCreate = in_forceCreate;
+            }
+
+            std::string ultraUsername; std::string ultraIdToken; bool forceCreate;
+            
+            void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
+            {
+                clearIds();
+                wrapper->client->getAuthenticationService()->authenticateUltra(ultraUsername, ultraIdToken, forceCreate, callback);
+                delete this;
+            }
+        };
+
+        SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, in_ultraUsername, in_ultraIdToken, in_forceCreate, in_callback);
+        getIdentitiesCallback(smartCallback);
     }
 
     void BrainCloudWrapper::smartSwitchAuthenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback)

@@ -326,6 +326,19 @@ namespace BrainCloud {
          */
         void authenticateUniversal(const char * in_userid, const char * in_password, bool in_forceCreate, IServerCallback * in_callback = NULL);
 
+        /**
+         * Authenticate the user for Ultra.
+         *
+         * Service Name - Authenticate
+         * Server Operation - Authenticate
+         *
+         * @param in_ultraUsername it's what the user uses to log into the Ultra endpoint initially
+         * @param in_ultraIdToken The "id_token" taken from Ultra's JWT.
+         * @param in_force Should a new profile be created for this user if the account does not exist?
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void authenticateUltra(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
         /*
          * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
          * that will be passed along to pre- or post- hooks.
@@ -563,6 +576,23 @@ namespace BrainCloud {
          *
          */
         void smartSwitchAuthenticateUniversal(const char * in_userid, const char * in_password, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
+        /*
+         * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
+	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * 
+         * Authenticate the user for Ultra.
+         *
+         * Service Name - Authenticate
+         * Server Operation - Authenticate
+         *
+         * @param in_ultraUsername it's what the user uses to log into the Ultra endpoint initially
+         * @param in_ultraIdToken The "id_token" taken from Ultra's JWT.
+         * @param in_force Should a new profile be created for this user if the account does not exist?
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void smartSwitchAuthenticateUltra(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, bool in_forceCreate, IServerCallback * in_callback = NULL);
 
         /*
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
