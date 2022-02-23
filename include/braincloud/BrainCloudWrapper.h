@@ -104,7 +104,7 @@ namespace BrainCloud {
          * Used when needed to switch between child and parent apps.
          *
          * @param in_serverURL The url to the brainCloud server
-         *     Currently this should be:  https://sharedprod.braincloudservers.com/dispatcherv2
+         *     Currently this should be:  https://api.braincloudservers.com/dispatcherv2
          * @param in_defaultAppId The default app id that we start with
          * @param in_secretMap A map of <appId, secretKey>
          * @param in_version The app version

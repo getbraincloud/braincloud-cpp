@@ -28,7 +28,7 @@ namespace BrainCloud
 
     BrainCloudClient * BrainCloudClient::_instance = NULL;
     std::string BrainCloudClient::s_brainCloudClientVersion = "4.9.0";
-    const char* BC_SERVER_URL = "https://sharedprod.braincloudservers.com/dispatcherv2"; 
+    const char* BC_SERVER_URL = "https://api.braincloudservers.com/dispatcherv2"; 
 
     /**
      * Constructor
