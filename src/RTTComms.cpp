@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <thread>
+#include <sstream>
 
 namespace BrainCloud
 {
@@ -522,18 +523,19 @@ namespace BrainCloud
 
     bool RTTComms::send(const Json::Value& jsonData)
     {
-        Json::StyledWriter writer;
-        std::string message = writer.write(jsonData);
-
         if (_loggingEnabled)
         {
+            Json::StyledWriter writer;
+            std::string message = writer.write(jsonData);
             std::cout << "RTT SEND " << message << std::endl;
         }
 
         std::unique_lock<std::mutex> lock(_socketMutex);
         if (isRTTEnabled())
         {
-            _socket->send(message);
+            std::stringstream ss;
+            ss << jsonData;
+            _socket->send(ss.str());
         }
 
         return true;
