@@ -99,7 +99,7 @@ TEST_F(TestBCRTTComms, RequestClientConnection)
     tr.run(m_bc);
 }
 
-TEST_F(TestBCRTTComms, DISABLED_EnableDisableRTTWithTCP)
+TEST_F(TestBCRTTComms, EnableDisableRTTWithTCP)
 {
     TestResult tr;
     // disable, then re-enable. Should still succeed
