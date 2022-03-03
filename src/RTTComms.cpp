@@ -533,9 +533,9 @@ namespace BrainCloud
         std::unique_lock<std::mutex> lock(_socketMutex);
         if (isRTTEnabled())
         {
-            std::stringstream ss;
-            ss << jsonData;
-            _socket->send(ss.str());
+            Json::FastWriter writer;
+            std::string message = writer.write(jsonData);
+            _socket->send(message);
         }
 
         return true;
