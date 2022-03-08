@@ -124,6 +124,19 @@ namespace BrainCloud
 		ServerCall * sc = new ServerCall(ServiceName::CustomEntity, ServiceOperation::UpdateEntityFields, message, in_callback);
 		m_client->sendRequest(sc);
 	}
+	
+    void BrainCloudCustomEntity::updateEntityFieldsSharded(const char * in_entityType, const char * in_entityId, int32_t in_version, const std::string& in_fieldsJson, const std::string& in_shardKeyJson, IServerCallback * in_callback)
+    {
+        Json::Value message;
+        message[OperationParam::CustomEntityServiceEntityType.getValue()] = in_entityType;
+        message[OperationParam::CustomEntityServiceEntityId.getValue()] = in_entityId;
+        message[OperationParam::CustomEntityServiceVersion.getValue()] = in_version;
+        message[OperationParam::CustomEntityFieldsJson.getValue()] = JsonUtil::jsonStringToValue(in_fieldsJson);
+        message[OperationParam::CustomEntityShardKeyJson.getValue()] = JsonUtil::jsonStringToValue(in_shardKeyJson);
+
+        ServerCall * sc = new ServerCall(ServiceName::CustomEntity, ServiceOperation::UpdateEntityFieldsSharded, message, in_callback);
+        m_client->sendRequest(sc);
+    }
 
 	void BrainCloudCustomEntity::deleteEntities(const char * in_entityType, const char * in_deleteCriteria, IServerCallback * in_callback)
 	{

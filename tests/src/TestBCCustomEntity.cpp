@@ -118,6 +118,36 @@ TEST_F(TestBCCustomEntity, UpdateCustomEntityFields)
 	// tr2.run(m_bc);
 }
 
+TEST_F(TestBCCustomEntity, UpdateCustomEntityFieldsSharded)
+{
+	TestResult tr;
+	m_bc->getCustomEntityService()->updateEntityFieldsSharded(
+        "athletes",
+        "aaaa-bbbb-cccc-dddd", 
+        1, 
+        "{ \
+            \"stats.gamesPlayedTotal\": 2, \
+            \"stats.goalsTotal\": 2, \
+            \"games.played\": [ \
+            { \
+                \"date\": \"2022-01-21\", \
+                \"goals\": 1, \
+                \"assists\": 1, \
+                \"penalties\": 0 \
+            }, \
+            { \
+                \"date\": \"2022-01-10\", \
+                \"goals\": 1, \
+                \"assists\": 0, \
+                \"penalties\": 1 \
+            } \
+            ] \
+        }", 
+        "{\"ownerId\":\"profileIdOfEntityOwner\"}",
+        &tr);
+	tr.runExpectFail(m_bc, 400, 40571);
+}
+
 TEST_F(TestBCCustomEntity, GetCount)
 {
 	TestResult tr;

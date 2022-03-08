@@ -141,6 +141,20 @@ namespace BrainCloud {
 		 */
 		void updateEntityFields(const char * in_entityType, const char * in_entityId, int32_t in_version, const std::string& in_fieldsJson, IServerCallback * in_callback = NULL);
 
+        /**
+         * For sharded custom collection entities. Sets the specified fields within custom entity data on the server, enforcing ownership/ACL permissions.
+         *
+         * Service Name - CustomEntity
+         * Service Operation - UpdateEntityFieldsSharded
+         *
+         * @param in_entityType The entity type as defined by the user
+         * @param in_entityId
+         * @param in_version
+         * @param in_fieldsJson
+         * @param in_shardKeyJson The shard key field(s) and value(s), as JSON, applicable to the entity being updated.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void updateEntityFieldsSharded(const char * in_entityType, const char * in_entityId, int32_t in_version, const std::string& in_fieldsJson, const std::string& in_shardKeyJson, IServerCallback * in_callback = NULL);
 
 		/**
 		 * deletes entities based on the delete criteria.

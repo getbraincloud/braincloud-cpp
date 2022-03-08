@@ -407,6 +407,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::CustomEntityServiceEntityId = OperationParam("entityId");
 	const OperationParam OperationParam::CustomEntityServiceDeleteCriteria = OperationParam("deleteCriteria");
 	const OperationParam OperationParam::CustomEntityFieldsJson = OperationParam("fieldsJson");
+	const OperationParam OperationParam::CustomEntityShardKeyJson = OperationParam("shardKeyJson");
 
 	//chat
 	const OperationParam OperationParam::ChannelId = OperationParam("channelId");
