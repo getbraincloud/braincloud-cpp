@@ -7,6 +7,8 @@
 #include <chrono>
 #include <thread>
 
+#define RETRY_ENABLE_RTT_ON_FAIL 1
+
 class RTTCallback final : public BrainCloud::IRTTCallback
 {
 public:
@@ -119,8 +121,24 @@ TEST_F(TestBCRTTComms, RTTChatCallback)
 {
     TestResult tr;
 
+#if RETRY_ENABLE_RTT_ON_FAIL
+    int tries = 3;
+    while (tries > 0)
+    {
+        m_bc->getRTTService()->enableRTT(&tr, true);
+        tr.run(m_bc, true);
+
+        tries--;
+        if (tr.m_result) break; // success
+        EXPECT_TRUE(tries > 0);
+
+        // Failed? Sleep 20sec then try again
+        std::this_thread::sleep_for(std::chrono::seconds(20));
+    }
+#else
     m_bc->getRTTService()->enableRTT(&tr, true);
     tr.run(m_bc);
+#endif
 
     // Get channel Id
     m_bc->getChatService()->getChannelId("gl", "valid", &tr);
@@ -160,8 +178,24 @@ TEST_F(TestBCRTTComms, RTTLobbyCallback)
 {
     TestResult tr;
 
+#if RETRY_ENABLE_RTT_ON_FAIL
+    int tries = 3;
+    while (tries > 0)
+    {
+        m_bc->getRTTService()->enableRTT(&tr, true);
+        tr.run(m_bc);
+
+        tries--;
+        if (tr.m_result) break; // success
+        EXPECT_TRUE(tries > 0);
+
+        // Failed? Sleep 20sec then try again
+        std::this_thread::sleep_for(std::chrono::seconds(20));
+    }
+#else
     m_bc->getRTTService()->enableRTT(&tr, true);
     tr.run(m_bc);
+#endif
 
     // Register for RTT lobby
     RTTCallback rttCallback(m_bc, "lobby", "", 60);
@@ -181,8 +215,24 @@ TEST_F(TestBCRTTComms, RTTEventCallback)
 {
     TestResult tr;
 
+#if RETRY_ENABLE_RTT_ON_FAIL
+    int tries = 3;
+    while (tries > 0)
+    {
+        m_bc->getRTTService()->enableRTT(&tr, true);
+        tr.run(m_bc);
+
+        tries--;
+        if (tr.m_result) break; // success
+        EXPECT_TRUE(tries > 0);
+
+        // Failed? Sleep 20sec then try again
+        std::this_thread::sleep_for(std::chrono::seconds(20));
+    }
+#else
     m_bc->getRTTService()->enableRTT(&tr, true);
     tr.run(m_bc);
+#endif
 
     // Register for RTT lobby
     RTTCallback rttCallback(m_bc, "event");

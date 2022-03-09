@@ -6,13 +6,13 @@
 #include <map>
 #include "json/json.h"
 #include "braincloud/BrainCloudTypes.h"
-
+#include "braincloud/AuthenticationType.h"
 
 namespace BrainCloud
 {
 	class BrainCloudClient;
 	class IServerCallback;
-	class AuthenticationType;
+    struct AuthenticationIds;
 
 	class BrainCloudAuthentication
 	{
@@ -247,10 +247,40 @@ namespace BrainCloud
 		 * @param in_userId The user id
 		 * @param in_token The user token (password etc)
 		 * @param in_externalAuthName The name of the cloud script to call for external authentication
-		 * @param in_force Should a new profile be created for this user if the account does not exist?
+		 * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void authenticateExternal(const char * in_userId, const char * in_token, const char * in_externalAuthName, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
+        /*
+         * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
+         * that will be passed along to pre- or post- hooks.
+         *
+         * Service Name - Authenticate
+         * Service Operation - Authenticate
+         *
+         * @param in_authenticationType Universal, Email, Facebook, etc
+         * @param in_ids Auth IDs structure
+         * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param in_extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void authenticateAdvanced(AuthenticationType in_authenticationType, const AuthenticationIds &in_ids, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback = NULL);
+
+        /**
+         * Authenticate the user for Ultra.
+         *
+         * Service Name - Authenticate
+         * Server Operation - Authenticate
+         *
+         * @param in_ultraUsername it's what the user uses to log into the Ultra endpoint initially
+         * @param in_ultraIdToken The "id_token" taken from Ultra's JWT.
+         * @param in_forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void authenticateUltra(const std::string &in_ultraUsername, const std::string &in_ultraIdToken, bool in_forceCreate, IServerCallback * in_callback = NULL);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
 		 * Reset Email password - Sends a password reset email to the specified address
@@ -388,6 +418,6 @@ namespace BrainCloud
 		std::string _profileId;
 		std::string _clientLib;
 
-		void authenticate(const char * in_externalId, const char * in_authenticationToken, AuthenticationType in_authenticationType, const char * in_externalAuthName, bool in_forceCreate, IServerCallback * in_callback = NULL);
+		void authenticate(const char * in_externalId, const char * in_authenticationToken, AuthenticationType in_authenticationType, const char * in_externalAuthName, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback);
 	};
 }

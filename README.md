@@ -158,7 +158,7 @@ If using the wrapper use the following code.
 
 ```c++
 _bc = new BrainCloudWrapper(); // optionally pass in a _wrapperName
-_bc->initialize("https://sharedprod.braincloudservers.com/dispatcherv2", _appId, _secret, _appVersion, _companyName, _appName);
+_bc->initialize("https://api.braincloudservers.com/dispatcherv2", _appId, _secret, _appVersion, _companyName, _appName);
 ```
 
 Your \_appId, \_secret, is set on the brainCloud dashboard. Under Design | Core App Info > Application IDs

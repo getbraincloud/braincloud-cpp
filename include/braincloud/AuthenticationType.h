@@ -31,6 +31,7 @@ namespace BrainCloud
         static const AuthenticationType & Handoff;
         static const AuthenticationType & SettopHandoff;
         static const AuthenticationType & External;
+        static const AuthenticationType & Ultra;
         static const AuthenticationType & Unknown;
 
         const std::string & toString() const;

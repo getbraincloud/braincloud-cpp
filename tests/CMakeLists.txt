@@ -8,6 +8,7 @@ project (brainCloudUnitTest)
 
 if (UNIX AND NOT APPLE)
     set(LINUX 1)
+    add_definitions(-DBC_TEST_LINUX)
 endif()
 
 # Multi core compilation in VS

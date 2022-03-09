@@ -100,7 +100,7 @@ private:
     function<void(int netId, const uint8_t* bytes, int size)> callback;
 };
 
-static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionType)
+static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionType, bool gameLift = false)
 {
     bool isRoomReady = false;
     Json::Value connectionInfo;
@@ -135,7 +135,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
     {
         TestResult tr;
         vector<std::string> otherUserCxIds;
-        bc->getLobbyService()->findOrCreateLobby("READY_START_V2", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
+        bc->getLobbyService()->findOrCreateLobby(gameLift ? "READY_START_V2_GAMELIFT" : "READY_START_V2", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
         tr.run(bc);
     }
 
@@ -150,6 +150,12 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         }
         auto time = steady_clock::now() - timeStart;
         printf("\nTook: %i:%.02i\n", (int)duration_cast<minutes>(time).count(), (int)duration_cast<seconds>(time).count() % 60);
+    }
+
+    if (gameLift)
+    {
+        // We only support WS for our gamelift server, we just test that they launched successfully.
+        return;
     }
 
     // Register relay callback
@@ -188,12 +194,19 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
     {
         auto host = connectionInfo["connectData"]["address"].asString();
         int port = 0;
-        switch (connectionType)
+        if (gameLift)
         {
-            case eRelayConnectionType::TCP: port = connectionInfo["connectData"]["ports"]["tcp"].asInt(); break;
-            case eRelayConnectionType::UDP: port = connectionInfo["connectData"]["ports"]["udp"].asInt(); break;
-            case eRelayConnectionType::WSS:
-            case eRelayConnectionType::WS: port = connectionInfo["connectData"]["ports"]["ws"].asInt(); break;
+            port = connectionInfo["connectData"]["ports"]["gamelift"].asInt();
+        }
+        else
+        {
+            switch (connectionType)
+            {
+                case eRelayConnectionType::TCP: port = connectionInfo["connectData"]["ports"]["tcp"].asInt(); break;
+                case eRelayConnectionType::UDP: port = connectionInfo["connectData"]["ports"]["udp"].asInt(); break;
+                case eRelayConnectionType::WSS:
+                case eRelayConnectionType::WS: port = connectionInfo["connectData"]["ports"]["ws"].asInt(); break;
+            }
         }
         auto passcode = connectionInfo["passcode"].asString();
         auto lobbyId = connectionInfo["lobbyId"].asString();
@@ -222,6 +235,11 @@ TEST_F(TestBCRelayComms, FullFlowTCP)
 TEST_F(TestBCRelayComms, FullFlowUDP)
 {
     relayFullFlow(m_bc, eRelayConnectionType::UDP);
+}
+
+TEST_F(TestBCRelayComms, Gamelift)
+{
+    relayFullFlow(m_bc, eRelayConnectionType::WS, true);
 }
 
 //TEST_F(TestBCRelayComms, FullFlowWS)

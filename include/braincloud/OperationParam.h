@@ -77,6 +77,7 @@ namespace BrainCloud {
 		static const OperationParam AuthenticateServiceAuthenticateLanguageCode;
 		static const OperationParam AuthenticateServiceAuthenticateTimeZoneOffset;
 		static const OperationParam AuthenticateServiceAuthenticateAuthTwitter;
+		static const OperationParam AuthenticateServiceAuthenticateExtraJson;
 
 		// Authenticate Service - Authenticate Params
 		static const OperationParam IdentityServiceExternalId;
@@ -412,6 +413,7 @@ namespace BrainCloud {
 		static const OperationParam CustomEntityServicePageOffset;
 		static const OperationParam CustomEntityServiceEntityId;
 		static const OperationParam CustomEntityFieldsJson;
+		static const OperationParam CustomEntityShardKeyJson;
 		static const OperationParam CustomEntityServiceDeleteCriteria;
 
 		//chat
