@@ -18,6 +18,7 @@ std::string TestFixtureBase::m_parentLevelName = "";
 std::string TestFixtureBase::m_childAppId = "";
 std::string TestFixtureBase::m_childSecret = "";
 std::string TestFixtureBase::m_peerName = "";
+std::string TestFixtureBase::m_redirectAppId = "";
 
 std::string TestFixtureBase::getServerUrl()
 {
@@ -174,6 +175,10 @@ void TestFixtureBase::LoadIds()
 			else if (line.find("peerName") != string::npos)
 			{
 				m_peerName = line.substr(line.find("peerName") + sizeof("peerName"), line.length() - 1);
+			}
+			else if (line.find("redirectAppId") != string::npos)
+			{
+				m_redirectAppId = line.substr(line.find("redirectAppId") + sizeof("redirectAppId"), line.length() - 1);
 			}
 		}
 		fclose(fp);

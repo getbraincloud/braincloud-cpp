@@ -412,6 +412,8 @@ namespace BrainCloud
 		void setAnonymousId(const char * anonymousId) { _anonymousId = anonymousId; }
 		void setProfileId(const char * profileId) { _profileId = profileId; }
 
+		void retryPreviousAuthenticate(IServerCallback * in_callback);
+
 	protected:
 		BrainCloudClient * m_client;
 		std::string _anonymousId;
@@ -419,5 +421,16 @@ namespace BrainCloud
 		std::string _clientLib;
 
 		void authenticate(const char * in_externalId, const char * in_authenticationToken, AuthenticationType in_authenticationType, const char * in_externalAuthName, bool in_forceCreate, const std::string &in_extraJson, IServerCallback * in_callback);
+
+	private:
+		struct PreviousAuthParams
+		{
+			std::string externalId;
+			std::string authenticationToken;
+			AuthenticationType authenticationType = AuthenticationType::Unknown;
+			std::string externalAuthName;
+			bool forceCreate = true;
+			std::string extraJson;
+		} m_previousAuthParams;
 	};
 }

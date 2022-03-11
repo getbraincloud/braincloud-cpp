@@ -33,6 +33,7 @@ protected:
     static std::string m_childAppId;
     static std::string m_childSecret;
 	static std::string m_peerName;
+	static std::string m_redirectAppId;
 
     static std::string getServerUrl();
 

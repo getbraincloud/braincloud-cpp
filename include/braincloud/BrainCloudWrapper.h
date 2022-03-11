@@ -848,6 +848,7 @@ namespace BrainCloud {
         std::string m_lastGameId;
         std::string m_lastGameVersion;
         std::string m_wrapperName;
+        std::map<std::string, std::string> m_secretMap;
 
         bool m_alwaysAllowProfileSwitch;
 
