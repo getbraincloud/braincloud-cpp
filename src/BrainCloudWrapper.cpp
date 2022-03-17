@@ -2,6 +2,8 @@
 #include "braincloud/internal/SaveDataHelper.h"
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/AuthenticationIds.h"
+#include "braincloud/reason_codes.h"
+#include "braincloud/http_codes.h"
 
 #define PROFILE_ID_KEY "profileId"
 #define ANONYMOUS_ID_KEY "anonymousId"
@@ -67,6 +69,7 @@ namespace BrainCloud {
         m_lastSecretKey = secretKey;
         m_lastGameId = appId;
         m_lastGameVersion = version;
+        m_secretMap.clear();
 
         // initialize the client with our app info
         client->initialize(url, secretKey, appId, version);
@@ -96,6 +99,7 @@ namespace BrainCloud {
         m_lastSecretKey = defaultSecretKey;
         m_lastGameId = in_defaultAppId;
         m_lastGameVersion = version;
+        m_secretMap = in_secretMap;
 
         // initialize the client with our app info
         client->initializeWithApps(url, in_defaultAppId, in_secretMap, version);
@@ -831,6 +835,35 @@ namespace BrainCloud {
         BrainCloud::ServiceOperation serviceOperation,
         int statusCode, int reasonCode, const std::string & message)
     {
+        if (statusCode == HTTP_ACCEPTED && reasonCode == MANUAL_REDIRECT) // This should only happen on auth calls
+        {
+            // Manual redirection
+            Json::Reader reader;
+            Json::Value data;
+            reader.parse(message, data);
+
+            m_lastUrl = data["redirect_url"].asString();
+            auto newGameId = data["redirect_appid"].asString();
+
+            // re-initialize the client with our app info
+            if (m_secretMap.empty())
+            {
+                if (newGameId != "") m_lastGameId = newGameId;
+                client->initialize(m_lastUrl.c_str(), m_lastSecretKey.c_str(), m_lastGameId.c_str(), m_lastGameVersion.c_str());
+            }
+            else
+            {
+                // For initialize with apps, we ignore the app id
+                client->initializeWithApps(m_lastUrl.c_str(), m_lastGameId.c_str(), m_secretMap, m_lastGameVersion.c_str());
+            }
+            
+            // Retry the previous authenticate, that is cached inside the authentication service.
+            initializeIdentity(true);
+            client->getAuthenticationService()->retryPreviousAuthenticate(this);
+
+            return;
+        }
+
         if (m_authenticateCallback != NULL)
         {
             m_authenticateCallback->serverError(serviceName, serviceOperation, statusCode, reasonCode, message);
