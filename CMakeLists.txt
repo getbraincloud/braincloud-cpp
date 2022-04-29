@@ -147,6 +147,10 @@ if (APPLE)
     list(APPEND OS_SPECIFIC_INCS
         "include/braincloud/internal/apple/AppleSaveDataHelper.h")
     list(APPEND OS_SPECIFIC_SRCS "src/apple/AppleSaveDataHelper.mm")
+elseif (ANDROID)
+    list(APPEND OS_SPECIFIC_INCS
+        "include/braincloud/internal/win/AndroidSaveDataHelper.h")
+    list(APPEND OS_SPECIFIC_SRCS "src/win/AndroidSaveDataHelper.cpp")
 elseif (WIN32)
     list(APPEND OS_SPECIFIC_INCS
         "include/braincloud/internal/win/WindowsSaveDataHelper.h")
