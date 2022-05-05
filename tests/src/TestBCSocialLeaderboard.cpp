@@ -442,3 +442,10 @@ TEST_F(TestBCSocialLeaderboard, GetGroupLeaderboardViewByVersion)
     m_bc->getGroupService()->deleteGroup(groupId.c_str(), -1, &tr);
     tr.run(m_bc);
 }
+
+TEST_F(TestBCSocialLeaderboard, DeleteDynamicLeaderboards)
+{
+    TestResult tr;
+    m_bc->getScriptService()->runScript("CleanupLeaderboards", "", &tr);
+    tr.run(m_bc);
+}
