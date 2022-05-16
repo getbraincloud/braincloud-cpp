@@ -135,7 +135,7 @@ namespace BrainCloud
             {
                 Json::FastWriter myWriter;
                 std::string output ="\n" + myWriter.write(_msg); 
-                printf(output.c_str());
+                printf("%s",output.c_str());
             } 
         }
     }

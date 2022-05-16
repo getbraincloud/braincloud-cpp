@@ -8,18 +8,20 @@ if [ "$build_version" == "" ]; then
   exit 1
 fi
 
-if [ "$ANDROID_NDK_HOME" == "" ]; then
-  echo "Must set ANDROID_NDK_HOME environment variable"
-  exit 1
-fi
+#if [ "$ANDROID_NDK_HOME" == "" ]; then
+#  echo "Must set ANDROID_NDK_HOME environment variable"
+#  exit 1
+#fi
 
 rm -rf artifacts
 mkdir artifacts
 
 # compile braincloud
 pushd ../solutions/android
-"$ANDROID_NDK_HOME/ndk-build" clean
-"$ANDROID_NDK_HOME/ndk-build" 
+#"$ANDROID_NDK_HOME/ndk-build" clean
+#"$ANDROID_NDK_HOME/ndk-build" 
+ndk-build clean
+ndk-build
 popd
 
 # and zip everything up

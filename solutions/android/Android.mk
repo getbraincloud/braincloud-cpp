@@ -28,7 +28,6 @@ local_src_files := \
     $(LOCAL_PATH)/../../src/BrainCloudPlayerStatistics.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudPlayerStatisticsEvent.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudPresence.cpp \
-    $(LOCAL_PATH)/../../src/BrainCloudProduct.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudProfanity.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudPushNotification.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudRedemptionCode.cpp \
@@ -36,7 +35,6 @@ local_src_files := \
     $(LOCAL_PATH)/../../src/BrainCloudS3Handling.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudScript.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudSocialLeaderboard.cpp \
-    $(LOCAL_PATH)/../../src/BrainCloudSteam.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudTime.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudTournament.cpp \
     $(LOCAL_PATH)/../../src/BrainCloudVirtualCurrency.cpp \
@@ -66,11 +64,6 @@ local_src_files := \
     $(LOCAL_PATH)/../../src/URLRequestHeader.cpp \
     $(LOCAL_PATH)/../../src/URLRequestMethod.cpp \
     $(LOCAL_PATH)/../../src/URLResponse.cpp \
-	$(LOCAL_PATH)/../../src/android/AndroidDevice.cpp \
-	$(LOCAL_PATH)/../../src/android/AndroidWebSocket.cpp \
-	$(LOCAL_PATH)/../../src/android/com_bitheads_braincloud_AndroidBridge.cpp \
-    $(LOCAL_PATH)/../../src/nix/cURLFileUploader.cpp \
-    $(LOCAL_PATH)/../../src/nix/cURLLoader.cpp \
 	$(wildcard $(LOCAL_PATH)/../../src/android/*.cpp) \
 	$(wildcard $(LOCAL_PATH)/../../lib/jsoncpp-1.0.0/*.cpp)
 
@@ -78,8 +71,6 @@ local_c_includes := \
 	$(wildcard $(LOCAL_PATH)/../../include) \
 	$(wildcard $(LOCAL_PATH)/../../lib/jsoncpp-1.0.0) \
 	$(wildcard $(LOCAL_PATH)/../../lib/android/include) 
-
-	#$(wildcard $(LOCAL_PATH)/../../lib/android/curl-7.40.0/include) 
 
 	#$(NDK_PROJECT_PATH) \
 	#$(NDK_PROJECT_PATH)/crypto/asn1 \
