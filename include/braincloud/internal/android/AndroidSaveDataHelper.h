@@ -1,7 +1,13 @@
-#ifndef _APPLESAVEDATAHELPER_H_
-#define _APPLESAVEDATAHELPER_H_
+#if defined(__ANDROID__)
+
+#ifndef _ANDROIDSAVEDATAHELPER_H_
+#define _ANDROIDSAVEDATAHELPER_H_
 
 #include "braincloud/internal/SaveDataHelper.h"
+
+#include <jni.h>
+//#include <android/log.h>
+//#include <string>
 
 namespace BrainCloud
 {
@@ -18,17 +24,9 @@ namespace BrainCloud
         friend class SaveDataHelper;
 
         AndroidSaveDataHelper();
-/*
-    private:
-        JNIEnv* env;
-                jobject joSharedPreferences;
-                jmethodID jmGetString;
-                jmethodID jmEdit;
-                jmPutString;
-                jmCommit;
-                */
     };
 }
+#endif
 #endif
 
 /*
