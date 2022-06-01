@@ -16,7 +16,7 @@ public:
         BrainCloud::BrainCloudClient* pBC,
         const std::string& expectedServiceName,
         const std::string& expectedOperation = "",
-        int waitTimeSec = 30)
+        int waitTimeSec = 60)
         : m_pBC(pBC)
         , m_expectedServiceName(expectedServiceName)
         , m_expectedOperation(expectedOperation)
@@ -45,7 +45,7 @@ public:
         auto startTime = std::chrono::steady_clock::now();
         while (
             std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - startTime) <
-            std::chrono::seconds(m_waitTimeSec))
+            std::chrono::seconds(140))
         {
             m_pBC->runCallbacks();
             if (m_receivedCallback)
@@ -117,63 +117,6 @@ TEST_F(TestBCRTTComms, DISABLED_EnableDisableRTTWithWS)
     tr.run(m_bc);
 }
 
-TEST_F(TestBCRTTComms, RTTChatCallback)
-{
-    TestResult tr;
-
-#if RETRY_ENABLE_RTT_ON_FAIL
-    int tries = 3;
-    while (tries > 0)
-    {
-        m_bc->getRTTService()->enableRTT(&tr, true);
-        tr.run(m_bc, true);
-
-        tries--;
-        if (tr.m_result) break; // success
-        EXPECT_TRUE(tries > 0);
-
-        // Failed? Sleep 20sec then try again
-        std::this_thread::sleep_for(std::chrono::seconds(20));
-    }
-#else
-    m_bc->getRTTService()->enableRTT(&tr, true);
-    tr.run(m_bc);
-#endif
-
-    // Get channel Id
-    m_bc->getChatService()->getChannelId("gl", "valid", &tr);
-    tr.run(m_bc);
-    std::string channelId = tr.m_response["data"]["channelId"].asString();
-
-    // Connect to channel
-    m_bc->getChatService()->channelConnect(channelId, 50, &tr);
-    tr.run(m_bc);
-
-    // Register for RTT chat
-    RTTCallback rttCallback(m_bc, "chat", "INCOMING");
-    m_bc->getRTTService()->registerRTTChatCallback(&rttCallback);
-
-    // Send a chat message
-    m_bc->getChatService()->postChatMessageSimple(channelId, 
-        "Unit test message", true, &tr);
-    tr.run(m_bc);
-
-    // Now check if we get the chat message
-    EXPECT_TRUE(rttCallback.receivedCallback());
-    rttCallback.reset();
-
-    // Now deregister and make sure we don't receive it
-    m_bc->getRTTService()->deregisterRTTChatCallback();
-
-    // Send a chat message again
-    m_bc->getChatService()->postChatMessageSimple(channelId, 
-        "Unit test message 2", true, &tr);
-    tr.run(m_bc);
-
-    // Wait 10sec and make sure we don't get the event
-    EXPECT_FALSE(rttCallback.receivedCallback());
-}
-
 TEST_F(TestBCRTTComms, RTTLobbyCallback)
 {
     TestResult tr;
@@ -190,7 +133,7 @@ TEST_F(TestBCRTTComms, RTTLobbyCallback)
         EXPECT_TRUE(tries > 0);
 
         // Failed? Sleep 20sec then try again
-        std::this_thread::sleep_for(std::chrono::seconds(20));
+        std::this_thread::sleep_for(std::chrono::seconds(30));
     }
 #else
     m_bc->getRTTService()->enableRTT(&tr, true);
@@ -227,7 +170,7 @@ TEST_F(TestBCRTTComms, RTTEventCallback)
         EXPECT_TRUE(tries > 0);
 
         // Failed? Sleep 20sec then try again
-        std::this_thread::sleep_for(std::chrono::seconds(20));
+        std::this_thread::sleep_for(std::chrono::seconds(30));
     }
 #else
     m_bc->getRTTService()->enableRTT(&tr, true);
@@ -249,3 +192,59 @@ TEST_F(TestBCRTTComms, RTTEventCallback)
     EXPECT_TRUE(rttCallback.receivedCallback());
 }
 
+TEST_F(TestBCRTTComms, RTTChatCallback)
+{
+    TestResult tr;
+
+#if RETRY_ENABLE_RTT_ON_FAIL
+    int tries = 3;
+    while (tries > 0)
+    {
+        m_bc->getRTTService()->enableRTT(&tr, true);
+        tr.run(m_bc, true);
+
+        tries--;
+        if (tr.m_result) break; // success
+        EXPECT_TRUE(tries > 0);
+
+        // Failed? Sleep 20sec then try again
+        std::this_thread::sleep_for(std::chrono::seconds(30));
+    }
+#else
+    m_bc->getRTTService()->enableRTT(&tr, true);
+    tr.run(m_bc);
+#endif
+
+    // Get channel Id
+    m_bc->getChatService()->getChannelId("gl", "valid", &tr);
+    tr.run(m_bc);
+    std::string channelId = tr.m_response["data"]["channelId"].asString();
+
+    // Connect to channel
+    m_bc->getChatService()->channelConnect(channelId, 50, &tr);
+    tr.run(m_bc);
+
+    // Register for RTT chat
+    RTTCallback rttCallback(m_bc, "chat", "INCOMING");
+    m_bc->getRTTService()->registerRTTChatCallback(&rttCallback);
+
+    // Send a chat message
+    m_bc->getChatService()->postChatMessageSimple(channelId,
+        "Unit test message", true, &tr);
+    tr.run(m_bc);
+
+    // Now check if we get the chat message
+    EXPECT_TRUE(rttCallback.receivedCallback());
+    rttCallback.reset();
+
+    // Now deregister and make sure we don't receive it
+    m_bc->getRTTService()->deregisterRTTChatCallback();
+
+    // Send a chat message again
+    m_bc->getChatService()->postChatMessageSimple(channelId,
+        "Unit test message 2", true, &tr);
+    tr.run(m_bc);
+
+    // Wait 10sec and make sure we don't get the event
+    EXPECT_FALSE(rttCallback.receivedCallback());
+}
