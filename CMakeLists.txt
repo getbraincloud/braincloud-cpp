@@ -99,7 +99,7 @@ elseif (MSVC AND NOT USE_CURL)
             "src/win/XMLHTTPRequestFileUploader.cpp"
             "src/win/XMLHTTPRequestLoader.cpp"
             "src/win/XMLHTTPRequestPinger.cpp")
-elseif(MSVC)
+else()
     list(APPEND OS_SPECIFIC_INCS
             "include/braincloud/internal/nix/cURLFileUploader.h"
             "include/braincloud/internal/nix/cURLLoader.h"
@@ -111,7 +111,7 @@ elseif(MSVC)
 endif()
 
 # Sockets
-if (USE_LIBWEBSOCKETS AND ANDROID)
+if (USE_LIBWEBSOCKETS)
     list(APPEND OS_SPECIFIC_INCS
             "include/braincloud/internal/DefaultWebSocket.h")
     list(APPEND OS_SPECIFIC_SRCS "src/DefaultWebSocket.cpp")
@@ -389,22 +389,73 @@ elseif (LINUX)
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES})
 elseif (ANDROID)
-    list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/${ANDROID_ABI}")
+    list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
     SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
-    find_package(BC_LWS_LIB NAMES websockets HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-    find_package(BC_CURL_LIB NAMES curl HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-    find_package(BC_UV_LIB NAMES uv_a HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-    find_package(BC_CRYPTO_LIB NAMES crypto HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-    find_package(BC_SSL_LIB NAMES ssl HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
+#    find_library(BC_LWS_LIB NAMES websockets HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
+#    find_library(BC_CURL_LIB NAMES curl HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
+#    find_library(BC_UV_LIB NAMES uv_a  HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
+#    find_library(BC_CRYPTO_LIB NAMES crypto HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
+#    find_library(BC_SSL_LIB NAMES ssl HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
     find_package(ZLIB REQUIRED)
 
+#    set(CURL_ROOT_DIR "/opt/homebrew/opt/curl")
+#    list(APPEND CMAKE_FIND_ROOT_PATH "${CURL_ROOT_DIR}")
+#    #include(FindCURL)
+#    find_package(CURL REQUIRED)
+#
+#    set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl")
+#    #message(FATAL_ERROR "${PROJECT_SOURCE_DIR}/lib/prebuilt/openssl/${CMAKE_ANDROID_ARCH_ABI}")
+#    list(APPEND CMAKE_FIND_ROOT_PATH "${OPENSSL_ROOT_DIR}")
+#    set(OPENSSL_USE_STATIC_LIBS "TRUE")
+#    #include(FindOpenSSL)
+#    find_package(OpenSSL REQUIRED)
+
+
+    #message(FATAL_ERROR "${CURL_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR} ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES}")
+
+    #list(APPEND includes ${BC_DIR}/lib/android/include )
+    #list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
+
+    #list(APPEND libs
+     ##           ${OPENSSL_LIBRARIES}
+      #          ${CURL_LIBRARIES}
+      #         )
+
+
+    add_library(curl STATIC IMPORTED)
+    set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
+    add_library(ssl STATIC IMPORTED)
+   set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
+    add_library(crypto STATIC IMPORTED)
+    set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
+    #add_library(uv_a STATIC IMPORTED)
+    #set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
+
+    #set(CMAKE_LIBRARY_PATH $${BC_DIR}/lib/android/libs/${ANDROID_ABI})
+
+
+
+#set(BC_CRYPTO_LIB ${OPENSSL_CRYPTO_LIBRARY})
+#set(BC_SSL_LIB ${OPENSSL_SSL_LIBRARY})
+
+#set(CURL_ROOT_DIR "${BC_DIR}/lib/prebuilt/curl/${CMAKE_ANDROID_ARCH_ABI}")
+#list(APPEND CMAKE_FIND_ROOT_PATH "${CURL_ROOT_DIR}")
+#include(FindCURL)
+#find_package(CURL REQUIRED)
+#message(STATUS "${CURL_INCLUDE_DIRS}")
+
+    #list(APPEND libs ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
+            #           )
+    list(APPEND libs curl
+            ssl
+            crypto
+            )
     list(APPEND libs PUBLIC
-            ${BC_CURL_LIB}
-            ${BC_LWS_LIB}
-            ${BC_UV_LIB}
-            ${BC_SSL_LIB}
-            ${BC_CRYPTO_LIB}
+            #${BC_CRYPTO_LIB}
+            #${BC_LWS_LIB}
+            #${BC_UV_LIB}
+            #${BC_SSL_LIB }
             ${ZLIB_LIBRARIES}
             )
 elseif (WIN32)
@@ -438,9 +489,9 @@ if (USE_LIBWEBSOCKETS)
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
     add_subdirectory(./lib/mbedtls/)
-    list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-    list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
+    #list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
+    #list(APPEND includes
+     #       PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
     option(LWS_WITH_MBEDTLS "" ON)
     set(LWS_MBEDTLS_INCLUDE_DIRS
             "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
@@ -464,17 +515,30 @@ if (USE_LIBWEBSOCKETS)
     endif()
 
     # LibWebSockets
-    option(LWS_WITHOUT_SERVER "" ON)
-    option(LWS_WITHOUT_TESTAPPS "" ON)
-    option(LWS_WITHOUT_TEST_SERVER "" ON)
-    option(LWS_WITHOUT_TEST_SERVER_EXTPOLL "" ON)
-    option(LWS_WITHOUT_TEST_PING "" ON)
-    option(LWS_WITHOUT_TEST_CLIENT "" ON)
-    option(LWS_WITH_SHARED "" OFF)
+    option(LWS_WITHOUT_SERVER
+            "Don't build the server part of the library" ON)
+    option(LWS_WITHOUT_TESTAPPS
+            "Don't build the libwebsocket-test-apps" ON)
+    option(LWS_WITHOUT_TEST_SERVER
+            "Don't build the test server" ON)
+    option(LWS_WITHOUT_TEST_SERVER_EXTPOLL
+            "Don't build the test server version that uses external poll" ON)
+    option(LWS_WITHOUT_TEST_PING
+            "Don't build the ping test application" ON)
+    option(LWS_WITHOUT_TEST_CLIENT
+            "Don't build the client test application" ON)
+    option(LWS_WITH_SHARED
+            "Build the shared version of the library" OFF)
     add_subdirectory(${LWS_DIR})
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR}/include/)
+
+    # OpenSSL
+    #find_package(OpenSSL REQUIRED ssl crypto)
+    #list(APPEND includes ${OPENSSL_INCLUDE_DIR})
+    #list(APPEND libs ${OPENSSL_LIBRARIES})
+
 endif()
 
 # Setup includes and linked libraries
@@ -490,5 +554,8 @@ elseif (UWP)
     target_compile_options(brainCloud PRIVATE
             /MP     # Multi-core compilation
             /wd4996 # DEPRECATED throws error without this
+            )
+elseif (ANDROID)
+    target_compile_options(brainCloud PRIVATE
             )
 endif()
