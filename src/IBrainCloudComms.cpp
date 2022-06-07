@@ -67,8 +67,9 @@ namespace BrainCloud {
         {
             _secretKey = it->second;
         }
-
+std::cout<<"before initialize jo"<<std::endl;
         initialize(serverURL, defaultAppId, _secretKey.c_str());
+		std::cout<<"after initialize jo"<<std::endl;
     }
 
 	void IBrainCloudComms::enableLogging(bool shouldEnable)

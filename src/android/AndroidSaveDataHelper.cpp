@@ -1,5 +1,5 @@
 
-#if defined(__ANDROID__)
+//#if defined(__ANDROID__)
 
 #include "braincloud/internal/android/AndroidSaveDataHelper.h"
 
@@ -8,6 +8,11 @@ namespace BrainCloud
 	AndroidSaveDataHelper::AndroidSaveDataHelper()
     {
         
+    }
+
+    SaveDataHelper* SaveDataHelper::create()
+    {
+        return new AndroidSaveDataHelper();
     }
 
     // initialize 
@@ -127,4 +132,4 @@ void AppleSaveDataHelper::initialize(JNIEnv *env, jobject androidContext,const c
             return (bool)env->CallBooleanMethod(joSharedPreferences_Edit,jmCommit);
         }
 */
-#endif
+//#endif

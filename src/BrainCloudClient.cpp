@@ -161,6 +161,7 @@ namespace BrainCloud
                     urlToUse = url.c_str();
                 }
             }
+            std::cout<<"hi jo "<<urlToUse<<std::endl;
             _brainCloudComms->initializeWithApps(urlToUse, in_appId, in_secretMap);
         }
 

@@ -1,4 +1,4 @@
-#if defined(__ANDROID__)
+
 
 #ifndef _ANDROIDSAVEDATAHELPER_H_
 #define _ANDROIDSAVEDATAHELPER_H_
@@ -27,7 +27,7 @@ namespace BrainCloud
     };
 }
 #endif
-#endif
+
 
 /*
 //https://stackoverflow.com/questions/45385460/android-need-to-create-shared-preferences-object-in-c-ndk-and-store-some-boo

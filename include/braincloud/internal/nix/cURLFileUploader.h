@@ -8,7 +8,7 @@
 #endif
 #include "braincloud/internal/Mutex.h"
 #include <string>
-#include "curl/curl.h"
+#include <curl/curl.h>
 #include "braincloud/internal/IFileUploader.h"
 
 #if !defined(USE_PTHREAD)
