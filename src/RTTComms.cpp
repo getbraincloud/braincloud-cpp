@@ -431,8 +431,9 @@ namespace BrainCloud
                                 host += key + "=" + value;
                             }
                         }
-
+                    #if defined(USE_LIBWEBSOCKETS)
                         _socket = IWebSocket::create(host, port, headers);
+                    #endif
                     }
                     else
                     {
