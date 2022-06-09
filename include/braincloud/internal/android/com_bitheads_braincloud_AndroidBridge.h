@@ -9,6 +9,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 /*
  * Class:     com_bitheads_braincloud_AndroidBridge
  * Method:    setCountryCode

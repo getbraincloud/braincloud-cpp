@@ -4,7 +4,7 @@
 #include "braincloud/AuthenticationIds.h"
 #include "braincloud/reason_codes.h"
 #include "braincloud/http_codes.h"
-
+#include "braincloud/internal/android/AndroidGlobals.h"
 #define PROFILE_ID_KEY "profileId"
 #define ANONYMOUS_ID_KEY "anonymousId"
 #define AUTHENTICATION_TYPE_KEY "authenticationType"
@@ -120,9 +120,9 @@ namespace BrainCloud {
         {
             anonymousId = client->getAuthenticationService()->generateAnonymousId();
             profileId = "";
-            setStoredAnonymousId(anonymousId.c_str());
-            setStoredProfileId(profileId.c_str());
-        }
+			setStoredAnonymousId(anonymousId.c_str());
+			setStoredProfileId(profileId.c_str());
+		}
 
         std::string profileIdToAuthenticateWith = profileId;
         if (!in_isAnonymousAuth && m_alwaysAllowProfileSwitch)
@@ -755,12 +755,13 @@ namespace BrainCloud {
 
     std::string BrainCloudWrapper::getStoredProfileId()
     {
-        return SaveDataHelper::getInstance()->readData(PROFILE_ID_KEY);
+		return "";
+       //return SaveDataHelper::getInstance()->readData(PROFILE_ID_KEY);
     }
 
     void BrainCloudWrapper::setStoredProfileId(const char * profileId)
     {
-        SaveDataHelper::getInstance()->saveData(PROFILE_ID_KEY, profileId);
+        //SaveDataHelper::getInstance()->saveData(PROFILE_ID_KEY, profileId);
     }
 
     void BrainCloudWrapper::resetStoredProfileId()

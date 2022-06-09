@@ -4,10 +4,9 @@
 #define _ANDROIDSAVEDATAHELPER_H_
 
 #include "braincloud/internal/SaveDataHelper.h"
+#include "braincloud/internal/android/AndroidGlobals.h"
 
 #include <jni.h>
-//#include <android/log.h>
-//#include <string>
 
 namespace BrainCloud
 {
@@ -22,25 +21,37 @@ namespace BrainCloud
 
     protected:
         friend class SaveDataHelper;
-
         AndroidSaveDataHelper();
+
+    private:
+        bool commit();
+
+        std::string m_savePath;
+        jmethodID jmEdit;
+        jmethodID jmPutString;
+        jmethodID jmGetString;
+        jmethodID jmCommit;
+        jobject joSharedPreferences;
+        jobject joSharedPreferences_Edit;
+
+        static constexpr const int  MODE_PRIVATE = 0; //taken directly from java, assuming this value stays constant in java
     };
 }
 #endif
 
 
-/*
+
 //https://stackoverflow.com/questions/45385460/android-need-to-create-shared-preferences-object-in-c-ndk-and-store-some-boo
 // Created by Constantin on 24.10.2017.
 //
 
-#ifndef FPV_VR_HELPER_SHARED_PREFERENCES_HPP
-#define FPV_VR_HELPER_SHARED_PREFERENCES_HPP
+//#ifndef FPV_VR_HELPER_SHARED_PREFERENCES_HPP
+//#define FPV_VR_HELPER_SHARED_PREFERENCES_HPP
 
-#include <jni.h>
-#include <android/log.h>
-#include <string>
-
+//#include <jni.h>
+//#include <android/log.h>
+//#include <string>
+/*
 ///Example reading values
 ///SharedPreferences sharedPref(env,context,"pref_telemetry");
 ///T_Protocol=sharedPref.getInt(IDT::T_Protocol);
@@ -51,15 +62,17 @@ namespace BrainCloud
 
 class SharedPreferences_Editor{
 public:
-    SharedPreferences_Editor(JNIEnv* env,const jobject joSharedPreferences_Edit):env(env),joSharedPreferences_Edit(joSharedPreferences_Edit){
+    SharedPreferences_Editor(JNIEnv* env,const jobject joSharedPreferences_Edit):env(env),joSharedPreferences_Edit(joSharedPreferences_Edit) {
         //find the methods for putting values into Shared preferences via the editor
         jclass jcSharedPreferences_Editor = env->GetObjectClass(joSharedPreferences_Edit);
-        jmPutBoolean=env->GetMethodID(jcSharedPreferences_Editor,"putBoolean","(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;");
-        jmPutInt=env->GetMethodID(jcSharedPreferences_Editor,"putInt","(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;");
-        jmPutString=env->GetMethodID(jcSharedPreferences_Editor,"putString","(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;");
-        jmCommit=env->GetMethodID(jcSharedPreferences_Editor,"commit","()Z");
-    }
-    //return itself for method chaining
+        jmPutBoolean = env->GetMethodID(jcSharedPreferences_Editor, "putBoolean",
+                                        "(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;");
+        jmPutInt = env->GetMethodID(jcSharedPreferences_Editor, "putInt",
+                                    "(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;");
+        jmPutString = env->GetMethodID(jcSharedPreferences_Editor, "putString",
+                                       "(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;");
+        jmCommit = env->GetMethodID(jcSharedPreferences_Editor, "commit", "()Z");
+    }//f for method chaining
     const SharedPreferences_Editor& putBoolean(const char* key,const bool value)const{
         env->CallObjectMethod(joSharedPreferences_Edit,jmPutBoolean,env->NewStringUTF(key),(jboolean)value);
         return *this;
@@ -75,13 +88,10 @@ public:
     bool commit()const{
         return (bool)env->CallBooleanMethod(joSharedPreferences_Edit,jmCommit);
     }
+
 private:
     JNIEnv* env;
-    jobject joSharedPreferences_Edit;
-    jmethodID jmPutBoolean;
-    jmethodID jmPutInt;
-    jmethodID jmPutString;
-    jmethodID jmCommit;
+    jmethodID jmEdit;
 };
 
 
@@ -101,7 +111,7 @@ public:
         jclass jcSharedPreferences = env->FindClass("android/content/SharedPreferences");
         //jclass jcSharedPreferences_Editor=env->FindClass("android/content/SharedPreferences$Editor");
         if(jcContext==nullptr || jcSharedPreferences== nullptr){
-            __android_log_print(ANDROID_LOG_DEBUG, "SharedPreferences","Cannot find classes");
+            //__android_log_print(ANDROID_LOG_DEBUG, "SharedPreferences","Cannot find classes");
         }
         //find the 3 functions we need to get values from an SharedPreferences instance
         jmGetBoolean=env->GetMethodID(jcSharedPreferences,"getBoolean","(Ljava/lang/String;Z)Z");
@@ -156,7 +166,4 @@ public:
 private:
     static constexpr const int  MODE_PRIVATE = 0; //taken directly from java, assuming this value stays constant in java
 };
-
-
-#endif //FPV_VR_HELPER_SHARED_PREFERENCES_HPP
 */
