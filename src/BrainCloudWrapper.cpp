@@ -755,13 +755,12 @@ namespace BrainCloud {
 
     std::string BrainCloudWrapper::getStoredProfileId()
     {
-		return "";
-       //return SaveDataHelper::getInstance()->readData(PROFILE_ID_KEY);
+        return SaveDataHelper::getInstance()->readData(PROFILE_ID_KEY);
     }
 
     void BrainCloudWrapper::setStoredProfileId(const char * profileId)
     {
-        //SaveDataHelper::getInstance()->saveData(PROFILE_ID_KEY, profileId);
+        SaveDataHelper::getInstance()->saveData(PROFILE_ID_KEY, profileId);
     }
 
     void BrainCloudWrapper::resetStoredProfileId()
