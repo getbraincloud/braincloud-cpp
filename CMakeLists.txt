@@ -52,6 +52,7 @@ if (SSL_ALLOW_SELFSIGNED)
 endif()
 
 # lets use libwebsockets by default
+# turned off for Android until library link issues resolved (note: RTT features are also disabled)
 if (NOT UWP AND NOT ANDROID)
     set(USE_LIBWEBSOCKETS 1)
 endif()
@@ -392,36 +393,8 @@ elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
     SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
-#    find_library(BC_LWS_LIB NAMES websockets HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-#    find_library(BC_CURL_LIB NAMES curl HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-#    find_library(BC_UV_LIB NAMES uv_a  HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-#    find_library(BC_CRYPTO_LIB NAMES crypto HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-#    find_library(BC_SSL_LIB NAMES ssl HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
+
     find_package(ZLIB REQUIRED)
-
-#    set(CURL_ROOT_DIR "/opt/homebrew/opt/curl")
-#    list(APPEND CMAKE_FIND_ROOT_PATH "${CURL_ROOT_DIR}")
-#    #include(FindCURL)
-#    find_package(CURL REQUIRED)
-#
-#    set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl")
-#    #message(FATAL_ERROR "${PROJECT_SOURCE_DIR}/lib/prebuilt/openssl/${CMAKE_ANDROID_ARCH_ABI}")
-#    list(APPEND CMAKE_FIND_ROOT_PATH "${OPENSSL_ROOT_DIR}")
-#    set(OPENSSL_USE_STATIC_LIBS "TRUE")
-#    #include(FindOpenSSL)
-#    find_package(OpenSSL REQUIRED)
-
-
-    #message(FATAL_ERROR "${CURL_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR} ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES}")
-
-    #list(APPEND includes ${BC_DIR}/lib/android/include )
-    #list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
-
-    #list(APPEND libs
-     ##           ${OPENSSL_LIBRARIES}
-      #          ${CURL_LIBRARIES}
-      #         )
-
 
     add_library(curl STATIC IMPORTED)
     set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
@@ -429,33 +402,14 @@ elseif (ANDROID)
    set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
     add_library(crypto STATIC IMPORTED)
     set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
-    #add_library(uv_a STATIC IMPORTED)
-    #set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
+    add_library(uv_a STATIC IMPORTED)
+    set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
 
-    #set(CMAKE_LIBRARY_PATH $${BC_DIR}/lib/android/libs/${ANDROID_ABI})
-
-
-
-#set(BC_CRYPTO_LIB ${OPENSSL_CRYPTO_LIBRARY})
-#set(BC_SSL_LIB ${OPENSSL_SSL_LIBRARY})
-
-#set(CURL_ROOT_DIR "${BC_DIR}/lib/prebuilt/curl/${CMAKE_ANDROID_ARCH_ABI}")
-#list(APPEND CMAKE_FIND_ROOT_PATH "${CURL_ROOT_DIR}")
-#include(FindCURL)
-#find_package(CURL REQUIRED)
-#message(STATUS "${CURL_INCLUDE_DIRS}")
-
-    #list(APPEND libs ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
-            #           )
-    list(APPEND libs curl
+    list(APPEND libs
+            curl
             ssl
             crypto
-            )
-    list(APPEND libs PUBLIC
-            #${BC_CRYPTO_LIB}
-            #${BC_LWS_LIB}
-            #${BC_UV_LIB}
-            #${BC_SSL_LIB }
+            uv_a
             ${ZLIB_LIBRARIES}
             )
 elseif (WIN32)
