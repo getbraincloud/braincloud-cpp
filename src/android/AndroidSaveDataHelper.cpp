@@ -1,5 +1,5 @@
 
-//#if defined(__ANDROID__)
+#if defined(__ANDROID__)
 
 #include "braincloud/internal/android/AndroidSaveDataHelper.h"
 
@@ -74,3 +74,4 @@ namespace BrainCloud
         saveData(key, "");
     }
 }
+#endif

@@ -4,7 +4,9 @@
 #include "braincloud/AuthenticationIds.h"
 #include "braincloud/reason_codes.h"
 #include "braincloud/http_codes.h"
+#if defined(__ANDROID__)
 #include "braincloud/internal/android/AndroidGlobals.h"
+#endif
 #define PROFILE_ID_KEY "profileId"
 #define ANONYMOUS_ID_KEY "anonymousId"
 #define AUTHENTICATION_TYPE_KEY "authenticationType"
