@@ -443,9 +443,9 @@ if (USE_LIBWEBSOCKETS)
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
     add_subdirectory(./lib/mbedtls/)
-    #list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-    #list(APPEND includes
-     #       PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
+    list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
+    list(APPEND includes
+            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
     option(LWS_WITH_MBEDTLS "" ON)
     set(LWS_MBEDTLS_INCLUDE_DIRS
             "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
@@ -488,11 +488,6 @@ if (USE_LIBWEBSOCKETS)
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR}/include/)
 
-    # OpenSSL
-    #find_package(OpenSSL REQUIRED ssl crypto)
-    #list(APPEND includes ${OPENSSL_INCLUDE_DIR})
-    #list(APPEND libs ${OPENSSL_LIBRARIES})
-
 endif()
 
 # Setup includes and linked libraries
@@ -508,8 +503,5 @@ elseif (UWP)
     target_compile_options(brainCloud PRIVATE
             /MP     # Multi-core compilation
             /wd4996 # DEPRECATED throws error without this
-            )
-elseif (ANDROID)
-    target_compile_options(brainCloud PRIVATE
             )
 endif()
