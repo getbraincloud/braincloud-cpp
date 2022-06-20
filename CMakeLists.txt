@@ -17,7 +17,7 @@ project(brainCloud)
 
 # Setup modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 # Usefull flags
 if (UNIX AND NOT APPLE AND NOT ANDROID)
@@ -42,9 +42,9 @@ if (UWP)
     if (BUILD_TESTS)
         # add_definitions(-Dgtest_force_shared_crt=ON)
         option(
-            gtest_force_shared_crt
-            "Use shared (DLL) run-time lib even when Google Test is built as static lib."
-            ON)
+                gtest_force_shared_crt
+                "Use shared (DLL) run-time lib even when Google Test is built as static lib."
+                ON)
     endif()
 endif()
 if (SSL_ALLOW_SELFSIGNED)
@@ -123,7 +123,7 @@ if (WIN32)
     list(APPEND OS_SPECIFIC_SRCS "src/win/Win32RelayUDPSocket.cpp")
     if (UWP)
         list(APPEND OS_SPECIFIC_INCS
-            "include/braincloud/internal/win/UWPWebSocket.h")
+                "include/braincloud/internal/win/UWPWebSocket.h")
         list(APPEND OS_SPECIFIC_SRCS "src/win/UWPWebSocket.cpp")
     endif()
 else()
@@ -146,20 +146,20 @@ endif()
 # Save data helper
 if (APPLE)
     list(APPEND OS_SPECIFIC_INCS
-        "include/braincloud/internal/apple/AppleSaveDataHelper.h")
+            "include/braincloud/internal/apple/AppleSaveDataHelper.h")
     list(APPEND OS_SPECIFIC_SRCS "src/apple/AppleSaveDataHelper.mm")
 elseif (ANDROID)
-list(APPEND OS_SPECIFIC_INCS
-    "include/braincloud/internal/android/AndroidSaveDataHelper.h")
-list(APPEND OS_SPECIFIC_SRCS "src/android/AndroidSaveDataHelper.cpp")
+    list(APPEND OS_SPECIFIC_INCS
+            "include/braincloud/internal/android/AndroidSaveDataHelper.h")
+    list(APPEND OS_SPECIFIC_SRCS "src/android/AndroidSaveDataHelper.cpp")
 elseif (WIN32)
     list(APPEND OS_SPECIFIC_INCS
-        "include/braincloud/internal/win/WindowsSaveDataHelper.h")
+            "include/braincloud/internal/win/WindowsSaveDataHelper.h")
     list(APPEND OS_SPECIFIC_SRCS "src/win/WindowsSaveDataHelper.cpp")
 else()
     list(APPEND OS_SPECIFIC_SRCS
-        "include/braincloud/internal/DefaultSaveDataHelper.h"
-        "src/DefaultSaveDataHelper.cpp")
+            "include/braincloud/internal/DefaultSaveDataHelper.h"
+            "src/DefaultSaveDataHelper.cpp")
 endif()
 
 # Device
@@ -176,19 +176,19 @@ endif()
 # other platform specific srcs/includes
 if (APPLE)
     list(APPEND OS_SPECIFIC_SRCS
-        "lib/apple/sskeychain/SSKeychain/SSKeychain.m"
-        "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.m")
+            "lib/apple/sskeychain/SSKeychain/SSKeychain.m"
+            "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.m")
     include_directories("${BC_DIR}/lib/apple/sskeychain")
 elseif (WIN32)
     if (UWP)
         list(APPEND OS_SPECIFIC_INCS
-            "include/braincloud/internal/win/MD5.h")
+                "include/braincloud/internal/win/MD5.h")
         list(APPEND OS_SPECIFIC_SRCS "src/win/MD5.cpp")
     endif()
 elseif (ANDROID)
     list(APPEND OS_SPECIFIC_SRCS
-        "include/braincloud/internal/android/com_bitheads_braincloud_AndroidBridge.h"
-        "src/android/com_bitheads_braincloud_AndroidBridge.cpp")
+            "include/braincloud/internal/android/com_bitheads_braincloud_AndroidBridge.h"
+            "src/android/com_bitheads_braincloud_AndroidBridge.cpp")
 endif()
 
 if (NOT UWP)
@@ -199,169 +199,169 @@ list(APPEND includes PUBLIC "${BC_DIR}/include")
 list(APPEND includes PUBLIC "${BC_DIR}/lib/jsoncpp-1.0.0")
 
 add_library(brainCloud STATIC
-    # public headers
-    include/braincloud/AuthenticationType.h
-    include/braincloud/BrainCloudAppStore.h
-    include/braincloud/BrainCloudAsyncMatch.h
-    include/braincloud/BrainCloudAuthentication.h
-    include/braincloud/BrainCloudClient.h
-    include/braincloud/BrainCloudDataStream.h
-    include/braincloud/BrainCloudEntity.h
-    include/braincloud/BrainCloudEvent.h
-    include/braincloud/BrainCloudFile.h
-    include/braincloud/BrainCloudFriend.h
-    include/braincloud/BrainCloudGamification.h
-    include/braincloud/BrainCloudGlobalApp.h
-    include/braincloud/BrainCloudGlobalEntity.h
-    include/braincloud/BrainCloudGlobalFile.h
-    include/braincloud/BrainCloudGlobalStatistics.h
-    include/braincloud/BrainCloudGroup.h
-    include/braincloud/BrainCloudIdentity.h
-    include/braincloud/BrainCloudMail.h
-    include/braincloud/BrainCloudMatchmaking.h
-    include/braincloud/BrainCloudOneWayMatch.h
-    include/braincloud/BrainCloudPlaybackStream.h
-    include/braincloud/BrainCloudPlayerState.h
-    include/braincloud/BrainCloudPlayerStatistics.h
-    include/braincloud/BrainCloudPlayerStatisticsEvent.h
-    include/braincloud/BrainCloudProfanity.h
-    include/braincloud/BrainCloudPushNotification.h
-    include/braincloud/BrainCloudRedemptionCode.h
-    include/braincloud/BrainCloudRelay.h
-    include/braincloud/BrainCloudRTT.h
-    include/braincloud/BrainCloudS3Handling.h
-    include/braincloud/BrainCloudScript.h
-    include/braincloud/BrainCloudSocialLeaderboard.h
-    include/braincloud/BrainCloudTime.h
-    include/braincloud/BrainCloudTournament.h
-    include/braincloud/BrainCloudCustomEntity.h
-    include/braincloud/BrainCloudItemCatalog.h
-    include/braincloud/BrainCloudUserItems.h
-    include/braincloud/BrainCloudTypes.h
-    include/braincloud/BrainCloudVirtualCurrency.h
-    include/braincloud/BrainCloudWrapper.h
-    include/braincloud/FriendPlatform.h
-    include/braincloud/IEventCallback.h
-    include/braincloud/IFileUploadCallback.h
-    include/braincloud/IGlobalErrorCallback.h
-    include/braincloud/INetworkErrorCallback.h
-    include/braincloud/IRewardCallback.h
-    include/braincloud/IServerCallback.h
-    include/braincloud/OperationParam.h
-    include/braincloud/Platform.h
-    include/braincloud/ServerCall.h
-    include/braincloud/ServiceName.h
-    include/braincloud/ServiceOperation.h
-    include/braincloud/http_codes.h
-    include/braincloud/reason_codes.h
+        # public headers
+        include/braincloud/AuthenticationType.h
+        include/braincloud/BrainCloudAppStore.h
+        include/braincloud/BrainCloudAsyncMatch.h
+        include/braincloud/BrainCloudAuthentication.h
+        include/braincloud/BrainCloudClient.h
+        include/braincloud/BrainCloudDataStream.h
+        include/braincloud/BrainCloudEntity.h
+        include/braincloud/BrainCloudEvent.h
+        include/braincloud/BrainCloudFile.h
+        include/braincloud/BrainCloudFriend.h
+        include/braincloud/BrainCloudGamification.h
+        include/braincloud/BrainCloudGlobalApp.h
+        include/braincloud/BrainCloudGlobalEntity.h
+        include/braincloud/BrainCloudGlobalFile.h
+        include/braincloud/BrainCloudGlobalStatistics.h
+        include/braincloud/BrainCloudGroup.h
+        include/braincloud/BrainCloudIdentity.h
+        include/braincloud/BrainCloudMail.h
+        include/braincloud/BrainCloudMatchmaking.h
+        include/braincloud/BrainCloudOneWayMatch.h
+        include/braincloud/BrainCloudPlaybackStream.h
+        include/braincloud/BrainCloudPlayerState.h
+        include/braincloud/BrainCloudPlayerStatistics.h
+        include/braincloud/BrainCloudPlayerStatisticsEvent.h
+        include/braincloud/BrainCloudProfanity.h
+        include/braincloud/BrainCloudPushNotification.h
+        include/braincloud/BrainCloudRedemptionCode.h
+        include/braincloud/BrainCloudRelay.h
+        include/braincloud/BrainCloudRTT.h
+        include/braincloud/BrainCloudS3Handling.h
+        include/braincloud/BrainCloudScript.h
+        include/braincloud/BrainCloudSocialLeaderboard.h
+        include/braincloud/BrainCloudTime.h
+        include/braincloud/BrainCloudTournament.h
+        include/braincloud/BrainCloudCustomEntity.h
+        include/braincloud/BrainCloudItemCatalog.h
+        include/braincloud/BrainCloudUserItems.h
+        include/braincloud/BrainCloudTypes.h
+        include/braincloud/BrainCloudVirtualCurrency.h
+        include/braincloud/BrainCloudWrapper.h
+        include/braincloud/FriendPlatform.h
+        include/braincloud/IEventCallback.h
+        include/braincloud/IFileUploadCallback.h
+        include/braincloud/IGlobalErrorCallback.h
+        include/braincloud/INetworkErrorCallback.h
+        include/braincloud/IRewardCallback.h
+        include/braincloud/IServerCallback.h
+        include/braincloud/OperationParam.h
+        include/braincloud/Platform.h
+        include/braincloud/ServerCall.h
+        include/braincloud/ServiceName.h
+        include/braincloud/ServiceOperation.h
+        include/braincloud/http_codes.h
+        include/braincloud/reason_codes.h
 
-    # private headers
-    include/braincloud/internal/Device.h
-    include/braincloud/internal/Mutex.h
-    include/braincloud/internal/GUID.h
-    include/braincloud/internal/IBrainCloudComms.h
-    include/braincloud/internal/IFileUploader.h
-    include/braincloud/internal/IPinger.h
-    include/braincloud/internal/ITCPSocket.h
-    include/braincloud/internal/IRelayUDPSocket.h
-    include/braincloud/internal/IRelayTCPSocket.h
-    include/braincloud/internal/DefaultRelayUDPSocket.h
-    include/braincloud/internal/DefaultRelayTCPSocket.h
-    include/braincloud/internal/DefaultBrainCloudComms.h
-    include/braincloud/internal/JsonUtil.h
-    include/braincloud/internal/RelayComms.h
-    include/braincloud/internal/RTTComms.h
-    include/braincloud/internal/SaveDataHelper.h
-    include/braincloud/internal/StringUtil.h
-    include/braincloud/internal/TimeUtil.h
-    include/braincloud/internal/TimerCallback.h
-    include/braincloud/internal/URLLoader.h
-    include/braincloud/internal/URLLoaderClient.h
-    include/braincloud/internal/URLRequest.h
-    include/braincloud/internal/URLRequestHeader.h
-    include/braincloud/internal/URLRequestMethod.h
-    include/braincloud/internal/URLResponse.h
-    include/braincloud/internal/md5x.h
-    include/braincloud/internal/timegm.h
+        # private headers
+        include/braincloud/internal/Device.h
+        include/braincloud/internal/Mutex.h
+        include/braincloud/internal/GUID.h
+        include/braincloud/internal/IBrainCloudComms.h
+        include/braincloud/internal/IFileUploader.h
+        include/braincloud/internal/IPinger.h
+        include/braincloud/internal/ITCPSocket.h
+        include/braincloud/internal/IRelayUDPSocket.h
+        include/braincloud/internal/IRelayTCPSocket.h
+        include/braincloud/internal/DefaultRelayUDPSocket.h
+        include/braincloud/internal/DefaultRelayTCPSocket.h
+        include/braincloud/internal/DefaultBrainCloudComms.h
+        include/braincloud/internal/JsonUtil.h
+        include/braincloud/internal/RelayComms.h
+        include/braincloud/internal/RTTComms.h
+        include/braincloud/internal/SaveDataHelper.h
+        include/braincloud/internal/StringUtil.h
+        include/braincloud/internal/TimeUtil.h
+        include/braincloud/internal/TimerCallback.h
+        include/braincloud/internal/URLLoader.h
+        include/braincloud/internal/URLLoaderClient.h
+        include/braincloud/internal/URLRequest.h
+        include/braincloud/internal/URLRequestHeader.h
+        include/braincloud/internal/URLRequestMethod.h
+        include/braincloud/internal/URLResponse.h
+        include/braincloud/internal/md5x.h
+        include/braincloud/internal/timegm.h
 
-    # source files
-    src/AuthenticationType.cpp
-    src/BrainCloudAppStore.cpp
-    src/BrainCloudAsyncMatch.cpp
-    src/BrainCloudAuthentication.cpp
-    src/BrainCloudChat.cpp
-    src/BrainCloudClient.cpp
-    src/BrainCloudDataStream.cpp
-    src/BrainCloudEntity.cpp
-    src/BrainCloudEvent.cpp
-    src/BrainCloudFile.cpp
-    src/BrainCloudFriend.cpp
-    src/BrainCloudGamification.cpp
-    src/BrainCloudGlobalApp.cpp
-    src/BrainCloudGlobalEntity.cpp
-    src/BrainCloudGlobalFile.cpp
-    src/BrainCloudGlobalStatistics.cpp
-    src/BrainCloudGroup.cpp
-    src/BrainCloudIdentity.cpp
-    src/BrainCloudLobby.cpp
-    src/BrainCloudMail.cpp
-    src/BrainCloudMatchmaking.cpp
-    src/BrainCloudMessaging.cpp
-    src/BrainCloudOneWayMatch.cpp
-    src/BrainCloudPlaybackStream.cpp
-    src/BrainCloudPlayerState.cpp
-    src/BrainCloudPlayerStatistics.cpp
-    src/BrainCloudPlayerStatisticsEvent.cpp
-    src/BrainCloudPresence.cpp
-    src/BrainCloudProfanity.cpp
-    src/BrainCloudPushNotification.cpp
-    src/BrainCloudRedemptionCode.cpp
-    src/BrainCloudRelay.cpp
-    src/BrainCloudRTT.cpp
-    src/BrainCloudS3Handling.cpp
-    src/BrainCloudScript.cpp
-    src/BrainCloudSocialLeaderboard.cpp
-    src/BrainCloudTime.cpp
-    src/BrainCloudTournament.cpp
-    src/BrainCloudCustomEntity.cpp
-    src/BrainCloudItemCatalog.cpp
-    src/BrainCloudUserItems.cpp
-    src/BrainCloudVirtualCurrency.cpp
-    src/BrainCloudWrapper.cpp
-    src/DefaultBrainCloudComms.cpp
-    src/FriendPlatform.cpp
-    src/GUID.cpp
-    src/IBrainCloudComms.cpp
-    src/JsonUtil.cpp
-    src/OperationParam.cpp
-    src/Platform.cpp
-    src/RelayComms.cpp
-    src/RTTComms.cpp
-    src/SaveDataHelper.cpp
-    src/ServerCall.cpp
-    src/ServiceName.cpp
-    src/ServiceOperation.cpp
-    src/StringUtil.cpp
-    src/TimeUtil.cpp
-    src/TimerCallback.cpp
-    src/URLLoader.cpp
-    src/URLLoaderClient.cpp
-    src/URLRequest.cpp
-    src/URLRequestHeader.cpp
-    src/URLRequestMethod.cpp
-    src/URLResponse.cpp
+        # source files
+        src/AuthenticationType.cpp
+        src/BrainCloudAppStore.cpp
+        src/BrainCloudAsyncMatch.cpp
+        src/BrainCloudAuthentication.cpp
+        src/BrainCloudChat.cpp
+        src/BrainCloudClient.cpp
+        src/BrainCloudDataStream.cpp
+        src/BrainCloudEntity.cpp
+        src/BrainCloudEvent.cpp
+        src/BrainCloudFile.cpp
+        src/BrainCloudFriend.cpp
+        src/BrainCloudGamification.cpp
+        src/BrainCloudGlobalApp.cpp
+        src/BrainCloudGlobalEntity.cpp
+        src/BrainCloudGlobalFile.cpp
+        src/BrainCloudGlobalStatistics.cpp
+        src/BrainCloudGroup.cpp
+        src/BrainCloudIdentity.cpp
+        src/BrainCloudLobby.cpp
+        src/BrainCloudMail.cpp
+        src/BrainCloudMatchmaking.cpp
+        src/BrainCloudMessaging.cpp
+        src/BrainCloudOneWayMatch.cpp
+        src/BrainCloudPlaybackStream.cpp
+        src/BrainCloudPlayerState.cpp
+        src/BrainCloudPlayerStatistics.cpp
+        src/BrainCloudPlayerStatisticsEvent.cpp
+        src/BrainCloudPresence.cpp
+        src/BrainCloudProfanity.cpp
+        src/BrainCloudPushNotification.cpp
+        src/BrainCloudRedemptionCode.cpp
+        src/BrainCloudRelay.cpp
+        src/BrainCloudRTT.cpp
+        src/BrainCloudS3Handling.cpp
+        src/BrainCloudScript.cpp
+        src/BrainCloudSocialLeaderboard.cpp
+        src/BrainCloudTime.cpp
+        src/BrainCloudTournament.cpp
+        src/BrainCloudCustomEntity.cpp
+        src/BrainCloudItemCatalog.cpp
+        src/BrainCloudUserItems.cpp
+        src/BrainCloudVirtualCurrency.cpp
+        src/BrainCloudWrapper.cpp
+        src/DefaultBrainCloudComms.cpp
+        src/FriendPlatform.cpp
+        src/GUID.cpp
+        src/IBrainCloudComms.cpp
+        src/JsonUtil.cpp
+        src/OperationParam.cpp
+        src/Platform.cpp
+        src/RelayComms.cpp
+        src/RTTComms.cpp
+        src/SaveDataHelper.cpp
+        src/ServerCall.cpp
+        src/ServiceName.cpp
+        src/ServiceOperation.cpp
+        src/StringUtil.cpp
+        src/TimeUtil.cpp
+        src/TimerCallback.cpp
+        src/URLLoader.cpp
+        src/URLLoaderClient.cpp
+        src/URLRequest.cpp
+        src/URLRequestHeader.cpp
+        src/URLRequestMethod.cpp
+        src/URLResponse.cpp
 
-    ${OS_SPECIFIC_INCS}
-    ${OS_SPECIFIC_SRCS}
-    ${JSONCPP_FILES}
-)
+        ${OS_SPECIFIC_INCS}
+        ${OS_SPECIFIC_SRCS}
+        ${JSONCPP_FILES}
+        )
 
 # Set files to be "consume windows runtime exceptions" to build them with CX
 if (UWP)
     set_source_files_properties(
-        "src/win/WindowsSaveDataHelper.cpp"
-        "src/win/UWPWebSocket.cpp"
-        PROPERTIES COMPILE_FLAGS "/ZW")
+            "src/win/WindowsSaveDataHelper.cpp"
+            "src/win/UWPWebSocket.cpp"
+            PROPERTIES COMPILE_FLAGS "/ZW")
 endif()
 
 #=============================================================================
@@ -373,12 +373,12 @@ if (APPLE)
     find_library(BC_FOUNDATION_LIB Foundation)
     find_library(BC_SYSCONFIG_LIB SystemConfiguration)
     find_library(BC_SECURITY_LIB Security)
-    list(APPEND libs 
-        ${BC_GAMEKIT_LIB}
-        ${BC_COREFOUNDATION_LIB}
-        ${BC_FOUNDATION_LIB}
-        ${BC_SYSCONFIG_LIB}
-        ${BC_SECURITY_LIB})
+    list(APPEND libs
+            ${BC_GAMEKIT_LIB}
+            ${BC_COREFOUNDATION_LIB}
+            ${BC_FOUNDATION_LIB}
+            ${BC_SYSCONFIG_LIB}
+            ${BC_SECURITY_LIB})
 elseif (LINUX)
     find_package(CURL REQUIRED)
     list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
