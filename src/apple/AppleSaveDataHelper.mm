@@ -58,7 +58,6 @@ namespace BrainCloud
 
 		NSString * serviceString = [NSString stringWithUTF8String:m_savePath.c_str()];
 		NSString * keyString = [NSString stringWithUTF8String:key];
-
 		NSString * dataString = [SSKeychain passwordForService:serviceString account:keyString];
 
 		std::string data = "";
@@ -69,6 +68,13 @@ namespace BrainCloud
 			[SSKeychain deletePasswordForService:serviceString account:keyString];
 			data = [dataString UTF8String];
 		}
+        else
+        {
+            NSString* stringData = [[NSUserDefaults standardUserDefaults] stringForKey:keyString];
+            
+            if(stringData != nil)
+                data = [stringData UTF8String];
+        }
 
 		return data;
 	}

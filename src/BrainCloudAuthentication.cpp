@@ -230,6 +230,17 @@ namespace BrainCloud {
         m_client->sendRequest(sc);
     }
 
+    void BrainCloudAuthentication::retryPreviousAuthenticate(IServerCallback * in_callback)
+    {
+        authenticate(m_previousAuthParams.externalId.c_str(),
+                     m_previousAuthParams.authenticationToken.c_str(),
+                     m_previousAuthParams.authenticationType,
+                     m_previousAuthParams.externalAuthName.c_str(),
+                     m_previousAuthParams.forceCreate,
+                     m_previousAuthParams.extraJson.c_str(),
+                     in_callback);
+    }
+
     void BrainCloudAuthentication::authenticate(
         const char * in_externalId,
         const char * in_authenticationToken,
@@ -239,6 +250,13 @@ namespace BrainCloud {
         const std::string &in_extraJson,
         IServerCallback * in_callback)
     {
+        m_previousAuthParams.externalId = in_externalId ? in_externalId : "";
+        m_previousAuthParams.authenticationToken = in_authenticationToken ? in_authenticationToken : "";
+        m_previousAuthParams.authenticationType = in_authenticationType;
+        m_previousAuthParams.externalAuthName = in_externalAuthName ? in_externalAuthName : "";
+        m_previousAuthParams.forceCreate = in_forceCreate;
+        m_previousAuthParams.extraJson = in_extraJson;
+
         Json::Value message;
         message[OperationParam::AuthenticateServiceAuthenticateExternalId.getValue()] = in_externalId;
         message[OperationParam::AuthenticateServiceAuthenticateAuthenticationToken.getValue()] = in_authenticationToken;

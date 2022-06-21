@@ -35,6 +35,17 @@ TEST_F(TestBCWrapper, AuthenticateAnonymous)
     Logout();
 }
 
+TEST_F(TestBCWrapper, ManualRedirect) // Redirects to the same environement, different app id
+{
+    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_redirectAppId.c_str(), m_version.c_str(), "wrapper", "unittest");
+
+    TestResult tr;
+ 	m_bcWrapper->authenticateAnonymous(&tr);
+    tr.run(m_bc);
+    
+    Logout();
+}
+
 TEST_F(TestBCWrapper, AuthenticateEmailPassword)
 {
 	m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
