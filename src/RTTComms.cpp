@@ -434,7 +434,7 @@ namespace BrainCloud
                         // ############################
                         // temporary fix for Android
                         // this will cause a seg fault (nullptr access) in Android if RTT is enabled
-                    #if defined(__ANDROID__) and defined(USE_LIBWEBSOCKETS)
+                    #if defined(USE_LIBWEBSOCKETS) or not defined(__ANDROID__)
                         _socket = IWebSocket::create(host, port, headers);
                     #endif
                         // ############################
