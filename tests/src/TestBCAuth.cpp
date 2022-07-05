@@ -25,17 +25,17 @@ TEST_F(TestBCAuth, AuthenticateEmailPassword)
     tr.run(m_bc);
     Logout();
 }
-
-TEST_F(TestBCAuth, AuthManualRedirect) // Redirects to the same environement, different app id. Should fail because we need to call this from the wrapper
-{
-    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_redirectAppId.c_str(), m_version.c_str(), "wrapper", "unittest");
-
-    TestResult tr;
-	m_bc->getAuthenticationService()->authenticateAnonymous(true, &tr);
-    tr.runExpectFail(m_bc, HTTP_ACCEPTED /* 202 */, MANUAL_REDIRECT /* 40308 */);
-    
-    Logout();
-}
+// This is an unfinished feature
+//TEST_F(TestBCAuth, AuthManualRedirect) // Redirects to the same environement, different app id. Should fail because we need to call this from the wrapper
+//{
+//    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_redirectAppId.c_str(), m_version.c_str(), "wrapper", "unittest");
+//
+//    TestResult tr;
+//	m_bc->getAuthenticationService()->authenticateAnonymous(true, &tr);
+//    tr.runExpectFail(m_bc, HTTP_ACCEPTED /* 202 */, MANUAL_REDIRECT /* 40308 */);
+//    
+//    Logout();
+//}
 
 TEST_F(TestBCAuth, AuthBadSig)
 {
@@ -258,7 +258,7 @@ TEST_F(TestBCAuth, AuthenticateAdvanced)
 TEST_F(TestBCAuth, AuthenticateUltra)
 {
     if (TestFixtureBase::getServerUrl().find("api-internal.braincloudservers.com") == std::string::npos &&
-        TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos &&
+        TestFixtureBase::getServerUrl().find("api.internala.braincloudservers.com") == std::string::npos &&
         TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos/* &&
         TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos*/)
     {

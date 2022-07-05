@@ -16,7 +16,7 @@ public:
         BrainCloud::BrainCloudClient* pBC,
         const std::string& expectedServiceName,
         const std::string& expectedOperation = "",
-        int waitTimeSec = 30)
+        int waitTimeSec = 60)
         : m_pBC(pBC)
         , m_expectedServiceName(expectedServiceName)
         , m_expectedOperation(expectedOperation)
@@ -52,7 +52,7 @@ public:
             {
                 return true;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
 
         printf("RTT receivedCallback timeout after %isec\n", m_waitTimeSec);
@@ -227,7 +227,7 @@ TEST_F(TestBCRTTComms, RTTEventCallback)
         EXPECT_TRUE(tries > 0);
 
         // Failed? Sleep 20sec then try again
-        std::this_thread::sleep_for(std::chrono::seconds(20));
+        std::this_thread::sleep_for(std::chrono::seconds(40));
     }
 #else
     m_bc->getRTTService()->enableRTT(&tr, true);
