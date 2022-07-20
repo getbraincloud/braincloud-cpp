@@ -26,16 +26,17 @@ TEST_F(TestBCAuth, AuthenticateEmailPassword)
     Logout();
 }
 
-TEST_F(TestBCAuth, AuthManualRedirect) // Redirects to the same environement, different app id. Should fail because we need to call this from the wrapper
-{
-    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_redirectAppId.c_str(), m_version.c_str(), "wrapper", "unittest");
-
-    TestResult tr;
-	m_bc->getAuthenticationService()->authenticateAnonymous(true, &tr);
-    tr.runExpectFail(m_bc, HTTP_ACCEPTED /* 202 */, MANUAL_REDIRECT /* 40308 */);
-    
-    Logout();
-}
+//This is an unfinished feature
+//TEST_F(TestBCAuth, AuthManualRedirect) // Redirects to the same environement, different app id. Should fail because we need to call this from the wrapper
+//{
+//    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_redirectAppId.c_str(), m_version.c_str(), "wrapper", "unittest");
+//
+//    TestResult tr;
+//	m_bc->getAuthenticationService()->authenticateAnonymous(true, &tr);
+//    tr.runExpectFail(m_bc, HTTP_ACCEPTED /* 202 */, MANUAL_REDIRECT /* 40308 */);
+//    
+//    Logout();
+//}
 
 TEST_F(TestBCAuth, AuthBadSig)
 {
