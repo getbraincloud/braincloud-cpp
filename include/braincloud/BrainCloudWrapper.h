@@ -125,7 +125,7 @@ namespace BrainCloud {
          * @param in_callback The method to be invoked when the server response is received
          *
          */
-        void authenticateAnonymous(IServerCallback * in_callback = NULL);
+        void authenticateAnonymous(IServerCallback * in_callback = NULL, bool forceCreate = true);
 
         /*
          * Authenticate the user with a custom Email and Password.  Note that the client app

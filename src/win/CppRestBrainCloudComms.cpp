@@ -333,7 +333,9 @@ namespace BrainCloud
             if (statusCode != web::http::status_codes::OK)
             {
                 if (statusCode == web::http::status_codes::RequestTimeout ||
-                    statusCode == web::http::status_codes::ServiceUnavailable)
+                    statusCode == web::http::status_codes::ServiceUnavailable ||
+                    statusCode == web::http::status_codes::BadGateway ||
+                    statusCode == web::http::status_codes::GatewayTimeout)
                 {
                     _retryCount++;
                     if (_retryCount < getMaxSendAttempts())

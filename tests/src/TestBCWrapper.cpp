@@ -133,7 +133,7 @@ TEST_F(TestBCWrapper, Reconnect)
 	m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
 
 	m_bcWrapper->reconnect(&tr);
-	tr.run(m_bc);
+	tr.runExpectFail(m_bc, HTTP_ACCEPTED, MISSING_PROFILE_ERROR);
 
 	Logout();
 }
