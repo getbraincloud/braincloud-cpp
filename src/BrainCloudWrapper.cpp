@@ -151,13 +151,13 @@ namespace BrainCloud {
     }
 
     // authenticate the player with an anonymous id
-    void BrainCloudWrapper::authenticateAnonymous(IServerCallback * in_callback)
+    void BrainCloudWrapper::authenticateAnonymous(IServerCallback * in_callback, bool forceCreate)
     {
         m_authenticateCallback = in_callback;
 
         initializeIdentity(true);
 
-        client->getAuthenticationService()->authenticateAnonymous(true, this);
+        client->getAuthenticationService()->authenticateAnonymous(forceCreate, this);
     }
 
     void BrainCloudWrapper::authenticateEmailPassword(const char * in_email, const char * in_password, bool in_forceCreate, IServerCallback * in_callback)
@@ -747,7 +747,7 @@ namespace BrainCloud {
 
 	void BrainCloudWrapper::reconnect(IServerCallback * in_callback)
 	{
-		authenticateAnonymous(in_callback);
+		authenticateAnonymous(in_callback, false);
 	}
 
     void BrainCloudWrapper::runCallbacks()
