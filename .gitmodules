@@ -7,3 +7,7 @@
 [submodule "lib/lwsv3/libwebsockets"]
 	path = lib/lwsv3/libwebsockets
 	url = https://github.com/getbraincloud/libwebsockets.git
+[submodule "lib/lwsv4.1-stable/libwebsockets"]
+	path = lib/lwsv4.1-stable/libwebsockets
+	url = https://github.com/warmcat/libwebsockets.git
+	branch = v4.1-stable
