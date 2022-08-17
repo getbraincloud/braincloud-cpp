@@ -5,7 +5,7 @@
 #include "braincloud/IRTTConnectCallback.h"
 #include "braincloud/internal/ITCPSocket.h"
 
-#if ((not defined TARGET_OS_WATCH) or TARGET_OS_WATCH != 1)
+#if (TARGET_OS_WATCH != 1)
 #include "braincloud/internal/IWebSocket.h"
 #endif
 #include "braincloud/internal/TimeUtil.h"
@@ -388,7 +388,7 @@ namespace BrainCloud
         std::cout << "VERBOSE: RTTComms::connect" << std::endl;
 #endif
         _rttConnectionStatus = BrainCloudRTT::RTTConnectionStatus::Connecting;
-#if ((not defined TARGET_OS_WATCH) or TARGET_OS_WATCH != 1)
+#if (TARGET_OS_WATCH != 1)
         _disconnectedWithReason = false;
         std::thread connectionThread([this]
         {
@@ -433,7 +433,7 @@ namespace BrainCloud
                             }
                         }
                         // resolves error: undefined reference to 'BrainCloud::IWebSocket::create
-                        #if (defined USE_LIBWEBSOCKETS and USE_LIBWEBSOCKETS!=0)
+                        #if (USE_LIBWEBSOCKETS!=0)
                         _socket = IWebSocket::create(host, port, headers);
                         #endif
                     }
