@@ -4,7 +4,8 @@
 #include "braincloud/IRTTCallback.h"
 #include "braincloud/IRTTConnectCallback.h"
 #include "braincloud/internal/ITCPSocket.h"
-#if (TARGET_OS_WATCH != 1)
+
+#if ((not defined TARGET_OS_WATCH) or TARGET_OS_WATCH != 1)
 #include "braincloud/internal/IWebSocket.h"
 #endif
 #include "braincloud/internal/TimeUtil.h"
@@ -387,7 +388,7 @@ namespace BrainCloud
         std::cout << "VERBOSE: RTTComms::connect" << std::endl;
 #endif
         _rttConnectionStatus = BrainCloudRTT::RTTConnectionStatus::Connecting;
-#if (TARGET_OS_WATCH != 1)
+#if ((not defined TARGET_OS_WATCH) or TARGET_OS_WATCH != 1)
         _disconnectedWithReason = false;
         std::thread connectionThread([this]
         {
@@ -431,20 +432,17 @@ namespace BrainCloud
                                 host += key + "=" + value;
                             }
                         }
-                        // ############################
-                        // temporary fix for Android
-                        // this will cause a seg fault (nullptr access) in Android if RTT is enabled
-                    #if defined(USE_LIBWEBSOCKETS) or not defined(__ANDROID__)
+                        // resolves error: undefined reference to 'BrainCloud::IWebSocket::create
+                        #if (defined USE_LIBWEBSOCKETS and USE_LIBWEBSOCKETS!=0)
                         _socket = IWebSocket::create(host, port, headers);
-                    #endif
-                        // ############################
+                        #endif
                     }
                     else
                     {
                         _socket = ITCPSocket::create(host, port);
                     }
                 }
-                if (!_socket->isValid())
+                if (!_socket || !_socket->isValid())
                 {
                     closeSocket();
                     failedToConnect();

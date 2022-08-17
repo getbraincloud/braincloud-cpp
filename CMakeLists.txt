@@ -53,7 +53,7 @@ endif()
 
 # lets use libwebsockets by default
 # turned off for Android until library link issues resolved (note: RTT features are also disabled)
-if (NOT UWP AND NOT ANDROID)
+if (NOT UWP AND NOT DEFINED USE_LIBWEBSOCKETS)
     set(USE_LIBWEBSOCKETS 1)
 endif()
 
@@ -392,6 +392,8 @@ elseif (LINUX)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
+    #find_package(OpenSSL)
+
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
@@ -443,7 +445,7 @@ if (USE_LIBWEBSOCKETS)
     add_subdirectory(./lib/mbedtls/)
     list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
     list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
+           PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
     option(LWS_WITH_MBEDTLS "" ON)
     set(LWS_MBEDTLS_INCLUDE_DIRS
             "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
@@ -452,19 +454,32 @@ if (USE_LIBWEBSOCKETS)
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
+    elseif(CMAKE_GENERATOR STREQUAL Xcode)
+        set(LWS_MBEDTLS_LIBRARIES "")
     else()
-        set(LWS_MBEDTLS_LIBRARIES
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+        set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+
+        #set(MBEDTLS_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a")
+        #set(MBEDX509_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a")
+        #set(MBEDCRYPTO_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a")
+
     endif()
 
     # Latest xcode broke lws. lws did a fix in their latest, but this broke
     # their mbedtls impl... So we are using different lws version on
-    # apple (latest) vs our usual one on all other platforms...
-    if (APPLE)
-        set(LWS_DIR lib/libwebsockets)
+    # apple (latest) vs our usual one v4.1.6 on all other platforms...
+    #if (APPLE)
+    if (ANDROID OR (CMAKE_GENERATOR STREQUAL Xcode))
+        # AND NOT XCODE_VERSION VERSION_LESS 12.0.0)
+        #message(STATUS "Xcode version ${XCODE_VERSION}")
+       set(LWS_DIR lib/libwebsockets)
+       #set(LWS_DIR lib/lwsv4.1-stable/libwebsockets)
     else()
         set(LWS_DIR lib/lwsv3/libwebsockets)
     endif()
+    #set(LWS_DIR lib/lwsv4.1-stable/libwebsockets)
+    #set(LWS_DIR lib/lwsv4.3-stable/libwebsockets)
+    #set(LWS_DIR lib/lwsv3/libwebsockets)
 
     # LibWebSockets
     option(LWS_WITHOUT_SERVER
