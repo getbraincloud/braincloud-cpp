@@ -29,7 +29,7 @@ endif()
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
 option(USE_CURL "Force use libCurl on Win32" OFF)
-option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
+option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" ON)
 
 #=============================================================================
 # Definitions
@@ -53,7 +53,7 @@ endif()
 
 # lets use libwebsockets by default
 # turned off for Android until library link issues resolved (note: RTT features are also disabled)
-if (NOT UWP AND NOT DEFINED USE_LIBWEBSOCKETS)
+if (NOT UWP)
     set(USE_LIBWEBSOCKETS 1)
 endif()
 
@@ -392,7 +392,7 @@ elseif (LINUX)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
-    find_package(OpenSSL)
+    #find_package(OpenSSL)
 
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
@@ -407,8 +407,8 @@ elseif (ANDROID)
 
     list(APPEND libs
             curl
-#            ssl
-#            crypto
+            #ssl
+            #Scrypto
             uv_a
             libz
             )
@@ -454,9 +454,13 @@ if (USE_LIBWEBSOCKETS)
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
-    elseif(CMAKE_GENERATOR STREQUAL Xcode)
-        set(LWS_MBEDTLS_LIBRARIES "")
+        message(STATUS "---- unix or mac platform")
+    elseif(NOT "${CMAKE_GENERATOR}" STREQUAL "")
+        set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+        message(STATUS "---- generated for xcode or visual studio")
     else()
+        message(STATUS "---- another platform")
+        #set(LWS_MBEDTLS_LIBRARIES "")
         set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
 
 #        set(MBEDTLS_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a")
@@ -496,6 +500,7 @@ if (USE_LIBWEBSOCKETS)
             "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
             "Build the shared version of the library" OFF)
+
     add_subdirectory(${LWS_DIR})
     list(APPEND libs websockets)
     list(APPEND includes
