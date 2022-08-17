@@ -228,6 +228,10 @@ namespace BrainCloud
                 }
                 case RTTCallbackType::ConnectFailure:
                 {
+                    Json::FastWriter fastWriter;
+                    Json::Value eventJson(callback._json);
+                    std::cout<<fastWriter.write(eventJson);
+
                     if (_connectCallback)
                     {
                         _connectCallback->rttConnectFailure(callback._message);
@@ -432,10 +436,7 @@ namespace BrainCloud
                                 host += key + "=" + value;
                             }
                         }
-                        // resolves error: undefined reference to 'BrainCloud::IWebSocket::create
-                        #if (USE_LIBWEBSOCKETS!=0)
                         _socket = IWebSocket::create(host, port, headers);
-                        #endif
                     }
                     else
                     {

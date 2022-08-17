@@ -392,23 +392,23 @@ elseif (LINUX)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
-    #find_package(OpenSSL)
+    find_package(OpenSSL)
 
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
     set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
-    add_library(ssl STATIC IMPORTED)
-    set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
-    add_library(crypto STATIC IMPORTED)
-    set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
+    #add_library(ssl STATIC IMPORTED)
+    #set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
+    #add_library(crypto STATIC IMPORTED)
+    #set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
     add_library(uv_a STATIC IMPORTED)
     set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
 
     list(APPEND libs
             curl
-            ssl
-            crypto
+#            ssl
+#            crypto
             uv_a
             libz
             )
@@ -459,9 +459,9 @@ if (USE_LIBWEBSOCKETS)
     else()
         set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
 
-        #set(MBEDTLS_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a")
-        #set(MBEDX509_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a")
-        #set(MBEDCRYPTO_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a")
+#        set(MBEDTLS_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a")
+#        set(MBEDX509_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a")
+#        set(MBEDCRYPTO_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a")
 
     endif()
 
@@ -472,8 +472,8 @@ if (USE_LIBWEBSOCKETS)
     if (ANDROID OR (CMAKE_GENERATOR STREQUAL Xcode))
         # AND NOT XCODE_VERSION VERSION_LESS 12.0.0)
         #message(STATUS "Xcode version ${XCODE_VERSION}")
-       #set(LWS_DIR lib/libwebsockets)
-       set(LWS_DIR lib/lwsv4.1-stable/libwebsockets)
+       set(LWS_DIR lib/libwebsockets)
+       #set(LWS_DIR lib/lwsv4.1-stable/libwebsockets)
     else()
         set(LWS_DIR lib/lwsv3/libwebsockets)
     endif()
