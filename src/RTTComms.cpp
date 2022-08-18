@@ -436,6 +436,9 @@ namespace BrainCloud
                             }
                         }
                         #ifndef LIBWEBSOCKETS_OFF
+                        // only creates this object if the required files are linked in
+                        // could arise if libwebsockets are OFF in the makefile but ON in the app
+                        // in this case, there WILL be a connection error called after enableRTT()
                         _socket = IWebSocket::create(host, port, headers);
                         #endif
                     }
