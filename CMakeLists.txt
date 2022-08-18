@@ -53,8 +53,10 @@ endif()
 
 # lets use libwebsockets by default
 # turned off for Android until library link issues resolved (note: RTT features are also disabled)
-if (NOT UWP)
+if (NOT UWP AND NOT ANDROID)
     set(USE_LIBWEBSOCKETS 1)
+else()
+    add_definitions(-DLIBWEBSOCKETS_OFF)
 endif()
 
 #=============================================================================
@@ -398,6 +400,8 @@ elseif (ANDROID)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
     set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
+    add_library(websockets STATIC IMPORTED)
+    set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
     #add_library(ssl STATIC IMPORTED)
     #set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
     #add_library(crypto STATIC IMPORTED)
@@ -409,6 +413,7 @@ elseif (ANDROID)
             curl
             #ssl
             #Scrypto
+            websockets
             uv_a
             libz
             )
@@ -438,7 +443,7 @@ elseif (WIN32)
     endif()
 endif()
 
-if (USE_LIBWEBSOCKETS)
+if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
@@ -473,7 +478,7 @@ if (USE_LIBWEBSOCKETS)
     # their mbedtls impl... So we are using different lws version on
     # apple (latest) vs our usual one v4.1.6 on all other platforms...
     #if (APPLE)
-    if (ANDROID OR (CMAKE_GENERATOR STREQUAL Xcode))
+    if (APPLE OR (CMAKE_GENERATOR STREQUAL Xcode))
         # AND NOT XCODE_VERSION VERSION_LESS 12.0.0)
         #message(STATUS "Xcode version ${XCODE_VERSION}")
        set(LWS_DIR lib/libwebsockets)
