@@ -4,7 +4,6 @@
 #include "braincloud/IRTTCallback.h"
 #include "braincloud/IRTTConnectCallback.h"
 #include "braincloud/internal/ITCPSocket.h"
-
 #if (TARGET_OS_WATCH != 1)
 #include "braincloud/internal/IWebSocket.h"
 #endif
@@ -228,9 +227,9 @@ namespace BrainCloud
                 }
                 case RTTCallbackType::ConnectFailure:
                 {
-                    Json::FastWriter fastWriter;
-                    Json::Value eventJson(callback._json);
-                    std::cout<<fastWriter.write(eventJson);
+//                    Json::FastWriter fastWriter;
+//                    Json::Value eventJson(callback._json);
+//                    std::cout<<fastWriter.write(eventJson);
 
                     if (_connectCallback)
                     {
