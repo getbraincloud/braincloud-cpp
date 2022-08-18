@@ -395,14 +395,12 @@ elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
     #find_package(OpenSSL)
-    message (STATUS "OPNESSL_ROOT_DIR is $ENV{OPENSSL_ROOT_DIR}")
+    #message (STATUS "OPENSSL_ROOT_DIR is $ENV{OPENSSL_ROOT_DIR}")
 
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
     set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
-    add_library(websockets STATIC IMPORTED)
-    set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
     #add_library(ssl STATIC IMPORTED)
     #set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
     #add_library(crypto STATIC IMPORTED)
@@ -412,13 +410,18 @@ elseif (ANDROID)
 
     list(APPEND libs
             curl
-            websockets
             #ssl
             #Scrypto
-            websockets
             uv_a
             libz
             )
+
+    if(USE_LIBWEBSOCKETS)
+        add_library(websockets STATIC IMPORTED)
+        set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
+        list(APPEND libs websockets)
+    endif()
+
 elseif (WIN32)
     if (USE_CURL)
         include_directories(
