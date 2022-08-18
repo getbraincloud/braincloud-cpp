@@ -390,42 +390,26 @@ elseif (LINUX)
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES})
 elseif (ANDROID)
-    list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/${ANDROID_ABI}/")
+    list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
-    #find_package(OpenSSL REQUIRED)
-    #find_package(CURL)
-
-#    set(CURL_LIBRARY "-lcurl")
-#    find_package(CURL REQUIRED)
-#    list(APPEND includes PUBLIC "${CURL_INCLUDE_DIR}")
+    #find_package(OpenSSL)
 
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
-
-    SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
-    find_library(BC_CURL_LIB NAMES curl HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-    find_library(BC_LWS_LIB NAMES websockets HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-    find_library(BC_UV_LIB NAMES uv_a HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-    find_library(BC_CRYPTO_LIB NAMES crypto HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-    find_library(BC_SSL_LIB NAMES ssl HINTS "${BC_DIR}/lib/android/libs/${ANDROID_ABI}")
-
-    #add_library(curl STATIC IMPORTED)
-    #set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
-    #add_library(websockets STATIC IMPORTED)
-    #set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
+    add_library(curl STATIC IMPORTED)
+    set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
     #add_library(ssl STATIC IMPORTED)
     #set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
     #add_library(crypto STATIC IMPORTED)
     #set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
-    #add_library(uv_a STATIC IMPORTED)
-    #set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
+    add_library(uv_a STATIC IMPORTED)
+    set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
 
     list(APPEND libs
-            ${BC_CURL_LIB}
-            ${BC_LWS_LIB}
-            ${BC_UV_LIB}
-            ${BC_SSL_LIB}
-            ${BC_CRYPTO_LIB}
+            curl
+            #ssl
+            #Scrypto
+            uv_a
             libz
             )
 elseif (WIN32)
@@ -454,7 +438,7 @@ elseif (WIN32)
     endif()
 endif()
 
-if (USE_LIBWEBSOCKETS AND NOT ANDROID)
+if (USE_LIBWEBSOCKETS)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
@@ -463,8 +447,6 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     list(APPEND includes
            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
     option(LWS_WITH_MBEDTLS "" ON)
-    option(LWS_WITH_SSL "" OFF)
-
     set(LWS_MBEDTLS_INCLUDE_DIRS
             "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
     if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
@@ -491,11 +473,11 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     # their mbedtls impl... So we are using different lws version on
     # apple (latest) vs our usual one v4.1.6 on all other platforms...
     #if (APPLE)
-    if (ANDROID OR APPLE)
+    if (ANDROID OR (CMAKE_GENERATOR STREQUAL Xcode))
         # AND NOT XCODE_VERSION VERSION_LESS 12.0.0)
         #message(STATUS "Xcode version ${XCODE_VERSION}")
-       #set(LWS_DIR lib/libwebsockets)
-       set(LWS_DIR lib/lwsv4.1-stable/libwebsockets)
+       set(LWS_DIR lib/libwebsockets)
+       #set(LWS_DIR lib/lwsv4.1-stable/libwebsockets)
     else()
         set(LWS_DIR lib/lwsv3/libwebsockets)
     endif()
