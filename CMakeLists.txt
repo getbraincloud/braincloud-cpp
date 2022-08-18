@@ -395,6 +395,7 @@ elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
     #find_package(OpenSSL)
+    message (STATUS "OPNESSL_ROOT_DIR is $ENV{OPENSSL_ROOT_DIR}")
 
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
@@ -411,6 +412,7 @@ elseif (ANDROID)
 
     list(APPEND libs
             curl
+            websockets
             #ssl
             #Scrypto
             websockets
