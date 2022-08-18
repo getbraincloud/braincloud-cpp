@@ -29,7 +29,7 @@ endif()
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
 option(USE_CURL "Force use libCurl on Win32" OFF)
-option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" ON)
+option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
 
 #=============================================================================
 # Definitions
@@ -454,7 +454,8 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     option(ENABLE_PROGRAMS "" OFF)
     add_subdirectory(./lib/mbedtls/)
     list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-    list(APPEND includes PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
+    list(APPEND includes
+            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
     option(LWS_WITH_MBEDTLS "" ON)
     set(LWS_MBEDTLS_INCLUDE_DIRS
             "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
@@ -497,7 +498,6 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
             "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
             "Build the shared version of the library" OFF)
-
     add_subdirectory(${LWS_DIR})
     list(APPEND libs websockets)
     list(APPEND includes
