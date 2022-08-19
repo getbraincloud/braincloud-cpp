@@ -476,8 +476,6 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     # their mbedtls impl... So we are using different lws version on
     # apple (latest) vs our usual one v4.1.6 on all other platforms...
     if (APPLE OR (CMAKE_GENERATOR STREQUAL Xcode))
-        # AND NOT XCODE_VERSION VERSION_LESS 13.0.0)
-        #message(STATUS "Xcode version ${XCODE_VERSION}")
        set(LWS_DIR lib/libwebsockets)
     else()
         set(LWS_DIR lib/lwsv3/libwebsockets)

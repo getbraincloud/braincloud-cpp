@@ -227,10 +227,6 @@ namespace BrainCloud
                 }
                 case RTTCallbackType::ConnectFailure:
                 {
-//                    Json::FastWriter fastWriter;
-//                    Json::Value eventJson(callback._json);
-//                    std::cout<<fastWriter.write(eventJson);
-
                     if (_connectCallback)
                     {
                         _connectCallback->rttConnectFailure(callback._message);
