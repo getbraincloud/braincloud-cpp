@@ -29,8 +29,9 @@ endif()
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
 option(USE_CURL "Force use libCurl on Win32" OFF)
-option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
-
+if (NOT DEFINED(${SSL_ALLOW_SELFSIGNED}))
+    option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
+endif()
 #=============================================================================
 # Definitions
 #=============================================================================
