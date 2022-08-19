@@ -154,6 +154,7 @@ TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicDaysUTC)
 	jsonData["testKey"] = "TestValue";
 
     int64_t milliseconds_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    milliseconds_since_epoch += 1000000;    //adding about 15 minutes
 
 	m_bc->getLeaderboardService()->postScoreToDynamicLeaderboardDaysUTC("TestDynamicDaysCpp", 100, fw.write(jsonData), HIGH_VALUE, milliseconds_since_epoch, 2, 3, &tr);
 	tr.run(m_bc);

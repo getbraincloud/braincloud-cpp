@@ -29,8 +29,9 @@ endif()
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
 option(USE_CURL "Force use libCurl on Win32" OFF)
-option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
-
+if (NOT DEFINED(${SSL_ALLOW_SELFSIGNED}))
+    option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
+endif()
 #=============================================================================
 # Definitions
 #=============================================================================
@@ -55,6 +56,8 @@ endif()
 # turned off for Android until library link issues resolved (note: RTT features are also disabled)
 if (NOT UWP AND NOT ANDROID)
     set(USE_LIBWEBSOCKETS 1)
+else()
+    add_definitions(-DLIBWEBSOCKETS_OFF)
 endif()
 
 #=============================================================================
@@ -392,24 +395,34 @@ elseif (LINUX)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
+    #find_package(OpenSSL)
+    #message (STATUS "OPENSSL_ROOT_DIR is $ENV{OPENSSL_ROOT_DIR}")
+
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
     set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
-    add_library(ssl STATIC IMPORTED)
-    set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
-    add_library(crypto STATIC IMPORTED)
-    set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
+    #add_library(ssl STATIC IMPORTED)
+    #set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
+    #add_library(crypto STATIC IMPORTED)
+    #set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
     add_library(uv_a STATIC IMPORTED)
     set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
 
     list(APPEND libs
             curl
-            ssl
-            crypto
+            #ssl
+            #Scrypto
             uv_a
             libz
             )
+
+    if(USE_LIBWEBSOCKETS)
+        add_library(websockets STATIC IMPORTED)
+        set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
+        list(APPEND libs websockets)
+    endif()
+
 elseif (WIN32)
     if (USE_CURL)
         include_directories(
@@ -436,7 +449,7 @@ elseif (WIN32)
     endif()
 endif()
 
-if (USE_LIBWEBSOCKETS)
+if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
@@ -448,20 +461,23 @@ if (USE_LIBWEBSOCKETS)
     set(LWS_MBEDTLS_INCLUDE_DIRS
             "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
     if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
+        # when building at commandline on unix os (or mac)
         set(LWS_MBEDTLS_LIBRARIES
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
     else()
-        set(LWS_MBEDTLS_LIBRARIES
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+        # when generator is Xcode or Visual Studio
+        # causes a 'dropped file links to directory' warning
+        # but allows project to load and compile in IDE
+        set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
 
     # Latest xcode broke lws. lws did a fix in their latest, but this broke
     # their mbedtls impl... So we are using different lws version on
-    # apple (latest) vs our usual one on all other platforms...
-    if (APPLE)
-        set(LWS_DIR lib/libwebsockets)
+    # apple (latest) vs our usual one v4.1.6 on all other platforms...
+    if (APPLE OR (CMAKE_GENERATOR STREQUAL Xcode))
+       set(LWS_DIR lib/libwebsockets)
     else()
         set(LWS_DIR lib/lwsv3/libwebsockets)
     endif()
