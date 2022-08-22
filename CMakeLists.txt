@@ -496,7 +496,7 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
             "Build the shared version of the library" OFF)
 
     # git checkout v4.3.0 (upgrading to 4.3.2 creates link error with mbedtls)
-    add_subdirectory(${LWS_DIR})
+    add_subdirectory(lib/libwebsockets)
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR}/include/)
