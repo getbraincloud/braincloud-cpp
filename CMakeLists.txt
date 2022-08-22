@@ -54,7 +54,7 @@ endif()
 
 # lets use libwebsockets by default
 # turned off for Android until library link issues resolved (note: RTT features are also disabled)
-if (NOT UWP AND NOT ANDROID)
+if (NOT UWP) #AND NOT ANDROID)
     set(USE_LIBWEBSOCKETS 1)
 else()
     add_definitions(-DLIBWEBSOCKETS_OFF)
@@ -473,14 +473,7 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
         set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
 
-    # Latest xcode broke lws. lws did a fix in their latest, but this broke
-    # their mbedtls impl... So we are using different lws version on
-    # apple (latest) vs our usual one v4.1.6 on all other platforms...
-    if (APPLE OR (CMAKE_GENERATOR STREQUAL Xcode))
-       set(LWS_DIR lib/libwebsockets)
-    else()
-        set(LWS_DIR lib/lwsv3/libwebsockets)
-    endif()
+    set(LWS_DIR lib/libwebsockets)
 
     # LibWebSockets
     option(LWS_WITHOUT_SERVER
