@@ -450,10 +450,16 @@ elseif (WIN32)
 endif()
 
 if (USE_LIBWEBSOCKETS AND NOT ANDROID)
+# tested with mbedtls-v2.13.1
+
+
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
-    add_subdirectory(./lib/mbedtls/)
+
+    # git checkout mbedtls-v2.13.1
+    add_subdirectory(lib/mbedtls/)
+
     list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
@@ -473,8 +479,6 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
         set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
 
-    set(LWS_DIR lib/libwebsockets)
-
     # LibWebSockets
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
@@ -490,6 +494,8 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
             "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
             "Build the shared version of the library" OFF)
+
+    # git checkout v4.3.0 (upgrading to 4.3.2 creates link error with mbedtls)
     add_subdirectory(${LWS_DIR})
     list(APPEND libs websockets)
     list(APPEND includes
