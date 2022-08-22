@@ -469,11 +469,14 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
-    else()
-        # when generator is Xcode or Visual Studio
+    elseif (CMAKE_GENERATOR STREQUAL Xcode)
+        # setting this blank causes no warnings in cmake, links in xcode
+        set(LWS_MBEDTLS_LIBRARIES "")
+    elseif()
+        # when generator is Visual Studio
         # causes a 'dropped file links to directory' warning
         # but allows project to load and compile in IDE
-        set(LWS_MBEDTLS_LIBRARIES "")
+        set(LWS_MBEDTLS_LIBRARIES "{CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
 
     # 4.3.2 has build errors with mbedtls
