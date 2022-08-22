@@ -450,9 +450,6 @@ elseif (WIN32)
 endif()
 
 if (USE_LIBWEBSOCKETS AND NOT ANDROID)
-# tested with mbedtls-v2.13.1
-
-
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
@@ -476,10 +473,13 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
         # when generator is Xcode or Visual Studio
         # causes a 'dropped file links to directory' warning
         # but allows project to load and compile in IDE
-        set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+        set(LWS_MBEDTLS_LIBRARIES "")
     endif()
 
-    # git checkout v4.3.0 (SHA1 is a5aae04)
+    # 4.3.2 has build errors with mbedtls
+    # 4.2.0 compiles but causes segmentation fault crash after connect
+    # 4.1.6 works well on all platforms
+    # git checkout v4.1.6 (SHA1 is a5aae04)
     set(LWS_DIR lib/libwebsockets)
 
     # LibWebSockets
