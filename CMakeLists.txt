@@ -54,7 +54,7 @@ endif()
 
 # lets use libwebsockets by default
 # turned off for Android until library link issues resolved (note: RTT features are also disabled)
-if (NOT UWP AND NOT ANDROID)
+if (NOT UWP) #AND NOT ANDROID)
     set(USE_LIBWEBSOCKETS 1)
 else()
     add_definitions(-DLIBWEBSOCKETS_OFF)
@@ -418,9 +418,9 @@ elseif (ANDROID)
             )
 
     if(USE_LIBWEBSOCKETS)
-        add_library(websockets STATIC IMPORTED)
-        set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
-        list(APPEND libs websockets)
+        #add_library(websockets STATIC IMPORTED)
+        #set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
+        #list(APPEND libs websockets)
     endif()
 
 elseif (WIN32)
@@ -449,11 +449,14 @@ elseif (WIN32)
     endif()
 endif()
 
-if (USE_LIBWEBSOCKETS AND NOT ANDROID)
+if (USE_LIBWEBSOCKETS) #AND NOT ANDROID)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
-    add_subdirectory(./lib/mbedtls/)
+
+    # git checkout mbedtls-v2.13.1 (SHA1 is 53546ea)
+    add_subdirectory(lib/mbedtls/)
+
     list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
@@ -466,19 +469,25 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
-    else()
-        # when generator is Xcode or Visual Studio
+    elseif (CMAKE_GENERATOR STREQUAL Xcode)
+        # setting this blank causes no warnings in cmake, links in xcode
+        set(LWS_MBEDTLS_LIBRARIES "")
+    elseif()
+        # when generator is Visual Studio
         # causes a 'dropped file links to directory' warning
         # but allows project to load and compile in IDE
-        set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+        set(LWS_MBEDTLS_LIBRARIES "{CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
 
-    # Latest xcode broke lws. lws did a fix in their latest, but this broke
-    # their mbedtls impl... So we are using different lws version on
-    # apple (latest) vs our usual one v4.1.6 on all other platforms...
-    if (APPLE OR (CMAKE_GENERATOR STREQUAL Xcode))
-       set(LWS_DIR lib/libwebsockets)
+    if(APPLE OR ANDROID)
+        # 4.1.6 works well for Mac
+        # git checkout v4.1.6 (SHA1 is 736f0739)
+        set(LWS_DIR lib/libwebsockets)
     else()
+        # 4.3.2 has build errors with mbedtls
+        # 4.2.0 compiles but causes segmentation fault crash after connect
+        # 4.1.6 gives error on connect
+        # 3.0 (forked) works well on Windows (SHA1 is eaa935a8)
         set(LWS_DIR lib/lwsv3/libwebsockets)
     endif()
 
