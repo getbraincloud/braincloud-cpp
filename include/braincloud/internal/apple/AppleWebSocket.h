@@ -1,4 +1,4 @@
-#if (TARGET_OS_WATCH != 1)
+#ifndef TARGET_OS_WATCH
 
 #ifndef _APPLEWEBSOCKET_H_
 #define _APPLEWEBSOCKET_H_
