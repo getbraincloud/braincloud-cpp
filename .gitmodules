@@ -4,6 +4,3 @@
 [submodule "lib/mbedtls"]
 	path = lib/mbedtls
 	url = https://github.com/ARMmbed/mbedtls.git
-[submodule "lib/bc_lws/libwebsockets"]
-	path = lib/bc_lws/libwebsockets
-	url = https://github.com/getbraincloud/libwebsockets.git
