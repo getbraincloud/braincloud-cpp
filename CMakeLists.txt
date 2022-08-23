@@ -473,17 +473,23 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
         # setting this blank causes no warnings in cmake, links in xcode
         set(LWS_MBEDTLS_LIBRARIES "")
     elseif()
-        # when generator is Visual Studio
+        # when generator is Visual Studio
         # causes a 'dropped file links to directory' warning
         # but allows project to load and compile in IDE
         set(LWS_MBEDTLS_LIBRARIES "{CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
 
-    # 4.3.2 has build errors with mbedtls
-    # 4.2.0 compiles but causes segmentation fault crash after connect
-    # 4.1.6 works well on all platforms
-    # git checkout v4.1.6 (SHA1 is a5aae04)
-    set(LWS_DIR lib/libwebsockets)
+    if(APPLE)
+        # 4.1.6 works well for Mac
+        # git checkout v4.1.6 (SHA1 is 736f0739)
+        set(LWS_DIR lib/libwebsockets)
+    else()
+        # 4.3.2 has build errors with mbedtls
+        # 4.2.0 compiles but causes segmentation fault crash after connect
+        # 4.1.6 gives error on connect
+        # 3.0 (forked) works well on Windows (SHA1 is 
+        set(LWS_DIR lib/bc_lws/libwebsockets)
+    endif()
 
     # LibWebSockets
     option(LWS_WITHOUT_SERVER
