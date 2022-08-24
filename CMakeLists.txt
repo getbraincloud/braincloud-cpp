@@ -453,31 +453,41 @@ if (USE_LIBWEBSOCKETS) #AND NOT ANDROID)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
+	if (BC_USE_OPENSSL)
+		find_package(OpenSSL REQUIRED)
+		set(OPENSSL_FOUND 1)
+		set(OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
+		set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
+		message("BC OpenSSL include dir: ${BC_OPENSSL_INCLUDE_DIRS}")
+		option(LWS_WITH_SSL "" ON)
+		include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
+	else()
 
-    # git checkout mbedtls-v2.13.1 (SHA1 is 53546ea)
-    add_subdirectory(lib/mbedtls/)
+		# git checkout mbedtls-v2.13.1 (SHA1 is 53546ea)
+		add_subdirectory(lib/mbedtls/)
 
-    list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-    list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
-    option(LWS_WITH_MBEDTLS "" ON)
-    set(LWS_MBEDTLS_INCLUDE_DIRS
-            "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
-    if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
-        # when building at commandline on unix os (or mac)
-        set(LWS_MBEDTLS_LIBRARIES
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
-    elseif (CMAKE_GENERATOR STREQUAL Xcode)
-        # setting this blank causes no warnings in cmake, links in xcode
-        set(LWS_MBEDTLS_LIBRARIES "")
-    else()
-        # when generator is Visual Studio
-        # causes a 'dropped file links to directory' warning
-        # but allows project to load and compile in IDE
-        set(LWS_MBEDTLS_LIBRARIES "{CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
-    endif()
+		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
+		list(APPEND includes
+				PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
+		option(LWS_WITH_MBEDTLS "" ON)
+		set(LWS_MBEDTLS_INCLUDE_DIRS
+				"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
+		if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
+			# when building at commandline on unix os (or mac)
+			set(LWS_MBEDTLS_LIBRARIES
+					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
+					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
+					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
+		elseif (CMAKE_GENERATOR STREQUAL Xcode)
+			# setting this blank causes no warnings in cmake, links in xcode
+			set(LWS_MBEDTLS_LIBRARIES "")
+		else()
+			# when generator is Visual Studio
+			# causes a 'dropped file links to directory' warning
+			# but allows project to load and compile in IDE
+			set(LWS_MBEDTLS_LIBRARIES "{CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+		endif()
+	endif()
 
     # APPLE OR ANDROID OR LINUX
     if(UNIX)
