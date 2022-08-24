@@ -463,20 +463,20 @@ if (USE_LIBWEBSOCKETS) #AND NOT ANDROID)
     option(LWS_WITH_MBEDTLS "" ON)
     set(LWS_MBEDTLS_INCLUDE_DIRS
             "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
-    if (CMAKE_GENERATOR STREQUAL Xcode)
-        # setting this blank causes no warnings in cmake, links in xcode
-        set(LWS_MBEDTLS_LIBRARIES "")
-    elseif(NOT (CMAKE_GENERATOR STREQUAL ""))
-        # when generator is Visual Studio
-        # causes a 'dropped file links to directory' warning
-        # but allows project to load and compile in IDE
-        set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
-    else()
-	# regular commandline build on linux, mac, windows
+    if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
+        # when building at commandline on unix os (or mac)
         set(LWS_MBEDTLS_LIBRARIES
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
                 "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
+    elseif (CMAKE_GENERATOR STREQUAL Xcode)
+        # setting this blank causes no warnings in cmake, links in xcode
+        set(LWS_MBEDTLS_LIBRARIES "")
+    else()
+        # when generator is Visual Studio
+        # causes a 'dropped file links to directory' warning
+        # but allows project to load and compile in IDE
+        set(LWS_MBEDTLS_LIBRARIES "{CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
 
     if(APPLE OR ANDROID)
