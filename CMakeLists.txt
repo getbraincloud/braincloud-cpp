@@ -479,8 +479,9 @@ if (USE_LIBWEBSOCKETS) #AND NOT ANDROID)
         set(LWS_MBEDTLS_LIBRARIES "{CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
     endif()
 
-    if(APPLE OR ANDROID)
-        # 4.1.6 works well for Mac
+    # APPLE OR ANDROID OR LINUX
+    if(UNIX)
+        # 4.1.6 works well for Mac and Linux
         # git checkout v4.1.6 (SHA1 is 736f0739)
         set(LWS_DIR lib/libwebsockets)
     else()
