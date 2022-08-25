@@ -395,6 +395,14 @@ elseif (LINUX)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
+    if(USE_LIBWEBSOCKETS)
+        list(APPEND includes
+                PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/libwebsockets/include/)
+        add_library(websockets STATIC IMPORTED)
+        set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
+        list(APPEND libs websockets)
+    endif()
+
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
@@ -413,12 +421,6 @@ elseif (ANDROID)
             uv_a
             libz
             )
-
-    if(USE_LIBWEBSOCKETS)
-        #add_library(websockets STATIC IMPORTED)
-        #set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
-        #list(APPEND libs websockets)
-    endif()
 
 elseif (WIN32)
     if (USE_CURL)
@@ -446,7 +448,7 @@ elseif (WIN32)
     endif()
 endif()
 
-if (USE_LIBWEBSOCKETS) #AND NOT ANDROID)
+if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
@@ -458,7 +460,8 @@ if (USE_LIBWEBSOCKETS) #AND NOT ANDROID)
 		set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
 		message("BC OpenSSL include dir: ${BC_OPENSSL_INCLUDE_DIRS}")
 		option(LWS_WITH_SSL "" ON)
-		include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
+        option(LWS_WITH_MBEDTLS "" OFF)
+        include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
 	else()
 
 		# git checkout mbedtls-v2.13.1 (SHA1 is 53546ea)
@@ -468,6 +471,7 @@ if (USE_LIBWEBSOCKETS) #AND NOT ANDROID)
 		list(APPEND includes
 				PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
 		option(LWS_WITH_MBEDTLS "" ON)
+        option(LWS_WITH_SSL "" OFF)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
 				"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
 		if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
