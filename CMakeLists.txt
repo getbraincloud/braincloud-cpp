@@ -395,24 +395,21 @@ elseif (LINUX)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
-    #find_package(OpenSSL)
-    #message (STATUS "OPENSSL_ROOT_DIR is $ENV{OPENSSL_ROOT_DIR}")
-
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
     set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
-    #add_library(ssl STATIC IMPORTED)
-    #set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
-    #add_library(crypto STATIC IMPORTED)
-    #set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
+    add_library(ssl STATIC IMPORTED)
+    set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
+    add_library(crypto STATIC IMPORTED)
+    set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
     add_library(uv_a STATIC IMPORTED)
     set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
 
     list(APPEND libs
             curl
-            #ssl
-            #Scrypto
+            ssl
+            crypto
             uv_a
             libz
             )
