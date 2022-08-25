@@ -29,8 +29,10 @@ endif()
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
 option(USE_CURL "Force use libCurl on Win32" OFF)
-if (NOT DEFINED(${SSL_ALLOW_SELFSIGNED}))
-    option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
+if(DEFINED SSL_ALLOW_SELFSIGNED)
+    set(SSL_ALLOW_SELFSIGNED 1)
+else()
+    set(SSL_ALLOW_SELFSIGNED 0)
 endif()
 #=============================================================================
 # Definitions
@@ -53,8 +55,7 @@ if (SSL_ALLOW_SELFSIGNED)
 endif()
 
 # lets use libwebsockets by default
-# turned off for Android until library link issues resolved (note: RTT features are also disabled)
-if (NOT UWP AND (NOT ANDROID OR DEFINED USE_LIBWEBSOCKETS))
+if (NOT UWP)
     set(USE_LIBWEBSOCKETS 1)
 else()
     add_definitions(-DLIBWEBSOCKETS_OFF)
@@ -396,8 +397,7 @@ elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
     if(USE_LIBWEBSOCKETS)
-        list(APPEND includes
-                PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/libwebsockets/include/)
+	#include web sockets library first for linking
         add_library(websockets STATIC IMPORTED)
         set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
         list(APPEND libs websockets)
@@ -448,6 +448,7 @@ elseif (WIN32)
     endif()
 endif()
 
+# android uses openssl instead of tls (pre-built libwebsockets.a is linked above)
 if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     # TLS
     option(ENABLE_TESTING "" OFF)
@@ -471,7 +472,6 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
 		list(APPEND includes
 				PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
 		option(LWS_WITH_MBEDTLS "" ON)
-        option(LWS_WITH_SSL "" OFF)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
 				"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
 		if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
@@ -491,7 +491,7 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
 		endif()
 	endif()
 
-    # APPLE OR ANDROID OR LINUX
+    # APPLE OR LINUX
     if(UNIX)
         # 4.1.6 works well for Mac and Linux
         # git checkout v4.1.6 (SHA1 is 736f0739)
