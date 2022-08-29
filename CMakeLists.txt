@@ -464,6 +464,9 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
         option(LWS_WITH_MBEDTLS "" OFF)
         include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
 	else()
+		# TLS
+		option(ENABLE_TESTING "" OFF)
+		option(ENABLE_PROGRAMS "" OFF)
 
 		# git checkout mbedtls-v2.13.1 (SHA1 is 53546ea)
 		add_subdirectory(lib/mbedtls/)
@@ -474,26 +477,25 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
 		option(LWS_WITH_MBEDTLS "" ON)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
 				"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
-		if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
-			# when building at commandline on unix os (or mac)
+		if (CMAKE_GENERATOR STREQUAL Xcode)
+			# setting this blank causes no warnings in cmake, links in xcode
+			set(LWS_MBEDTLS_LIBRARIES "")
+		elseif(NOT UNIX)
+			# when generator is Visual Studio
+			# causes a 'dropped file links to directory' warning
+			# but allows project to load and compile in IDE
+			set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+		else()
+		# regular commandline build on linux, mac, windows
 			set(LWS_MBEDTLS_LIBRARIES
 					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
 					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
 					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
-		elseif (CMAKE_GENERATOR STREQUAL Xcode)
-			# setting this blank causes no warnings in cmake, links in xcode
-			set(LWS_MBEDTLS_LIBRARIES "")
-		else()
-			# when generator is Visual Studio
-			# causes a 'dropped file links to directory' warning
-			# but allows project to load and compile in IDE
-			set(LWS_MBEDTLS_LIBRARIES "{CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
 		endif()
 	endif()
-
-    # APPLE OR LINUX
+	# APPLE OR ANDROID OR LINUX
     if(UNIX)
-        # 4.1.6 works well for Mac and Linux
+        # 4.1.6 works well for Mac
         # git checkout v4.1.6 (SHA1 is 736f0739)
         set(LWS_DIR lib/libwebsockets)
     else()
