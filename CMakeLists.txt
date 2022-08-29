@@ -464,35 +464,34 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
         option(LWS_WITH_MBEDTLS "" OFF)
         include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
 	else()
-    # TLS
-    option(ENABLE_TESTING "" OFF)
-    option(ENABLE_PROGRAMS "" OFF)
+		# TLS
+		option(ENABLE_TESTING "" OFF)
+		option(ENABLE_PROGRAMS "" OFF)
 
-    # git checkout mbedtls-v2.13.1 (SHA1 is 53546ea)
-    add_subdirectory(lib/mbedtls/)
+		# git checkout mbedtls-v2.13.1 (SHA1 is 53546ea)
+		add_subdirectory(lib/mbedtls/)
 
-    list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-    list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
-    option(LWS_WITH_MBEDTLS "" ON)
-    set(LWS_MBEDTLS_INCLUDE_DIRS
-            "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
-    if (CMAKE_GENERATOR STREQUAL Xcode)
-        # setting this blank causes no warnings in cmake, links in xcode
-        set(LWS_MBEDTLS_LIBRARIES "")
-    elseif(NOT UNIX)
-        # when generator is Visual Studio
-        # causes a 'dropped file links to directory' warning
-        # but allows project to load and compile in IDE
-        set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
-    else()
-	# regular commandline build on linux, mac, windows
-        set(LWS_MBEDTLS_LIBRARIES
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
-    endif()
-
+		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
+		list(APPEND includes
+				PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
+		option(LWS_WITH_MBEDTLS "" ON)
+		set(LWS_MBEDTLS_INCLUDE_DIRS
+				"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
+		if (CMAKE_GENERATOR STREQUAL Xcode)
+			# setting this blank causes no warnings in cmake, links in xcode
+			set(LWS_MBEDTLS_LIBRARIES "")
+		elseif(NOT UNIX)
+			# when generator is Visual Studio
+			# causes a 'dropped file links to directory' warning
+			# but allows project to load and compile in IDE
+			set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+		else()
+		# regular commandline build on linux, mac, windows
+			set(LWS_MBEDTLS_LIBRARIES
+					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
+					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
+					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
+		endif()
 	endif()
 	# APPLE OR ANDROID OR LINUX
     if(UNIX)
@@ -506,8 +505,6 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
         # 3.0 (forked) works well on Windows (SHA1 is eaa935a8)
         set(LWS_DIR lib/lwsv3/libwebsockets)
     endif()
-
-message(status "LWS_MBEDTLS_LIBRARIES LWS_DIR")
 
     # LibWebSockets
     option(LWS_WITHOUT_SERVER
