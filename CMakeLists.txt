@@ -494,12 +494,18 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
     endif()
 
 	endif()
-
+	# APPLE OR ANDROID OR LINUX
+    if(UNIX)
+        # 4.1.6 works well for Mac
+        # git checkout v4.1.6 (SHA1 is 736f0739)
+        set(LWS_DIR lib/libwebsockets)
+    else()
         # 4.3.2 has build errors with mbedtls
         # 4.2.0 compiles but causes segmentation fault crash after connect
         # 4.1.6 gives error on connect
         # 3.0 (forked) works well on Windows (SHA1 is eaa935a8)
         set(LWS_DIR lib/lwsv3/libwebsockets)
+    endif()
 
 message(status "LWS_MBEDTLS_LIBRARIES LWS_DIR")
 
