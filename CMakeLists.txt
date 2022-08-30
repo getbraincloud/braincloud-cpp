@@ -4,6 +4,7 @@ endif()
 
 if (CMAKE_SYSTEM_NAME STREQUAL Android)
     set(ANDROID 1)
+    set(BC_USE_OPENSSL 1)
 endif()
 
 if (UWP)
@@ -396,13 +397,6 @@ elseif (LINUX)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
-    if(USE_LIBWEBSOCKETS)
-	#include web sockets library first for linking
-        add_library(websockets STATIC IMPORTED)
-        set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
-        list(APPEND libs websockets)
-    endif()
-
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
@@ -449,20 +443,28 @@ elseif (WIN32)
 endif()
 
 # android uses openssl instead of tls (pre-built libwebsockets.a is linked above)
-if (USE_LIBWEBSOCKETS AND NOT ANDROID)
+if (USE_LIBWEBSOCKETS)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
 	if (BC_USE_OPENSSL)
-		set(OPENSSL_USE_STATIC_LIBS TRUE)
-		find_package(OpenSSL REQUIRED)
-		set(OPENSSL_FOUND 1)
-		set(OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
-		set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
-		message("BC OpenSSL include dir: ${BC_OPENSSL_INCLUDE_DIRS}")
-		option(LWS_WITH_SSL "" ON)
-        option(LWS_WITH_MBEDTLS "" OFF)
-        include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
+
+        if(ANDROID)
+    		set(LWS_OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
+	    	set(LWS_OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
+        else()
+            set(OPENSSL_USE_STATIC_LIBS TRUE)
+            find_package(OpenSSL REQUIRED)
+            set(OPENSSL_FOUND 1)
+            set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
+            set(OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
+            include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
+        endif()
+
+        option(LWS_WITH_SSL "Include SSL support (defaults to OpenSSL)" ON)
+
+        option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" ON)
+
 	else()
 		# TLS
 		option(ENABLE_TESTING "" OFF)
@@ -493,16 +495,16 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
 					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
 		endif()
 	endif()
-	# APPLE OR ANDROID OR LINUX
-    if(UNIX)
-        # 4.1.6 works well for Mac
+
+    if(APPLE OR LINUX)
+        # 4.1.6 works well for Mac and Linux
         # git checkout v4.1.6 (SHA1 is 736f0739)
         set(LWS_DIR lib/libwebsockets)
     else()
         # 4.3.2 has build errors with mbedtls
         # 4.2.0 compiles but causes segmentation fault crash after connect
         # 4.1.6 gives error on connect
-        # 3.0 (forked) works well on Windows (SHA1 is eaa935a8)
+        # 3.0 (forked) works well on Windows and Android (SHA1 is eaa935a8)
         set(LWS_DIR lib/lwsv3/libwebsockets)
     endif()
 
