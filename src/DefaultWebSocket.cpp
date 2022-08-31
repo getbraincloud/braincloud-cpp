@@ -1,4 +1,4 @@
-#ifndef TARGET_OS_WATCH
+#if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
 
 #include "braincloud/internal/DefaultWebSocket.h"
 

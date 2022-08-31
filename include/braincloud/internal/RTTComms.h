@@ -20,7 +20,7 @@ namespace BrainCloud
     class IRTTConnectCallback;
     class IRTTCallback;
     class ISocket;
-#ifndef TARGET_OS_WATCH
+#if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
     class IWebSocket;
 #endif
 

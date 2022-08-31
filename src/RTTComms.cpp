@@ -4,7 +4,7 @@
 #include "braincloud/IRTTCallback.h"
 #include "braincloud/IRTTConnectCallback.h"
 #include "braincloud/internal/ITCPSocket.h"
-#ifndef TARGET_OS_WATCH
+#if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
 #include "braincloud/internal/IWebSocket.h"
 #endif
 #include "braincloud/internal/TimeUtil.h"
@@ -387,7 +387,7 @@ namespace BrainCloud
         std::cout << "VERBOSE: RTTComms::connect" << std::endl;
 #endif
         _rttConnectionStatus = BrainCloudRTT::RTTConnectionStatus::Connecting;
-#ifndef TARGET_OS_WATCH
+#if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
         _disconnectedWithReason = false;
         std::thread connectionThread([this]
         {

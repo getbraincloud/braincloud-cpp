@@ -2,7 +2,7 @@
 #include <TargetConditionals.h>
 #endif 
 
-#ifndef TARGET_OS_WATCH // necessary as cocoapods doesn't allow per platform source files
+#if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)// necessary as cocoapods doesn't allow per platform source files
 
 
 #if ( defined(GAMECLIENT_DEBUGLEVEL)  &&  GAMECLIENT_DEBUGLEVEL > 0 )
