@@ -4,7 +4,7 @@ endif()
 
 if (CMAKE_SYSTEM_NAME STREQUAL Android)
     set(ANDROID 1)
-    #set(BC_USE_OPENSSL 1)
+    set(BC_USE_OPENSSL 1)
 endif()
 
 if (UWP)
@@ -465,11 +465,12 @@ if (USE_LIBWEBSOCKETS)
         endif()
 
         option(LWS_WITH_SSL "Include SSL support (defaults to OpenSSL)" ON)
-
+        option(LWS_WITHOUT_SERVER
+                "Don't build the server part of the library" OFF)
         option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" ON)
 
         # more recent versions throw an error about struct hmac_ctx_st
-        set(LWS_DIR lib/libwebsockets)
+        set(LWS_DIR lib/lwsv3/libwebsockets)
 	else()
 		# TLS
 		option(ENABLE_TESTING "" OFF)
@@ -511,14 +512,14 @@ if (USE_LIBWEBSOCKETS)
             # 3.0 (forked) works well on Windows and Android (SHA1 is eaa935a8)
             set(LWS_DIR lib/lwsv3/libwebsockets)
         endif()
+        option(LWS_WITHOUT_SERVER
+                "Don't build the server part of the library" ON)
 	endif()
 
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR})
 
     # LibWebSockets
-    option(LWS_WITHOUT_SERVER
-            "Don't build the server part of the library" ON)
     option(LWS_WITHOUT_TESTAPPS
             "Don't build the libwebsocket-test-apps" ON)
     option(LWS_WITHOUT_TEST_SERVER
