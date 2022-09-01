@@ -188,7 +188,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         {
             hasReceivedEcho = true;
         }
-        printf("Relay Callback Success")
+        printf("Relay Callback Success");
     });
     bc->getRelayService()->registerSystemCallback(&relaySystemCallback);
     bc->getRelayService()->registerRelayCallback(&relayCallback);
