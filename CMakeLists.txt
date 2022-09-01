@@ -452,6 +452,9 @@ if (USE_LIBWEBSOCKETS)
         if(ANDROID)
     		set(LWS_OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
 	    	set(LWS_OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
+            set(OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
+            set(OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
+            set(OPENSSL_FOUND 1)
         else()
             set(OPENSSL_USE_STATIC_LIBS TRUE)
             find_package(OpenSSL REQUIRED)
@@ -466,7 +469,7 @@ if (USE_LIBWEBSOCKETS)
         option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" ON)
 
         # more recent versions throw an error about struct hmac_ctx_st
-        set(LWS_DIR lib/lwsv3/libwebsockets)
+        set(LWS_DIR lib/libwebsockets)
 	else()
 		# TLS
 		option(ENABLE_TESTING "" OFF)
@@ -528,7 +531,7 @@ if (USE_LIBWEBSOCKETS)
             "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
             "Build the shared version of the library" OFF)
-    add_subdirectory(${LWS_DIR})
+    add_subdirectory("${LWS_DIR}")
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR}/include/)
