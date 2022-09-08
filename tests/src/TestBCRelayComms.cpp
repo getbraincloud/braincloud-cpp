@@ -171,6 +171,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
                                               [&relayFailed]()
     {
         relayFailed = true;
+        printf("Relay Failed to Connect");
     });
     bool hasReceivedSystemMessage = false;
     RelaySystemCallback relaySystemCallback([&hasReceivedSystemMessage](const Json::Value& eventJson)
