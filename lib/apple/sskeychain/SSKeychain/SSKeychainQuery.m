@@ -109,7 +109,7 @@
 		return nil;
 	}
 
-    return ( NSArray *)result;
+	return (__bridge_transfer NSArray *)result;
 }
 
 
@@ -135,7 +135,7 @@
 		return NO;
 	}
 
-    self.passwordData = (NSData *)result;
+	self.passwordData = (__bridge_transfer NSData *)result;
 	return YES;
 }
 
@@ -278,7 +278,7 @@
 		}
 #else
 		default:
-            message = ( NSString *)SecCopyErrorMessageString(code, NULL);
+			message = (__bridge_transfer NSString *)SecCopyErrorMessageString(code, NULL);
 #endif
 	}
 
