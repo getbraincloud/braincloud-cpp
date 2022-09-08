@@ -500,17 +500,8 @@ if (USE_LIBWEBSOCKETS)
 
 	endif()
 
-    if(APPLE OR LINUX OR ANDROID)
-        # 4.1.6 works well for Mac and Linux
-        # git checkout v4.1.6 (SHA1 is 736f0739)
-        set(LWS_DIR lib/libwebsockets)
-    else()
-        # 4.3.2 has build errors with mbedtls
-        # 4.2.0 compiles but causes segmentation fault crash after connect
-        # 4.1.6 gives error on connect
-        # 3.0 (forked) works well on Windows (SHA1 is eaa935a8)
-        set(LWS_DIR lib/lwsv3/libwebsockets)
-    endif()
+    # git checkout v4.1.6 (SHA1 is 736f0739)
+    set(LWS_DIR lib/libwebsockets)
 
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR})
@@ -530,7 +521,14 @@ if (USE_LIBWEBSOCKETS)
             "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
             "Build the shared version of the library" OFF)
+
     add_subdirectory("${LWS_DIR}")
+
+    # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
+    if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+        target_compile_options(websockets PRIVATE /WX-)
+    endif()
+
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR}/include/)
