@@ -481,7 +481,7 @@ if (USE_LIBWEBSOCKETS)
 				PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
 		option(LWS_WITH_MBEDTLS "" ON)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
-				"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
+				"${BC_DIR}/lib/mbedtls/include")
 		if (CMAKE_GENERATOR STREQUAL Xcode)
 			# setting this blank causes no warnings in cmake, links in xcode
 			set(LWS_MBEDTLS_LIBRARIES "")
@@ -489,7 +489,7 @@ if (USE_LIBWEBSOCKETS)
 			# when generator is Visual Studio
 			# causes a 'dropped file links to directory' warning
 			# but allows project to load and compile in IDE
-			set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+			set(LWS_MBEDTLS_LIBRARIES "${BC_DIR}/lib/mbedtls/library")
 		else()
 		# regular commandline build on linux, mac, windows
 			set(LWS_MBEDTLS_LIBRARIES
