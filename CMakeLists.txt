@@ -521,6 +521,7 @@ if (USE_LIBWEBSOCKETS)
             "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
             "Build the shared version of the library" OFF)
+    option(LWS_WITHOUT_EXTENSIONS "" OFF)
 
     add_subdirectory("${LWS_DIR}")
 
