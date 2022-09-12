@@ -7,3 +7,9 @@
 [submodule "lib/lwsv3/libwebsockets"]
 	path = lib/lwsv3/libwebsockets
 	url = https://github.com/getbraincloud/libwebsockets.git
+[submodule "lib/mbedtlsv2"]
+	path = lib/mbedtlsv2
+	url = https://github.com/ARMmbed/mbedtls.git
+[submodule "lib/lwsv4_1_6"]
+	path = lib/lwsv4_1_6
+	url = https://github.com/warmcat/libwebsockets.git
