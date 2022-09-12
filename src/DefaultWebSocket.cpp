@@ -124,11 +124,11 @@ namespace BrainCloud
             //info.extensions = exts;
             info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
-
-            info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
-            info.client_ssl_ca_mem = root_certs.c_str();
-            info.client_ssl_ca_mem_len = root_certs.length();
-
+            #if(LWS_LIBRARY_VERSION_MAJOR >= 4)
+                info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
+                info.client_ssl_ca_mem = root_certs.c_str();
+                info.client_ssl_ca_mem_len = root_certs.length();
+            #endif
             std::unique_lock<std::mutex> lock(lwsContextMutex);
             _pLwsContext = lws_create_context(&info);
             if (!_pLwsContext)

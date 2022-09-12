@@ -477,7 +477,8 @@ if (USE_LIBWEBSOCKETS)
 
         # mbedtls-v2.13.1 (SHA1 is 53546ea)
         # mbedtls-v3.2.1 (SHA1 is 869298bf)
-        set(BC_MBEDTLS_DIR lib/mbedtls)
+        # set(BC_MBEDTLS_DIR lib/mbedtls)
+        set(BC_MBEDTLS_DIR lib/mbedtlsv2)
 
 		add_subdirectory("${BC_MBEDTLS_DIR}")
 
@@ -493,7 +494,8 @@ if (USE_LIBWEBSOCKETS)
 		elseif(NOT UNIX)
 			# when generator is Visual Studio
 			# or compiler is MSVC
-            set(LWS_MBEDTLS_LIBRARIES  "")
+            set(LWS_MBEDTLS_LIBRARIES
+                    "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
 		else()
 		# regular commandline build on linux, mac
 			set(LWS_MBEDTLS_LIBRARIES
@@ -503,7 +505,6 @@ if (USE_LIBWEBSOCKETS)
 		endif()
 
 	endif()
-
     # zlib
 #        include_directories(
 #                "${BC_DIR}/lib/win32/zlib/include")
@@ -526,9 +527,11 @@ if (USE_LIBWEBSOCKETS)
     # LibWebSockets
 
     # v4.1.6 (SHA1 is 736f0739)
+    set(BC_LWS_DIR lib/lwsv4_1_6)
     # v4.3 (SHA1 is 58af7b44)
+    # set(BC_LWS_DIR lib/libwebsockets)
     # v3.0 (on fork SHA1 is eaa935a8)
-    set(BC_LWS_DIR lib/libwebsockets)
+    # set(BC_LWS_DIR lib/lwsv3/libwebsockets)
 
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
@@ -556,7 +559,9 @@ if (USE_LIBWEBSOCKETS)
 
     list(APPEND libs websockets)
     list(APPEND includes
-            PUBLIC ${BC_DIR}/${BC_LWS_DIR}/include/)
+            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
+            ${BC_DIR}/${BC_LWS_DIR}/include)
 
 endif()
 
