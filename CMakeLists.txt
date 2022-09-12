@@ -418,19 +418,21 @@ elseif (ANDROID)
 
 elseif (WIN32)
     if (USE_CURL)
+        # pthread
         include_directories(
                 "${BC_DIR}/lib/win32/pthread-w32-2-8-0/Pre-built.2/include")
-
         add_definitions(-DWIN32 -D_LIB -DPTW32_STATIC_LIB)
         find_library(BC_PTHREADW32_LIB pthreadVCE2
                 "${BC_DIR}/lib/win32/pthread-w32-2-8-0/Pre-built.2/lib")
 
+        # curl
         add_definitions(-DCURL_STATICLIB)
         include_directories("${BC_DIR}/lib/win32/curl-7.44.0/include")
         find_library(BC_CURL_LIB_RELEASE libcurl_a.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
         find_library(BC_CURL_LIB_DEBUG libcurl_a_debug.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
+
         list(APPEND libs general
                 ${Socket_LIBRARIES}
                 ${BC_PTHREADW32_LIB}
@@ -478,7 +480,7 @@ if (USE_LIBWEBSOCKETS)
 
 		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
 		list(APPEND includes
-				PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
+				PUBLIC ${BC_DIR}/lib/mbedtls/include/)
 		option(LWS_WITH_MBEDTLS "" ON)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
 				"${BC_DIR}/lib/mbedtls/include")
@@ -487,9 +489,11 @@ if (USE_LIBWEBSOCKETS)
 			set(LWS_MBEDTLS_LIBRARIES "")
 		elseif(NOT UNIX)
 			# when generator is Visual Studio
-			# causes a 'dropped file links to directory' warning
-			# but allows project to load and compile in IDE
-			set(LWS_MBEDTLS_LIBRARIES "${BC_DIR}/lib/mbedtls/library")
+			# or compiler is MSVC
+            set(LWS_MBEDTLS_LIBRARIES
+                    "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+
+            message(status "ho jo dir is: ${CMAKE_CURRENT_BINARY_DIR}")
 		else()
 		# regular commandline build on linux, mac, windows
 			set(LWS_MBEDTLS_LIBRARIES
@@ -501,7 +505,27 @@ if (USE_LIBWEBSOCKETS)
 	endif()
 
     # git checkout v4.1.6 (SHA1 is 736f0739)
+    #git checkout v4.3-stable on all platforms (SHA1 is 58af7b44)
     set(LWS_DIR lib/libwebsockets)
+
+    # zlib
+#        include_directories(
+#                "${BC_DIR}/lib/win32/zlib/include")
+
+#    find_library(BC_ZLIB zlib.lib
+#                "${BC_DIR}/lib/win32/zlib/lib")
+#    list(APPEND libs ${BC_ZLIB})
+#    set(ZLIB_FOUND 1)
+#    set(ZLIB_INCLUDE_DIRS "${BC_DIR}/lib/win32/zlib/include")
+#    set(ZLIB_LIBRARIES "${BC_DIR}/lib/win32/zlib/lib")
+#    list(APPEND libs ${ZLIB_LIBRARIES})
+#
+#    set(ZLIB_USE_STATIC_LIBS TRUE)
+#    set(ZLIB_ROOT "${BC_DIR}/lib/win32/zlib/")
+#    find_package(ZLIB REQUIRED)
+#    include_directories("${ZLIB_INCLUDE_DIRS}")
+#    list(APPEND libs ${ZLIB_LIBRARIES})
+#    message(status "joanne ${ZLIB_INCLUDE_DIRS} mm ${ZLIB_LIBRARIES}")
 
     list(APPEND includes
             PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR})
@@ -521,7 +545,7 @@ if (USE_LIBWEBSOCKETS)
             "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
             "Build the shared version of the library" OFF)
-    option(LWS_WITHOUT_EXTENSIONS "" OFF)
+    option(LWS_WITH_TLS "" ON)
 
     add_subdirectory("${LWS_DIR}")
 
@@ -532,7 +556,7 @@ if (USE_LIBWEBSOCKETS)
 
     list(APPEND libs websockets)
     list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR}/include/)
+            PUBLIC ${BC_DIR}/${LWS_DIR}/include/)
 
 endif()
 
