@@ -475,38 +475,34 @@ if (USE_LIBWEBSOCKETS)
 		option(ENABLE_TESTING "" OFF)
 		option(ENABLE_PROGRAMS "" OFF)
 
-		# git checkout mbedtls-v2.13.1 (SHA1 is 53546ea)
-		add_subdirectory(lib/mbedtls/)
+        # mbedtls-v2.13.1 (SHA1 is 53546ea)
+        # mbedtls-v3.2.1 (SHA1 is 869298bf)
+        set(BC_MBEDTLS_DIR lib/mbedtls)
+
+		add_subdirectory("${BC_MBEDTLS_DIR}")
 
 		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
 		list(APPEND includes
-				PUBLIC ${BC_DIR}/lib/mbedtls/include/)
+				PUBLIC ${BC_DIR}/${BC_MBEDTLS_DIR}/include/)
 		option(LWS_WITH_MBEDTLS "" ON)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
-				"${BC_DIR}/lib/mbedtls/include")
+				"${BC_DIR}/${BC_MBEDTLS_DIR}/include")
 		if (CMAKE_GENERATOR STREQUAL Xcode)
 			# setting this blank causes no warnings in cmake, links in xcode
 			set(LWS_MBEDTLS_LIBRARIES "")
 		elseif(NOT UNIX)
 			# when generator is Visual Studio
 			# or compiler is MSVC
-            set(LWS_MBEDTLS_LIBRARIES
-                    "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
-
-            message(status "ho jo dir is: ${CMAKE_CURRENT_BINARY_DIR}")
+            set(LWS_MBEDTLS_LIBRARIES  "")
 		else()
-		# regular commandline build on linux, mac, windows
+		# regular commandline build on linux, mac
 			set(LWS_MBEDTLS_LIBRARIES
-					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
-					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
-					"${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
+					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
+					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
+					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
 		endif()
 
 	endif()
-
-    # git checkout v4.1.6 (SHA1 is 736f0739)
-    #git checkout v4.3-stable on all platforms (SHA1 is 58af7b44)
-    set(LWS_DIR lib/libwebsockets)
 
     # zlib
 #        include_directories(
@@ -527,10 +523,13 @@ if (USE_LIBWEBSOCKETS)
 #    list(APPEND libs ${ZLIB_LIBRARIES})
 #    message(status "joanne ${ZLIB_INCLUDE_DIRS} mm ${ZLIB_LIBRARIES}")
 
-    list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR})
-
     # LibWebSockets
+
+    # v4.1.6 (SHA1 is 736f0739)
+    # v4.3 (SHA1 is 58af7b44)
+    # v3.0 (on fork SHA1 is eaa935a8)
+    set(BC_LWS_DIR lib/libwebsockets)
+
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
     option(LWS_WITHOUT_TESTAPPS
@@ -548,7 +547,7 @@ if (USE_LIBWEBSOCKETS)
     option(LWS_WITHOUT_EXTENSIONS "" ON)
     option(LWS_WITH_TLS "" ON)
 
-    add_subdirectory("${LWS_DIR}")
+    add_subdirectory("${BC_LWS_DIR}")
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
@@ -557,7 +556,7 @@ if (USE_LIBWEBSOCKETS)
 
     list(APPEND libs websockets)
     list(APPEND includes
-            PUBLIC ${BC_DIR}/${LWS_DIR}/include/)
+            PUBLIC ${BC_DIR}/${BC_LWS_DIR}/include/)
 
 endif()
 
