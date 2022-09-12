@@ -121,7 +121,7 @@ namespace BrainCloud
             info.protocols = protocols;
             info.gid = -1;
             info.uid = -1;
-            info.extensions = exts;
+            //info.extensions = exts;
             info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
 
