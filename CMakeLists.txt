@@ -477,8 +477,8 @@ if (USE_LIBWEBSOCKETS)
 
         # mbedtls-v2.13.1 (SHA1 is 53546ea)
         # mbedtls-v3.2.1 (SHA1 is 869298bf) for lws 4.3 +
-        #set(BC_MBEDTLS_DIR lib/mbedtls)
-         set(BC_MBEDTLS_DIR lib/mbedtlsv2)
+        set(BC_MBEDTLS_DIR lib/mbedtls)
+        #set(BC_MBEDTLS_DIR lib/mbedtlsv2)
 
 		add_subdirectory("${BC_MBEDTLS_DIR}")
 
