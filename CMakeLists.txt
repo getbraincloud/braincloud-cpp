@@ -476,9 +476,9 @@ if (USE_LIBWEBSOCKETS)
 		option(ENABLE_PROGRAMS "" OFF)
 
         # mbedtls-v2.13.1 (SHA1 is 53546ea)
-        # mbedtls-v3.2.1 (SHA1 is 869298bf)
-        # set(BC_MBEDTLS_DIR lib/mbedtls)
-        set(BC_MBEDTLS_DIR lib/mbedtlsv2)
+        # mbedtls-v3.2.1 (SHA1 is 869298bf) for lws 4.3 +
+        #set(BC_MBEDTLS_DIR lib/mbedtls)
+         set(BC_MBEDTLS_DIR lib/mbedtlsv2)
 
 		add_subdirectory("${BC_MBEDTLS_DIR}")
 
@@ -527,9 +527,11 @@ if (USE_LIBWEBSOCKETS)
     # LibWebSockets
 
     # v4.1.6 (SHA1 is 736f0739)
-    set(BC_LWS_DIR lib/lwsv4_1_6)
-    # v4.3 (SHA1 is 58af7b44)
-    # set(BC_LWS_DIR lib/libwebsockets)
+    #set(BC_LWS_DIR lib/lwsv4_1_6)
+    # v4.3-stable (SHA1 is 58af7b44)
+    # v4.3.2 tag (SHA1 is (b0a749c8)
+    # v4.2-stable (SHA1 is 17bd1d07
+    set(BC_LWS_DIR lib/libwebsockets)
     # v3.0 (on fork SHA1 is eaa935a8)
     # set(BC_LWS_DIR lib/lwsv3/libwebsockets)
 
