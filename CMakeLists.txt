@@ -477,6 +477,7 @@ if (USE_LIBWEBSOCKETS)
 
         # mbedtls-v2.13.1 (SHA1 is 53546ea)
         # mbedtls-v3.2.1 (SHA1 is 869298bf) for lws 4.3 +
+        # mbedtls-2.28 (SHA1 is 1963d67e)
         set(BC_MBEDTLS_DIR lib/mbedtls)
         #set(BC_MBEDTLS_DIR lib/mbedtlsv2)
 
