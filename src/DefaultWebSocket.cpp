@@ -81,6 +81,9 @@ namespace BrainCloud
         , _isConnecting(true)
         , _authHeaders(headers)
     {
+        lws_set_log_level(
+            2047, NULL);
+            
         std::string uriCopy = uri;
         
         // Split address into host/addr/origin/protocol
@@ -121,13 +124,13 @@ namespace BrainCloud
             info.protocols = protocols;
             info.gid = -1;
             info.uid = -1;
-            //info.extensions = exts;
+            info.extensions = exts;
             info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
             #if(LWS_LIBRARY_VERSION_MAJOR >= 4)
                 info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
                 info.client_ssl_ca_mem = root_certs.c_str();
-                info.client_ssl_ca_mem_len = root_certs.length();
+                info.client_ssl_ca_mem_len = static_cast<unsigned int>(root_certs.length());
             #endif
             std::unique_lock<std::mutex> lock(lwsContextMutex);
             _pLwsContext = lws_create_context(&info);
@@ -146,7 +149,7 @@ namespace BrainCloud
             {
                 _mutex.unlock();
                 lws_callback_on_writable_all_protocol(_pLwsContext, &protocols[0]);
-                lws_service(_pLwsContext, 100);
+                lws_service(_pLwsContext, 0);
                 _mutex.lock();
             }
             _mutex.unlock();

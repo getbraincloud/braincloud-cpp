@@ -492,11 +492,12 @@ if (USE_LIBWEBSOCKETS)
 		if (CMAKE_GENERATOR STREQUAL Xcode)
 			# setting this blank causes no warnings in cmake, links in xcode
 			set(LWS_MBEDTLS_LIBRARIES "")
-		elseif(NOT UNIX)
-			# when generator is Visual Studio
+		elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+			# when generator is Visual Studio 16
 			# or compiler is MSVC
             set(LWS_MBEDTLS_LIBRARIES
-                    "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
+                    "")
+                    #"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
 		else()
 		# regular commandline build on linux, mac
 			set(LWS_MBEDTLS_LIBRARIES
@@ -534,7 +535,7 @@ if (USE_LIBWEBSOCKETS)
     # v4.2-stable (SHA1 is 17bd1d07
     set(BC_LWS_DIR lib/libwebsockets)
     # v3.0 (on fork SHA1 is eaa935a8)
-    # set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+     #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
 
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
@@ -556,8 +557,8 @@ if (USE_LIBWEBSOCKETS)
     add_subdirectory("${BC_LWS_DIR}")
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
-    if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
-        target_compile_options(websockets PRIVATE /WX-)
+    if(Win32)
+       target_compile_options(websockets PRIVATE /WX-)
     endif()
 
     list(APPEND libs websockets)
