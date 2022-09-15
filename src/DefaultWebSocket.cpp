@@ -82,8 +82,8 @@ namespace BrainCloud
         , _authHeaders(headers)
     {
         lws_set_log_level(
-            LLL_DEBUG, NULL);
-            //LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE 
+            //LLL_DEBUG, NULL);
+            LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE, NULL);
 
         std::string uriCopy = uri;
         
@@ -125,7 +125,7 @@ namespace BrainCloud
             info.protocols = protocols;
             info.gid = -1;
             info.uid = -1;
-            info.extensions = exts;
+            //info.extensions = exts;
             info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
             #if(LWS_LIBRARY_VERSION_MAJOR >= 4)
