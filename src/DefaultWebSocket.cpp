@@ -82,8 +82,9 @@ namespace BrainCloud
         , _authHeaders(headers)
     {
         lws_set_log_level(
-            2047, NULL);
-            
+            LLL_DEBUG, NULL);
+            //LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE 
+
         std::string uriCopy = uri;
         
         // Split address into host/addr/origin/protocol
