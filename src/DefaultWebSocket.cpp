@@ -37,7 +37,27 @@ namespace BrainCloud
         { NULL, NULL, NULL /* terminator */ }
     };
 
-    static std::string root_certs = "-----BEGIN CERTIFICATE-----\n"
+    static std::string digicert_full_cert1 = "-----BEGIN CERTIFICATE-----\n"
+                                             "MIIDljCCAn6gAwIBAgIQC5McOtY5Z+pnI7/Dr5r0SzANBgkqhkiG9w0BAQsFADBlMQswCQYDVQQG\n"
+                                             "EwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSQw\n"
+                                             "IgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJvb3QgRzIwHhcNMTMwODAxMTIwMDAwWhcNMzgw\n"
+                                             "MTE1MTIwMDAwWjBlMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQL\n"
+                                             "ExB3d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJvb3QgRzIw\n"
+                                             "ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDZ5ygvUj82ckmIkzTz+GoeMVSAn61UQbVH\n"
+                                             "35ao1K+ALbkKz3X9iaV9JPrjIgwrvJUXCzO/GU1BBpAAvQxNEP4HteccbiJVMWWXvdMX0h5i89vq\n"
+                                             "bFCMP4QMls+3ywPgym2hFEwbid3tALBSfK+RbLE4E9HpEgjAALAcKxHad3A2m67OeYfcgnDmCXRw\n"
+                                             "VWmvo2ifv922ebPynXApVfSr/5Vh88lAbx3RvpO704gqu52/clpWcTs/1PPRCv4o76Pu2ZmvA9OP\n"
+                                             "YLfykqGxvYmJHzDNw6YuYjOuFgJ3RFrngQo8p0Quebg/BLxcoIfhG69Rjs3sLPr4/m3wOnyqi+Rn\n"
+                                             "lTGNAgMBAAGjQjBAMA8GA1UdEwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgGGMB0GA1UdDgQWBBTO\n"
+                                             "w0q5mVXyuNtgv6l+vVa1lzan1jANBgkqhkiG9w0BAQsFAAOCAQEAyqVVjOPIQW5pJ6d1Ee88hjZv\n"
+                                             "0p3GeDgdaZaikmkuOGybfQTUiaWxMTeKySHMq2zNixya1r9I0jJmwYrA8y8678Dj1JGG0VDjA9tz\n"
+                                             "d29KOVPt3ibHtX2vK0LRdWLjSisCx1BL4GnilmwORGYQRI+tBev4eaymG+g3NJ1TyWGqolKvSnAW\n"
+                                             "hsI6yLETcDbYz+70CjTVW0z9B5yiutkBclzzTcHdDrEcDcRjvq30FPuJ7KJBDkzMyFdA0G4Dqs0M\n"
+                                             "jomZmWzwPDCvON9vvKO+KSAnq3T/EyJ43pdSVR6DtVQgA+6uwE9W3jfMw3+qBCe703e4YtsXfJwo\n"
+                                             "IhNzbM8m9Yop5w==\n"
+                                             "-----END CERTIFICATE-----";
+
+    static std::string godaddy_full_cert1 = "-----BEGIN CERTIFICATE-----\n"
                                     "MIIEADCCAuigAwIBAgIBADANBgkqhkiG9w0BAQUFADBjMQswCQYDVQQGEwJVUzEh\n"
                                     "MB8GA1UEChMYVGhlIEdvIERhZGR5IEdyb3VwLCBJbmMuMTEwLwYDVQQLEyhHbyBE\n"
                                     "YWRkeSBDbGFzcyAyIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTA0MDYyOTE3\n"
@@ -61,6 +81,26 @@ namespace BrainCloud
                                     "dEr/VxqHD3VILs9RaRegAhJhldXRQLIQTO7ErBBDpqWeCtWVYpoNz4iCxTIM5Cuf\n"
                                     "ReYNnyicsbkqWletNw+vHX/bvZ8=\n"
                                     "-----END CERTIFICATE-----";
+
+    static std::string godaddy_full_cert2 = "-----BEGIN CERTIFICATE-----\n"
+                                     "MIIDxTCCAq2gAwIBAgIBADANBgkqhkiG9w0BAQsFADCBgzELMAkGA1UEBhMCVVMxEDAOBgNVBAgT\n"
+                                     "B0FyaXpvbmExEzARBgNVBAcTClNjb3R0c2RhbGUxGjAYBgNVBAoTEUdvRGFkZHkuY29tLCBJbmMu\n"
+                                     "MTEwLwYDVQQDEyhHbyBEYWRkeSBSb290IENlcnRpZmljYXRlIEF1dGhvcml0eSAtIEcyMB4XDTA5\n"
+                                     "MDkwMTAwMDAwMFoXDTM3MTIzMTIzNTk1OVowgYMxCzAJBgNVBAYTAlVTMRAwDgYDVQQIEwdBcml6\n"
+                                     "b25hMRMwEQYDVQQHEwpTY290dHNkYWxlMRowGAYDVQQKExFHb0RhZGR5LmNvbSwgSW5jLjExMC8G\n"
+                                     "A1UEAxMoR28gRGFkZHkgUm9vdCBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkgLSBHMjCCASIwDQYJKoZI\n"
+                                     "hvcNAQEBBQADggEPADCCAQoCggEBAL9xYgjx+lk09xvJGKP3gElY6SKDE6bFIEMBO4Tx5oVJnyfq\n"
+                                     "9oQbTqC023CYxzIBsQU+B07u9PpPL1kwIuerGVZr4oAH/PMWdYA5UXvl+TW2dE6pjYIT5LY/qQOD\n"
+                                     "+qK+ihVqf94Lw7YZFAXK6sOoBJQ7RnwyDfMAZiLIjWltNowRGLfTshxgtDj6AozO091GB94KPutd\n"
+                                     "fMh8+7ArU6SSYmlRJQVhGkSBjCypQ5Yj36w6gZoOKcUcqeldHraenjAKOc7xiID7S13MMuyFYkMl\n"
+                                     "NAJWJwGRtDtwKj9useiciAF9n9T521NtYJ2/LOdYq7hfRvzOxBsDPAnrSTFcaUaz4EcCAwEAAaNC\n"
+                                     "MEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAQYwHQYDVR0OBBYEFDqahQcQZyi27/a9\n"
+                                     "BUFuIMGU2g/eMA0GCSqGSIb3DQEBCwUAA4IBAQCZ21151fmXWWcDYfF+OwYxdS2hII5PZYe096ac\n"
+                                     "vNjpL9DbWu7PdIxztDhC2gV7+AJ1uP2lsdeu9tfeE8tTEH6KRtGX+rcuKxGrkLAngPnon1rpN5+r\n"
+                                     "5N9ss4UXnT3ZJE95kTXWXwTrgIOrmgIttRD02JDHBHNA7XIloKmf7J6raBKZV8aPEjoJpL1E/QYV\n"
+                                     "N8Gb5DKj7Tjo2GTzLH4U/ALqn83/B2gX2yKQOC16jdFU8WnjXzPKej17CuPKf1855eJ1usV2GDPO\n"
+                                     "LPAvTK33sefOT6jEm0pUBsV/fdUID+Ic/n4XuKxe9tQWskMJDE32p2u0mYRlynqI4uJEvlz36hz1\n"
+                                     "-----END CERTIFICATE-----";
 
     IWebSocket* IWebSocket::create(const std::string& address, int port, const std::map<std::string, std::string>& headers)
     {
@@ -130,8 +170,8 @@ namespace BrainCloud
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
             #if(LWS_LIBRARY_VERSION_MAJOR >= 4)
                 info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
-                info.client_ssl_ca_mem = root_certs.c_str();
-                info.client_ssl_ca_mem_len = static_cast<unsigned int>(root_certs.length());
+                info.client_ssl_ca_mem = digicert_full_cert1.c_str();
+                info.client_ssl_ca_mem_len = static_cast<unsigned int>(digicert_full_cert1.length());
             #endif
             std::unique_lock<std::mutex> lock(lwsContextMutex);
             _pLwsContext = lws_create_context(&info);
@@ -263,11 +303,54 @@ namespace BrainCloud
                 pWebSocket->processSendQueue();
                 break;
             }
+            case LWS_CALLBACK_OPENSSL_LOAD_EXTRA_CLIENT_VERIFY_CERTS:
+            {
+#ifdef ANDROID
+                pWebSocket->addExtraRootCerts((SSL_CTX *)user);
+#endif
+
+                break;
+            }
             default:
                 break;
         }
 
         return 0;
+    }
+
+    void DefaultWebSocket::addExtraRootCerts(SSL_CTX *ssl_ctx) {
+
+        addCertString(godaddy_full_cert1, ssl_ctx);
+    }
+
+    void DefaultWebSocket::addCertString(std::string certString, SSL_CTX *ssl_ctx) {
+
+        lws_filepos_t amount = 0;
+        const uint8_t *up;
+        uint8_t *up1;
+        uint8_t *pem;
+        size_t decodedlen;
+
+        std::string stripped_cert = certString.replace(0, strlen("-----BEGIN CERTIFICATE-----\n"), "");
+
+        size_t npos = stripped_cert.find("-----END CERTIFICATE-----");
+
+        stripped_cert = stripped_cert.replace(npos, strlen("-----END CERTIFICATE-----"), "");
+
+        const char *cacert = stripped_cert.c_str();
+        size_t calen = stripped_cert.length();
+        decodedlen = (calen * 3) / 4;
+        pem = (uint8_t*)malloc(decodedlen);
+
+        amount = lws_b64_decode_string_len((char *) cacert, calen,
+                                           (char *) pem, (int) (long long) decodedlen);
+
+        X509* client_CA = d2i_X509(NULL, (const unsigned char **)(&pem), (long)amount);
+
+        X509_STORE* x509_store = SSL_CTX_get_cert_store(ssl_ctx);
+
+        X509_STORE_add_cert(x509_store, client_CA);
+
     }
 
     bool DefaultWebSocket::isValid()

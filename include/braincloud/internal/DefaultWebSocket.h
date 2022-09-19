@@ -6,6 +6,7 @@
 #include "braincloud/internal/IWebSocket.h"
 
 #include <libwebsockets.h>
+#include <openssl/x509.h>
 
 #include <atomic>
 #include <condition_variable>
@@ -33,6 +34,8 @@ namespace BrainCloud
         virtual std::string recv();
 
         virtual void close();
+        void addExtraRootCerts(SSL_CTX *);
+        void addCertString(std::string certString, SSL_CTX *ssl_ctx);
 
     protected:
         friend class IWebSocket;
