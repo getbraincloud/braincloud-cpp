@@ -7,7 +7,7 @@
 
 #include <libwebsockets.h>
 
-#if defined(BC_USE_OPENSSL)
+#if defined(BC_USE_OPENSSL) && (BC_USE_OPENSSL==1)
 #include <openssl/x509.h>
 #endif
 
