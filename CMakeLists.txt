@@ -29,7 +29,7 @@ endif()
 # CMake options
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
-option(USE_CURL "Force use libCurl on Win32" OFF)
+option(USE_CURL "Force use libCurl on Win32" OFF) # option for windows
 if(DEFINED SSL_ALLOW_SELFSIGNED)
     set(SSL_ALLOW_SELFSIGNED 1)
 else()
@@ -439,6 +439,7 @@ elseif (WIN32)
                 optimized ${BC_CURL_LIB_RELEASE}
                 debug ${BC_CURL_LIB_DEBUG})
     else()
+        message(status "Using msxml6 socket library.")
         find_package(Socket)
         list(APPEND libs msxml6 ${Socket_LIBRARIES})
     endif()
@@ -475,11 +476,8 @@ if (USE_LIBWEBSOCKETS)
 		option(ENABLE_TESTING "" OFF)
 		option(ENABLE_PROGRAMS "" OFF)
 
-        # mbedtls-v2.13.1 (SHA1 is 53546ea)
-        # mbedtls-v3.2.1 (SHA1 is 869298bf) for lws 4.3 +
         # mbedtls-2.28 (SHA1 is 1963d67e)
         set(BC_MBEDTLS_DIR lib/mbedtls)
-        #set(BC_MBEDTLS_DIR lib/mbedtlsv2)
 
 		add_subdirectory("${BC_MBEDTLS_DIR}")
 
@@ -492,14 +490,15 @@ if (USE_LIBWEBSOCKETS)
 		if (CMAKE_GENERATOR STREQUAL Xcode)
 			# setting this blank causes no warnings in cmake, links in xcode
 			set(LWS_MBEDTLS_LIBRARIES "")
-		elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+		elseif(WIN32)
 			# when generator is Visual Studio 16
 			# or compiler is MSVC
+            # need to set the path to build for lws v3.0
+            # this produces warning: Targets may link only to libraries.  CMake is dropping the item.
             set(LWS_MBEDTLS_LIBRARIES
-                    "")
-                    #"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
+                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
 		else()
-		# regular commandline build on linux, mac
+		    # setting libraries for regular commandline build on linux, mac
 			set(LWS_MBEDTLS_LIBRARIES
 					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
 					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
@@ -507,35 +506,15 @@ if (USE_LIBWEBSOCKETS)
 		endif()
 
 	endif()
-    # zlib
-#        include_directories(
-#                "${BC_DIR}/lib/win32/zlib/include")
-
-#    find_library(BC_ZLIB zlib.lib
-#                "${BC_DIR}/lib/win32/zlib/lib")
-#    list(APPEND libs ${BC_ZLIB})
-#    set(ZLIB_FOUND 1)
-#    set(ZLIB_INCLUDE_DIRS "${BC_DIR}/lib/win32/zlib/include")
-#    set(ZLIB_LIBRARIES "${BC_DIR}/lib/win32/zlib/lib")
-#    list(APPEND libs ${ZLIB_LIBRARIES})
-#
-#    set(ZLIB_USE_STATIC_LIBS TRUE)
-#    set(ZLIB_ROOT "${BC_DIR}/lib/win32/zlib/")
-#    find_package(ZLIB REQUIRED)
-#    include_directories("${ZLIB_INCLUDE_DIRS}")
-#    list(APPEND libs ${ZLIB_LIBRARIES})
-#    message(status "joanne ${ZLIB_INCLUDE_DIRS} mm ${ZLIB_LIBRARIES}")
 
     # LibWebSockets
-
-    # v4.1.6 (SHA1 is 736f0739)
-    #set(BC_LWS_DIR lib/lwsv4_1_6)
-    # v4.3-stable (SHA1 is 58af7b44)
-    # v4.3.2 tag (SHA1 is (b0a749c8)
-    # v4.2-stable (SHA1 is 17bd1d07
-    set(BC_LWS_DIR lib/libwebsockets)
-    # v3.0 (on fork SHA1 is eaa935a8)
-     #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+    if(WIN32)
+        # v3.0 (on fork SHA1 is eaa935a8)
+         set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+    else()
+         # v4.3-stable (SHA1 is 58af7b44)
+         set(BC_LWS_DIR lib/libwebsockets)
+    endif()
 
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)

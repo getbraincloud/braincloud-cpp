@@ -303,20 +303,22 @@ namespace BrainCloud
                 pWebSocket->processSendQueue();
                 break;
             }
+#if(LWS_LIBRARY_VERSION_MAJOR >= 4)
             case LWS_CALLBACK_OPENSSL_LOAD_EXTRA_CLIENT_VERIFY_CERTS:
             {
-#ifdef ANDROID
                 pWebSocket->addExtraRootCerts((SSL_CTX *)user);
-#endif
 
                 break;
             }
+#endif
             default:
                 break;
         }
 
         return 0;
     }
+
+#if(LWS_LIBRARY_VERSION_MAJOR >= 4)
 
     void DefaultWebSocket::addExtraRootCerts(SSL_CTX *ssl_ctx) {
 
@@ -352,6 +354,7 @@ namespace BrainCloud
         X509_STORE_add_cert(x509_store, client_CA);
 
     }
+#endif
 
     bool DefaultWebSocket::isValid()
     {
