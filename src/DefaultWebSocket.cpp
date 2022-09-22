@@ -326,7 +326,7 @@ namespace BrainCloud
 
         return 0;
     }
-#define BC_MBEDTLS_OFF
+
 #if defined(BC_MBEDTLS_OFF)
 
     void DefaultWebSocket::addExtraRootCerts(SSL_CTX *ssl_ctx) {
