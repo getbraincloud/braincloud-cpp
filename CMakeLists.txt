@@ -29,12 +29,13 @@ endif()
 # CMake options
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
-option(USE_CURL "Force use libCurl on Win32" OFF) # option for windows
+option(USE_CURL_WIN "Force use libCurl on Win32" OFF)
 if(DEFINED SSL_ALLOW_SELFSIGNED)
     set(SSL_ALLOW_SELFSIGNED 1)
 else()
     set(SSL_ALLOW_SELFSIGNED 0)
 endif()
+
 #=============================================================================
 # Definitions
 #=============================================================================
@@ -60,6 +61,13 @@ if (NOT UWP)
     set(USE_LIBWEBSOCKETS 1)
 else()
     add_definitions(-DLIBWEBSOCKETS_OFF)
+endif()
+
+if(BC_USE_OPENSSL)
+    message(status "Building with OpenSSl")
+    add_definitions(-DBC_MBEDTLS_OFF)
+else()
+    message(status "Building with MbedTLS")
 endif()
 
 #=============================================================================
@@ -94,7 +102,7 @@ if (APPLE)
             "src/apple/nsFileUploader.mm"
             "src/apple/nsPinger.mm"
             "src/apple/nsURLLoader.mm")
-elseif (MSVC AND NOT USE_CURL)
+elseif (MSVC AND NOT USE_CURL_WIN)
     list(APPEND OS_SPECIFIC_INCS
             "include/braincloud/internal/win/XMLHTTPRequestCallback.h"
             "include/braincloud/internal/win/XMLHTTPRequestFileUploader.h"
@@ -417,7 +425,7 @@ elseif (ANDROID)
             )
 
 elseif (WIN32)
-    if (USE_CURL)
+    if (USE_CURL_WIN)
         # pthread
         include_directories(
                 "${BC_DIR}/lib/win32/pthread-w32-2-8-0/Pre-built.2/include")

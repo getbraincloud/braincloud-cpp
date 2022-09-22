@@ -7,7 +7,7 @@
 
 #include <libwebsockets.h>
 
-#if defined(BC_USE_OPENSSL) && (BC_USE_OPENSSL==1)
+#if defined(BC_MBEDTLS_OFF)
 #include <openssl/x509.h>
 #endif
 
@@ -37,7 +37,7 @@ namespace BrainCloud
         virtual std::string recv();
 
         virtual void close();
-#if(LWS_LIBRARY_VERSION_MAJOR >= 4)
+#if defined(BC_MBEDTLS_OFF)
         void addExtraRootCerts(SSL_CTX *);
         void addCertString(std::string certString, SSL_CTX *ssl_ctx);
 #endif
@@ -47,6 +47,7 @@ namespace BrainCloud
         DefaultWebSocket(const std::string& address, int port, const std::map<std::string, std::string>& headers);
 
     private:
+        void InitializeSSLCertificates() const;
         void onClose();
         void onError(const char* msg);
         void onConnect();
