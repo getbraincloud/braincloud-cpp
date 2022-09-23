@@ -360,10 +360,11 @@ namespace BrainCloud
 
         X509* client_CA = d2i_X509(NULL, (const unsigned char **)(&pem), (long)amount);
 
-        X509_STORE* x509_store = SSL_CTX_get_cert_store(ssl_ctx);
-
-        X509_STORE_add_cert(x509_store, client_CA);
-
+        if(client_CA != NULL){
+            X509_STORE* x509_store = SSL_CTX_get_cert_store(ssl_ctx);
+            X509_STORE_add_cert(x509_store, client_CA);
+            X509_free(client_CA);
+        }
     }
 #endif
 
