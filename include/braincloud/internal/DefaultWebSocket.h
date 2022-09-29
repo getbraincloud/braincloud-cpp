@@ -7,6 +7,10 @@
 
 #include <libwebsockets.h>
 
+#if defined(BC_MBEDTLS_OFF)
+#include <openssl/x509.h>
+#endif
+
 #include <atomic>
 #include <condition_variable>
 #include <map>
@@ -33,13 +37,17 @@ namespace BrainCloud
         virtual std::string recv();
 
         virtual void close();
-
+#if defined(BC_MBEDTLS_OFF)
+        void addExtraRootCerts(SSL_CTX *);
+        void addCertString(std::string certString, SSL_CTX *ssl_ctx);
+#endif
     protected:
         friend class IWebSocket;
 
         DefaultWebSocket(const std::string& address, int port, const std::map<std::string, std::string>& headers);
 
     private:
+        void InitializeSSLCertificates() const;
         void onClose();
         void onError(const char* msg);
         void onConnect();
