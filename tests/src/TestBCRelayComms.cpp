@@ -168,7 +168,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         bc->getRelayService()->send((uint8_t*)pData, size, netId, true, true, eRelayChannel::HighPriority1);
         printf("Relay Connect Callback Success");
     },
-                                              [&relayFailed]()
+    [&relayFailed]()
     {
         relayFailed = true;
         printf("Relay Failed to Connect");
@@ -180,7 +180,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         {
             hasReceivedSystemMessage = true;
         }
-        printf("Relay System Callback Success: %s", eventJson.asCString());
+        printf("Relay System Callback Success");
     });
     bool hasReceivedEcho = false;
     RelayCallback relayCallback([&hasReceivedEcho, pData, size](int netId, const uint8_t* bytes, int in_size)
