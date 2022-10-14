@@ -7,7 +7,7 @@
 
 #include "braincloud/internal/IRelayTCPSocket.h"
 #include "braincloud/internal/IRelayUDPSocket.h"
-#if (TARGET_OS_WATCH != 1)
+#if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
 #include "braincloud/internal/IWebSocket.h"
 #endif
 #include "braincloud/internal/RelayComms.h"

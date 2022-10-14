@@ -166,10 +166,12 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
     {
         auto netId = bc->getRelayService()->getNetIdForProfileId(bc->getAuthenticationService()->getProfileId());
         bc->getRelayService()->send((uint8_t*)pData, size, netId, true, true, eRelayChannel::HighPriority1);
+        printf("Relay Connect Callback Success");
     },
-                                              [&relayFailed]()
+    [&relayFailed]()
     {
         relayFailed = true;
+        printf("Relay Failed to Connect");
     });
     bool hasReceivedSystemMessage = false;
     RelaySystemCallback relaySystemCallback([&hasReceivedSystemMessage](const Json::Value& eventJson)
@@ -178,6 +180,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         {
             hasReceivedSystemMessage = true;
         }
+        printf("Relay System Callback Success");
     });
     bool hasReceivedEcho = false;
     RelayCallback relayCallback([&hasReceivedEcho, pData, size](int netId, const uint8_t* bytes, int in_size)
@@ -186,6 +189,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         {
             hasReceivedEcho = true;
         }
+        printf("Relay Callback Success");
     });
     bc->getRelayService()->registerSystemCallback(&relaySystemCallback);
     bc->getRelayService()->registerRelayCallback(&relayCallback);

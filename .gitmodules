@@ -1,9 +1,11 @@
 [submodule "lib/libwebsockets"]
 	path = lib/libwebsockets
 	url = https://github.com/warmcat/libwebsockets.git
+	branch = v4.3-stable
 [submodule "lib/mbedtls"]
 	path = lib/mbedtls
 	url = https://github.com/ARMmbed/mbedtls.git
+	branch = mbedtls-2.28
 [submodule "lib/lwsv3/libwebsockets"]
 	path = lib/lwsv3/libwebsockets
 	url = https://github.com/getbraincloud/libwebsockets.git

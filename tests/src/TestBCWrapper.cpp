@@ -131,7 +131,7 @@ TEST_F(TestBCWrapper, Reconnect)
 	TestResult tr;
 
 	m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
-
+	m_bcWrapper->resetStoredAnonymousId();
 	m_bcWrapper->reconnect(&tr);
 	tr.runExpectFail(m_bc, HTTP_ACCEPTED, MISSING_PROFILE_ERROR);
 

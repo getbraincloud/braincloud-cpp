@@ -4,6 +4,7 @@ endif()
 
 if (CMAKE_SYSTEM_NAME STREQUAL Android)
     set(ANDROID 1)
+    set(BC_USE_OPENSSL 1)
 endif()
 
 if (UWP)
@@ -28,10 +29,13 @@ endif()
 # CMake options
 #=============================================================================
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
-option(USE_CURL "Force use libCurl on Win32" OFF)
-if (NOT DEFINED(${SSL_ALLOW_SELFSIGNED}))
-    option(SSL_ALLOW_SELFSIGNED "Will define BC_SSL_ALLOW_SELFSIGNED" OFF)
+option(USE_CURL_WIN "Force use libCurl on Win32" OFF)
+if(DEFINED SSL_ALLOW_SELFSIGNED)
+    set(SSL_ALLOW_SELFSIGNED 1)
+else()
+    set(SSL_ALLOW_SELFSIGNED 0)
 endif()
+
 #=============================================================================
 # Definitions
 #=============================================================================
@@ -53,11 +57,17 @@ if (SSL_ALLOW_SELFSIGNED)
 endif()
 
 # lets use libwebsockets by default
-# turned off for Android until library link issues resolved (note: RTT features are also disabled)
-if (NOT UWP AND NOT ANDROID)
+if (NOT UWP)
     set(USE_LIBWEBSOCKETS 1)
 else()
     add_definitions(-DLIBWEBSOCKETS_OFF)
+endif()
+
+if(BC_USE_OPENSSL)
+    message(status "Building with OpenSSl")
+    add_definitions(-DBC_MBEDTLS_OFF)
+else()
+    message(status "Building with MbedTLS")
 endif()
 
 #=============================================================================
@@ -92,7 +102,7 @@ if (APPLE)
             "src/apple/nsFileUploader.mm"
             "src/apple/nsPinger.mm"
             "src/apple/nsURLLoader.mm")
-elseif (MSVC AND NOT USE_CURL)
+elseif (MSVC AND NOT USE_CURL_WIN)
     list(APPEND OS_SPECIFIC_INCS
             "include/braincloud/internal/win/XMLHTTPRequestCallback.h"
             "include/braincloud/internal/win/XMLHTTPRequestFileUploader.h"
@@ -395,94 +405,125 @@ elseif (LINUX)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
 
-    #find_package(OpenSSL)
-    #message (STATUS "OPENSSL_ROOT_DIR is $ENV{OPENSSL_ROOT_DIR}")
-
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
     set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
-    #add_library(ssl STATIC IMPORTED)
-    #set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
-    #add_library(crypto STATIC IMPORTED)
-    #set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
+    add_library(ssl STATIC IMPORTED)
+    set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
+    add_library(crypto STATIC IMPORTED)
+    set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
     add_library(uv_a STATIC IMPORTED)
     set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
 
     list(APPEND libs
             curl
-            #ssl
-            #Scrypto
+            ssl
+            crypto
             uv_a
             libz
             )
 
-    if(USE_LIBWEBSOCKETS)
-        add_library(websockets STATIC IMPORTED)
-        set_target_properties(websockets PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libwebsockets.a)
-        list(APPEND libs websockets)
-    endif()
-
 elseif (WIN32)
-    if (USE_CURL)
+    if (USE_CURL_WIN)
+        # pthread
         include_directories(
                 "${BC_DIR}/lib/win32/pthread-w32-2-8-0/Pre-built.2/include")
-
         add_definitions(-DWIN32 -D_LIB -DPTW32_STATIC_LIB)
         find_library(BC_PTHREADW32_LIB pthreadVCE2
                 "${BC_DIR}/lib/win32/pthread-w32-2-8-0/Pre-built.2/lib")
 
+        # curl
         add_definitions(-DCURL_STATICLIB)
         include_directories("${BC_DIR}/lib/win32/curl-7.44.0/include")
         find_library(BC_CURL_LIB_RELEASE libcurl_a.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
         find_library(BC_CURL_LIB_DEBUG libcurl_a_debug.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
+
         list(APPEND libs general
                 ${Socket_LIBRARIES}
                 ${BC_PTHREADW32_LIB}
                 optimized ${BC_CURL_LIB_RELEASE}
                 debug ${BC_CURL_LIB_DEBUG})
     else()
+        message(status "Using msxml6 socket library.")
         find_package(Socket)
         list(APPEND libs msxml6 ${Socket_LIBRARIES})
     endif()
 endif()
 
-if (USE_LIBWEBSOCKETS AND NOT ANDROID)
+# android uses openssl instead of tls (pre-built libwebsockets.a is linked above)
+if (USE_LIBWEBSOCKETS)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
-    add_subdirectory(./lib/mbedtls/)
-    list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-    list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/)
-    option(LWS_WITH_MBEDTLS "" ON)
-    set(LWS_MBEDTLS_INCLUDE_DIRS
-            "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/include/")
-    if (UNIX AND NOT CMAKE_GENERATOR STREQUAL Xcode)
-        # when building at commandline on unix os (or mac)
-        set(LWS_MBEDTLS_LIBRARIES
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedtls.a"
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedcrypto.a"
-                "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/libmbedx509.a")
-    else()
-        # when generator is Xcode or Visual Studio
-        # causes a 'dropped file links to directory' warning
-        # but allows project to load and compile in IDE
-        set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/lib/mbedtls/library/")
-    endif()
+	if (BC_USE_OPENSSL)
 
-    # Latest xcode broke lws. lws did a fix in their latest, but this broke
-    # their mbedtls impl... So we are using different lws version on
-    # apple (latest) vs our usual one v4.1.6 on all other platforms...
-    if (APPLE OR (CMAKE_GENERATOR STREQUAL Xcode))
-       set(LWS_DIR lib/libwebsockets)
-    else()
-        set(LWS_DIR lib/lwsv3/libwebsockets)
-    endif()
+        if(ANDROID)
+    		set(LWS_OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
+	    	set(LWS_OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
+            set(OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
+            set(OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
+            set(OPENSSL_FOUND 1)
+            option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" OFF)
+        else()
+            set(OPENSSL_USE_STATIC_LIBS TRUE)
+            find_package(OpenSSL REQUIRED)
+            set(OPENSSL_FOUND 1)
+            set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
+            set(OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
+            include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
+            option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" ON)
+        endif()
+
+        option(LWS_WITH_SSL "Include SSL support (defaults to OpenSSL)" ON)
+
+	else()
+		# TLS
+		option(ENABLE_TESTING "" OFF)
+		option(ENABLE_PROGRAMS "" OFF)
+
+        # mbedtls-2.28 (SHA1 is 1963d67e)
+        set(BC_MBEDTLS_DIR lib/mbedtls)
+
+		add_subdirectory("${BC_MBEDTLS_DIR}")
+
+		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
+		list(APPEND includes
+				PUBLIC ${BC_DIR}/${BC_MBEDTLS_DIR}/include/)
+		option(LWS_WITH_MBEDTLS "" ON)
+		set(LWS_MBEDTLS_INCLUDE_DIRS
+				"${BC_DIR}/${BC_MBEDTLS_DIR}/include")
+		if (CMAKE_GENERATOR STREQUAL Xcode)
+			# setting this blank causes no warnings in cmake, links in xcode
+			set(LWS_MBEDTLS_LIBRARIES "")
+		elseif(WIN32)
+			# when generator is Visual Studio 16
+			# or compiler is MSVC
+            # need to set the path to build for lws v3.0
+            # this produces warning: Targets may link only to libraries.  CMake is dropping the item.
+            set(LWS_MBEDTLS_LIBRARIES
+                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
+		else()
+		    # setting libraries for regular commandline build on linux, mac
+			set(LWS_MBEDTLS_LIBRARIES
+					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
+					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
+					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
+		endif()
+
+	endif()
 
     # LibWebSockets
+    if(WIN32)
+        # v3.0 (on fork SHA1 is eaa935a8)
+         set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+    else()
+         # v4.3-stable (SHA1 is 58af7b44)
+         set(BC_LWS_DIR lib/libwebsockets)
+    endif()
+
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
     option(LWS_WITHOUT_TESTAPPS
@@ -497,10 +538,21 @@ if (USE_LIBWEBSOCKETS AND NOT ANDROID)
             "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
             "Build the shared version of the library" OFF)
-    add_subdirectory(${LWS_DIR})
+    option(LWS_WITHOUT_EXTENSIONS "" ON)
+    option(LWS_WITH_TLS "" ON)
+
+    add_subdirectory("${BC_LWS_DIR}")
+
+    # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
+    if(Win32)
+       target_compile_options(websockets PRIVATE /WX-)
+    endif()
+
     list(APPEND libs websockets)
     list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${LWS_DIR}/include/)
+            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
+            ${BC_DIR}/${BC_LWS_DIR}/include)
 
 endif()
 
