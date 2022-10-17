@@ -548,6 +548,9 @@ namespace BrainCloud
             X509_STORE_add_cert(x509_store, client_CA);
             X509_free(client_CA);
         }
+        else{
+            free(pem);
+        }
     }
 #endif
 
