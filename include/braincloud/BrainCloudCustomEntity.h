@@ -235,6 +235,18 @@ namespace BrainCloud {
 		 */
 		void incrementData(const char * in_entityType, const char * in_entityId, const std::string& in_fieldsJson, IServerCallback * in_callback = NULL);
 
+        /**
+         * Increments the specified fields, of the singleton owned by the user, by the specified amount within the custom entity data on the server.
+         *
+         * Service Name - CustomEntity
+         * Service Operation - IncrementSingletonData
+         *
+         * @param in_entityType The type of custom entity being updated.
+         * @param in_fieldsJson Specific fields, as JSON, within entity's custom data, with respective increment amount.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void incrementSingletonData(const char * in_entityType, const std::string& in_fieldsJson, IServerCallback * in_callback = NULL);
+
 
 	private:
 		BrainCloudClient * m_client;

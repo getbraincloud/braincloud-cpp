@@ -410,6 +410,7 @@ namespace BrainCloud {
 		static const ServiceOperation UpdateEntityFieldsSharded;
 		static const ServiceOperation GetEntityPage;
 		static const ServiceOperation IncrementData;
+        static const ServiceOperation IncrementSingletonData;
 		static const ServiceOperation GetCustomEntityPage;
 		static const ServiceOperation UpdateSingletonFields;
 

@@ -202,4 +202,14 @@ namespace BrainCloud
 		m_client->sendRequest(sc);
 	}
 
+    void BrainCloudCustomEntity::incrementSingletonData(const char * in_entityType, const std::string& in_fieldsJson, IServerCallback * in_callback)
+    {
+        Json::Value message;
+        message[OperationParam::CustomEntityServiceEntityType.getValue()] = in_entityType;
+        message[OperationParam::CustomEntityFieldsJson.getValue()] = JsonUtil::jsonStringToValue(in_fieldsJson);
+
+        ServerCall * sc = new ServerCall(ServiceName::CustomEntity, ServiceOperation::IncrementSingletonData, message, in_callback);
+        m_client->sendRequest(sc);
+    }
+
 }
