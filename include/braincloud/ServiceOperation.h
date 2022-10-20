@@ -492,6 +492,9 @@ namespace BrainCloud {
         static const ServiceOperation AppStoreFinalizePurchase;
         static const ServiceOperation AppStoreRefreshPromotions;
 
+        // Blockchain
+        static const ServiceOperation GetBlockchainItems;
+        static const ServiceOperation GetUniqs;
 
 		std::string getValue() const { return _value; }
 

@@ -66,6 +66,7 @@ namespace BrainCloud {
         BrainCloudPresence * getPresenceService() { return client->getPresenceService(); }
 		BrainCloudRelay * getRelayService() { return client->getRelayService(); }
 		BrainCloudRTT * getRTTService() { return client->getRTTService(); }
+        BrainCloudBlockchain * getBlockchainService() { return client->getBlockchainService(); }
 
         /**
          * Method returns a singleton instance of the BrainCloudWrapper.

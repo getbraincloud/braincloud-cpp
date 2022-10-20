@@ -39,6 +39,7 @@ namespace BrainCloud
         _relayComms(new RelayComms(this)),
         _asyncMatchService(new BrainCloudAsyncMatch(this)),
         _authenticationService(new BrainCloudAuthentication(this)),
+        _blockchainService(new BrainCloudBlockchain(this)),
         _chatService(new BrainCloudChat(this)),
         _dataStreamService(new BrainCloudDataStream(this)),
         _entityService(new BrainCloudEntity(this)),
