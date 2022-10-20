@@ -258,7 +258,6 @@ TEST_F(TestBCCustomEntity, ReadSingleton)
 
 TEST_F(TestBCCustomEntity, IncrementData)
 {
-	m_bc->getAuthenticationService()->authenticateAnonymous(true);
 	TestResult tr;
 	const char *id = "";
 	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
@@ -278,7 +277,6 @@ TEST_F(TestBCCustomEntity, IncrementData)
 
 TEST_F(TestBCCustomEntity, IncrementSingletonData)
 {
-    m_bc->getAuthenticationService()->authenticateAnonymous(true);
     TestResult tr;
     const char *id = "";
     m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
