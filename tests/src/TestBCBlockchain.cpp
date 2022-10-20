@@ -18,8 +18,7 @@ TEST_F(TestBCBlockchain, GetBlockchainItems)
 
 	Json::FastWriter fw;
 	m_bc->getBlockchainService()->GetBlockchainItems(_defaultIntegrationId, _defaultContextJson, &tr);
-    
-    tr.run(m_bc);
+    tr.runExpectFail(m_bc, 400, 40678);
 }
 
 TEST_F(TestBCBlockchain, GetUniqs)
@@ -30,5 +29,5 @@ TEST_F(TestBCBlockchain, GetUniqs)
 
     m_bc->getBlockchainService()->GetUniqs(_defaultIntegrationId, _defaultContextJson, &tr);
 
-	tr.run(m_bc);
+    tr.runExpectFail(m_bc, 400, 40678);
 }
