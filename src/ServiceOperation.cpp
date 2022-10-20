@@ -481,6 +481,9 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::DetachBlockchainIdentity = ServiceOperation("DETACH_BLOCKCHAIN_IDENTITY");
 	const ServiceOperation ServiceOperation::CompleteMatchWithSummaryData = ServiceOperation("COMPLETE_MATCH_WITH_SUMMARY_DATA");
 	const ServiceOperation ServiceOperation::AbandonMatchWithSummaryData = ServiceOperation("ABANDON_MATCH_WITH_SUMMARY_DATA");
+    
+    const ServiceOperation ServiceOperation::GetBlockchainItems = ServiceOperation("GET_BLOCKCHAIN_ITEMS");
+    const ServiceOperation ServiceOperation::GetUniqs = ServiceOperation("GET_UNIQS");
 
 	ServiceOperation::ServiceOperation(const char * value)
 	{

@@ -503,6 +503,10 @@ namespace BrainCloud
 	const OperationParam OperationParam::PlayerStateServiceDetails = OperationParam("details");
 	const OperationParam OperationParam::PlayerStateServiceDurationSecs = OperationParam("durationSecs");
 
+    // Blockchain Service
+    const OperationParam OperationParam::BlockChainIntegrationId = OperationParam("integrationId");
+    const OperationParam OperationParam::BlockChainContext = OperationParam("contextJson");
+
 	const OperationParam OperationParam::IdentityServiceBlockchainConfig = OperationParam("blockchainConfig");
 	const OperationParam OperationParam::IdentityServicePublicKey = OperationParam("publicKey");
 

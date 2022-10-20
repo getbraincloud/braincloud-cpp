@@ -513,6 +513,10 @@ namespace BrainCloud {
 		static const OperationParam IdentityServiceBlockchainConfig;
 		static const OperationParam IdentityServicePublicKey;
 
+        // Blockchain
+        static const OperationParam BlockChainIntegrationId;
+        static const OperationParam BlockChainContext;
+
 		std::string getValue() const { return _value; }
 
 		bool operator== (const OperationParam& s) const;
