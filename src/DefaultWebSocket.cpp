@@ -12,6 +12,9 @@ static std::mutex lwsContextMutex;
 
 namespace BrainCloud
 {
+    // logging options include: LLL_DEBUG | LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE
+    // call lws_set_log_level from main
+
     static struct lws_protocols protocols[] = {
         {
             "brainCloud",
@@ -58,10 +61,6 @@ namespace BrainCloud
         , _isConnecting(true)
         , _authHeaders(headers)
     {
-        lws_set_log_level(
-            //LLL_DEBUG, NULL);
-            LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE, NULL);
-
         InitializeSSLCertificates();
 
         std::string uriCopy = uri;
