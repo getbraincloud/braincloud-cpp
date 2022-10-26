@@ -31,6 +31,12 @@ endif()
 option(BUILD_TESTS "brainCloud Unit Tests" OFF)
 option(USE_CURL_WIN "Force use libCurl on Win32" OFF)
 
+if(DEFINED SSL_ALLOW_SELFSIGNED)
+    set(SSL_ALLOW_SELFSIGNED 1)
+else()
+    set(SSL_ALLOW_SELFSIGNED 0)
+endif()
+
 #=============================================================================
 # Definitions
 #=============================================================================
@@ -48,7 +54,9 @@ if (UWP)
     endif()
 endif()
 
-add_definitions(-DBC_SSL_ALLOW_SELFSIGNED)
+if (SSL_ALLOW_SELFSIGNED)
+    add_definitions(-DBC_SSL_ALLOW_SELFSIGNED)
+endif()
 
 # lets use libwebsockets by default
 if (NOT UWP)

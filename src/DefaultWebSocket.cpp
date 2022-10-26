@@ -41,6 +41,7 @@ namespace BrainCloud
     };
 
     static std::vector<std::string> full_certs;
+    static bool added = false;
 
     IWebSocket* IWebSocket::create(const std::string& address, int port, const std::map<std::string, std::string>& headers)
     {
@@ -65,7 +66,7 @@ namespace BrainCloud
         InitializeSSLCertificates();
 #endif
         std::string uriCopy = uri;
-        
+
         // Split address into host/addr/origin/protocol
         std::string protocol = uriCopy.substr(0, std::min<size_t>(uriCopy.size(), uriCopy.find_first_of(':')));
         size_t protocolSize = protocol.size() + 3;
@@ -173,7 +174,7 @@ namespace BrainCloud
             }
         }
     }
-
+#if !defined(BC_SSL_ALLOW_SELFSIGNED)
     void DefaultWebSocket::InitializeSSLCertificates() const {
         // Go Daddy Class 2 CA
         full_certs.push_back( "-----BEGIN CERTIFICATE-----\n"
@@ -426,6 +427,7 @@ namespace BrainCloud
                               "-----END CERTIFICATE-----");
 
     }
+#endif
 
     int DefaultWebSocket::libWebsocketsCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len)
     {
@@ -498,7 +500,9 @@ namespace BrainCloud
 #if defined(BC_MBEDTLS_OFF) && !defined(BC_SSL_ALLOW_SELFSIGNED)
             case LWS_CALLBACK_OPENSSL_LOAD_EXTRA_CLIENT_VERIFY_CERTS:
             {
-                pWebSocket->addExtraRootCerts((SSL_CTX *)user);
+                if(!added)
+                    pWebSocket->addExtraRootCerts((SSL_CTX *)user);
+                added = true;
 
                 break;
             }
@@ -510,7 +514,7 @@ namespace BrainCloud
         return 0;
     }
 
-#if defined(BC_MBEDTLS_OFF)
+#if defined(BC_MBEDTLS_OFF) && !defined(BC_SSL_ALLOW_SELFSIGNED)
 
     void DefaultWebSocket::addExtraRootCerts(SSL_CTX *ssl_ctx) {
         for (std::vector<std::string>::iterator cert = full_certs.begin();

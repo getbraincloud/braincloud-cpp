@@ -37,7 +37,7 @@ namespace BrainCloud
         virtual std::string recv();
 
         virtual void close();
-#if defined(BC_MBEDTLS_OFF)
+#if defined(BC_MBEDTLS_OFF) && !defined(BC_SSL_ALLOW_SELFSIGNED)
         void addExtraRootCerts(SSL_CTX *);
         void addCertString(std::string certString, SSL_CTX *ssl_ctx);
 #endif
@@ -47,7 +47,9 @@ namespace BrainCloud
         DefaultWebSocket(const std::string& address, int port, const std::map<std::string, std::string>& headers);
 
     private:
+#if !defined(BC_SSL_ALLOW_SELFSIGNED)
         void InitializeSSLCertificates() const;
+#endif
         void onClose();
         void onError(const char* msg);
         void onConnect();
