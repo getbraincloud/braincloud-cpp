@@ -30,7 +30,7 @@ popd
 mkdir -p artifacts/linux_release
 pushd artifacts/linux_release
 cmake ../../.. -DCMAKE_BUILD_TYPE=RELEASE
-cmake --build . --config Debug
+cmake --build . --config Release
 popd
 
 # and zip everything up
