@@ -55,6 +55,7 @@ if (UWP)
 endif()
 
 if (SSL_ALLOW_SELFSIGNED)
+    message(status "Skipping certificate verification in RTT")
     add_definitions(-DBC_SSL_ALLOW_SELFSIGNED)
 endif()
 
@@ -66,10 +67,10 @@ else()
 endif()
 
 if(BC_USE_OPENSSL)
-    message(status "Building with OpenSSl")
+    message(status "Building with OpenSSL TLS")
     add_definitions(-DBC_MBEDTLS_OFF)
 else()
-    message(status "Building with MbedTLS")
+    message(status "Building with MbedTLS TLS")
 endif()
 
 #=============================================================================
