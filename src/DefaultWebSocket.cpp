@@ -61,8 +61,9 @@ namespace BrainCloud
         , _isConnecting(true)
         , _authHeaders(headers)
     {
+#if !defined(BC_SSL_ALLOW_SELFSIGNED)
         InitializeSSLCertificates();
-
+#endif
         std::string uriCopy = uri;
         
         // Split address into host/addr/origin/protocol
@@ -106,8 +107,8 @@ namespace BrainCloud
             //info.extensions = exts;
             info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
-            #if(LWS_LIBRARY_VERSION_MAJOR >= 4)
-                info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
+            #if(LWS_LIBRARY_VERSION_MAJOR >= 4) && !defined(BC_SSL_ALLOW_SELFSIGNED)
+                //info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
                 info.client_ssl_ca_mem = full_certs.front().c_str();
                 info.client_ssl_ca_mem_len = static_cast<unsigned int>(full_certs.front().length());
             #endif
@@ -494,7 +495,7 @@ namespace BrainCloud
                 pWebSocket->processSendQueue();
                 break;
             }
-#if defined(BC_MBEDTLS_OFF)
+#if defined(BC_MBEDTLS_OFF) && !defined(BC_SSL_ALLOW_SELFSIGNED)
             case LWS_CALLBACK_OPENSSL_LOAD_EXTRA_CLIENT_VERIFY_CERTS:
             {
                 pWebSocket->addExtraRootCerts((SSL_CTX *)user);
