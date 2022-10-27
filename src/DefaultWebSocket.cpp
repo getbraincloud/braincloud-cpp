@@ -125,20 +125,6 @@ namespace BrainCloud
             }
         }
 
-        // Start update thread
-        _updateThread = std::thread([this]()
-        {
-            _mutex.lock();
-            while (_isConnecting || _isValid)
-            {
-                _mutex.unlock();
-                lws_callback_on_writable_all_protocol(_pLwsContext, &protocols[0]);
-                lws_service(_pLwsContext, 0);
-                _mutex.lock();
-            }
-            _mutex.unlock();
-        });
-
         // Create connection
         {
             struct lws_client_connect_info connectInfo;
@@ -170,11 +156,26 @@ namespace BrainCloud
             connectInfo.userdata = this;
 
             _pLws = lws_client_connect_via_info(&connectInfo);
+
             if (!_pLws)
             {
                 std::cout << "Failed to create websocket client" << std::endl;
                 return;
             }
+
+            // Start update thread
+            _updateThread = std::thread([this]()
+                {
+                    _mutex.lock();
+                    while (_isConnecting || _isValid)
+                    {
+                        _mutex.unlock();
+                        lws_service(_pLwsContext, 0);
+                        lws_callback_on_writable_all_protocol(_pLwsContext, &protocols[0]);
+                        _mutex.lock();
+                    }
+                    _mutex.unlock();
+                });
         }
     }
 #if !defined(BC_SSL_ALLOW_SELFSIGNED)

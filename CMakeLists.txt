@@ -61,8 +61,6 @@ if (SSL_ALLOW_SELFSIGNED)
     message(status "Building with certificates for RTT")
 endif()
 
-add_definitions(-DRTTCOMMS_LOG_EVERY_METHODS)
-
 # lets use libwebsockets by default
 if (NOT UWP)
     set(USE_LIBWEBSOCKETS 1)
