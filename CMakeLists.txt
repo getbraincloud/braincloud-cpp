@@ -57,7 +57,11 @@ endif()
 if (SSL_ALLOW_SELFSIGNED)
     message(status "Skipping certificate verification in RTT")
     add_definitions(-DBC_SSL_ALLOW_SELFSIGNED)
+    else()
+    message(status "Building with certificates for RTT")
 endif()
+
+add_definitions(-DRTTCOMMS_LOG_EVERY_METHODS)
 
 # lets use libwebsockets by default
 if (NOT UWP)

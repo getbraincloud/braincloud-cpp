@@ -64,6 +64,9 @@ namespace BrainCloud
     {
 #if !defined(BC_SSL_ALLOW_SELFSIGNED)
         InitializeSSLCertificates();
+        std::cout<<"Certs initialized for RTT."<<std::endl;
+#else
+        std::cout<<"RTT skipping certs."<<std::endl;
 #endif
         std::string uriCopy = uri;
 
