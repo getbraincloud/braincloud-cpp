@@ -465,6 +465,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::UpdateEntityFieldsSharded = ServiceOperation("UPDATE_ENTITY_FIELDS_SHARDED");
 	const ServiceOperation ServiceOperation::GetEntityPage = ServiceOperation("GET_PAGE");
 	const ServiceOperation ServiceOperation::IncrementData = ServiceOperation("INCREMENT_DATA");
+    const ServiceOperation ServiceOperation::IncrementSingletonData = ServiceOperation("INCREMENT_SINGLETON_DATA");
 	const ServiceOperation ServiceOperation::GetCustomEntityPage = ServiceOperation("GET_ENTITY_PAGE");
 	const ServiceOperation ServiceOperation::GetEntityPageOffset = ServiceOperation("GET_ENTITY_PAGE_OFFSET");
 	const ServiceOperation ServiceOperation::UpdateSingletonFields = ServiceOperation("UPDATE_SINGLETON_FIELDS");
@@ -480,6 +481,9 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::DetachBlockchainIdentity = ServiceOperation("DETACH_BLOCKCHAIN_IDENTITY");
 	const ServiceOperation ServiceOperation::CompleteMatchWithSummaryData = ServiceOperation("COMPLETE_MATCH_WITH_SUMMARY_DATA");
 	const ServiceOperation ServiceOperation::AbandonMatchWithSummaryData = ServiceOperation("ABANDON_MATCH_WITH_SUMMARY_DATA");
+    
+    const ServiceOperation ServiceOperation::GetBlockchainItems = ServiceOperation("GET_BLOCKCHAIN_ITEMS");
+    const ServiceOperation ServiceOperation::GetUniqs = ServiceOperation("GET_UNIQS");
 
 	ServiceOperation::ServiceOperation(const char * value)
 	{

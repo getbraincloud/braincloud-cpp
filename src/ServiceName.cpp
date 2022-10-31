@@ -58,6 +58,8 @@ namespace BrainCloud
 	const ServiceName ServiceName::Lobby = ServiceName("lobby");
 	const ServiceName ServiceName::Presence = ServiceName("presence");
 
+    const ServiceName ServiceName::Blockchain = ServiceName("blockchain");
+
     ServiceName::ServiceName(const char * value)
     {
         _value = value;

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -x
-set -e
+#set -x
+#set -e
 
 if [ "$build_version" == "" ]; then
   echo "Must set build_version environment variable"
@@ -24,13 +24,13 @@ mkdir artifacts
 mkdir -p artifacts/linux_debug
 pushd artifacts/linux_debug
 cmake ../../.. -DCMAKE_BUILD_TYPE=DEBUG
-make
+cmake --build . --config Debug
 popd
 
 mkdir -p artifacts/linux_release
 pushd artifacts/linux_release
 cmake ../../.. -DCMAKE_BUILD_TYPE=RELEASE
-make
+cmake --build . --config Release
 popd
 
 # and zip everything up

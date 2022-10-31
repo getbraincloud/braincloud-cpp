@@ -258,7 +258,6 @@ TEST_F(TestBCCustomEntity, ReadSingleton)
 
 TEST_F(TestBCCustomEntity, IncrementData)
 {
-	m_bc->getAuthenticationService()->authenticateAnonymous(true);
 	TestResult tr;
 	const char *id = "";
 	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
@@ -274,4 +273,20 @@ TEST_F(TestBCCustomEntity, IncrementData)
 	TestResult tr3;
 	m_bc->getCustomEntityService()->deleteEntity(m_entityType, id, "{\"test\": \"Testing\"}", -1, &tr3);
 	tr3.run(m_bc);
+}
+
+TEST_F(TestBCCustomEntity, IncrementSingletonData)
+{
+    TestResult tr;
+    const char *id = "";
+    m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+    tr.run(m_bc);
+    
+    TestResult tr2;
+    m_bc->getCustomEntityService()->incrementSingletonData(m_entityType, "{\"goals\":1, \"assists\":4}",   &tr2);
+    tr2.run(m_bc);
+
+    TestResult tr3;
+    m_bc->getCustomEntityService()->deleteSingleton(m_entityType, -1, &tr3);
+    tr3.run(m_bc);
 }

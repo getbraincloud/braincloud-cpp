@@ -410,6 +410,7 @@ namespace BrainCloud {
 		static const ServiceOperation UpdateEntityFieldsSharded;
 		static const ServiceOperation GetEntityPage;
 		static const ServiceOperation IncrementData;
+        static const ServiceOperation IncrementSingletonData;
 		static const ServiceOperation GetCustomEntityPage;
 		static const ServiceOperation UpdateSingletonFields;
 
@@ -491,6 +492,9 @@ namespace BrainCloud {
         static const ServiceOperation AppStoreFinalizePurchase;
         static const ServiceOperation AppStoreRefreshPromotions;
 
+        // Blockchain
+        static const ServiceOperation GetBlockchainItems;
+        static const ServiceOperation GetUniqs;
 
 		std::string getValue() const { return _value; }
 

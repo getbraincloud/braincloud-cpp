@@ -12,6 +12,9 @@ static std::mutex lwsContextMutex;
 
 namespace BrainCloud
 {
+    // logging options include: LLL_DEBUG | LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE
+    // call lws_set_log_level from main
+
     static struct lws_protocols protocols[] = {
         {
             "brainCloud",
@@ -38,6 +41,7 @@ namespace BrainCloud
     };
 
     static std::vector<std::string> full_certs;
+    static bool added = false;
 
     IWebSocket* IWebSocket::create(const std::string& address, int port, const std::map<std::string, std::string>& headers)
     {
@@ -58,14 +62,14 @@ namespace BrainCloud
         , _isConnecting(true)
         , _authHeaders(headers)
     {
-        lws_set_log_level(
-            //LLL_DEBUG, NULL);
-            LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE, NULL);
-
+#if !defined(BC_SSL_ALLOW_SELFSIGNED)
         InitializeSSLCertificates();
-
+        std::cout<<"Certs initialized for RTT."<<std::endl;
+#else
+        std::cout<<"RTT skipping certs."<<std::endl;
+#endif
         std::string uriCopy = uri;
-        
+
         // Split address into host/addr/origin/protocol
         std::string protocol = uriCopy.substr(0, std::min<size_t>(uriCopy.size(), uriCopy.find_first_of(':')));
         size_t protocolSize = protocol.size() + 3;
@@ -107,8 +111,8 @@ namespace BrainCloud
             //info.extensions = exts;
             info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
-            #if(LWS_LIBRARY_VERSION_MAJOR >= 4)
-                info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
+            #if(LWS_LIBRARY_VERSION_MAJOR >= 4) && !defined(BC_SSL_ALLOW_SELFSIGNED)
+                //info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
                 info.client_ssl_ca_mem = full_certs.front().c_str();
                 info.client_ssl_ca_mem_len = static_cast<unsigned int>(full_certs.front().length());
             #endif
@@ -174,7 +178,7 @@ namespace BrainCloud
                 });
         }
     }
-
+#if !defined(BC_SSL_ALLOW_SELFSIGNED)
     void DefaultWebSocket::InitializeSSLCertificates() const {
         // Go Daddy Class 2 CA
         full_certs.push_back( "-----BEGIN CERTIFICATE-----\n"
@@ -427,6 +431,7 @@ namespace BrainCloud
                               "-----END CERTIFICATE-----");
 
     }
+#endif
 
     int DefaultWebSocket::libWebsocketsCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len)
     {
@@ -496,10 +501,12 @@ namespace BrainCloud
                 pWebSocket->processSendQueue();
                 break;
             }
-#if defined(BC_MBEDTLS_OFF)
+#if defined(BC_MBEDTLS_OFF) && !defined(BC_SSL_ALLOW_SELFSIGNED)
             case LWS_CALLBACK_OPENSSL_LOAD_EXTRA_CLIENT_VERIFY_CERTS:
             {
-                pWebSocket->addExtraRootCerts((SSL_CTX *)user);
+                if(!added)
+                    pWebSocket->addExtraRootCerts((SSL_CTX *)user);
+                added = true;
 
                 break;
             }
@@ -511,7 +518,7 @@ namespace BrainCloud
         return 0;
     }
 
-#if defined(BC_MBEDTLS_OFF)
+#if defined(BC_MBEDTLS_OFF) && !defined(BC_SSL_ALLOW_SELFSIGNED)
 
     void DefaultWebSocket::addExtraRootCerts(SSL_CTX *ssl_ctx) {
         for (std::vector<std::string>::iterator cert = full_certs.begin();
@@ -548,6 +555,9 @@ namespace BrainCloud
             X509_STORE* x509_store = SSL_CTX_get_cert_store(ssl_ctx);
             X509_STORE_add_cert(x509_store, client_CA);
             X509_free(client_CA);
+        }
+        else{
+            free(pem);
         }
     }
 #endif
