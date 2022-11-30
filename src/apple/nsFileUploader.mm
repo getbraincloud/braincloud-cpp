@@ -114,7 +114,7 @@
     NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"error = %@", error);
-            _httpStatus = HTTP_CLIENT_NETWORK_ERROR;
+			_httpStatus = BrainCloud::HTTP_CLIENT_NETWORK_ERROR;
             _errorReasonCode = _cancelled ? CLIENT_UPLOAD_FILE_CANCELLED : CLIENT_UPLOAD_FILE_UNKNOWN;
             return;
         }
