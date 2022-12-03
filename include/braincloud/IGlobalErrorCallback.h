@@ -5,6 +5,7 @@
 
 #ifndef _IGLOBALERRORCALLBACK_H_
 #define _IGLOBALERRORCALLBACK_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 

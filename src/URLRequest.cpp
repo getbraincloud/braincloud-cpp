@@ -3,7 +3,7 @@
 //  GameClientLib
 //
 
-
+#pragma clang diagnostic ignored "-Wdocumentation"
 #include "braincloud/internal/URLRequest.h"
 
 

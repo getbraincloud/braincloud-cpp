@@ -7,6 +7,7 @@
 
 #ifndef _IRELAYSYSTEMCALLBACK_H_
 #define _IRELAYSYSTEMCALLBACK_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 

@@ -6,6 +6,7 @@
 
 #ifndef _ISERVERCALLBACK_H_
 #define _ISERVERCALLBACK_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 

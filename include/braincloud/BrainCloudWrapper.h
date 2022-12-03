@@ -1,4 +1,5 @@
 #pragma once
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <map>
 #include <string>

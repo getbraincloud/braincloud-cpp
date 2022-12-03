@@ -46,7 +46,6 @@
     NSMutableData *httpBody = [NSMutableData data];
     
     // add params (all params are strings)
-    
     [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *parameterKey, NSString *parameterValue, BOOL *stop) {
         [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", parameterKey] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -111,37 +110,39 @@
     }
     NSURLSession * session = [NSURLSession sessionWithConfiguration:sessionConfig];
     
+    __typeof__(self) __weak wself = self;
+    
     NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"error = %@", error);
-			_httpStatus = BrainCloud::HTTP_CLIENT_NETWORK_ERROR;
-            _errorReasonCode = _cancelled ? CLIENT_UPLOAD_FILE_CANCELLED : CLIENT_UPLOAD_FILE_UNKNOWN;
+            wself.httpStatus = BrainCloud::HTTP_CLIENT_NETWORK_ERROR;
+            wself.errorReasonCode = wself.cancelled ? CLIENT_UPLOAD_FILE_CANCELLED : CLIENT_UPLOAD_FILE_UNKNOWN;
             return;
         }
         
-        _httpResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        wself.httpResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSHTTPURLResponse * urlResponse = (NSHTTPURLResponse*) response;
         if (urlResponse != nil)
         {
-            _httpStatus = urlResponse.statusCode;
+            wself.httpStatus = urlResponse.statusCode;
         }
         
         Json::Value root;
         Json::Reader reader;
-        std::string strHttpResponse = [_httpResponse cStringUsingEncoding:NSUTF8StringEncoding];
+        std::string strHttpResponse = [wself.httpResponse cStringUsingEncoding:NSUTF8StringEncoding];
         if (reader.parse(strHttpResponse, root))
         {
-            _errorReasonCode = root["reason_code"].asInt();
+            wself.errorReasonCode = root["reason_code"].asInt();
         }
         else
         {
             std::string strHttpJsonResponse;
-            _errorReasonCode = CLIENT_UPLOAD_FILE_UNKNOWN;
-            BrainCloud::IBrainCloudComms::createJsonErrorResponse(static_cast<int>(_httpStatus),
-                                                      static_cast<int>(_errorReasonCode),
+            wself.errorReasonCode = CLIENT_UPLOAD_FILE_UNKNOWN;
+            BrainCloud::IBrainCloudComms::createJsonErrorResponse(static_cast<int>(wself.httpStatus),
+                                                      static_cast<int>(wself.errorReasonCode),
                                                       strHttpResponse,
                                                       strHttpJsonResponse);
-            _httpResponse = [NSString stringWithCString:strHttpJsonResponse.c_str() encoding:NSUTF8StringEncoding];
+            wself.httpResponse = [NSString stringWithCString:strHttpJsonResponse.c_str() encoding:NSUTF8StringEncoding];
         }
     }];
     self.task = task;

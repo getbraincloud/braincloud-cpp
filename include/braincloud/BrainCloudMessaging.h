@@ -2,6 +2,7 @@
 
 #ifndef _BRAINCLOUDMESSAGING_H_
 #define _BRAINCLOUDMESSAGING_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include "braincloud/BrainCloudTypes.h"
 

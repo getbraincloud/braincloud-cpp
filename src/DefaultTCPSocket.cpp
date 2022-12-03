@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wunused-variable"
+
 #include "braincloud/internal/DefaultTCPSocket.h"
 
 namespace BrainCloud
@@ -71,7 +73,7 @@ namespace BrainCloud
 		memcpy(pData, &len, 4);
 		memcpy(pData + 4, &message[0], msgSize);
 
-		int ret = 0;
+		size_t ret = 0;
 		while (ret >= 0 && ret < (int)size)
 		{
 			ret = ::send(_socket, pData, size, 0);

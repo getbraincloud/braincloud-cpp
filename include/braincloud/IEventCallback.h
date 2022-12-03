@@ -8,6 +8,7 @@
 
 #ifndef _IEVENTCALLBACK_H_
 #define _IEVENTCALLBACK_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 

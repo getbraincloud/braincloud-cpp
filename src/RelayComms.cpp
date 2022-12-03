@@ -1,4 +1,5 @@
 // Copyright 2020 bitHeads, Inc. All Rights Reserved.
+#pragma clang diagnostic ignored "-Wunused-variable"
 
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/IRelayConnectCallback.h"

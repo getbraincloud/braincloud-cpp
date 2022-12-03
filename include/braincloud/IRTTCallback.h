@@ -7,6 +7,7 @@
 
 #ifndef _IRTTCALLBACK_H_
 #define _IRTTCALLBACK_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 

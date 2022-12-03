@@ -6,6 +6,7 @@
 
 #ifndef _SERVERCALL_H_
 #define _SERVERCALL_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <map>
 #include <string>

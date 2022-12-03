@@ -8,6 +8,7 @@
 
 #ifndef _IREWARDCALLBACK_H_
 #define _IREWARDCALLBACK_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 namespace BrainCloud {
     

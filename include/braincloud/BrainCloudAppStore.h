@@ -2,6 +2,7 @@
 
 #ifndef _BRAINCLOUDAPPSTORE_H_
 #define _BRAINCLOUDAPPSTORE_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include "braincloud/BrainCloudTypes.h"

@@ -7,7 +7,6 @@
 #ifndef _URLRESPONSE_H_
 #define _URLRESPONSE_H_
 
-
 #include <string>
 #include <vector>
 #include "URLRequestHeader.h"
