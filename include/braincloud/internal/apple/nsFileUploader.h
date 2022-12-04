@@ -13,8 +13,8 @@
 @property (nonatomic, strong) NSURLSessionTask* task;
 @property (nonatomic, strong) NSString* httpResponse;
 @property (nonatomic, readonly) BOOL cancelled;
-@property (nonatomic) NSInteger httpStatus;
-@property (nonatomic) NSInteger errorReasonCode;
+@property (nonatomic, readonly) NSInteger httpStatus;
+@property (nonatomic, readonly) NSInteger errorReasonCode;
 @property (nonatomic) NSInteger uploadLowTransferRateTimeout;
 
 - (BOOL) isThreadRunning;
