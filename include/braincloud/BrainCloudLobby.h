@@ -2,6 +2,7 @@
 
 #ifndef _BRAINCLOUDLOBBY_H_
 #define _BRAINCLOUDLOBBY_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include "braincloud/BrainCloudTypes.h"
 #include "braincloud/IServerCallback.h"

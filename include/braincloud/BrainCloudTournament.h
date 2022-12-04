@@ -1,6 +1,7 @@
 // Copyright 2016 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include "braincloud/BrainCloudTypes.h"

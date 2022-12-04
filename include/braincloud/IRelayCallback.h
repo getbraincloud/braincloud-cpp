@@ -7,6 +7,7 @@
 
 #ifndef _IRELAYCALLBACK_H_
 #define _IRELAYCALLBACK_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <cinttypes>
 

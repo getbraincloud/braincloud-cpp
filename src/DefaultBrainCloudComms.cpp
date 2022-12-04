@@ -1082,7 +1082,7 @@ namespace BrainCloud
 				char buf[DIGEST_LENGTH * 2 + 1];
 				for (unsigned char i = 0; i < DIGEST_LENGTH; ++i)
 				{
-					sprintf(&buf[i * 2], "%02x", digest[i]);
+					snprintf(&buf[i * 2], 8, "%02x", digest[i]);
 				}
 
 				// convert to uppercase std::string and add sig to header

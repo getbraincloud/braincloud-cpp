@@ -2,6 +2,7 @@
 
 #ifndef _RELAYCONNECTIONTYPE_H_
 #define _RELAYCONNECTIONTYPE_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 namespace BrainCloud
 {

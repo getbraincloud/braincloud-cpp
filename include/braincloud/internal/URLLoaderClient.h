@@ -2,10 +2,12 @@
 //  URLLoaderClient.h
 //  GameClientLib
 //
-
+#pragma once
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include "braincloud/internal/URLResponse.h"
+
 
 
 /**

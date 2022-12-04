@@ -2,6 +2,7 @@
 
 #ifndef _BRAINCLOUDRELAY_H_
 #define _BRAINCLOUDRELAY_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include "braincloud/BrainCloudTypes.h"
 #include "braincloud/RelayChannel.h"

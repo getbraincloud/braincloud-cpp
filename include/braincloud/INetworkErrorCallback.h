@@ -8,6 +8,7 @@
 
 #ifndef _INETWORKERRORCALLBACK_H_
 #define _INETWORKERRORCALLBACK_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 namespace BrainCloud {
     

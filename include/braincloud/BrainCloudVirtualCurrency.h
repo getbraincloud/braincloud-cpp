@@ -2,6 +2,7 @@
 
 #ifndef _BRAINCLOUDVIRTUALCURRENCY_H_
 #define _BRAINCLOUDVIRTUALCURRENCY_H_
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include "braincloud/BrainCloudTypes.h"

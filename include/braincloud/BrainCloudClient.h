@@ -3,6 +3,7 @@
 //  Copyright 2016 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #ifdef WIN32
 #include <WinSock2.h>
