@@ -1,7 +1,10 @@
 // Copyright 2020 bitHeads, Inc. All Rights Reserved.
 
-#ifndef _RELAYCOMMS_H_
-#define _RELAYCOMMS_H_
+#pragma once
+
+#if __APPLE__
+    #include "TargetConditionals.h"
+#endif
 
 #include "braincloud/RelayChannel.h"
 #include "braincloud/RelayConnectionType.h"
@@ -210,5 +213,3 @@ namespace BrainCloud
         Pool<Packet> m_packetPool;
     };
 };
-
-#endif /* _RELAYCOMMS_H_ */

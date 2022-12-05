@@ -1,5 +1,9 @@
 #pragma once
 
+#if __APPLE__
+    #include "TargetConditionals.h"
+#endif
+
 #include "braincloud/IServerCallback.h"
 #include "braincloud/ServiceName.h"
 #include "braincloud/BrainCloudRTT.h"
