@@ -5,8 +5,8 @@
 //  Created by David St-Louis on 2020-02-12.
 //
 
-#ifndef _IRELAYCALLBACK_H_
-#define _IRELAYCALLBACK_H_
+#pragma once
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <cinttypes>
@@ -28,5 +28,4 @@ namespace BrainCloud
         virtual void relayCallback(int netId, const uint8_t* bytes, int size) = 0;
     };
 };
-
-#endif /* _IRELAYCALLBACK_H_ */
+#pragma clang diagnostic pop

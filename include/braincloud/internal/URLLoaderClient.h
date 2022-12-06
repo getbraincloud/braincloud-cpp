@@ -3,6 +3,7 @@
 //  GameClientLib
 //
 #pragma once
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
@@ -39,3 +40,4 @@ protected:
 private:
 
 };  // end class
+#pragma clang diagnostic pop

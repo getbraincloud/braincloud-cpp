@@ -1,7 +1,7 @@
 // Copyright 2018 bitHeads, Inc. All Rights Reserved.
 
-#ifndef _BRAINCLOUDPRESENCE_H_
-#define _BRAINCLOUDPRESENCE_H_
+#pragma once
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 #include "braincloud/BrainCloudTypes.h"
@@ -93,4 +93,4 @@ namespace BrainCloud
 	};
 };
 
-#endif /* _BRAINCLOUDPRESENCE_H_ */
+#pragma clang diagnostic pop

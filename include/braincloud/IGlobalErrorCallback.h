@@ -3,8 +3,8 @@
 //  BrainCloudLib
 //
 
-#ifndef _IGLOBALERRORCALLBACK_H_
-#define _IGLOBALERRORCALLBACK_H_
+#pragma once
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
@@ -35,4 +35,4 @@ namespace BrainCloud
     };
 }
 
-#endif  // _IGLOBALERRORCALLBACK_H_
+#pragma clang diagnostic pop
