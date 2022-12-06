@@ -6,8 +6,7 @@
 //
 //
 
-#ifndef _IREWARDCALLBACK_H_
-#define _IREWARDCALLBACK_H_
+#pragma once
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 namespace BrainCloud {
@@ -46,4 +45,5 @@ namespace BrainCloud {
     };
     
 };
-#endif /* _IREWARDCALLBACK_H_ */
+#pragma clang diagnostic pop
+

@@ -1,6 +1,7 @@
 // Copyright 2016 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
@@ -229,3 +230,4 @@ namespace BrainCloud
         void sendRichPushNotification(const char * in_toProifleId, int32_t in_notificationTemplateId, const char * in_substitutionJson, IServerCallback * in_callback = NULL);
     };
 }
+#pragma clang diagnostic pop

@@ -1,6 +1,7 @@
 // Copyright 2016 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
@@ -126,3 +127,4 @@ namespace BrainCloud
         BrainCloudClient * m_client;
     };
 }
+#pragma clang diagnostic pop

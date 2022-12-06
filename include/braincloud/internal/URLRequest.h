@@ -4,9 +4,9 @@
 //
 
 
-#ifndef _URLREQUEST_H_
-#define _URLREQUEST_H_
-
+#pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include <vector>
@@ -58,4 +58,4 @@ private:
 };  // end class
 
 
-#endif  // _URLREQUEST_H_
+#pragma clang diagnostic pop
