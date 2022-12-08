@@ -3,9 +3,10 @@
 //  GameClientLib
 //
 
-#pragma clang diagnostic ignored "-Wdocumentation"
 #include "braincloud/internal/URLResponse.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 /**
  * Constructor
@@ -83,3 +84,6 @@ void URLResponse::setReasonPhrase( std::string const & reasonPhrase ) {
 void URLResponse::setStatusCode( unsigned short statusCode ) {
     _statusCode = statusCode;
 }  // end URLResponse::setStatusCode
+
+#pragma clang diagnostic pop
+

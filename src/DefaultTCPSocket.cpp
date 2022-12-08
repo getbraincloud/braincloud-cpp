@@ -1,5 +1,3 @@
-#pragma clang diagnostic ignored "-Wunused-variable"
-
 #include "braincloud/internal/DefaultTCPSocket.h"
 
 namespace BrainCloud
@@ -8,6 +6,9 @@ namespace BrainCloud
 	{
 		return new DefaultTCPSocket(address, port);
 	}
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
 
 	DefaultTCPSocket::DefaultTCPSocket(const std::string& address, int port)
 		: _socket(-1)
@@ -46,6 +47,7 @@ namespace BrainCloud
 			return;
 		}
 	}
+#pragma clang diagnostic pop
 
 	DefaultTCPSocket::~DefaultTCPSocket()
 	{

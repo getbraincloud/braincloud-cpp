@@ -5,8 +5,6 @@
 
 
 #pragma once
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include <vector>
@@ -43,6 +41,3 @@ private:
     unsigned short                  _statusCode;
 
 };  // end class
-
-
-#pragma clang diagnostic pop

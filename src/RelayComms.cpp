@@ -1,6 +1,4 @@
 // Copyright 2020 bitHeads, Inc. All Rights Reserved.
-#pragma clang diagnostic ignored "-Wunused-variable"
-
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/IRelayConnectCallback.h"
 #include "braincloud/IRelayCallback.h"
@@ -22,6 +20,8 @@
 
 #define VERBOSE_LOG 0
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
 static const int CONTROL_BYTES_SIZE = 1;
 static const int MAX_PACKET_ID_HISTORY = 60 * 10; // So we last 10 seconds at 60 fps
 
@@ -71,6 +71,7 @@ static std::string extractProfileIdFromCxId(const std::string &cxId)
 
     return cxId.substr(first + 1, last - first - 1);
 }
+#pragma clang diagnostic pop
 
 namespace BrainCloud
 {
@@ -644,6 +645,8 @@ namespace BrainCloud
         return a <= b;
     }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
     void RelayComms::onRelay(const uint8_t* in_data, int in_size)
     {
         auto rh = (int)ntohs(*(u_short*)in_data);
@@ -777,6 +780,7 @@ namespace BrainCloud
 
         queueRelayEvent(netId, in_data + 8, in_size - 8);
     }
+#pragma clang diagnostic pop
 
     void RelayComms::runCallbacks()
     {

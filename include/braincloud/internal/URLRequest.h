@@ -5,8 +5,6 @@
 
 
 #pragma once
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include <vector>
@@ -56,6 +54,3 @@ private:
     std::string                     _userAgent;
 
 };  // end class
-
-
-#pragma clang diagnostic pop

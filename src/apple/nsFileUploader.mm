@@ -111,6 +111,8 @@
     }
     NSURLSession * session = [NSURLSession sessionWithConfiguration:sessionConfig];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wimplicit-retain-self"
     NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"error = %@", error);
@@ -144,6 +146,8 @@
             _httpResponse = [NSString stringWithCString:strHttpJsonResponse.c_str() encoding:NSUTF8StringEncoding];
         }
     }];
+#pragma clang diagnostic pop
+
     self.task = task;
     [task resume];
 }
