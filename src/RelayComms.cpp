@@ -645,6 +645,8 @@ namespace BrainCloud
         return a <= b;
     }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
     void RelayComms::onRelay(const uint8_t* in_data, int in_size)
     {
         auto rh = (int)ntohs(*(u_short*)in_data);
@@ -778,6 +780,7 @@ namespace BrainCloud
 
         queueRelayEvent(netId, in_data + 8, in_size - 8);
     }
+#pragma clang diagnostic pop
 
     void RelayComms::runCallbacks()
     {
