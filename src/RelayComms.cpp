@@ -20,6 +20,8 @@
 
 #define VERBOSE_LOG 0
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
 static const int CONTROL_BYTES_SIZE = 1;
 static const int MAX_PACKET_ID_HISTORY = 60 * 10; // So we last 10 seconds at 60 fps
 
@@ -69,6 +71,7 @@ static std::string extractProfileIdFromCxId(const std::string &cxId)
 
     return cxId.substr(first + 1, last - first - 1);
 }
+#pragma clang diagnostic pop
 
 namespace BrainCloud
 {
