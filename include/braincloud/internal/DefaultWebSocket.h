@@ -1,6 +1,7 @@
 #pragma once
 
 #if __APPLE__
+    // for deployment TARGET_OS definitions
     #include "TargetConditionals.h"
 #endif
 

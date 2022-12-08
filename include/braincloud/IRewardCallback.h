@@ -7,6 +7,7 @@
 //
 
 #pragma once
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 namespace BrainCloud {

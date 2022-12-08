@@ -1,5 +1,3 @@
-#pragma clang diagnostic ignored "-Wunused-variable"
-
 #include "braincloud/internal/DefaultTCPSocket.h"
 
 namespace BrainCloud
