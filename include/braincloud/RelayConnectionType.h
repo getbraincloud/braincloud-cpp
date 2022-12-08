@@ -1,7 +1,8 @@
 // Copyright 2020 bitHeads, Inc. All Rights Reserved.
 
-#ifndef _RELAYCONNECTIONTYPE_H_
-#define _RELAYCONNECTIONTYPE_H_
+#pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 namespace BrainCloud
 {
@@ -27,4 +28,5 @@ namespace BrainCloud
     };
 };
 
-#endif /* _RELAYCONNECTIONTYPE_H_ */
+#pragma clang diagnostic pop
+

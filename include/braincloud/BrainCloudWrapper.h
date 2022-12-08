@@ -1,4 +1,6 @@
 #pragma once
+//#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <map>
 #include <string>
@@ -864,3 +866,4 @@ namespace BrainCloud {
         void resetStoredAuthenticationType();
     };
 }
+//#pragma clang diagnostic pop

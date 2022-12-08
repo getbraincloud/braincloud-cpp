@@ -131,7 +131,7 @@ namespace BrainCloud
             // Read packet
             sockaddr_in fromIP;
             socklen_t len = sizeof(sockaddr_in);
-            int received = ::recvfrom(m_socket, (char*)m_buffer, m_maxPacketSize, 0, (sockaddr*)&fromIP, &len);
+            size_t received = ::recvfrom(m_socket, (char*)m_buffer, m_maxPacketSize, 0, (sockaddr*)&fromIP, &len);
             if (received <= 0)
             {
                 FD_CLR(m_socket, &m_fdsSet);

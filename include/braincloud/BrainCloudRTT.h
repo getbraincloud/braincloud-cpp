@@ -1,6 +1,8 @@
 // Copyright 2018 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 
@@ -126,4 +128,5 @@ namespace BrainCloud
 		RTTComms* m_commsLayer;
 	};
 };
+#pragma clang diagnostic pop
 

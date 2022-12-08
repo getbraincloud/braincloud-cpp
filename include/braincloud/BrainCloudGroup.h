@@ -1,6 +1,8 @@
 // Copyright 2016 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <vector>
 #include <string>
@@ -511,3 +513,4 @@ namespace BrainCloud
 		std::string autoJoinStrategyToString(eAutoJoinStrategy::Strategy strategy);
 	};
 }
+#pragma clang diagnostic pop

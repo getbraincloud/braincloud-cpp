@@ -1,7 +1,8 @@
 // Copyright 2020 bitHeads, Inc. All Rights Reserved.
 
-#ifndef _BRAINCLOUDRELAY_H_
-#define _BRAINCLOUDRELAY_H_
+#pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include "braincloud/BrainCloudTypes.h"
 #include "braincloud/RelayChannel.h"
@@ -191,4 +192,4 @@ namespace BrainCloud
 	};
 };
 
-#endif /* _BRAINCLOUDCHAT_H_ */
+#pragma clang diagnostic pop

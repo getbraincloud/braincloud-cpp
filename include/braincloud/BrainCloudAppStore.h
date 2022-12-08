@@ -1,7 +1,8 @@
 // Copyright 2018 bitHeads, Inc. All Rights Reserved.
 
-#ifndef _BRAINCLOUDAPPSTORE_H_
-#define _BRAINCLOUDAPPSTORE_H_
+#pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include "braincloud/BrainCloudTypes.h"
@@ -137,5 +138,5 @@ namespace BrainCloud
         BrainCloudClient * m_client;
     };
 }
+#pragma clang diagnostic pop
 
-#endif

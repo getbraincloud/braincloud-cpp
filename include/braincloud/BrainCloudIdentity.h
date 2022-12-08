@@ -1,6 +1,8 @@
 // Copyright 2016 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 
@@ -881,3 +883,4 @@ namespace BrainCloud
 		void detachIdentity(const char * in_externalId, AuthenticationType in_authenticationType, bool in_continueAnon, IServerCallback * in_callback = NULL);
 	};
 }
+#pragma clang diagnostic pop

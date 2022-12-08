@@ -1,6 +1,5 @@
-#if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
-
 #include "braincloud/internal/apple/AppleWebSocket.h"
+#if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
 
 #include <algorithm>
 

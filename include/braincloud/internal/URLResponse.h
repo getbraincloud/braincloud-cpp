@@ -4,9 +4,9 @@
 //
 
 
-#ifndef _URLRESPONSE_H_
-#define _URLRESPONSE_H_
-
+#pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include <vector>
@@ -45,4 +45,4 @@ private:
 };  // end class
 
 
-#endif  // _URLRESPONSE_H_
+#pragma clang diagnostic pop

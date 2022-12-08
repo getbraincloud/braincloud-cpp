@@ -5,8 +5,9 @@
 //  Created by David St-Louis on 2018-08-09.
 //
 
-#ifndef _IRTTCONNECTCALLBACK_H_
-#define _IRTTCONNECTCALLBACK_H_
+#pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 
@@ -32,4 +33,4 @@ namespace BrainCloud {
     
 };
 
-#endif /* _IRTTCONNECTCALLBACK_H_ */
+#pragma clang diagnostic pop

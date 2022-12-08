@@ -1,6 +1,8 @@
 // Copyright 2016 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 
 #include <string>
 #include <map>
@@ -434,3 +436,4 @@ namespace BrainCloud
 		} m_previousAuthParams;
 	};
 }
+#pragma clang diagnostic pop
