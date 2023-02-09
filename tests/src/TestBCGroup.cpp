@@ -711,6 +711,7 @@ std::string TestBCGroup::CreateGroupEntity()
 	Json::Value entityData;
 	entityData["address"] = "1309 Carling Ave";
 	Json::Value entityAcl;
+    entityAcl["member"] = 2; // can be 0, 1 or 2
 	entityAcl["other"] = 2;
 
 	std::string entityId;
