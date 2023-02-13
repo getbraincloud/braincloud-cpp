@@ -147,6 +147,8 @@ namespace BrainCloud
             std::vector<T*> m_all;
         };
 
+        void socketCleanup();
+
         void queueConnectSuccessEvent(const std::string& jsonString);
         void queueErrorEvent(const std::string& message);
         void queueSystemEvent(const std::string& jsonString);
