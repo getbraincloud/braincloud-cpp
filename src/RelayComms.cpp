@@ -35,6 +35,7 @@ static const int CL2RS_RELAY = 2;
 static const int CL2RS_ACK = 3;
 static const int CL2RS_PING = 4;
 static const int CL2RS_RSMG_ACK = 5;
+static const int CL2RS_ENDMATCH = 6;
 
 // Messages sent from Relay-Server to Client
 static const int RS2CL_RSMG = 0;
@@ -169,6 +170,13 @@ namespace BrainCloud
         }
     }
 
+    void RelayComms::endMatch(const Json::Value& in_jsonPayload)
+    {
+        if (!m_isSocketConnected) return;
+
+        send(CL2RS_ENDMATCH, in_jsonPayload);
+    }
+
     void RelayComms::disconnect()
     {
         if (!m_isSocketConnected) return;
@@ -181,10 +189,13 @@ namespace BrainCloud
         m_isConnected = false;
         m_isSocketConnected = false;
         m_resendConnectRequest = false;
-
-        // Close socket
-        delete m_pSocket;
-        m_pSocket = nullptr;
+        m_endMatchRequested = false;
+        
+        if (!m_endMatchRequested){
+            // Close socket
+            delete m_pSocket;
+            m_pSocket = nullptr;
+        }
         
         m_sendPacketId.clear();
         m_recvPacketId.clear();
@@ -365,6 +376,7 @@ namespace BrainCloud
             pPacket->resendInterval = RELIABLE_RESEND_INTERVALS[(int)in_channel];
             uint64_t ackId = *(uint64_t*)(pPacket->data.data() + 3);
             m_reliables[ackId] = pPacket;
+            std::cout<<"add reliable "<<ackId<<std::endl;
         }
         else
         {
@@ -602,6 +614,12 @@ namespace BrainCloud
                 return;
             }
         }
+        else if (op == "END_MATCH")
+        {
+            m_endMatchRequested = true;
+            socketCleanup();
+            return;
+        }
 
         queueSystemEvent(jsonString);
     }
@@ -630,11 +648,12 @@ namespace BrainCloud
             {
                 auto rh = (int)ntohs(*(u_short*)in_data);
                 auto packetId = rh & 0xFFF;
-                std::cout << "Acked packet id: " << packetId << std::endl;
+                //std::cout << "Acked packet id: " << packetId << std::endl;
             }
 #endif
             m_packetPool.free(pPacket);
             m_reliables.erase(it);
+            std::cout<<"del reliable "<<ackId<<std::endl;
         }
     }
 
@@ -841,7 +860,7 @@ namespace BrainCloud
 #if VERBOSE_LOG
                             if (m_loggingEnabled)
                             {
-                                std::cout << "Resend reliable (" << pPacket->id << ", " << std::chrono::duration_cast<std::chrono::milliseconds>(pPacket->timeSinceFirstSend - now).count() << "ms)" << std::endl;
+                               // std::cout << "Resend reliable (" << pPacket->id << ", " << std::chrono::duration_cast<std::chrono::milliseconds>(pPacket->timeSinceFirstSend - now).count() << "ms)" << std::endl;
                             }
 #endif
                         }
@@ -897,7 +916,7 @@ namespace BrainCloud
                         }
                         break;
                     case EventType::ConnectFailure:
-                        if (m_pRelayConnectCallback)
+                        if (m_pRelayConnectCallback && !m_endMatchRequested)
                         {
                             if (m_loggingEnabled)
                             {
