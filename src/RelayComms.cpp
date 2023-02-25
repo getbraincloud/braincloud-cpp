@@ -132,6 +132,7 @@ namespace BrainCloud
         m_connectOptions.passcode = passcode;
         m_connectOptions.lobbyId = lobbyId;
         m_pRelayConnectCallback = in_callback;
+        m_endMatchRequested = false;
         m_ping = 999;
         m_netId = -1;
         m_ownerProfileId.clear();
@@ -189,13 +190,10 @@ namespace BrainCloud
         m_isConnected = false;
         m_isSocketConnected = false;
         m_resendConnectRequest = false;
-        m_endMatchRequested = false;
         
-        if (!m_endMatchRequested){
-            // Close socket
-            delete m_pSocket;
-            m_pSocket = nullptr;
-        }
+        // Close socket
+        delete m_pSocket;
+        m_pSocket = nullptr;
         
         m_sendPacketId.clear();
         m_recvPacketId.clear();
@@ -618,7 +616,6 @@ namespace BrainCloud
         {
             m_endMatchRequested = true;
             socketCleanup();
-            return;
         }
 
         queueSystemEvent(jsonString);
