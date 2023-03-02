@@ -44,6 +44,7 @@ namespace BrainCloud
         void enableLogging(bool shouldEnable);
 
         void connect(eRelayConnectionType in_connectionType, const std::string& host, int port, const std::string& passcode, const std::string& lobbyId, IRelayConnectCallback* in_callback);
+        void endMatch(const Json::Value& jsonPayload);
         void disconnect();
         bool isConnected() const;
         int getPing() const;
@@ -147,6 +148,8 @@ namespace BrainCloud
             std::vector<T*> m_all;
         };
 
+        void socketCleanup();
+
         void queueConnectSuccessEvent(const std::string& jsonString);
         void queueErrorEvent(const std::string& message);
         void queueSystemEvent(const std::string& jsonString);
@@ -176,6 +179,7 @@ namespace BrainCloud
         ConnectOptions m_connectOptions;
         bool m_isSocketConnected = false;
         bool m_resendConnectRequest = false;
+        bool m_endMatchRequested = false;
         std::chrono::time_point<std::chrono::system_clock> m_lastConnectResendTime;
         bool m_isConnected = false;
 

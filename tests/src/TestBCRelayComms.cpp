@@ -100,7 +100,7 @@ private:
     function<void(int netId, const uint8_t* bytes, int size)> callback;
 };
 
-static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionType, bool gameLift = false)
+static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionType, bool endMatch = false, bool gameLift = false)
 {
     bool isRoomReady = false;
     Json::Value connectionInfo;
@@ -174,11 +174,21 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         printf("Relay Failed to Connect");
     });
     bool hasReceivedSystemMessage = false;
-    RelaySystemCallback relaySystemCallback([&hasReceivedSystemMessage](const Json::Value& eventJson)
+    bool hasReceivedEndMatch = false;
+    bool hasReceivedDisconnect = false;
+    RelaySystemCallback relaySystemCallback([&hasReceivedSystemMessage,&hasReceivedEndMatch,&hasReceivedDisconnect](const Json::Value& eventJson)
     {
         if (eventJson["op"].asString() == "CONNECT")
         {
             hasReceivedSystemMessage = true;
+        }
+        else if (eventJson["op"].asString() == "DISCONNECT")
+        {
+            hasReceivedDisconnect = true;
+        }
+        else if(eventJson["op"].asString() == "END_MATCH")
+        {
+            hasReceivedEndMatch = true;
         }
         printf("Relay System Callback Success");
     });
@@ -229,7 +239,46 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         ASSERT_TRUE(hasReceivedSystemMessage);
         ASSERT_TRUE(hasReceivedEcho);
     }
+
+    if(endMatch)
+    {
+        // send end match
+        printf("Sending End Match...");
+
+        Json::Value json;
+
+        //json["cxId"] = bc->getRttConnectionId();
+        //json["op"] = "END_MATCH";
+        json["AnswerToEverything"] = "42";
+        bc->getRelayService()->endMatch(json);
+
+        auto timeStart = steady_clock::now();
+        while (steady_clock::now() < timeStart + seconds(30) && !hasReceivedEndMatch)
+        {
+            bc->runCallbacks();
+            this_thread::sleep_for(milliseconds(100));
+        }
+
+        ASSERT_TRUE(hasReceivedEndMatch);
+        ASSERT_TRUE(!bc->getRelayService()->isConnected());
+    }
+    else
+    {
+        // send disconenct
+        printf("Sending Disconnect...");
+        bc->getRelayService()->disconnect();
+
+        auto timeStart = steady_clock::now();
+        while (steady_clock::now() < timeStart + seconds(30) && !relayFailed)
+        {
+            bc->runCallbacks();
+            this_thread::sleep_for(milliseconds(100));
+        }
+        
+        ASSERT_TRUE(!bc->getRelayService()->isConnected());
+    }
 }
+
 
 TEST_F(TestBCRelayComms, FullFlowTCP)
 {
@@ -243,14 +292,29 @@ TEST_F(TestBCRelayComms, FullFlowUDP)
 
 TEST_F(TestBCRelayComms, Gamelift)
 {
-    relayFullFlow(m_bc, eRelayConnectionType::WS, true);
+    relayFullFlow(m_bc, eRelayConnectionType::WS, false, true);
+}
+
+TEST_F(TestBCRelayComms, FullFlowTCPEnd)
+{
+    relayFullFlow(m_bc, eRelayConnectionType::TCP, true);
+}
+
+TEST_F(TestBCRelayComms, FullFlowUDPEnd)
+{
+    relayFullFlow(m_bc, eRelayConnectionType::UDP, true);
+}
+
+TEST_F(TestBCRelayComms, GameliftEnd)
+{
+    relayFullFlow(m_bc, eRelayConnectionType::WS, true, true);
 }
 
 //TEST_F(TestBCRelayComms, FullFlowWS)
 //{
 //    relayFullFlow(m_bc, eRelayConnectionType::WS);
 //}
-//
+
 //TEST_F(TestBCRelayComms, FullFlowWSS)
 //{
 //    relayFullFlow(m_bc, eRelayConnectionType::WSS);
