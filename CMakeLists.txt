@@ -235,6 +235,7 @@ add_library(brainCloud STATIC
         include/braincloud/BrainCloudGlobalFile.h
         include/braincloud/BrainCloudGlobalStatistics.h
         include/braincloud/BrainCloudGroup.h
+        include/braincloud/BrainCloudGroupFile.h
         include/braincloud/BrainCloudIdentity.h
         include/braincloud/BrainCloudMail.h
         include/braincloud/BrainCloudMatchmaking.h
@@ -322,6 +323,7 @@ add_library(brainCloud STATIC
         src/BrainCloudGlobalFile.cpp
         src/BrainCloudGlobalStatistics.cpp
         src/BrainCloudGroup.cpp
+        src/BrainCloudGroupFile.cpp
         src/BrainCloudIdentity.cpp
         src/BrainCloudLobby.cpp
         src/BrainCloudMail.cpp

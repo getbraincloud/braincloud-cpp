@@ -52,6 +52,7 @@ namespace BrainCloud
         _globalEntityService(new BrainCloudGlobalEntity(this)),
         _globalStatisticsService(new BrainCloudGlobalStatistics(this)),
         _groupService(new BrainCloudGroup(this)),
+        _groupFileService(new BrainCloudGroupFile(this)),
         _identityService(new BrainCloudIdentity(this)),
         _lobbyService(new BrainCloudLobby(this)),
         _mailService(new BrainCloudMail(this)),

@@ -311,6 +311,24 @@ namespace BrainCloud {
 		static const OperationParam S3HandlingServiceFileDetails;
 		static const OperationParam S3HandlingServiceFileId;
 
+        //group file
+         static const OperationParam FolderPath;
+         static const OperationParam FileName;
+         static const OperationParam FullPathFilename;
+         static const OperationParam FileId;
+         static const OperationParam GroupFileVersion;
+         static const OperationParam NewTreeId;
+         static const OperationParam TreeVersion;
+         static const OperationParam NewFilename;
+         static const OperationParam OverwriteIfPresent;
+         static const OperationParam Recurse;
+         static const OperationParam UserCloudPath;
+         static const OperationParam UserCloudFilename;
+         static const OperationParam GroupTreeId;
+         static const OperationParam GroupFilename;
+         static const OperationParam GroupFileACL;
+         static const OperationParam NewACL;
+        
 		//GlobalFileV3
 		static const OperationParam GlobalFileV3ServiceFileId;
 		static const OperationParam GlobalFileV3ServiceFolderPath;
