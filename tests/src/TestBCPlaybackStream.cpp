@@ -66,8 +66,10 @@ TEST_F(TestBCPlaybackStream, ReadStream)
     EndStream();
 }
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
 void TestBCPlaybackStream::StartStream()
 {
     TestResult tr;

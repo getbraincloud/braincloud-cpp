@@ -134,8 +134,10 @@ TEST_F(TestBCEvent, UpdateIncoming)
 	DeleteIncomingMessage();
 }
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
 TEST_F(TestBCEvent, GetEvents)
 {
 	SendDefaultMessage();
