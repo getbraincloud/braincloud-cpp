@@ -72,7 +72,9 @@ static std::string extractProfileIdFromCxId(const std::string &cxId)
 
     return cxId.substr(first + 1, last - first - 1);
 }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 namespace BrainCloud
 {
@@ -802,7 +804,9 @@ namespace BrainCloud
 
         queueRelayEvent(netId, in_data + 8, in_size - 8);
     }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
     void RelayComms::runCallbacks()
     {

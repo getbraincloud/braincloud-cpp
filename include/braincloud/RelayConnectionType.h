@@ -1,8 +1,11 @@
 // Copyright 2020 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+
 
 namespace BrainCloud
 {
@@ -28,5 +31,7 @@ namespace BrainCloud
     };
 };
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 

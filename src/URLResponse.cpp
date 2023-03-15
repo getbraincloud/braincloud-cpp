@@ -5,8 +5,11 @@
 
 #include "braincloud/internal/URLResponse.h"
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+
 
 /**
  * Constructor
@@ -85,5 +88,7 @@ void URLResponse::setStatusCode( unsigned short statusCode ) {
     _statusCode = statusCode;
 }  // end URLResponse::setStatusCode
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 

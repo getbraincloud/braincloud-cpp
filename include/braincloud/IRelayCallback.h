@@ -6,8 +6,11 @@
 //
 
 #pragma once
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+
 
 #include <cinttypes>
 
@@ -28,4 +31,6 @@ namespace BrainCloud
         virtual void relayCallback(int netId, const uint8_t* bytes, int size) = 0;
     };
 };
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif

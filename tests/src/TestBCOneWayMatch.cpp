@@ -41,7 +41,9 @@ void TestBCOneWayMatch::StartMatch()
 
     m_streamId = streams[0u]["playbackStreamId"].asString();
 }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 void TestBCOneWayMatch::CancelMatch()
 {

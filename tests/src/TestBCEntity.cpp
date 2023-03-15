@@ -95,7 +95,9 @@ TEST_F(TestBCEntity, GetSharedEntityForPlayerId)
 	tr.run(m_bc);
 	DeleteEntity();
 }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -107,7 +109,9 @@ TEST_F(TestBCEntity, GetSharedEntitiesForPlayerId)
 	tr.run(m_bc);
 	DeleteEntity();
 }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 TEST_F(TestBCEntity, GetEntitesByType)
 {

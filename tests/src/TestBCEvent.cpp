@@ -146,7 +146,9 @@ TEST_F(TestBCEvent, GetEvents)
 
 	DeleteIncomingMessage();
 }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 void TestBCEvent::SendDefaultMessage()
 {

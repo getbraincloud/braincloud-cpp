@@ -57,7 +57,9 @@ namespace BrainCloud {
 
         return m_instance;
     }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 
     void BrainCloudWrapper::initialize(const char * url, const char * secretKey, const char * appId, const char * version, const char * companyName, const char * appName)
