@@ -47,7 +47,7 @@ TEST_F(TestBCGroupFile, testCheckFilenameNoExists)
     Authenticate();
     TestResult tr;
     
-    m_bc->getGroupFileService()->checkFilenameExists(groupID, "", tempFilename, &tr);
+    m_bc->getGroupFileService()->checkFilenameExists(groupID, "", "nosuchfile.dat", &tr);
     
     tr.run(m_bc);
     
@@ -151,12 +151,6 @@ TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
     acl["other"] = 0;
     
     m_bc->registerFileUploadCallback(this);
-//
-//    // create new file
-//    if(createFile(tempFilename.c_str(), 8)==0)
-//    {
-//        return;
-//    }
     
     // create new file and wait for upload
     std::string uploadId;
@@ -181,24 +175,39 @@ TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
     Logout();
 }
 
-TEST_F(TestBCGroupFile, testCopyFile)
+TEST_F(TestBCGroupFile, testCopyDeleteFile)
 {
-    printf("testCopyFile...\n");
+    printf("testCopyDeleteFile...\n");
     
     Authenticate();
     TestResult tr;
     
+    // copy a file
     m_bc->getGroupFileService()->copyFile(groupID, groupFileId, version, "", 0, newFileName, true, &tr);
     
     tr.run(m_bc);
     
     std::string newFileId = tr.m_response["data"]["fileDetails"]["fileId"].asString();
     
+    // check exists
+    m_bc->getGroupFileService()->checkFilenameExists(groupID, "", newFileName, &tr);
+    
+    tr.run(m_bc);
+    
+    ASSERT_TRUE(tr.m_response["data"]["exists"].asBool());
+    
     // deleting new file
     m_bc->getGroupFileService()->deleteFile(groupID, newFileId, version, newFileName, &tr);
     
     tr.run(m_bc);
     
+    // check no exists
+    m_bc->getGroupFileService()->checkFilenameExists(groupID, "", newFileName, &tr);
+    
+    tr.run(m_bc);
+    
+    ASSERT_TRUE(!tr.m_response["data"]["exists"].asBool());
+
     Logout();
 }
 
@@ -276,7 +285,7 @@ int TestBCGroupFile::createFile(const char * in_path, int in_size)
         fputc('!', fp);
     }
     fseek(fp, 0, SEEK_END);
-    int fileLen = ftell(fp);
+    int fileLen = static_cast<int>(ftell(fp));
     fclose(fp);
     fp = NULL;
     return fileLen;
