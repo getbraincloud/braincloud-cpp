@@ -40,8 +40,13 @@ namespace BrainCloud {
         }
     }
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#else
+#pragma warning( push )
+#pragma warning (disable : 4996)
+#endif
     BrainCloudWrapper * BrainCloudWrapper::getInstance()
     {
         if(BrainCloudClient::EnableSingletonMode == false) {
@@ -59,8 +64,9 @@ namespace BrainCloud {
     }
 #if defined(__clang__)
 #pragma clang diagnostic pop
+#else
+#pragma warning( pop )
 #endif
-
 
     void BrainCloudWrapper::initialize(const char * url, const char * secretKey, const char * appId, const char * version, const char * companyName, const char * appName)
     {
