@@ -24,7 +24,7 @@ public:
     BrainCloudGroupFile(BrainCloudClient* in_client);
     
     /**
-     * checkFilenameExists
+     * Check if filename exists for provided path and name
      *
      * Service Name GroupFile
      * Service Operation  CheckFilenameExists
@@ -37,7 +37,7 @@ public:
     void checkFilenameExists(std::string groupId, std::string folderPath, std::string fileName, IServerCallback* in_callback = NULL);
     
     /**
-     * checkFullpathFilenameExists
+     * Check if filename exists for provided full path name
      *
      * Service Name GroupFile
      * Service Operation CheckFullpathFilenameExists
@@ -49,7 +49,7 @@ public:
     void checkFullpathFilenameExists(std::string groupId, std::string fullPathFilename, IServerCallback* in_callback = NULL);
     
     /**
-     * copyFile
+     *  Copy a file.
      *
      * Service Name GroupFile
      * Service Operation CopyFile
@@ -65,7 +65,7 @@ public:
     void copyFile(std::string groupId, std::string fileId, int version, std::string newTreeId, int treeVersion, std::string newFilename, bool overwriteIfPresent, IServerCallback* in_callback = NULL);
     
     /**
-     * deleteFile
+     * Delete a file.
      *
      * Service Name GroupFile
      * Service Operation DeleteFile
@@ -80,7 +80,7 @@ public:
     void deleteFile(std::string groupId, std::string fileId, int version, std::string filename, IServerCallback* in_callback = NULL);
     
     /**
-     * getCDNUrl
+     * Return CDN url for file for clients that cannot handle redirect.
      *
      * Service Name GroupFile
      * Service Operation GetCdnUrl
@@ -93,7 +93,7 @@ public:
     void getCDNUrl(std::string groupId, std::string fileId, IServerCallback* in_callback = NULL);
     
     /**
-     * getFileInfo
+     * Returns information on a file using fileId.
      *
      * Service Name GroupFile
      * Service Operation GetFileInfo
@@ -105,7 +105,7 @@ public:
     void getFileInfo(std::string groupId, std::string fileId, IServerCallback* in_callback = NULL);
     
     /**
-     * getFileInfoSimple
+     * Returns information on a file using path and name.
      *
      * Service Name GroupFile
      * Service Operation GetFileInfoSimple
@@ -119,7 +119,7 @@ public:
     void getFileInfoSimple(std::string groupId, std::string folderPath, std::string filename, IServerCallback* in_callback = NULL);
     
     /**
-     * getFileList
+     * Returns a list of files.
      *
      * Service Name GroupFile
      * Service Operation GetFileList
@@ -132,7 +132,7 @@ public:
     void getFileList(std::string groupId, std::string folderPath, bool recurse, IServerCallback* in_callback = NULL);
     
     /**
-     * moveFile
+     *  Move a file.
      *
      * Service Name GroupFile
      * Service Operation MoveFile
@@ -147,7 +147,7 @@ public:
     void moveFile( std::string groupId,  std::string fileId, int version,  std::string newTreeId,  int treeVersion, std::string newFilename, bool overwriteIfPresent, IServerCallback* in_callback = NULL);
     
     /**
-     * moveUserToGroupFile
+     * Move a file from user space to group space.
      *
      * Service Name GroupFile
      * Service Operation MoveUserToGroupFile
@@ -164,7 +164,7 @@ public:
     void moveUserToGroupFile(std::string userCloudPath, std::string userCloudFilename, std::string groupId, std::string groupTreeId, std::string groupFilename, const std::string& groupFileAcl, bool overwriteIfPresent, IServerCallback* in_callback = NULL);
     
     /**
-     * updateFileInfo
+     * updates information on a file given fileId.
      *
      * Service Name GroupFile
      * Service Operation UpdateFileInfo
