@@ -716,7 +716,7 @@ std::string TestBCGroup::CreateGroupEntity()
 	std::string entityId;
 
 	Json::FastWriter fw;
-	m_bc->getGroupService()->createGroupEntity(_groupId.c_str(), _entityType, false, fw.write(entityAcl), fw.write(entityData), &tr);
+	m_bc->getGroupService()->createGroupEntity(_groupId.c_str(), _entityType, false, _testAcl, fw.write(entityData), &tr);
 	if (tr.run(m_bc))
 	{
 		return tr.m_response["data"]["entityId"].asString();
