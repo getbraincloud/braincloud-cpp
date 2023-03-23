@@ -84,7 +84,7 @@ namespace BrainCloud
 		size_t ret = 0;
 		while (ret >= 0 && ret < size)
 		{
-			ret = ::send(_socket, pData, size, 0);
+			ret = ::send(_socket, pData, static_cast<int>(size), 0);
 			if (ret >= 0 && ret <= size)
 			{
 				size -= ret;
