@@ -146,7 +146,9 @@
             _httpResponse = [NSString stringWithCString:strHttpJsonResponse.c_str() encoding:NSUTF8StringEncoding];
         }
     }];
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
     self.task = task;
     [task resume];

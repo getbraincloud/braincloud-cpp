@@ -553,6 +553,7 @@ if (USE_LIBWEBSOCKETS)
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if(Win32)
        target_compile_options(websockets PRIVATE /WX-)
+       target_compile_options(mbedtls PRIVATE /WX-)
     endif()
 
     list(APPEND libs websockets)

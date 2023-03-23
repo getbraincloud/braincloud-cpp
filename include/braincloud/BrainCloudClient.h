@@ -3,8 +3,11 @@
 //  Copyright 2016 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+
 
 #ifdef WIN32
 #include <WinSock2.h>
@@ -673,4 +676,6 @@ namespace BrainCloud
 		void setupOSLocaleData();
 	};  // end class
 }  // end namespace
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif

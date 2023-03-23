@@ -1,8 +1,11 @@
 // Copyright 2020 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+
 
 #include "braincloud/BrainCloudTypes.h"
 #include "braincloud/RelayChannel.h"
@@ -198,4 +201,6 @@ namespace BrainCloud
 	};
 };
 
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
