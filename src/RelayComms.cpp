@@ -20,8 +20,11 @@
 
 #define VERBOSE_LOG 0
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+
 static const int CONTROL_BYTES_SIZE = 1;
 static const int MAX_PACKET_ID_HISTORY = 60 * 10; // So we last 10 seconds at 60 fps
 
@@ -72,7 +75,9 @@ static std::string extractProfileIdFromCxId(const std::string &cxId)
 
     return cxId.substr(first + 1, last - first - 1);
 }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
 namespace BrainCloud
 {
@@ -667,8 +672,10 @@ namespace BrainCloud
         return a <= b;
     }
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-variable"
+#endif
     void RelayComms::onRelay(const uint8_t* in_data, int in_size)
     {
         auto rh = (int)ntohs(*(u_short*)in_data);
@@ -802,7 +809,9 @@ namespace BrainCloud
 
         queueRelayEvent(netId, in_data + 8, in_size - 8);
     }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
     void RelayComms::runCallbacks()
     {

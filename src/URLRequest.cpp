@@ -5,8 +5,11 @@
 
 #include "braincloud/internal/URLRequest.h"
 
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+
 
 /**
  * Constructor
@@ -76,5 +79,7 @@ void URLRequest::setMethod( std::string const & method ) {
 void URLRequest::setUserAgent( std::string const & userAgent ) {
     _userAgent = userAgent;
 }  // end URLRequest::setUserAgent
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 

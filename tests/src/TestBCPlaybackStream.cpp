@@ -66,8 +66,6 @@ TEST_F(TestBCPlaybackStream, ReadStream)
     EndStream();
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 void TestBCPlaybackStream::StartStream()
 {
     TestResult tr;
@@ -81,7 +79,6 @@ void TestBCPlaybackStream::StartStream()
     Json::Value streams = tr.m_response["data"]["streams"];
     m_streamId = streams[0u]["playbackStreamId"].asString();
 }
-#pragma clang diagnostic pop
 
 void TestBCPlaybackStream::EndStream()
 {

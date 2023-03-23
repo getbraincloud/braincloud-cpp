@@ -81,11 +81,11 @@ namespace BrainCloud
 		memcpy(pData, &len, 4);
 		memcpy(pData + 4, &message[0], msgSize);
 
-		int ret = 0;
-		while (ret >= 0 && ret < (int)size)
+		size_t ret = 0;
+		while (ret >= 0 && ret < size)
 		{
 			ret = ::send(_socket, pData, size, 0);
-			if (ret >= 0 && ret <= (int)size)
+			if (ret >= 0 && ret <= size)
 			{
 				size -= ret;
 				pData += ret;
