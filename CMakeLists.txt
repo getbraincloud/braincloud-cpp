@@ -235,6 +235,7 @@ add_library(brainCloud STATIC
         include/braincloud/BrainCloudGlobalFile.h
         include/braincloud/BrainCloudGlobalStatistics.h
         include/braincloud/BrainCloudGroup.h
+        include/braincloud/BrainCloudGroupFile.h
         include/braincloud/BrainCloudIdentity.h
         include/braincloud/BrainCloudMail.h
         include/braincloud/BrainCloudMatchmaking.h
@@ -322,6 +323,7 @@ add_library(brainCloud STATIC
         src/BrainCloudGlobalFile.cpp
         src/BrainCloudGlobalStatistics.cpp
         src/BrainCloudGroup.cpp
+        src/BrainCloudGroupFile.cpp
         src/BrainCloudIdentity.cpp
         src/BrainCloudLobby.cpp
         src/BrainCloudMail.cpp
@@ -553,6 +555,7 @@ if (USE_LIBWEBSOCKETS)
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if(Win32)
        target_compile_options(websockets PRIVATE /WX-)
+       target_compile_options(mbedtls PRIVATE /WX-)
     endif()
 
     list(APPEND libs websockets)

@@ -120,7 +120,7 @@ TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicNullRotationTime)
 
 TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicUTC)
 {
-	srand(time(NULL));
+	srand(static_cast<unsigned int>(time(NULL)));
 
     TestResult tr;
     Json::FastWriter fw;
@@ -286,7 +286,7 @@ TEST_F(TestBCSocialLeaderboard, GetPlayerScoresFromLeaderboards)
 
 void TestBCSocialLeaderboard::PostScoreToDynamic()
 {
-	srand(time(NULL));
+	srand(static_cast<int>(time(NULL)));
 
     TestResult tr;
     Json::FastWriter fw;

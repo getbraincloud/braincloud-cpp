@@ -442,6 +442,7 @@ namespace BrainCloud
             case LWS_CALLBACK_WSI_DESTROY:
             case LWS_CALLBACK_CLOSED_CLIENT_HTTP:
             case LWS_CALLBACK_CLOSED:
+            case LWS_CALLBACK_CLIENT_CLOSED:
             {
                 if (!pWebSocket)
                 {

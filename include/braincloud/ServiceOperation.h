@@ -266,6 +266,15 @@ namespace BrainCloud {
 		static const ServiceOperation IncrementGlobalEntityData;
 		static const ServiceOperation GetRandomEntitiesMatching;
 
+        // group file
+        static const ServiceOperation CheckFilenameExists;
+        static const ServiceOperation CheckFullpathFilenameExists;
+        static const ServiceOperation GroupCopyFile;
+        static const ServiceOperation GroupDeleteFile;
+        static const ServiceOperation GroupMoveFile;
+        static const ServiceOperation MoveUserToGroupFile;
+        static const ServiceOperation UpdateFileInfo;
+
 		//GlobalFileV3
 		static const ServiceOperation GetFileInfo;
 		static const ServiceOperation GetFileInfoSimple;

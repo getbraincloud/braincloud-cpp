@@ -4,13 +4,12 @@
 
 using namespace std;
 
-TestUser::TestUser(std::string prefix, int suffix, BrainCloudClient *client)
+TestUser::TestUser(std::string prefix, int suffix, BrainCloudClient* client) :
+	m_client(client)
 {
 	sprintf(m_id, "%s%s%d", prefix.c_str(), "_CPP_", suffix);
 	sprintf(m_password, "%s", m_id);
 	sprintf(m_email, "%s@bctestuser.com", m_id);
-
-	m_client = client;
 
 	Authenticate();
 }

@@ -99,7 +99,7 @@ void TestFixtureBase::Init()
 	}
 
 	//Create Users
-	srand(time(NULL));
+	srand(static_cast<int>(time(NULL)));
 
 	printf("Creating test users");
 	for (int i = 0; i < USERS_MAX; i++)

@@ -303,7 +303,25 @@ namespace BrainCloud
 	const OperationParam OperationParam::S3HandlingServiceFileDetails = OperationParam("fileDetails");
 	const OperationParam OperationParam::S3HandlingServiceFileId = OperationParam("fileId");
 
-	// globalFileV3
+    // group file
+    const OperationParam OperationParam::FolderPath = OperationParam("folderPath");
+    const OperationParam OperationParam::FileName = OperationParam("filename");
+    const OperationParam OperationParam::FullPathFilename = OperationParam("fullPathFilename");
+    const OperationParam OperationParam::FileId = OperationParam("fileId");
+    const OperationParam OperationParam::GroupFileVersion = OperationParam("version");
+    const OperationParam OperationParam::NewTreeId = OperationParam("newTreeId");
+    const OperationParam OperationParam::TreeVersion = OperationParam("treeVersion");
+    const OperationParam OperationParam::NewFilename = OperationParam("newFilename");
+    const OperationParam OperationParam::OverwriteIfPresent = OperationParam("overwriteIfPresent");
+    const OperationParam OperationParam::Recurse = OperationParam("recurse");
+    const OperationParam OperationParam::UserCloudPath = OperationParam("userCloudPath");
+    const OperationParam OperationParam::UserCloudFilename = OperationParam("userCloudFilename");
+    const OperationParam OperationParam::GroupTreeId = OperationParam("groupTreeId");
+    const OperationParam OperationParam::GroupFilename = OperationParam("groupFilename");
+    const OperationParam OperationParam::GroupFileACL = OperationParam("groupFileAcl");
+    const OperationParam OperationParam::NewACL = OperationParam("newAcl");
+
+    // globalFileV3
 	const OperationParam OperationParam::GlobalFileV3ServiceFileId = OperationParam("fileId");
 	const OperationParam OperationParam::GlobalFileV3ServiceFolderPath = OperationParam("folderPath");
 	const OperationParam OperationParam::GlobalFileV3ServiceFileName = OperationParam("filename");
