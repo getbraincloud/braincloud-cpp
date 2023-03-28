@@ -46,7 +46,7 @@ void BrainCloudGroupFile::copyFile(std::string groupId, std::string fileId, int 
     message[OperationParam::NewFilename.getValue()] = newFilename;
     message[OperationParam::OverwriteIfPresent.getValue()] = overwriteIfPresent;
 
-    ServerCall * sc = new ServerCall(ServiceName::GroupFile, ServiceOperation::CopyFile, message, in_callback);
+    ServerCall * sc = new ServerCall(ServiceName::GroupFile, ServiceOperation::GroupCopyFile, message, in_callback);
     m_client->getBrainCloudComms()->addToQueue(sc);
 }
 
@@ -57,7 +57,7 @@ void BrainCloudGroupFile::deleteFile(std::string groupId, std::string fileId, in
     message[OperationParam::GroupFileVersion.getValue()] = version;
     message[OperationParam::FileName.getValue()] = filename;
 
-    ServerCall * sc = new ServerCall(ServiceName::GroupFile, ServiceOperation::DeleteFile, message, in_callback);
+    ServerCall * sc = new ServerCall(ServiceName::GroupFile, ServiceOperation::GroupDeleteFile, message, in_callback);
     m_client->getBrainCloudComms()->addToQueue(sc);
 }
 
@@ -109,7 +109,7 @@ void BrainCloudGroupFile::moveFile( std::string groupId,  std::string fileId, in
     message[OperationParam::NewFilename.getValue()] = newFilename;
     message[OperationParam::OverwriteIfPresent.getValue()] = overwriteIfPresent;
 
-    ServerCall * sc = new ServerCall(ServiceName::GroupFile, ServiceOperation::MoveFile, message, in_callback);
+    ServerCall * sc = new ServerCall(ServiceName::GroupFile, ServiceOperation::GroupMoveFile, message, in_callback);
     m_client->getBrainCloudComms()->addToQueue(sc);
 }
 

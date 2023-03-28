@@ -1,8 +1,10 @@
 // Copyright 2023 bitHeads, Inc. All Rights Reserved.
 
 #pragma once
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#endif
 
 #include <vector>
 #include <string>
@@ -183,4 +185,6 @@ private:
     
 };
 }
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif

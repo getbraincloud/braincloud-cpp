@@ -269,9 +269,9 @@ namespace BrainCloud {
         // group file
         static const ServiceOperation CheckFilenameExists;
         static const ServiceOperation CheckFullpathFilenameExists;
-        static const ServiceOperation CopyFile;
-        static const ServiceOperation DeleteFile;
-        static const ServiceOperation MoveFile;
+        static const ServiceOperation GroupCopyFile;
+        static const ServiceOperation GroupDeleteFile;
+        static const ServiceOperation GroupMoveFile;
         static const ServiceOperation MoveUserToGroupFile;
         static const ServiceOperation UpdateFileInfo;
 
