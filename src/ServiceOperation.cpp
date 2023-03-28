@@ -258,9 +258,9 @@ namespace BrainCloud
 
     const ServiceOperation ServiceOperation::CheckFilenameExists = ServiceOperation("CHECK_FILENAME_EXISTS");
     const ServiceOperation ServiceOperation::CheckFullpathFilenameExists = ServiceOperation("CHECK_FULLPATH_FILENAME_EXISTS");
-    const ServiceOperation ServiceOperation::CopyFile = ServiceOperation("COPY_FILE");
-    const ServiceOperation ServiceOperation::DeleteFile = ServiceOperation("DELETE_FILE");
-    const ServiceOperation ServiceOperation::MoveFile = ServiceOperation("MOVE_FILE");
+    const ServiceOperation ServiceOperation::GroupCopyFile = ServiceOperation("COPY_FILE");
+    const ServiceOperation ServiceOperation::GroupDeleteFile = ServiceOperation("DELETE_FILE");
+    const ServiceOperation ServiceOperation::GroupMoveFile = ServiceOperation("MOVE_FILE");
     const ServiceOperation ServiceOperation::MoveUserToGroupFile = ServiceOperation("MOVE_USER_TO_GROUP_FILE");
     const ServiceOperation ServiceOperation::UpdateFileInfo = ServiceOperation("UPDATE_FILE_INFO");
 	const ServiceOperation ServiceOperation::GetFileInfo = ServiceOperation("GET_FILE_INFO");
