@@ -12,7 +12,7 @@
 #include "braincloud/RelayConnectionType.h"
 
 #include <string>
-#include <json/json.h>
+#include "json/json.h"
 
 namespace BrainCloud
 {
