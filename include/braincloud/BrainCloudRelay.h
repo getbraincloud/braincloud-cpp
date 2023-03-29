@@ -10,9 +10,10 @@
 #include "braincloud/BrainCloudTypes.h"
 #include "braincloud/RelayChannel.h"
 #include "braincloud/RelayConnectionType.h"
+#include "braincloud/internal/JsonUtil.h"
 
 #include <string>
-#include <json/json.h>
+
 
 namespace BrainCloud
 {
@@ -53,7 +54,7 @@ namespace BrainCloud
         /**
          * Requests to end the current match on the relay server
          */
-        void endMatch(const Json::Value& jsonPayload);
+        void endMatch(const std::string&  jsonPayload);
 
         /**
          * Returns whether or not we have a successful connection with
