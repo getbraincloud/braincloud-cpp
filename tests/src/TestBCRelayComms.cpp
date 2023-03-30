@@ -245,12 +245,11 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         // send end match
         printf("Sending End Match...");
 
-        Json::Value json;
-
+        //Json::Value json;
         //json["cxId"] = bc->getRttConnectionId();
         //json["op"] = "END_MATCH";
-        json["AnswerToEverything"] = "42";
-        bc->getRelayService()->endMatch(json.asString());
+        //json["AnswerToEverything"] = "42";
+        bc->getRelayService()->endMatch("{\"AnswerToEverything\": \"42\"}");
 
         auto timeStart = steady_clock::now();
         while (steady_clock::now() < timeStart + seconds(30) && !hasReceivedEndMatch)
