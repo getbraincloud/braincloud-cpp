@@ -557,6 +557,11 @@ if (USE_LIBWEBSOCKETS)
        target_compile_options(websockets PRIVATE /WX-)
        target_compile_options(mbedtls PRIVATE /WX-)
     endif()
+    if(APPLE)
+       target_compile_options(websockets PRIVATE -Wno-error=unused-but-set-variable)
+       target_compile_options(mbedtls PRIVATE -Wno-error=unused-but-set-variable)
+       target_compile_options(mbedcrypto PRIVATE -Wno-error=unused-but-set-variable)
+    endif()
 
     list(APPEND libs websockets)
     list(APPEND includes
