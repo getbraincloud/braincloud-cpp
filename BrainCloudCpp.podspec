@@ -51,10 +51,10 @@ Pod::Spec.new do |s|
 
   s.libraries               = 'c++', 'z'
   s.osx.framework           = 'LDAP'
-  s.dependency                'SSKeychain'
+  s.dependency                'SAMKeychain', '~> 1.5'
   s.dependency                'BrainCloudJsonCpp'
-  s.ios.dependency            'SocketRocket', '~> 0.5'
-  s.osx.dependency            'SocketRocket', '~> 0.5'
-  #s.watchos.dependency       'SocketRocket', '~> 0.5'
-  s.tvos.dependency           'SocketRocket', '~> 0.5'
+  s.ios.dependency            'SocketRocket', '~> 0.6'
+  s.osx.dependency            'SocketRocket', '~> 0.6'
+  #s.watchos.dependency       'SocketRocket', '~> 0.6'
+  s.tvos.dependency           'SocketRocket', '~> 0.6'
 end
