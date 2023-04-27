@@ -26,6 +26,11 @@ updatedName("UpdatedGroupFile.dat")
 
 TEST_F(TestBCGroupFile, testCheckFilenameExists)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testCheckFilenameExists...\n");
     
     Authenticate();
@@ -42,6 +47,11 @@ TEST_F(TestBCGroupFile, testCheckFilenameExists)
 
 TEST_F(TestBCGroupFile, testCheckFilenameNoExists)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testCheckFilenameNoExists...\n");
     
     Authenticate();
@@ -58,6 +68,11 @@ TEST_F(TestBCGroupFile, testCheckFilenameNoExists)
 
 TEST_F(TestBCGroupFile, testCheckFullpathFilenameExists)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testCheckFullpathFilenameExists...\n");
     
     Authenticate();
@@ -74,6 +89,11 @@ TEST_F(TestBCGroupFile, testCheckFullpathFilenameExists)
 
 TEST_F(TestBCGroupFile, testGetFileInfo)
 {
+    if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testGetFileInfo...\n");
     
     Authenticate();
@@ -91,6 +111,11 @@ TEST_F(TestBCGroupFile, testGetFileInfo)
 
 TEST_F(TestBCGroupFile, testGetFileInfoSimple)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testGetFileInfoSimple...\n");
     
     Authenticate();
@@ -105,6 +130,11 @@ TEST_F(TestBCGroupFile, testGetFileInfoSimple)
 
 TEST_F(TestBCGroupFile, testGetFileList)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testGetFileList...\n");
     
     Authenticate();
@@ -121,6 +151,11 @@ TEST_F(TestBCGroupFile, testGetFileList)
 
 TEST_F(TestBCGroupFile, testMoveFile)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testMoveFile...\n");
     
     Authenticate();
@@ -140,6 +175,11 @@ TEST_F(TestBCGroupFile, testMoveFile)
 
 TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testMoveUserToGroupFile...\n");
     
     Authenticate();
@@ -177,6 +217,11 @@ TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
 
 TEST_F(TestBCGroupFile, testCopyDeleteFile)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2")
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testCopyDeleteFile...\n");
     
     Authenticate();
@@ -213,6 +258,11 @@ TEST_F(TestBCGroupFile, testCopyDeleteFile)
 
 TEST_F(TestBCGroupFile, testUpdateFileInfo)
 {
+if (TestFixtureBase::getServerUrl() != "https://api.internal.braincloudservers.com/dispatcherv2") 
+    {
+        printf("This env doesn't have the specific user for testing group files\n");
+        return;
+    }
     printf("testUpdateFileInfo...\n");
     
     Authenticate();
@@ -245,7 +295,7 @@ void TestBCGroupFile::Authenticate()
     m_bc->getAuthenticationService()->authenticateEmailPassword(
                                                                 "cpp-tester",
                                                                 "cpp-tester",
-                                                                false,
+                                                                true,
                                                                 &tr);
     tr.run(m_bc);
 }
