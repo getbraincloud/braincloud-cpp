@@ -173,6 +173,7 @@ namespace BrainCloud
         IRelaySocket* m_pSocket = nullptr;
         bool m_isInitialized = false;
         bool m_loggingEnabled = false;
+        bool m_loggingPackets = true;
 
         // Connection
         eRelayConnectionType m_connectionType;
@@ -216,5 +217,12 @@ namespace BrainCloud
         // Memory
         Pool<Event> m_eventPool;
         Pool<Packet> m_packetPool;
+
+        // Tracking packet IDs for each player
+        // index of array represents channel ids 0 to 3
+        // TMap value has the player netId as the key
+        // And the tracked packetId as the value
+        // Data is structured this way because once it is used to update the client it will then be discarded
+        std::vector<std::map<uint8_t, int>> m_trackedPacketIds;
     };
 };
