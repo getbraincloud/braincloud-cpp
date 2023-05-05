@@ -504,24 +504,21 @@ if (USE_LIBWEBSOCKETS)
 		option(LWS_WITH_MBEDTLS "" ON)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
 				"${BC_DIR}/${BC_MBEDTLS_DIR}/include")
-		if (CMAKE_GENERATOR STREQUAL Xcode)
-			# setting this blank causes no warnings in cmake, links in xcode
-			set(LWS_MBEDTLS_LIBRARIES "")
-		elseif(WIN32)
+		if (WIN32)
 			# when generator is Visual Studio 16
 			# or compiler is MSVC
             # need to set the path to build for lws v3.0
             # this produces warning: Targets may link only to libraries.  CMake is dropping the item.
             set(LWS_MBEDTLS_LIBRARIES
-                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
+                    "${BC_MBEDTLS_DIR}/library/")
 		else()
-		    # setting libraries for regular commandline build on linux, mac
-			set(LWS_MBEDTLS_LIBRARIES
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
+		    # setting libraries for regular commandline build on linux, mac, ninja, xcode, ...
+            set(LWS_MBEDTLS_LIBRARIES "")
+			#set(LWS_MBEDTLS_LIBRARIES
+			#		"${BC_MBEDTLS_DIR}/library/libmbedtls.a"
+		    #	    "${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
+	        #	    "${BC_MBEDTLS_DIR}/library/libmbedx509.a")
 		endif()
-
 	endif()
 
     # LibWebSockets
@@ -565,8 +562,7 @@ if (USE_LIBWEBSOCKETS)
 
     list(APPEND libs websockets)
     list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}
-            ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
+            PUBLIC
             ${BC_DIR}/${BC_LWS_DIR}/include)
 
 endif()

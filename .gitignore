@@ -63,6 +63,7 @@ autobuild/tmp
 *.swp
 CMakeFiles/
 CMakeCache.txt
+cmake-build-debug/
 
 # visual studio
 .vs/
