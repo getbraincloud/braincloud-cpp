@@ -510,15 +510,16 @@ if (USE_LIBWEBSOCKETS)
             # need to set the path to build for lws v3.0
             # this produces warning: Targets may link only to libraries.  CMake is dropping the item.
             set(LWS_MBEDTLS_LIBRARIES
-#                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
-                    "${BC_MBEDTLS_DIR}/library/")
+                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
 		else()
 		    # setting libraries for regular commandline build on linux, mac, ninja, xcode, ...
+            # since available as subdirectory under source, they will be found
+            # setting blank prevents INTERFACE_INCLUDE_DIRECTORIES error
             set(LWS_MBEDTLS_LIBRARIES "")
 			#set(LWS_MBEDTLS_LIBRARIES
-			#		"${BC_MBEDTLS_DIR}/library/libmbedtls.a"
-		    #	    "${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
-	        #	    "${BC_MBEDTLS_DIR}/library/libmbedx509.a")
+			#		"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
+		    #	    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
+	        #	    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
 		endif()
 	endif()
 
@@ -565,9 +566,9 @@ if (USE_LIBWEBSOCKETS)
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC
-#            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}
-#            ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
-            ${BC_DIR}/${BC_LWS_DIR}/include)
+            # For in-source builds this is the current source directory being processed.
+            ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
+            )
 
 endif()
 

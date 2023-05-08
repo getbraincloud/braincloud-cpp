@@ -23,13 +23,13 @@ mkdir artifacts
 
 mkdir -p artifacts/linux_debug
 pushd artifacts/linux_debug
-cmake ../../.. -DCMAKE_BUILD_TYPE=DEBUG
+cmake -GNinja -DCMAKE_BUILD_TYPE=DEBUG ../../..
 cmake --build . --config Debug
 popd
 
 mkdir -p artifacts/linux_release
 pushd artifacts/linux_release
-cmake ../../.. -DCMAKE_BUILD_TYPE=RELEASE
+cmake -GNinja -DCMAKE_BUILD_TYPE=RELEASE ../../..
 cmake --build . --config Release
 popd
 
