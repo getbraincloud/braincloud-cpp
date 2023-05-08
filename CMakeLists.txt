@@ -510,6 +510,7 @@ if (USE_LIBWEBSOCKETS)
             # need to set the path to build for lws v3.0
             # this produces warning: Targets may link only to libraries.  CMake is dropping the item.
             set(LWS_MBEDTLS_LIBRARIES
+#                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
                     "${BC_MBEDTLS_DIR}/library/")
 		else()
 		    # setting libraries for regular commandline build on linux, mac, ninja, xcode, ...
@@ -553,6 +554,7 @@ if (USE_LIBWEBSOCKETS)
     if(Win32)
        target_compile_options(websockets PRIVATE /WX-)
        target_compile_options(mbedtls PRIVATE /WX-)
+       target_compile_options(mbedcrypto PRIVATE /WX-)
     endif()
     if(APPLE)
        target_compile_options(websockets PRIVATE -Wno-error=unused-but-set-variable -Wno-typedef-redefinition)
@@ -563,6 +565,8 @@ if (USE_LIBWEBSOCKETS)
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC
+#            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}
+#            ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
             ${BC_DIR}/${BC_LWS_DIR}/include)
 
 endif()
