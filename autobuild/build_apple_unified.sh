@@ -1,7 +1,12 @@
 #!/bin/bash
 
-project_dir=../solutions/mac/BrainCloudCpp.xcodeproj
-solution_dir=../solutions/mac
+mkdir -p ../gen
+pushd ../gen
+cmake -GXcode ..
+popd
+
+project_dir=../gen/BrainCloud.xcodeproj
+solution_dir=../gen
 artifacts_dir=artifacts
 config=Release
 
@@ -25,8 +30,8 @@ then
   exit 1
 fi
 
-build_internal_version=`echo $build_version | cut -d \".\" -f 4`
-build_external_version=`echo $build_version | cut -d \".\" -f 1-3`
+build_internal_version=`echo $build_version | cut -d "." -f 4`
+build_external_version=`echo $build_version | cut -d "." -f 1-3`
 
 
 function failed()

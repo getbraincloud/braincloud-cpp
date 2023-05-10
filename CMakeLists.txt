@@ -504,10 +504,7 @@ if (USE_LIBWEBSOCKETS)
 		option(LWS_WITH_MBEDTLS "" ON)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
 				"${BC_DIR}/${BC_MBEDTLS_DIR}/include")
-		if (CMAKE_GENERATOR STREQUAL Xcode)
-			# setting this blank causes no warnings in cmake, links in xcode
-			set(LWS_MBEDTLS_LIBRARIES "")
-		elseif(WIN32)
+		if (WIN32)
 			# when generator is Visual Studio 16
 			# or compiler is MSVC
             # need to set the path to build for lws v3.0
@@ -515,13 +512,15 @@ if (USE_LIBWEBSOCKETS)
             set(LWS_MBEDTLS_LIBRARIES
                     "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
 		else()
-		    # setting libraries for regular commandline build on linux, mac
-			set(LWS_MBEDTLS_LIBRARIES
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
+		    # setting libraries for regular commandline build on linux, mac, ninja, xcode, ...
+            # since available as subdirectory under source, they will be found
+            # setting blank prevents INTERFACE_INCLUDE_DIRECTORIES error
+            set(LWS_MBEDTLS_LIBRARIES "")
+			#set(LWS_MBEDTLS_LIBRARIES
+			#		"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
+		    #	    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
+	        #	    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
 		endif()
-
 	endif()
 
     # LibWebSockets
@@ -556,18 +555,20 @@ if (USE_LIBWEBSOCKETS)
     if(Win32)
        target_compile_options(websockets PRIVATE /WX-)
        target_compile_options(mbedtls PRIVATE /WX-)
+       target_compile_options(mbedcrypto PRIVATE /WX-)
     endif()
     if(APPLE)
-       target_compile_options(websockets PRIVATE -Wno-error=unused-but-set-variable)
+       target_compile_options(websockets PRIVATE -Wno-error=unused-but-set-variable -Wno-typedef-redefinition)
        target_compile_options(mbedtls PRIVATE -Wno-error=unused-but-set-variable)
        target_compile_options(mbedcrypto PRIVATE -Wno-error=unused-but-set-variable)
     endif()
 
     list(APPEND libs websockets)
     list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}
+            PUBLIC
+            # For in-source builds this is the current source directory being processed.
             ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
-            ${BC_DIR}/${BC_LWS_DIR}/include)
+            )
 
 endif()
 
