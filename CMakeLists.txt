@@ -85,6 +85,11 @@ set(CMAKE_CXX_STANDARD 11)
 # Unit Tests
 #=============================================================================
 if (DEFINED(${BUILD_TESTS}) OR ${BUILD_TESTS})
+message(status "Generating build files for ${CMAKE_GENERATOR}")
+    if (CMAKE_GENERATOR STREQUAL Xcode)
+        set(XCODE_STARTUP_PROJECT bctests)
+        set(CMAKE_XCODE_GENERATE_SCHEME ON)
+    endif()
     add_subdirectory("${CMAKE_SOURCE_DIR}/tests")
 endif()
 
@@ -175,9 +180,9 @@ elseif (WIN32)
             "include/braincloud/internal/win/WindowsSaveDataHelper.h")
     list(APPEND OS_SPECIFIC_SRCS "src/win/WindowsSaveDataHelper.cpp")
 else()
-    list(APPEND OS_SPECIFIC_SRCS
-            "include/braincloud/internal/DefaultSaveDataHelper.h"
-            "src/DefaultSaveDataHelper.cpp")
+    list(APPEND OS_SPECIFIC_INCS
+            "include/braincloud/internal/DefaultSaveDataHelper.h")
+    list(APPEND OS_SPECIFIC_SRCS "src/DefaultSaveDataHelper.cpp")
 endif()
 
 # Device
@@ -196,6 +201,9 @@ if (APPLE)
     list(APPEND OS_SPECIFIC_SRCS
             "lib/apple/sskeychain/SSKeychain/SSKeychain.m"
             "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.m")
+    list(APPEND OS_SPECIFIC_INCS
+            "lib/apple/sskeychain/SSKeychain/SSKeychain.h"
+            "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.h")
     include_directories("${BC_DIR}/lib/apple/sskeychain")
 elseif (WIN32)
     if (UWP)
@@ -204,9 +212,11 @@ elseif (WIN32)
         list(APPEND OS_SPECIFIC_SRCS "src/win/MD5.cpp")
     endif()
 elseif (ANDROID)
-    list(APPEND OS_SPECIFIC_SRCS
+            list(APPEND OS_SPECIFIC_INCS
             "include/braincloud/internal/android/com_bitheads_braincloud_AndroidBridge.h"
-            "src/android/com_bitheads_braincloud_AndroidBridge.cpp")
+            "include/braincloud/internal/android/AndroidGlobals.h")
+            list(APPEND OS_SPECIFIC_SRCS
+                    "src/android/com_bitheads_braincloud_AndroidBridge.cpp")
 endif()
 
 if (NOT UWP)
@@ -218,12 +228,15 @@ list(APPEND includes PUBLIC "${BC_DIR}/lib/jsoncpp-1.0.0")
 
 add_library(brainCloud STATIC
         # public headers
+        include/braincloud/AuthenticationIds.h
         include/braincloud/AuthenticationType.h
         include/braincloud/BrainCloudAppStore.h
         include/braincloud/BrainCloudAsyncMatch.h
         include/braincloud/BrainCloudAuthentication.h
-        include/braincloud/BrainCloudClient.h
         include/braincloud/BrainCloudBlockchain.h
+        include/braincloud/BrainCloudChat.h
+        include/braincloud/BrainCloudClient.h
+        include/braincloud/BrainCloudCustomEntity.h
         include/braincloud/BrainCloudDataStream.h
         include/braincloud/BrainCloudEntity.h
         include/braincloud/BrainCloudEvent.h
@@ -237,27 +250,29 @@ add_library(brainCloud STATIC
         include/braincloud/BrainCloudGroup.h
         include/braincloud/BrainCloudGroupFile.h
         include/braincloud/BrainCloudIdentity.h
+        include/braincloud/BrainCloudItemCatalog.h
+        include/braincloud/BrainCloudLobby.h
         include/braincloud/BrainCloudMail.h
         include/braincloud/BrainCloudMatchmaking.h
+        include/braincloud/BrainCloudMessaging.h
         include/braincloud/BrainCloudOneWayMatch.h
         include/braincloud/BrainCloudPlaybackStream.h
         include/braincloud/BrainCloudPlayerState.h
         include/braincloud/BrainCloudPlayerStatistics.h
         include/braincloud/BrainCloudPlayerStatisticsEvent.h
+        include/braincloud/BrainCloudPresence.h
         include/braincloud/BrainCloudProfanity.h
         include/braincloud/BrainCloudPushNotification.h
+        include/braincloud/BrainCloudRTT.h
         include/braincloud/BrainCloudRedemptionCode.h
         include/braincloud/BrainCloudRelay.h
-        include/braincloud/BrainCloudRTT.h
         include/braincloud/BrainCloudS3Handling.h
         include/braincloud/BrainCloudScript.h
         include/braincloud/BrainCloudSocialLeaderboard.h
         include/braincloud/BrainCloudTime.h
         include/braincloud/BrainCloudTournament.h
-        include/braincloud/BrainCloudCustomEntity.h
-        include/braincloud/BrainCloudItemCatalog.h
-        include/braincloud/BrainCloudUserItems.h
         include/braincloud/BrainCloudTypes.h
+        include/braincloud/BrainCloudUserItems.h
         include/braincloud/BrainCloudVirtualCurrency.h
         include/braincloud/BrainCloudWrapper.h
         include/braincloud/FriendPlatform.h
@@ -276,21 +291,25 @@ add_library(brainCloud STATIC
         include/braincloud/reason_codes.h
 
         # private headers
+        include/braincloud/internal/DefaultBrainCloudComms.h
+        include/braincloud/internal/DefaultPinger.h
+        include/braincloud/internal/DefaultRelayTCPSocket.h
+        include/braincloud/internal/DefaultRelayUDPSocket.h
+        include/braincloud/internal/DefaultTCPSocket.h
+        include/braincloud/internal/DefaultWebSocket.h
         include/braincloud/internal/Device.h
-        include/braincloud/internal/Mutex.h
         include/braincloud/internal/GUID.h
         include/braincloud/internal/IBrainCloudComms.h
         include/braincloud/internal/IFileUploader.h
         include/braincloud/internal/IPinger.h
-        include/braincloud/internal/ITCPSocket.h
-        include/braincloud/internal/IRelayUDPSocket.h
+        include/braincloud/internal/IRelaySocket.h
         include/braincloud/internal/IRelayTCPSocket.h
-        include/braincloud/internal/DefaultRelayUDPSocket.h
-        include/braincloud/internal/DefaultRelayTCPSocket.h
-        include/braincloud/internal/DefaultBrainCloudComms.h
+        include/braincloud/internal/IRelayUDPSocket.h
+        include/braincloud/internal/ITCPSocket.h
         include/braincloud/internal/JsonUtil.h
-        include/braincloud/internal/RelayComms.h
+        include/braincloud/internal/Mutex.h
         include/braincloud/internal/RTTComms.h
+        include/braincloud/internal/RelayComms.h
         include/braincloud/internal/SaveDataHelper.h
         include/braincloud/internal/StringUtil.h
         include/braincloud/internal/TimeUtil.h
@@ -312,6 +331,7 @@ add_library(brainCloud STATIC
         src/BrainCloudBlockchain.cpp
         src/BrainCloudChat.cpp
         src/BrainCloudClient.cpp
+        src/BrainCloudCustomEntity.cpp
         src/BrainCloudDataStream.cpp
         src/BrainCloudEntity.cpp
         src/BrainCloudEvent.cpp
@@ -325,6 +345,7 @@ add_library(brainCloud STATIC
         src/BrainCloudGroup.cpp
         src/BrainCloudGroupFile.cpp
         src/BrainCloudIdentity.cpp
+        src/BrainCloudItemCatalog.cpp
         src/BrainCloudLobby.cpp
         src/BrainCloudMail.cpp
         src/BrainCloudMatchmaking.cpp
@@ -337,16 +358,14 @@ add_library(brainCloud STATIC
         src/BrainCloudPresence.cpp
         src/BrainCloudProfanity.cpp
         src/BrainCloudPushNotification.cpp
+        src/BrainCloudRTT.cpp
         src/BrainCloudRedemptionCode.cpp
         src/BrainCloudRelay.cpp
-        src/BrainCloudRTT.cpp
         src/BrainCloudS3Handling.cpp
         src/BrainCloudScript.cpp
         src/BrainCloudSocialLeaderboard.cpp
         src/BrainCloudTime.cpp
         src/BrainCloudTournament.cpp
-        src/BrainCloudCustomEntity.cpp
-        src/BrainCloudItemCatalog.cpp
         src/BrainCloudUserItems.cpp
         src/BrainCloudVirtualCurrency.cpp
         src/BrainCloudWrapper.cpp
@@ -357,8 +376,8 @@ add_library(brainCloud STATIC
         src/JsonUtil.cpp
         src/OperationParam.cpp
         src/Platform.cpp
-        src/RelayComms.cpp
         src/RTTComms.cpp
+        src/RelayComms.cpp
         src/SaveDataHelper.cpp
         src/ServerCall.cpp
         src/ServiceName.cpp
@@ -558,9 +577,9 @@ if (USE_LIBWEBSOCKETS)
        target_compile_options(mbedcrypto PRIVATE /WX-)
     endif()
     if(APPLE)
-       target_compile_options(websockets PRIVATE -Wno-error=unused-but-set-variable -Wno-typedef-redefinition)
-       target_compile_options(mbedtls PRIVATE -Wno-error=unused-but-set-variable)
-       target_compile_options(mbedcrypto PRIVATE -Wno-error=unused-but-set-variable)
+       target_compile_options(websockets PRIVATE -Wno-unused-but-set-variable -Wno-typedef-redefinition)
+       target_compile_options(mbedtls PRIVATE -Wno-unused-but-set-variable)
+       target_compile_options(mbedcrypto PRIVATE -Wno-unused-but-set-variable)
     endif()
 
     list(APPEND libs websockets)
