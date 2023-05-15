@@ -199,12 +199,10 @@ endif()
 # other platform specific srcs/includes
 if (APPLE)
     list(APPEND OS_SPECIFIC_SRCS
-            "lib/apple/sskeychain/SSKeychain/SSKeychain.m"
-            "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.m")
+            "lib/apple/lockbox/Lockbox.m")
     list(APPEND OS_SPECIFIC_INCS
-            "lib/apple/sskeychain/SSKeychain/SSKeychain.h"
-            "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.h")
-    include_directories("${BC_DIR}/lib/apple/sskeychain")
+            "lib/apple/lockbox/Lockbox.h")
+    include_directories("${BC_DIR}/lib/apple/lockbox")
 elseif (WIN32)
     if (UWP)
         list(APPEND OS_SPECIFIC_INCS

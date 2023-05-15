@@ -9,3 +9,6 @@
 [submodule "lib/lwsv3/libwebsockets"]
 	path = lib/lwsv3/libwebsockets
 	url = https://github.com/getbraincloud/libwebsockets.git
+[submodule "lib/apple/lockbox"]
+	path = lib/apple/lockbox
+	url = https://github.com/granoff/Lockbox.git
