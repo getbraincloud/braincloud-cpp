@@ -776,16 +776,16 @@ namespace BrainCloud {
          *
 		 * @deprecated Use of the *singleton* has been deprecated. We recommend that you create your own *variable* to hold an instance of the brainCloudWrapper. Explanation here: http://getbraincloud.com/apidocs/wrappers-clients-and-inconvenient-singletons/
 		 */
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #else
 #pragma warning( push )
 #pragma warning (disable : 4996)
 #endif
         DEPRECATED static BrainCloud::BrainCloudClient* getBC() { return getInstance()->getBCClient(); }
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
+#if defined(__clang__)
+#pragma clang diagnostic pop
 #else
 #pragma warning( pop )
 #endif

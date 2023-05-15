@@ -40,9 +40,9 @@ namespace BrainCloud {
         }
     }
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #else
 #pragma warning( push )
 #pragma warning (disable : 4996)
@@ -62,8 +62,8 @@ namespace BrainCloud {
 
         return m_instance;
     }
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
+#if defined(__clang__)
+#pragma clang diagnostic pop
 #else
 #pragma warning( pop )
 #endif
