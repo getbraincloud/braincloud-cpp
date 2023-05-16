@@ -78,7 +78,7 @@
 	[query setObject:@YES forKey:(__bridge id)kSecReturnRef];
 	status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
 	if (status == errSecSuccess) {
-		status = SecItemDelete((__bridge CFDictionaryRef)result);
+		status = SecItemDelete((__bridge CFDictionaryRef)query);
 		CFRelease(result);
 	}
 #endif

@@ -1,3 +1,5 @@
+project(brainCloud)
+
 if (CMAKE_SYSTEM_NAME STREQUAL WindowsStore)
     set(UWP 1)
 endif()
@@ -13,8 +15,6 @@ if (UWP)
 else()
     cmake_minimum_required(VERSION 3.0.0)
 endif()
-
-project(brainCloud)
 
 # Setup modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
@@ -55,10 +55,10 @@ if (UWP)
 endif()
 
 if (SSL_ALLOW_SELFSIGNED)
-    message("Skipping certificate verification in RTT")
+    message("brainCloud Skipping certificate verification in RTT")
     add_definitions(-DBC_SSL_ALLOW_SELFSIGNED)
     else()
-    message("Building with certificates for RTT")
+    message("brainCloud Building with certificates for RTT")
 endif()
 
 # lets use libwebsockets by default
@@ -69,10 +69,10 @@ else()
 endif()
 
 if(BC_USE_OPENSSL)
-    message("Building with OpenSSL TLS")
+    message("brainCloud Building with OpenSSL TLS")
     add_definitions(-DBC_MBEDTLS_OFF)
 else()
-    message("Building with MbedTLS TLS")
+    message("brainCloud Building with MbedTLS TLS")
 endif()
 
 #=============================================================================
@@ -85,11 +85,13 @@ set(CMAKE_CXX_STANDARD 11)
 # Unit Tests
 #=============================================================================
 if (DEFINED(${BUILD_TESTS}) OR ${BUILD_TESTS})
-message("Generating build files for ${CMAKE_GENERATOR}")
-    if (CMAKE_GENERATOR STREQUAL Xcode)
-        set(XCODE_STARTUP_PROJECT bctests)
-        set(CMAKE_XCODE_GENERATE_SCHEME ON)
-    endif()
+    message("brainCloud Building with BUILD_TESTS ON")
+    #xcode generator properties
+    set(XCODE_STARTUP_PROJECT bctests)
+    set(CMAKE_XCODE_GENERATE_SCHEME ON)
+    # visual studio generator properties
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT bctests)
+
     add_subdirectory("${CMAKE_SOURCE_DIR}/tests")
 endif()
 
@@ -198,6 +200,11 @@ endif()
 
 # other platform specific srcs/includes
 if (APPLE)
+    # for memory management in obj-c files
+    set_source_files_properties(
+            "lib/apple/sskeychain/SSKeychain/SSKeychain.m"
+            "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.m"
+            PROPERTIES COMPILE_FLAGS "-fobjc-arc")
     list(APPEND OS_SPECIFIC_SRCS
             "lib/apple/sskeychain/SSKeychain/SSKeychain.m"
             "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.m")
@@ -396,7 +403,6 @@ add_library(brainCloud STATIC
         ${OS_SPECIFIC_SRCS}
         ${JSONCPP_FILES}
         )
-
 # Set files to be "consume windows runtime exceptions" to build them with CX
 if (UWP)
     set_source_files_properties(
@@ -475,7 +481,7 @@ elseif (WIN32)
                 optimized ${BC_CURL_LIB_RELEASE}
                 debug ${BC_CURL_LIB_DEBUG})
     else()
-        message("Using msxml6 socket library.")
+        message("brainCloud Using msxml6 socket library.")
         find_package(Socket)
         list(APPEND libs msxml6 ${Socket_LIBRARIES})
     endif()
