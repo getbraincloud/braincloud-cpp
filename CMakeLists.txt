@@ -529,7 +529,8 @@ if (USE_LIBWEBSOCKETS)
 		option(LWS_WITH_MBEDTLS "" ON)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
 				"${BC_DIR}/${BC_MBEDTLS_DIR}/include")
-		if (WIN32)
+
+        if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 			# when generator is Visual Studio 16
 			# or compiler is MSVC
             # need to set the path to build for lws v3.0
@@ -577,12 +578,12 @@ if (USE_LIBWEBSOCKETS)
     add_subdirectory("${BC_LWS_DIR}")
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
-    if(Win32)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
        target_compile_options(websockets PRIVATE /WX-)
        target_compile_options(mbedtls PRIVATE /WX-)
        target_compile_options(mbedcrypto PRIVATE /WX-)
     endif()
-    if(APPLE)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
        target_compile_options(websockets PRIVATE -Wno-unused-but-set-variable -Wno-typedef-redefinition)
        target_compile_options(mbedtls PRIVATE -Wno-unused-but-set-variable)
        target_compile_options(mbedcrypto PRIVATE -Wno-unused-but-set-variable)
