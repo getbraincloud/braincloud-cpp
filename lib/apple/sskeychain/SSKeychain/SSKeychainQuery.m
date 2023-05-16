@@ -78,7 +78,7 @@
 	[query setObject:@YES forKey:(__bridge id)kSecReturnRef];
 	status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
 	if (status == errSecSuccess) {
-		status = SecKeychainItemDelete((SecKeychainItemRef)result);
+		status = SecItemDelete((__bridge CFDictionaryRef)result);
 		CFRelease(result);
 	}
 #endif
@@ -143,13 +143,13 @@
 #pragma mark - Accessors
 
 - (void)setPasswordObject:(id<NSCoding>)object {
-	self.passwordData = [NSKeyedArchiver archivedDataWithRootObject:object];
+	self.passwordData = [NSKeyedArchiver archivedDataWithRootObject:object requiringSecureCoding:true error:0];
 }
 
 
 - (id<NSCoding>)passwordObject {
 	if ([self.passwordData length]) {
-		return [NSKeyedUnarchiver unarchiveObjectWithData:self.passwordData];
+		return [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:self.passwordData error: 0];
 	}
 	return nil;
 }

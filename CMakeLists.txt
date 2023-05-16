@@ -55,10 +55,10 @@ if (UWP)
 endif()
 
 if (SSL_ALLOW_SELFSIGNED)
-    message(status "Skipping certificate verification in RTT")
+    message("Skipping certificate verification in RTT")
     add_definitions(-DBC_SSL_ALLOW_SELFSIGNED)
     else()
-    message(status "Building with certificates for RTT")
+    message("Building with certificates for RTT")
 endif()
 
 # lets use libwebsockets by default
@@ -69,10 +69,10 @@ else()
 endif()
 
 if(BC_USE_OPENSSL)
-    message(status "Building with OpenSSL TLS")
+    message("Building with OpenSSL TLS")
     add_definitions(-DBC_MBEDTLS_OFF)
 else()
-    message(status "Building with MbedTLS TLS")
+    message("Building with MbedTLS TLS")
 endif()
 
 #=============================================================================
@@ -85,7 +85,7 @@ set(CMAKE_CXX_STANDARD 11)
 # Unit Tests
 #=============================================================================
 if (DEFINED(${BUILD_TESTS}) OR ${BUILD_TESTS})
-message(status "Generating build files for ${CMAKE_GENERATOR}")
+message("Generating build files for ${CMAKE_GENERATOR}")
     if (CMAKE_GENERATOR STREQUAL Xcode)
         set(XCODE_STARTUP_PROJECT bctests)
         set(CMAKE_XCODE_GENERATE_SCHEME ON)
@@ -475,7 +475,7 @@ elseif (WIN32)
                 optimized ${BC_CURL_LIB_RELEASE}
                 debug ${BC_CURL_LIB_DEBUG})
     else()
-        message(status "Using msxml6 socket library.")
+        message("Using msxml6 socket library.")
         find_package(Socket)
         list(APPEND libs msxml6 ${Socket_LIBRARIES})
     endif()
@@ -587,7 +587,7 @@ if (USE_LIBWEBSOCKETS)
             PUBLIC
             # For in-source builds this is the current source directory being processed.
             ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
-            )
+            ${BC_DIR}/${BC_LWS_DIR}/include)
 
 endif()
 
