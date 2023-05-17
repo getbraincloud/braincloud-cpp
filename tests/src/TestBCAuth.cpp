@@ -258,10 +258,11 @@ TEST_F(TestBCAuth, AuthenticateAdvanced)
 
 TEST_F(TestBCAuth, AuthenticateUltra)
 {
-    if (TestFixtureBase::getServerUrl().find("api-internal.braincloudservers.com") == std::string::npos &&
+    std::string ultraAddress = "api.ultracloud.ultra.io";
+    if (/*TestFixtureBase::getServerUrl().find("api-internal.braincloudservers.com") == std::string::npos &&
         TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos &&
-        TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos/* &&
-        TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos*/)
+        TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos &&*/
+        TestFixtureBase::getServerUrl().compare(ultraAddress))
     {
         printf("This env doesn't support Ultra authentication type\n");
         return;
