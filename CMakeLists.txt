@@ -86,12 +86,6 @@ set(CMAKE_CXX_STANDARD 11)
 #=============================================================================
 if (DEFINED(${BUILD_TESTS}) OR ${BUILD_TESTS})
     message("brainCloud Building with BUILD_TESTS ON")
-    #xcode generator properties
-    set(XCODE_STARTUP_PROJECT bctests)
-    set(CMAKE_XCODE_GENERATE_SCHEME ON)
-    # visual studio generator properties
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT bctests)
-
     add_subdirectory("${CMAKE_SOURCE_DIR}/tests")
 endif()
 
@@ -102,7 +96,7 @@ set (BC_DIR "${PROJECT_SOURCE_DIR}")
 set (OS_SPECIFIC_SRCS "")
 set (OS_SPECIFIC_INCS "")
 
-file(GLOB_RECURSE JSONCPP_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.*")
+file(GLOB_RECURSE JSONCPP_FILES "${BC_DIR}/lib/jsoncpp/src/*.*")
 
 # HTTP related files
 if (APPLE)
@@ -230,7 +224,7 @@ if (NOT UWP)
 endif()
 
 list(APPEND includes PUBLIC "${BC_DIR}/include")
-list(APPEND includes PUBLIC "${BC_DIR}/lib/jsoncpp-1.0.0")
+list(APPEND includes PUBLIC "${BC_DIR}/lib/jsoncpp/src")
 
 add_library(brainCloud STATIC
         # public headers

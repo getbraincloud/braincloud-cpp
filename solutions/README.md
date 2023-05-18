@@ -1,2 +1,6 @@
 # solutions
-Most of the things in this folder is deprecated. We keep them for legacy reason, but they will surely not build.
+Most of the things in this folder are legacy and may not build.
+
+## mac
+This project is maintained and used to build static libraries.
+

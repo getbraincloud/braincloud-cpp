@@ -21,7 +21,7 @@ int TestBCFile::createFile(const char * in_path, int in_size)
         fputc('!', fp);
     }
     fseek(fp, 0, SEEK_END);
-    int fileLen = ftell(fp);
+    int fileLen = static_cast<int>(ftell(fp));
     fclose(fp);
     fp = NULL;
     return fileLen;

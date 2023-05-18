@@ -9,3 +9,6 @@
 [submodule "lib/lwsv3/libwebsockets"]
 	path = lib/lwsv3/libwebsockets
 	url = https://github.com/getbraincloud/libwebsockets.git
+[submodule "lib/jsoncpp"]
+	path = lib/jsoncpp
+	url = https://github.com/getbraincloud/braincloud-jsoncpp
