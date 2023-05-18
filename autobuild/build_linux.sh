@@ -41,7 +41,7 @@ cp artifacts/linux_debug/*.a artifacts/brainCloud/libs/debug
 cp artifacts/linux_release/*.a artifacts/brainCloud/libs/release
 
 mkdir -p artifacts/brainCloud/thirdparty
-cp -r ../lib/jsoncpp-1.0.0 artifacts/brainCloud/thirdparty
+cp -r ../lib/jsoncpp/src/json artifacts/brainCloud/thirdparty
 
 mkdir artifacts/brainCloud/include
 cp -r ../include/* artifacts/brainCloud/include

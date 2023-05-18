@@ -130,7 +130,7 @@ function build_app()
 #  git submodule update --init
 
   # copy in the thirdparty dependencies
-  cp -r ../lib/jsoncpp-1.0.0 brainCloud/thirdparty
+  cp -r ../lib/jsoncpp/src brainCloud/thirdparty
 
   cp docs/README.TXT brainCloud
   pushd brainCloud

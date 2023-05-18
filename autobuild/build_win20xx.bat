@@ -38,7 +38,7 @@ copy ..\..\lib\win32\pthread-w32-2-8-0\Pre-built.2\lib\pthreadVCE2.dll brainClou
 copy ..\..\lib\win32\curl-7.44.0_win32\libcurl_a.lib brainCloud\lib\libcurl_a.lib
 copy ..\..\lib\win32\curl-7.44.0_win32\libcurl_a.lib brainCloud\lib\libcurl_a_debug.lib
 rem xcopy /y /i ..\..\BrainCloudWrapper\BrainCloudWrapper.* brainCloud\src
-xcopy /s /i /y ..\..\lib\jsoncpp-1.0.0 brainCloud\thirdparty\jsoncpp-1.0.0
+xcopy /s /i /y ..\..\lib\jsoncpp\src brainCloud\thirdparty\jsoncpp\src
 mkdir brainCloud\thirdparty\curl-7.44.0
 mkdir brainCloud\thirdparty\curl-7.44.0\include
 xcopy /s /i /y ..\..\lib\win32\curl-7.44.0\include brainCloud\thirdparty\curl-7.44.0\include
