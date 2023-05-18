@@ -96,7 +96,7 @@ def buildWinDesktop(artifacts, version, rebuild):
 			myzip.write(fname, "lib" + os.sep + "x64" + os.sep + "debug" + os.sep + os.path.basename(fname))
 		
 		util.zipdir(rootPath + os.sep + "include" + os.sep, myzip, "include")
-		util.zipdir(rootPath + os.sep + "lib" + os.sep + "jsoncpp" + os.sep + "src", myzip, "thirdparty" + os.sep + "jsoncpp" + os.sep + "src")
+		util.zipdir(rootPath + os.sep + "lib" + os.sep + "jsoncpp-1.0.0", myzip, "thirdparty" + os.sep + "jsoncpp-1.0.0")
 		util.zipdir(rootPath + os.sep + "lib" + os.sep + "win32" + os.sep + "cpprestsdk-static" + os.sep + "Release" + os.sep + "include", myzip, "thirdparty" + os.sep + "casablanca" + os.sep + "include")
 
 		myzip.write("artifacts" + os.sep + "README.TXT", "README.TXT")
@@ -192,7 +192,7 @@ def buildWinStore(artifacts, version, rebuild):
 		util.zipdir(rootPath + os.sep + "include" + os.sep, myzip, "include")
 
 		util.zipdir(binPath, myzip, "lib")
-		util.zipdir(rootPath + os.sep + "lib" + os.sep + "jsoncpp" + os.sep + "src", myzip, "thirdparty" + os.sep + "jsoncpp" + os.sep + "src")
+		util.zipdir(rootPath + os.sep + "lib" + os.sep + "jsoncpp-1.0.0", myzip, "thirdparty" + os.sep + "jsoncpp-1.0.0")
 		util.zipdir(rootPath + os.sep + "lib" + os.sep + "win32" + os.sep + "cpprestsdk-static" + os.sep + "Release" + os.sep + "include", myzip, "thirdparty" + os.sep + "casablanca" + os.sep + "include")
 
 		myzip.write("artifacts" + os.sep + "README.TXT", "README.TXT")
@@ -285,7 +285,7 @@ def buildWinUwp(artifacts, version, rebuild):
 			myzip.write(fname, "lib" + os.sep + "x64" + os.sep + "debug" + os.sep + os.path.basename(fname))
 		
 		util.zipdir(rootPath + os.sep + "include" + os.sep, myzip, "include")
-		util.zipdir(rootPath + os.sep + "lib" + os.sep + "jsoncpp" + os.sep + "src", myzip, "thirdparty" + os.sep + "jsoncpp" + os.sep + "src")
+		util.zipdir(rootPath + os.sep + "lib" + os.sep + "jsoncpp-1.0.0", myzip, "thirdparty" + os.sep + "jsoncpp-1.0.0")
 		
 		myzip.write("artifacts" + os.sep + "README.TXT", "README.TXT")
 	return

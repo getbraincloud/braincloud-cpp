@@ -29,6 +29,6 @@ mkdir brainCloud\src
 mkdir brainCloud\thirdparty
 
 xcopy /s /i /y ..\..\include\* brainCloud\include
-xcopy /s /i /y ..\..\lib\jsoncpp\src brainCloud\thirdparty\jsoncpp\src
+xcopy /s /i /y ..\..\lib\jsoncpp-1.0.0 brainCloud\thirdparty\jsoncpp-1.0.0
 
 endlocal

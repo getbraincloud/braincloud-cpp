@@ -31,7 +31,7 @@ mkdir -p artifacts/brainCloud/libs/x86
 
 mkdir -p artifacts/brainCloud/thirdparty/curl/include
 #cp -r ../lib/android/cocos-curl/include/curl artifacts/brainCloud/thirdparty/curl/include
-#cp -r ../lib/jsoncpp/src artifacts/brainCloud/thirdparty
+#cp -r ../lib/jsoncpp-1.0.0 artifacts/brainCloud/thirdparty
 
 #cp ../solutions/android/obj/local/armeabi/libbraincloud.a artifacts/brainCloud/libs/armeabi
 #cp ../solutions/android/obj/local/x86/libbraincloud.a artifacts/brainCloud/libs/x86

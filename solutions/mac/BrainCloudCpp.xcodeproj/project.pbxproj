@@ -363,7 +363,7 @@
 		DF932E281CD92B460085137C /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = ../../include; sourceTree = "<group>"; };
 		DF932E2C1CD92B680085137C /* json-forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-forwards.h"; sourceTree = "<group>"; };
 		DF932E2D1CD92B680085137C /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
-		DF932E2E1CD92B680085137C /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsoncpp.cpp; path = ../../lib/jsoncpp/src/jsoncpp.cpp; sourceTree = "<group>"; };
+		DF932E2E1CD92B680085137C /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsoncpp.cpp; path = ../../lib/jsoncpp-1.0.0/jsoncpp.cpp; sourceTree = "<group>"; };
 		DF9D06B81CEDE70E0011F98A /* BrainCloudWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainCloudWrapper.cpp; sourceTree = "<group>"; };
 		FC39382A207E480C00F161AF /* DefaultBrainCloudComms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultBrainCloudComms.cpp; sourceTree = "<group>"; };
 		FC39382F207E484500F161AF /* DefaultGUID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultGUID.cpp; sourceTree = "<group>"; };
@@ -517,7 +517,7 @@
 				DF932E2B1CD92B680085137C /* json */,
 				DF932E2E1CD92B680085137C /* jsoncpp.cpp */,
 			);
-			path = jsoncpp;
+			path = jsoncpp-1.0.0;
 			sourceTree = "<group>";
 		};
 		DF932E2B1CD92B680085137C /* json */ = {
@@ -527,7 +527,7 @@
 				DF932E2D1CD92B680085137C /* json.h */,
 			);
 			name = json;
-			path = src/json;
+			path = json;
 			sourceTree = "<group>";
 		};
 		FC39384C207E48F400F161AF /* apple */ = {
@@ -990,7 +990,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"../../lib/jsoncpp/src",
+					"../../lib/jsoncpp-1.0.0",
 					../../include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
@@ -1036,7 +1036,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"../../lib/jsoncpp/src",
+					"../../lib/jsoncpp-1.0.0",
 					../../include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
