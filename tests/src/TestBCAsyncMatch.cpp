@@ -173,13 +173,12 @@ void TestBCAsyncMatch::CreateMatch()
     Json::FastWriter fw;
     
     Json::Value player2Data;
-    //std::string user = GetUser(UserB)->m_profileId;
-
+    player2Data["id"] = GetUser(UserB)->m_profileId;
     player2Data["platform"] = "BC";
     
     Json::Value players(Json::arrayValue);
     players.append(player2Data);
-
+    
     m_bc->getAsyncMatchService()->createMatch(fw.write(players).c_str(), NULL, &tr);
     tr.run(m_bc);
     m_matchId = tr.m_response["data"]["matchId"].asString();

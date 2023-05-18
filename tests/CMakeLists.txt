@@ -27,7 +27,7 @@ endif()
 ################################
 
 set (BC_DIR "${PROJECT_SOURCE_DIR}/..")
-include_directories("${BC_DIR}/lib/jsoncpp/src")
+include_directories("${BC_DIR}/lib/jsoncpp-1.0.0")
 include_directories("src")
 
 file(GLOB_RECURSE INCS "src/*.h")
