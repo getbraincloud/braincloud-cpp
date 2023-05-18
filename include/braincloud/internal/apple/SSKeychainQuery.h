@@ -9,6 +9,7 @@
 // preston - had to move to #import instead of @import
 // as c++ modules are listed as experimental and not working.
 // We include SSKeychainQuery.h in the SaveDataHelper.mm file.
+#pragma once
 
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>

@@ -28,7 +28,6 @@ Pod::Spec.new do |s|
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
   s.authors                = {"brainCloud Team" => "support@getbraincloud.com"}
-  s.social_media_url       = "https://twitter.com/braincloudbaas"
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
@@ -51,7 +50,6 @@ Pod::Spec.new do |s|
 
   s.libraries               = 'c++', 'z'
   s.osx.framework           = 'LDAP'
-  s.dependency                'SSKeychain'
   s.dependency                'BrainCloudJsonCpp'
   s.ios.dependency            'SocketRocket', '~> 0.5'
   s.osx.dependency            'SocketRocket', '~> 0.5'

@@ -6,8 +6,8 @@
 //  Copyright (c) 2013-2014 Sam Soffes. All rights reserved.
 //
 
-#import "SSKeychainQuery.h"
-#import "SSKeychain.h"
+#include "braincloud/internal/apple/SSKeychainQuery.h"
+#include "braincloud/internal/apple/SSKeychain.h"
 
 @implementation SSKeychainQuery
 
