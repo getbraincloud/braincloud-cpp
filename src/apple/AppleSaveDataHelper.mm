@@ -1,7 +1,7 @@
 #include "braincloud/internal/apple/AppleSaveDataHelper.h"
 
-#include "braincloud/internal/apple/SSKeychain.h"
-#include "braincloud/internal/apple/SSKeychainQuery.h"
+#include "SSKeychain/SSKeychain.h"
+#include "SSKeychain/SSKeychainQuery.h"
 
 namespace BrainCloud
 {

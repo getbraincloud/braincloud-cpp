@@ -28,7 +28,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #pragma once
-#include "braincloud/internal/apple/SSKeychainQuery.h"
+#include "SSKeychain/SSKeychainQuery.h"
 
 /**
  Error code specific to SSKeychain that can be returned in NSError objects.

@@ -196,16 +196,17 @@ endif()
 # other platform specific srcs/includes
 if (APPLE)
     list(APPEND OS_SPECIFIC_SRCS
-            "src/apple/SSKeychain.m"
-            "src/apple/SSKeychainQuery.m")
+            "lib/apple/SSKeychain/SSKeychain.m"
+            "lib/apple/SSKeychain/SSKeychainQuery.m")
     list(APPEND OS_SPECIFIC_INCS
-            "include/braincloud/internal/apple/SSKeychain.h"
-            "include/braincloud/internal/apple/SSKeychainQuery.h")
+            "lib/apple/SSKeychain/SSKeychain.h"
+            "lib/apple/SSKeychain/SSKeychainQuery.h")
     # for memory management in obj-c files
     set_source_files_properties(
-            "src/apple/SSKeychain.m"
-            "src/apple/SSKeychainQuery.m"
+            "lib/apple/SSKeychain/SSKeychain.m"
+            "lib/apple/SSKeychain/SSKeychainQuery.m"
             PROPERTIES COMPILE_FLAGS "-fobjc-arc")
+    list(APPEND includes PUBLIC "${BC_DIR}/lib/apple")
 elseif (WIN32)
     if (UWP)
         list(APPEND OS_SPECIFIC_INCS
