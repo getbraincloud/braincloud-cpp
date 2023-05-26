@@ -13,3 +13,9 @@
 	path = lib/jsoncpp-1.0.0
 	url = https://github.com/getbraincloud/braincloud-jsoncpp
 	branch = develop
+[submodule "lib/apple/SocketRocket"]
+	path = lib/apple/SocketRocket
+	url = https://github.com/facebookincubator/SocketRocket.git
+[submodule "lib/apple/SAMKeychain"]
+	path = lib/apple/SAMKeychain
+	url = https://github.com/soffes/SAMKeychain.git

@@ -1,0 +1,88 @@
+# Xcode
+.DS_Store
+*/build/*
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+profile
+*.moved-aside
+DerivedData
+.idea/
+*.hmap
+*.xccheckout
+*.xcworkspace/
+
+# VSCode
+.vscode
+
+# CocoaPods
+Pods/
+
+# solutions files
+
+## android
+solutions/android/obj
+
+## marmalade
+solutions/marmalade/build*
+solutions/marmalade/data/app.config.txt
+solutions/marmalade/data/development.icf
+solutions/marmalade/data/ident.free
+solutions/marmalade/data-ram
+solutions/marmalade/googletest/build*
+solutions/marmalade/googletest/lib*
+solutions/marmalade/lib
+
+## nuget
+solutions/**/*.nupkg
+
+## windows
+solutions/**/Generated Files
+solutions/**/Intermediate
+solutions/**/Output
+solutions/**/ipch
+solutions/**/packages
+solutions/**/*.db
+solutions/**/*.opendb
+solutions/**/*.suo
+solutions/**/bin
+solutions/**/AppPackages
+solutions/**/*.sdf
+
+# various build artifacts
+cmake_*
+**/__pycache__
+autobuild/artifacts
+autobuild/tmp
+*.swp
+CMakeFiles/
+CMakeCache.txt
+cmake-build-debug/
+
+# visual studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+Debug/
+Win32/
+*.dir/
+*.sln
+
+# Linux
+*.a
+ids.txt
+Makefile
+
+# tests artifacts
+tests/bctests
+tests/uploadsimplefile.txt
+
+# Common place to build out of source with cmake
+build/
+gen/

@@ -96,8 +96,8 @@ set (BC_DIR "${PROJECT_SOURCE_DIR}")
 set (OS_SPECIFIC_SRCS "")
 set (OS_SPECIFIC_INCS "")
 
-file(GLOB_RECURSE JSONCPP_INCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.h")
-file(GLOB_RECURSE JSONCPP_SRCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.cpp")
+file(GLOB_RECURSE JSONCPP_INCS_FILES "${BC_DIR}/../lib/jsoncpp-1.0.0/*.h")
+file(GLOB_RECURSE JSONCPP_SRCS_FILES "${BC_DIR}/../lib/jsoncpp-1.0.0/*.cpp")
 
 # HTTP related files
 if (APPLE)
@@ -196,17 +196,17 @@ endif()
 # other platform specific srcs/includes
 if (APPLE)
     list(APPEND OS_SPECIFIC_SRCS
-            "lib/apple/SSKeychain/SSKeychain.m"
-            "lib/apple/SSKeychain/SSKeychainQuery.m")
+            "../lib/apple/SSKeychain/SSKeychain.m"
+            "../lib/apple/SSKeychain/SSKeychainQuery.m")
     list(APPEND OS_SPECIFIC_INCS
-            "lib/apple/SSKeychain/SSKeychain.h"
-            "lib/apple/SSKeychain/SSKeychainQuery.h")
+            "../lib/apple/SSKeychain/SSKeychain.h"
+            "../lib/apple/SSKeychain/SSKeychainQuery.h")
     # for memory management in obj-c files
     set_source_files_properties(
-            "lib/apple/SSKeychain/SSKeychain.m"
-            "lib/apple/SSKeychain/SSKeychainQuery.m"
+            "../lib/apple/SSKeychain/SSKeychain.m"
+            "../lib/apple/SSKeychain/SSKeychainQuery.m"
             PROPERTIES COMPILE_FLAGS "-fobjc-arc")
-    list(APPEND includes PUBLIC "${BC_DIR}/lib/apple")
+    list(APPEND includes PUBLIC "${BC_DIR}/../lib/apple")
 elseif (WIN32)
     if (UWP)
         list(APPEND OS_SPECIFIC_INCS
@@ -226,7 +226,7 @@ if (NOT UWP)
 endif()
 
 list(APPEND includes PUBLIC "${BC_DIR}/include")
-list(APPEND includes PUBLIC "${BC_DIR}/lib/jsoncpp-1.0.0")
+list(APPEND includes PUBLIC "${BC_DIR}/../lib/jsoncpp-1.0.0")
 
 add_library(brainCloud STATIC
         # public headers
@@ -433,18 +433,18 @@ elseif (LINUX)
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES})
 elseif (ANDROID)
-    list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
+    list(APPEND includes PUBLIC "${BC_DIR}/../lib/android/include/")
 
     add_library(libz STATIC IMPORTED)
-    set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
+    set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libz.a)
     add_library(curl STATIC IMPORTED)
-    set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcurl.a)
+    set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libcurl.a)
     add_library(ssl STATIC IMPORTED)
-    set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a)
+    set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libssl.a)
     add_library(crypto STATIC IMPORTED)
-    set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a)
+    set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libcrypto.a)
     add_library(uv_a STATIC IMPORTED)
-    set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libuv_a.a)
+    set_target_properties(uv_a PROPERTIES IMPORTED_LOCATION ${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libuv_a.a)
 
     list(APPEND libs
             curl
@@ -458,18 +458,18 @@ elseif (WIN32)
     if (USE_CURL_WIN)
         # pthread
         include_directories(
-                "${BC_DIR}/lib/win32/pthread-w32-2-8-0/Pre-built.2/include")
+                "${BC_DIR}/../lib/win32/pthread-w32-2-8-0/Pre-built.2/include")
         add_definitions(-DWIN32 -D_LIB -DPTW32_STATIC_LIB)
         find_library(BC_PTHREADW32_LIB pthreadVCE2
-                "${BC_DIR}/lib/win32/pthread-w32-2-8-0/Pre-built.2/lib")
+                "${BC_DIR}/../lib/win32/pthread-w32-2-8-0/Pre-built.2/lib")
 
         # curl
         add_definitions(-DCURL_STATICLIB)
-        include_directories("${BC_DIR}/lib/win32/curl-7.44.0/include")
+        include_directories("${BC_DIR}/../lib/win32/curl-7.44.0/include")
         find_library(BC_CURL_LIB_RELEASE libcurl_a.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
         find_library(BC_CURL_LIB_DEBUG libcurl_a_debug.lib
-                "${BC_DIR}/lib/win32/curl-7.44.0/lib")
+                "${BC_DIR}/../lib/win32/curl-7.44.0/lib")
 
         list(APPEND libs general
                 ${Socket_LIBRARIES}
@@ -491,10 +491,10 @@ if (USE_LIBWEBSOCKETS)
 	if (BC_USE_OPENSSL)
 
         if(ANDROID)
-    		set(LWS_OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
-	    	set(LWS_OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
-            set(OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
-            set(OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
+    		set(LWS_OPENSSL_LIBRARIES "${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libcrypto.a")
+	    	set(LWS_OPENSSL_INCLUDE_DIRS "${BC_DIR}/../lib/android/include/")
+            set(OPENSSL_LIBRARIES "${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/../lib/android/libs/${ANDROID_ABI}/libcrypto.a")
+            set(OPENSSL_INCLUDE_DIRS "${BC_DIR}/../lib/android/include/")
             set(OPENSSL_FOUND 1)
             option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" OFF)
         else()
@@ -515,16 +515,15 @@ if (USE_LIBWEBSOCKETS)
 		option(ENABLE_PROGRAMS "" OFF)
 
         # mbedtls-2.28 (SHA1 is 1963d67e)
-        set(BC_MBEDTLS_DIR lib/mbedtls)
+        set(BC_MBEDTLS_DIR ${BC_DIR}/../lib/mbedtls)
 
-		add_subdirectory("${BC_MBEDTLS_DIR}")
+		add_subdirectory("${BC_MBEDTLS_DIR}" ./foo/mbedtls)
 
 		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
 		list(APPEND includes
-				PUBLIC ${BC_DIR}/${BC_MBEDTLS_DIR}/include/)
+				PUBLIC ${BC_MBEDTLS_DIR}/include/)
 		option(LWS_WITH_MBEDTLS "" ON)
-		set(LWS_MBEDTLS_INCLUDE_DIRS
-				"${BC_DIR}/${BC_MBEDTLS_DIR}/include")
+		set(LWS_MBEDTLS_INCLUDE_DIRS "${BC_MBEDTLS_DIR}/include")
 
         if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 			# when generator is Visual Studio 16
@@ -537,21 +536,25 @@ if (USE_LIBWEBSOCKETS)
 		    # setting libraries for regular commandline build on linux, mac, ninja, xcode, ...
             # since available as subdirectory under source, they will be found
             # setting blank prevents INTERFACE_INCLUDE_DIRECTORIES error
-            set(LWS_MBEDTLS_LIBRARIES "")
-			#set(LWS_MBEDTLS_LIBRARIES
-			#		"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
-		    #	    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
-	        #	    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
-		endif()
+            #set(LWS_MBEDTLS_LIBRARIES "foo")
+            #set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
+			set(LWS_MBEDTLS_LIBRARIES "${BC_DIR}/../lib/mbedtls/library/libmbedtls.a;${BC_DIR}../lib/mbedtls/library/libmbedcrypto.a;${BC_DIR}../lib/mbedtls/library/libmbedx509.a")
+            #set(LWS_MBEDTLS_LIBRARIES "${MBEDTLS_LIBRARY}" "${MBEDX509_LIBRARY}" "${MBEDCRYPTO_LIBRARY}")
+            #set(MBEDTLS_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a")
+            #set(MBEDCRYPTO_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a")
+            #set(MBEDX509_LIBRARY "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
+            #set(USE_SHARED_MBEDTLS_LIBRARY 1)
+            #set(LWS_MBEDTLS_LIBRARIES "ff/library/libmbedtls.a;ff/library/libmbedcrypto.a;ff/library/libmbedx509.a")
+        endif()
 	endif()
 
     # LibWebSockets
     if(WIN32)
         # v3.0 (on fork SHA1 is eaa935a8)
-         set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+         set(BC_LWS_DIR ../lib/lwsv3/libwebsockets)
     else()
          # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
+         set(BC_LWS_DIR ../lib/libwebsockets)
     endif()
 
     option(LWS_WITHOUT_SERVER
@@ -571,7 +574,7 @@ if (USE_LIBWEBSOCKETS)
     option(LWS_WITHOUT_EXTENSIONS "" ON)
     option(LWS_WITH_TLS "" ON)
 
-    add_subdirectory("${BC_LWS_DIR}")
+    add_subdirectory("${BC_LWS_DIR}" ./foo/lws)
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
