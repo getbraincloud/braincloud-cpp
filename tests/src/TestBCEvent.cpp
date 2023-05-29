@@ -139,7 +139,7 @@ TEST_F(TestBCEvent, GetEvents)
 	SendDefaultMessage();
 
 	TestResult tr;
-	m_bc->getEventService()->getEvents(true, true, &tr);
+	m_bc->getEventService()->getEvents(&tr);
 	tr.run(m_bc);
 
 	DeleteIncomingMessage();
