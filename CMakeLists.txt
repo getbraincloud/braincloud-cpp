@@ -100,7 +100,8 @@ set (BC_DIR "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>")
 set (OS_SPECIFIC_SRCS "")
 set (OS_SPECIFIC_INCS "")
 
-file(GLOB_RECURSE JSONCPP_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.*")
+file(GLOB_RECURSE JSONCPP_INCS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/lib/jsoncpp-1.0.0/*.h")
+file(GLOB_RECURSE JSONCPP_SRCS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/lib/jsoncpp-1.0.0/*.cpp")
 
 # HTTP related files
 if (APPLE)
@@ -223,8 +224,8 @@ if (NOT UWP)
     list(APPEND OS_SPECIFIC_SRCS "src/md5x.c") # UWP doesn't like c files
 endif()
 
-list(APPEND includes PUBLIC "${BC_DIR}/include")
-list(APPEND includes PUBLIC "${BC_DIR}/lib/jsoncpp-1.0.0")
+list(APPEND includes PUBLIC "include")
+list(APPEND includes PUBLIC "lib/jsoncpp-1.0.0")
 
 add_library(brainCloud STATIC
         # public headers
@@ -394,7 +395,8 @@ add_library(brainCloud STATIC
 
         ${OS_SPECIFIC_INCS}
         ${OS_SPECIFIC_SRCS}
-        ${JSONCPP_FILES}
+        ${JSONCPP_INCS_FILES}
+        ${JSONCPP_SRCS_FILES}
         )
 
 # Set files to be "consume windows runtime exceptions" to build them with CX
