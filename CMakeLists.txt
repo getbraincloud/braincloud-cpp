@@ -523,7 +523,7 @@ if (USE_LIBWEBSOCKETS)
 		option(LWS_WITH_MBEDTLS "" ON)
 		set(LWS_MBEDTLS_INCLUDE_DIRS
 				"${BC_DIR}/${BC_MBEDTLS_DIR}/include")
-        set(LWS_MBEDTLS_LIBRARIES "FOO")
+        #set(LWS_MBEDTLS_LIBRARIES "FOO")
         #if (WIN32)
             # when generator is Visual Studio 16
             # or compiler is MSVC
@@ -538,10 +538,7 @@ if (USE_LIBWEBSOCKETS)
          #   set(LWS_MBEDTLS_LIBRARIES "")
         #else ()
             # setting libraries for regular commandline build on linux (ninja) ...
-         #   set(LWS_MBEDTLS_LIBRARIES
-          #          "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
-          #          "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
-          #          "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
+            set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a>")
         #endif()
 	endif()
 
