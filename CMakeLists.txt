@@ -572,7 +572,7 @@ if (USE_LIBWEBSOCKETS)
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR}/${BC_LWS_DIR}/include
+            ${BC_LWS_DIR}/include
             )
 
 endif()
