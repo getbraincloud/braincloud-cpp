@@ -533,9 +533,11 @@ if (USE_LIBWEBSOCKETS)
     if(WIN32)
         # v3.0 (on fork SHA1 is eaa935a8)
          set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+         set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
     else()
          # v4.3-stable (SHA1 is 58af7b44)
          set(BC_LWS_DIR lib/libwebsockets)
+         set(BC_LWS_INC ${BC_LWS_DIR}/include)
     endif()
 
     option(LWS_WITHOUT_SERVER
@@ -572,7 +574,7 @@ if (USE_LIBWEBSOCKETS)
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC
-            ${BC_LWS_DIR}/include
+            ${BC_LWS_INC}
             )
 
 endif()
