@@ -1,7 +1,7 @@
 #!/bin/bash
 
-project_dir=../solutions/mac/BrainCloudCpp.xcodeproj
-solution_dir=../solutions/mac
+project_dir=${2:-..}/solutions/mac/BrainCloudCpp.xcodeproj
+solution_dir=${2:-..}/solutions/mac
 artifacts_dir=artifacts
 config=Release
 
@@ -124,13 +124,13 @@ function build_app()
   lipo -create "tmp/libBrainCloud_watchos.a" "tmp/libBrainCloud_watchossim.a" -output brainCloud/libs/brainCloudClient_watchos.a
   cp "$output_folder_osx/libBrainCloud-OSX.a" brainCloud/libs/brainCloudClient_osx.a
 
-  cp -r ../include/braincloud brainCloud/include
+  cp -r ${2:-..}/include/braincloud brainCloud/include
 
   #update the libwebsocket dependencies
 #  git submodule update --init
 
   # copy in the thirdparty dependencies
-  cp -r ../lib/jsoncpp-1.0.0 brainCloud/thirdparty
+  cp -r ${2:-..}/lib/jsoncpp-1.0.0 brainCloud/thirdparty
 
   cp docs/README.TXT brainCloud
   pushd brainCloud
