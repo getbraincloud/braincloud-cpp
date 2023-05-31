@@ -11,10 +11,8 @@ pipeline {
   			}
             steps {
             	echo "Mac..."
-            	sh 'git submodule update --init --recursive'
 				sh 'cp ~/bin/test_ids_internal.txt ids.txt'
 				sh 'autobuild/runtests.sh ${TEST_NAME}'
-				sh 'autobuild/build_apple_unified.sh 1.2.3 .'
             }
             post {
 	      		always {
@@ -32,7 +30,6 @@ pipeline {
   			}
   			steps { 
             	echo 'Linux...'
-            	sh 'git submodule update --init --recursive'
 				sh 'cp ~/bin/test_ids_internal.txt ids.txt'
 				sh 'bash autobuild/runtests.sh ${TEST_NAME}'
             }
@@ -49,7 +46,6 @@ pipeline {
             }
             steps {
             	echo "Windows..."
-            	bat 'git submodule update --init --recursive'
             	bat 'copy /Y C:\\Users\\buildmaster\\bin\\test_ids_internal.txt ids.txt'
             	bat 'autobuild\\runtests.bat %TEST_NAME%'
             }
@@ -59,5 +55,17 @@ pipeline {
       			}
   			}	 
         }
+        
+        stage('Package on Mac') {
+            agent {
+                label 'clientUnit'
+            }
+            environment {
+			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
+  			}
+            steps {
+        				sh 'autobuild/build_apple_unified.sh 1.2.3 .'
+        	}
+        	}
     }
 }
