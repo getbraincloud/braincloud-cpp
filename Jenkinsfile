@@ -71,5 +71,9 @@ pipeline {
         	        archiveArtifacts artifacts: 'artifacts/*.zip', fingerprint: true
         	       }
         	}
+        }
+        
+        // end stages
     }
+    // end pipeline
 }
