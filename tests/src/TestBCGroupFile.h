@@ -28,8 +28,26 @@ public:
         _reasonCode = 0;
     }
 };
+class GroupFileUploadCallback:  public IFileUploadCallback
+{
+    friend class TestBCGroupFile;
+protected:
+    std::vector <UploadCompletedDetails> _completedUploadDetails;
+    std::vector <UploadFailedDetails> _failedUploadDetails;
 
-class TestBCGroupFile : public TestFixtureBase, public IFileUploadCallback
+    int createFile(const char * in_path, int in_size);
+
+public:
+    GroupFileUploadCallback()
+    {
+    }
+
+    virtual void fileUploadCompleted(const char * in_fileUploadId, const std::string & in_jsonResponse);
+    virtual void fileUploadFailed(const char * in_fileUploadId, int in_statusCode, int in_reasonCode, const std::string & in_jsonResponse);
+
+};
+
+class TestBCGroupFile : public TestFixtureBase
 {
 protected:
     TestBCGroupFile();
@@ -39,23 +57,24 @@ protected:
     }
 
     void Authenticate();
-    virtual void fileUploadCompleted(const char * in_fileUploadId, const std::string & in_jsonResponse);
-    virtual void fileUploadFailed(const char * in_fileUploadId, int in_statusCode, int in_reasonCode, const std::string & in_jsonResponse);
-    int createFile(const char * in_path, int in_size);
-    bool simpleUpload(int mb, const std::string & cloudPath, const std::string & cloudFilename, std::string & out_uploadId);
+    static bool simpleUpload(BrainCloudClient* client, int mb, const std::string & cloudPath, const std::string & cloudFilename, std::string & out_uploadId);
     static void SetUpTestCase();
     static void TearDownTestCase();
+    //virtual void SetUp(); // overriden from TestFixtureBase
+    //virtual void TearDown(); // overriden from TestFixtureBase
 
-    std::string groupFileId;
-    std::string groupID;
-    int version;
+    static std::string groupFileId;
+    static std::string groupID;
+    static int version;
     int _returnCount;
     int _failCount;
-    std::string filename;
-    std::string newFileName;
-    std::string tempFilename;
-    std::string updatedName;
-    std::vector <UploadCompletedDetails> _completedUploadDetails;
-    std::vector <UploadFailedDetails> _failedUploadDetails;
- };
+    static std::string filename;
+    static std::string newFileName;
+    static std::string tempFilename;
+    static std::string updatedName;
+
+    static BrainCloudWrapper* wrapper;
+    static GroupFileUploadCallback* uploadCallback;
+
+};
 
