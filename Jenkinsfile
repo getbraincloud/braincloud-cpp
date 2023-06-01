@@ -16,7 +16,7 @@ pipeline {
             }
             post {
 	      		always {
-    	    		junit 'build/tests/results.xml'
+    	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
   			}	 
         }
@@ -35,7 +35,7 @@ pipeline {
             }
             post {
 	      		always {
-    	    		junit 'build/tests/results.xml'
+    	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
   			}	 
         }
@@ -51,7 +51,7 @@ pipeline {
             }
             post {
 	      		always {
-    	    		junit 'build/tests/results.xml'
+    	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
   			}	 
         }
@@ -66,6 +66,9 @@ pipeline {
             steps {
         				sh 'autobuild/build_apple_unified.sh'
         	}
+        	post{
+        	    always{
+        	        archiveArtifacts artifacts: 'artifacts/*.zip', fingerprint: true
         	}
     }
 }
