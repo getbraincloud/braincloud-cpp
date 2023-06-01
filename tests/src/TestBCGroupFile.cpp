@@ -345,6 +345,7 @@ void TestBCGroupFile::SetUpTestCase()
         wrapper->getBCClient()->resetCommunication();
         wrapper->getBCClient()->getAuthenticationService()->clearSavedProfileId();
         delete wrapper;
+        wrapper = nullptr;
         return;
     }
 
@@ -363,6 +364,7 @@ void TestBCGroupFile::SetUpTestCase()
     wrapper->getBCClient()->getAuthenticationService()->clearSavedProfileId();
 
     delete wrapper;
+    wrapper = nullptr;
 }
 
 void TestBCGroupFile::TearDownTestCase()

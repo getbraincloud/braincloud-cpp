@@ -40,24 +40,25 @@ pipeline {
   			}	 
         }
         
-        stage('Talespin Dev') {
-            agent { 
-                label '"Linux Build Agent (.41)"'
-            }
-            environment {
-			    PATH = "/usr/bin:${env.PATH}"
-  			}
-  			steps { 
-            	echo 'Talespin...'
-				sh 'cp ~/bin/test_ids_talespin.txt autobuild/ids.txt'
-				sh 'bash autobuild/runtests.sh ${TEST_NAME}'
-            }
-            post {
-	      		always {
-    	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
-      			}
-  			}	 
-        }        
+//         stage('Talespin Dev') {
+//             agent { 
+//                 label '"Linux Build Agent (.41)"'
+//             }
+//             environment {
+// 			    PATH = "/usr/bin:${env.PATH}"
+//   			}
+//   			steps { 
+//             	echo 'Talespin...'
+// 				sh 'cp ~/bin/test_ids_talespin.txt autobuild/ids.txt'
+// 				sh 'bash autobuild/runtests.sh ${TEST_NAME}'
+//             }
+//             post {
+// 	      		always {
+//     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
+//       			}
+//   			}	 
+//         }        
+
          stage('Tests on Windows') {
             agent {
                 label 'Windows Build Agent (.34)'
