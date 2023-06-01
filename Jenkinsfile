@@ -69,6 +69,7 @@ pipeline {
         	post{
         	    always{
         	        archiveArtifacts artifacts: 'artifacts/*.zip', fingerprint: true
+        	       }
         	}
     }
 }
