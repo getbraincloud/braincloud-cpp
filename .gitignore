@@ -58,7 +58,7 @@ solutions/**/*.sdf
 # various build artifacts
 cmake_*
 **/__pycache__
-autobuild/artifacts
+**/artifacts
 autobuild/tmp
 *.swp
 CMakeFiles/

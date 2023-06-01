@@ -11,7 +11,7 @@ pipeline {
   			}
             steps {
             	echo "Mac..."
-				sh 'cp ~/bin/test_ids_internal.txt ids.txt'
+				sh 'cp ~/bin/test_ids_internal.txt autobuild/ids.txt'
 				sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
@@ -30,7 +30,7 @@ pipeline {
   			}
   			steps { 
             	echo 'Linux...'
-				sh 'cp ~/bin/test_ids_internal.txt ids.txt'
+				sh 'cp ~/bin/test_ids_internal.txt autobuild/ids.txt'
 				sh 'bash autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
@@ -46,7 +46,7 @@ pipeline {
             }
             steps {
             	echo "Windows..."
-            	bat 'copy /Y C:\\Users\\buildmaster\\bin\\test_ids_internal.txt ids.txt'
+            	bat 'copy /Y C:\\Users\\buildmaster\\bin\\test_ids_internal.txt autobuild\\ids.txt'
             	bat 'autobuild\\runtests.bat %TEST_NAME%'
             }
             post {
@@ -64,7 +64,7 @@ pipeline {
 			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
   			}
             steps {
-        				sh 'autobuild/build_apple_unified.sh 1.2.3 .'
+        				sh 'autobuild/build_apple_unified.sh'
         	}
         	}
     }

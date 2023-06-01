@@ -1,7 +1,7 @@
 #!/bin/bash
 
-project_dir=${2:-..}/solutions/mac/BrainCloudCpp.xcodeproj
-solution_dir=${2:-..}/solutions/mac
+project_dir=solutions/mac/BrainCloudCpp.xcodeproj
+solution_dir=solutions/mac
 artifacts_dir=artifacts
 config=Release
 
@@ -21,11 +21,14 @@ sim_archs="x86_64"
 build_version="$1"
 if [ "$build_version" == "" ]
 then
-  echo "build_apple_unified.sh <build_version>"
-  echo ""
-  echo "Must set build_version via 4 digit number"
-  echo " ie \"1.6.0.1234\""
-  exit 1
+    build_version=$(cat BrainCloudCpp.podspec | grep "s.version  =" | grep -o '".*"' | tr -d '"')
+    if [ "$build_version" == "" ]
+    then  echo "build_apple_unified.sh <build_version>"
+          echo ""
+          echo "Must set build_version via 4 digit number"
+          echo " ie \"1.6.0.1234\""
+          exit 1
+    fi
 fi
 
 build_internal_version=`echo $build_version | cut -d "." -f 4`
@@ -124,15 +127,15 @@ function build_app()
   lipo -create "tmp/libBrainCloud_watchos.a" "tmp/libBrainCloud_watchossim.a" -output brainCloud/libs/brainCloudClient_watchos.a
   cp "$output_folder_osx/libBrainCloud-OSX.a" brainCloud/libs/brainCloudClient_osx.a
 
-  cp -r ${2:-..}/include/braincloud brainCloud/include
+  cp -r include/braincloud brainCloud/include
 
   #update the libwebsocket dependencies
 #  git submodule update --init
 
   # copy in the thirdparty dependencies
-  cp -r ${2:-..}/lib/jsoncpp-1.0.0 brainCloud/thirdparty
+  cp -r lib/jsoncpp-1.0.0 brainCloud/thirdparty
 
-  cp docs/README.TXT brainCloud
+  cp autobuild/docs/README.TXT brainCloud
   pushd brainCloud
   sed -i xxx "s/Platform: xxx/Platform: Apple C++/g" README.TXT
   sed -i xxx "s/Version: x.x.x/Version: ${build_version}/g" README.TXT
@@ -142,6 +145,7 @@ function build_app()
   zip -r $artifacts_dir/brainCloudClient_${library_os}_${build_version}.zip brainCloud
 
   rm -rf brainCloud
+  rm -rf tmp
 }
 
 function clean_artifacts
