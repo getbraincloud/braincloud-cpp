@@ -21,11 +21,14 @@ sim_archs="x86_64"
 build_version="$1"
 if [ "$build_version" == "" ]
 then
-  echo "build_apple_unified.sh <build_version>"
-  echo ""
-  echo "Must set build_version via 4 digit number"
-  echo " ie \"1.6.0.1234\""
-  exit 1
+    build_version=$(cat BrainCloudCpp.podspec | grep "s.version  =" | grep -o '".*"' | tr -d '"')
+    if [ "$build_version" == "" ]
+    then  echo "build_apple_unified.sh <build_version>"
+          echo ""
+          echo "Must set build_version via 4 digit number"
+          echo " ie \"1.6.0.1234\""
+          exit 1
+    fi
 fi
 
 build_internal_version=`echo $build_version | cut -d "." -f 4`
@@ -131,7 +134,6 @@ function build_app()
 
   # copy in the thirdparty dependencies
   cp -r lib/jsoncpp-1.0.0 brainCloud/thirdparty
-  cp -r lib/apple/sskeychain brainCloud/thirdparty
 
   cp autobuild/docs/README.TXT brainCloud
   pushd brainCloud
@@ -143,6 +145,7 @@ function build_app()
   zip -r $artifacts_dir/brainCloudClient_${library_os}_${build_version}.zip brainCloud
 
   rm -rf brainCloud
+  rm -rf tmp
 }
 
 function clean_artifacts

@@ -7,9 +7,12 @@ using namespace std;
 TestUser::TestUser(std::string prefix, int suffix, BrainCloudClient* client) :
 	m_client(client)
 {
-	sprintf(m_id, "%s%s%d", prefix.c_str(), "_CPP_", suffix);
-	sprintf(m_password, "%s", m_id);
-	sprintf(m_email, "%s@bctestuser.com", m_id);
+    std::string id = prefix + "_CPP_" + std::to_string(suffix);
+    std::string password = id;
+	std::string email= id + "@bctestuser.com" ;
+    std::strcpy(m_id, id.c_str());
+    std::strcpy(m_email, email.c_str());
+    std::strcpy(m_password, password.c_str());
 
 	Authenticate();
 }
@@ -20,7 +23,7 @@ void TestUser::Authenticate()
 
 	m_client->getAuthenticationService()->authenticateUniversal(m_id, m_password, true, &tr);
 	tr.run(m_client);
-	sprintf(m_profileId, "%s", m_client->getAuthenticationService()->getProfileId().c_str());
+	std::strcpy(m_profileId, m_client->getAuthenticationService()->getProfileId().c_str());
 
 	m_client->getPlayerStateService()->updateUserName(m_id, &tr);
 	tr.run(m_client);

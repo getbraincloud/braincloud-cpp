@@ -609,7 +609,7 @@ namespace BrainCloud
             Json::Value PacketIdsArray = json["orderedPacketIds"];
             
             // Loop through the array to get the index and value of each packet id
-            for (int channelId = 0; channelId < PacketIdsArray.size(); channelId++)
+            for (int channelId = 0; channelId < static_cast<int>(PacketIdsArray.size()); channelId++)
             {
                 int PacketId = PacketIdsArray[channelId].asInt();
                 if (PacketId != 0) {
