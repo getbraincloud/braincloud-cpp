@@ -318,3 +318,29 @@ bool TestBCGroupFile::simpleUpload(int mb, const std::string & cloudPath, const 
     m_bc->deregisterFileUploadCallback();
     return true;
 }
+void TestBCGroupFile::SetUpTestCase()
+{
+    printf("setting up rocks...\n");
+//    Authenticate();
+//    TestResult tr;
+//
+//    Json::FastWriter fw;
+//    Json::Value acl;
+//    acl["member"] = 2; // can be 0, 1 or 2
+//    acl["other"] = 0;
+//
+//    m_bc->registerFileUploadCallback(this);
+//
+//    // create new file and wait for upload
+//    std::string uploadId;
+//    if (!simpleUpload(5, "TestFolder", filename.c_str(), uploadId))
+//    {
+//        return;
+//    }
+
+}
+
+void TestBCGroupFile::TearDownTestCase()
+{
+    printf("but tearing down is better...\n");
+}

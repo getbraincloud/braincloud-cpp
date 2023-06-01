@@ -43,7 +43,9 @@ protected:
     virtual void fileUploadFailed(const char * in_fileUploadId, int in_statusCode, int in_reasonCode, const std::string & in_jsonResponse);
     int createFile(const char * in_path, int in_size);
     bool simpleUpload(int mb, const std::string & cloudPath, const std::string & cloudFilename, std::string & out_uploadId);
-    
+    static void SetUpTestCase();
+    static void TearDownTestCase();
+
     std::string groupFileId;
     std::string groupID;
     int version;
