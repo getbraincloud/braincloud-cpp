@@ -72,7 +72,23 @@ pipeline {
         	       }
         	}
         }
-        
+                
+        stage('Package for Linux') {
+            agent { 
+                label '"Linux Build Agent (.41)"'
+            }
+            environment {
+			    PATH = "/usr/bin:${env.PATH}"
+  			}
+            steps {
+        				sh 'autobuild/build_linux.sh i386'
+        	}
+        	post{
+        	    always{
+        	        archiveArtifacts artifacts: 'artifacts/*.zip', fingerprint: true
+        	       }
+        	}
+        }
         // end stages
     }
     // end pipeline
