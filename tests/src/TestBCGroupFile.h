@@ -35,8 +35,6 @@ protected:
     std::vector <UploadCompletedDetails> _completedUploadDetails;
     std::vector <UploadFailedDetails> _failedUploadDetails;
 
-    int createFile(const char * in_path, int in_size);
-
 public:
     GroupFileUploadCallback()
     {
@@ -57,11 +55,10 @@ protected:
     }
 
     void Authenticate();
+    static int createFile(const char * in_path, int in_size);
     static bool simpleUpload(BrainCloudClient* client, int mb, const std::string & cloudPath, const std::string & cloudFilename, std::string & out_uploadId);
     static void SetUpTestCase();
     static void TearDownTestCase();
-    //virtual void SetUp(); // overriden from TestFixtureBase
-    //virtual void TearDown(); // overriden from TestFixtureBase
 
     static std::string groupFileId;
     static std::string groupID;

@@ -261,7 +261,7 @@ void GroupFileUploadCallback::fileUploadFailed(const char * in_fileUploadId, int
     _failedUploadDetails.push_back(details);
 }
 
-int GroupFileUploadCallback::createFile(const char * in_path, int in_size)
+int TestBCGroupFile::createFile(const char * in_path, int in_size)
 {
     FILE* fp = NULL;
     fp = fopen(in_path, "w");
@@ -285,7 +285,7 @@ bool TestBCGroupFile::simpleUpload(BrainCloudClient* client, int mb, const std::
     std::string localPath = cloudFilename;
 
     uploadCallback = new GroupFileUploadCallback();
-    uploadCallback->createFile(localPath.c_str(), mb * 1024 * 1024);
+    createFile(localPath.c_str(), mb * 1024 * 1024);
 
     TestResult tr;
     client->getFileService()->uploadFile(cloudPath.c_str(), cloudFilename.c_str(), true, true, localPath.c_str(), &tr);
