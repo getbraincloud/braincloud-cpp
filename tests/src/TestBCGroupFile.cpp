@@ -39,6 +39,7 @@ TEST_F(TestBCGroupFile, testCheckFilenameExists)
     
     ASSERT_TRUE(tr.m_response["data"]["exists"].asBool());
     
+    Logout();
 }
 
 TEST_F(TestBCGroupFile, testCheckFilenameNoExists)
@@ -54,6 +55,7 @@ TEST_F(TestBCGroupFile, testCheckFilenameNoExists)
     
     ASSERT_TRUE(!tr.m_response["data"]["exists"].asBool());
     
+    Logout();
 }
 
 TEST_F(TestBCGroupFile, testCheckFullpathFilenameExists)
@@ -69,6 +71,7 @@ TEST_F(TestBCGroupFile, testCheckFullpathFilenameExists)
     
     ASSERT_TRUE(tr.m_response["data"]["exists"].asBool());
     
+    Logout();
 }
 
 TEST_F(TestBCGroupFile, testGetFileInfo)
@@ -84,6 +87,7 @@ TEST_F(TestBCGroupFile, testGetFileInfo)
     m_bc->getGroupFileService()->getCDNUrl(groupID, groupFileId, &tr);
     tr.run(m_bc);
     
+    Logout();
 }
 
 
@@ -98,6 +102,7 @@ TEST_F(TestBCGroupFile, testGetFileInfoSimple)
     
     tr.run(m_bc);
     
+    Logout();
 }
 
 TEST_F(TestBCGroupFile, testGetFileList)
@@ -113,6 +118,7 @@ TEST_F(TestBCGroupFile, testGetFileList)
     
     tr.run(m_bc);
     
+    Logout();
 }
 
 TEST_F(TestBCGroupFile, testMoveFile)
@@ -131,6 +137,7 @@ TEST_F(TestBCGroupFile, testMoveFile)
     
     tr.run(m_bc);
     
+    Logout();
 }
 
 TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
@@ -165,6 +172,7 @@ TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
     
     m_bc->deregisterFileUploadCallback();
     
+    Logout();
 }
 
 TEST_F(TestBCGroupFile, testCopyDeleteFile)
@@ -200,6 +208,7 @@ TEST_F(TestBCGroupFile, testCopyDeleteFile)
     
     ASSERT_TRUE(!tr.m_response["data"]["exists"].asBool());
 
+    Logout();
 }
 
 TEST_F(TestBCGroupFile, testUpdateFileInfo)
@@ -223,6 +232,7 @@ TEST_F(TestBCGroupFile, testUpdateFileInfo)
     
     tr.run(m_bc);
     
+    Logout();
 }
 
 /*
