@@ -155,6 +155,15 @@ TEST_F(TestBCAuth, ResetEmailPassword)
     const char* email = "braincloudunittest@gmail.com";
 
     TestResult tr;
+    m_bc->getAuthenticationService()->authenticateEmailPassword
+    (
+        email,
+        email,
+        true,
+        &tr
+    );
+    tr.run(m_bc);
+
     m_bc->getAuthenticationService()->resetEmailPassword(email, &tr);
     tr.run(m_bc);
 }
@@ -165,35 +174,51 @@ TEST_F(TestBCAuth, ResetEmailPasswordAdvanced)
     std::string content = "{\"fromAddress\": \"fromAddress\",\"fromName\": \"fromName\",\"replyToAddress\": \"replyToAddress\",\"replyToName\": \"replyToName\", \"templateId\": \"8f14c77d-61f4-4966-ab6d-0bee8b13d090\",\"subject\": \"subject\",\"body\": \"Body goes here\", \"substitutions\": { \":name\": \"John Doe\",\":resetLink\": \"www.dummuyLink.io\"}, \"categories\": [\"category1\",\"category2\" ]}";
 
     TestResult tr;
+
+    m_bc->getAuthenticationService()->authenticateEmailPassword
+    (
+        email,
+        email,
+        true,
+        &tr
+    );
+    tr.run(m_bc);
+
     m_bc->getAuthenticationService()->resetEmailPasswordAdvanced(email, content, &tr);
     tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_FROM_ADDRESS);
 }
 
 TEST_F(TestBCAuth, ResetEmailPasswordWithExpiry)
 {
-    const char* email = "braincloudunittest@gmail.com";
-   
-
-    TestResult tr1;
-    m_bc->getAuthenticationService()->authenticateEmailPassword(GetUser(UserA)->m_email, GetUser(UserA)->m_password, true, &tr1);
-    tr1.run(m_bc);
-
     TestResult tr;
-    m_bc->getAuthenticationService()->resetEmailPasswordWithExpiry(email, 1, &tr);
+    m_bc->getAuthenticationService()->authenticateEmailPassword
+    (
+        GetUser(UserA)->m_email, 
+        GetUser(UserA)->m_password, 
+        true, 
+        &tr
+    );
+    tr.run(m_bc);
+
+    m_bc->getAuthenticationService()->resetEmailPasswordWithExpiry(GetUser(UserA)->m_email, 1, &tr);
     tr.run(m_bc);
 }
 
 TEST_F(TestBCAuth, ResetEmailPasswordAdvancedWithExpiry)
 {
-    const char* email = "braincloudunittest@gmail.com";
     std::string content = "{\"fromAddress\": \"fromAddress\",\"fromName\": \"fromName\",\"replyToAddress\": \"replyToAddress\",\"replyToName\": \"replyToName\", \"templateId\": \"8f14c77d-61f4-4966-ab6d-0bee8b13d090\",\"subject\": \"subject\",\"body\": \"Body goes here\", \"substitutions\": { \":name\": \"John Doe\",\":resetLink\": \"www.dummuyLink.io\"}, \"categories\": [\"category1\",\"category2\" ]}";
 
-    TestResult tr1;
-    m_bc->getAuthenticationService()->authenticateEmailPassword(GetUser(UserA)->m_email, GetUser(UserA)->m_password, true, &tr1);
-    tr1.run(m_bc);
-
     TestResult tr;
-    m_bc->getAuthenticationService()->resetEmailPasswordAdvancedWithExpiry(email, content, 1, &tr);
+    m_bc->getAuthenticationService()->authenticateEmailPassword
+    (
+        GetUser(UserA)->m_email, 
+        GetUser(UserA)->m_password, 
+        true, 
+        &tr
+    );
+    tr.run(m_bc);
+
+    m_bc->getAuthenticationService()->resetEmailPasswordAdvancedWithExpiry(GetUser(UserA)->m_email, content, 1, &tr);
     tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_FROM_ADDRESS);
 }
 
