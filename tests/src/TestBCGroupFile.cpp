@@ -20,9 +20,7 @@ std::string TestBCGroupFile::groupFileId = "d2dd646a-f1af-4a96-90a7-a0310246f5a2
 std::string TestBCGroupFile::groupID = "a7ff751c-3251-407a-b2fd-2bd1e9bca64a";
 int TestBCGroupFile::version = -1;
 
-TestBCGroupFile::TestBCGroupFile():
-_returnCount(0),
-_failCount(0)
+TestBCGroupFile::TestBCGroupFile()
 {
 }
 
@@ -325,7 +323,7 @@ bool TestBCGroupFile::simpleUpload(BrainCloudClient* client, int mb, const std::
 
 void TestBCGroupFile::SetUpTestCase()
 {
-    printf("setting up rocks...\n");
+    printf("Setting up files for TestGroupFile\n");
     wrapper = new BrainCloudWrapper("_wrapperName");
 
     LoadIds();
@@ -375,9 +373,4 @@ void TestBCGroupFile::SetUpTestCase()
 
     delete wrapper;
     wrapper = nullptr;
-}
-
-void TestBCGroupFile::TearDownTestCase()
-{
-    printf("but tearing down is better...\n");
 }

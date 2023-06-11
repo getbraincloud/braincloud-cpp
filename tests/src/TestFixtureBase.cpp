@@ -44,7 +44,11 @@ void TestFixtureBase::SetUp()
 	secretMap[m_childAppId] = m_childSecret;
 	m_bcWrapper->initializeWithApps(m_serverUrl.c_str(), m_appId.c_str(), secretMap, m_version.c_str(), "", "");
 
-	m_bc = m_bcWrapper->client;
+    static bool firstSetup = true;
+    if(firstSetup) printf("\nClient version - %s\n", m_bcWrapper->getBCClient()->getBrainCloudClientVersion().c_str());
+    firstSetup = false;
+
+    m_bc = m_bcWrapper->client;
 
 	m_bc->enableLogging(ENABLE_SETUP_TEARDOWN_LOGGING);
 

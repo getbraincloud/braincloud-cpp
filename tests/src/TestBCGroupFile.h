@@ -58,13 +58,10 @@ protected:
     static int createFile(const char * in_path, int in_size);
     static bool simpleUpload(BrainCloudClient* client, int mb, const std::string & cloudPath, const std::string & cloudFilename, std::string & out_uploadId);
     static void SetUpTestCase();
-    static void TearDownTestCase();
 
     static std::string groupFileId;
     static std::string groupID;
     static int version;
-    int _returnCount;
-    int _failCount;
     static std::string filename;
     static std::string newFileName;
     static std::string tempFilename;
