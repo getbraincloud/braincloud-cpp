@@ -112,6 +112,15 @@ TEST_F(TestBCWrapper, ResetEmailPassword)
     const char* email = "braincloudunittest@gmail.com";
 
     TestResult tr;
+	m_bc->getAuthenticationService()->authenticateEmailPassword
+    (
+        email,
+        email,
+        true,
+        &tr
+    );
+    tr.run(m_bc);
+
     m_bcWrapper->resetEmailPassword(email, &tr);
     tr.run(m_bc);
 }
@@ -122,6 +131,15 @@ TEST_F(TestBCWrapper, ResetEmailPasswordAdvanced)
     std::string content = "{\"fromAddress\": \"fromAddress\",\"fromName\": \"fromName\",\"replyToAddress\": \"replyToAddress\",\"replyToName\": \"replyToName\", \"templateId\": \"8f14c77d-61f4-4966-ab6d-0bee8b13d090\",\"subject\": \"subject\",\"body\": \"Body goes here\", \"substitutions\": { \":name\": \"John Doe\",\":resetLink\": \"www.dummuyLink.io\"}, \"categories\": [\"category1\",\"category2\" ]}";
 
     TestResult tr;
+	m_bc->getAuthenticationService()->authenticateEmailPassword
+    (
+        email,
+        email,
+        true,
+        &tr
+    );
+    tr.run(m_bc);
+	
     m_bcWrapper->resetEmailPasswordAdvanced(email, content, &tr);
     tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_FROM_ADDRESS);
 }
