@@ -5,11 +5,13 @@ pipeline {
         stage('Tests on Mac') {
             agent {
                 label 'clientUnit'
-            }
-            blockOn("bitHeads_BrainCloud_Client_UnitTest_.*_internal", {
-             blockLevel("GLOBAL")
-             scanQueueFor("DISABLED")
-            })
+            }    // Block build if certain jobs are running.
+    blockOn('bitHeads_BrainCloud_Client_UnitTest_.*_internal') {
+        // Possible values are 'GLOBAL' and 'NODE' (default).
+        blockLevel('GLOBAL')
+        // Possible values are 'ALL', 'BUILDABLE' and 'DISABLED' (default).
+        scanQueueFor('DISABLED')
+    } 
             environment {
 			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
   			}
