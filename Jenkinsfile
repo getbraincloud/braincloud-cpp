@@ -6,6 +6,10 @@ pipeline {
             agent {
                 label 'clientUnit'
             }
+            blockOn("bitHeads_BrainCloud_Client_UnitTest_.*_internal", {
+             blockLevel("GLOBAL")
+             scanQueueFor("DISABLED")
+            })
             environment {
 			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
   			}
