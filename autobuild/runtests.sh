@@ -1,6 +1,8 @@
 #!/bin/bash
 # execute from cmake directory
 
+./autobuild/buildtests.sh
+
 pushd build
 
 cp ../autobuild/ids.txt .
