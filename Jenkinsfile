@@ -15,12 +15,12 @@ pipeline {
                 label 'clientUnit'
             }
             environment {
-			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
+			    PATH = "/Applications/CMake.app/Contents/braincloud-bin:/usr/local/braincloud-bin:${env.PATH}"
   			}
             steps {
                 deleteDir()
                 checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
-                sh 'cp ~/bin/test_ids_internal.txt autobuild/ids.txt'
+                sh 'cp ~/braincloud-bin/test_ids_internal.txt autobuild/ids.txt'
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
@@ -35,12 +35,12 @@ pipeline {
                 label '"Linux Build Agent (.41)"'
             }
             environment {
-			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
+			    PATH = "/Applications/CMake.app/Contents/braincloud-bin:/usr/local/braincloud-bin:${env.PATH}"
   			}
             steps {
                 deleteDir()
                 checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
-                sh 'cp ~/bin/test_ids_internal.txt autobuild/ids.txt'
+                sh 'cp ~/braincloud-bin/test_ids_internal.txt autobuild/ids.txt'
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
@@ -57,7 +57,7 @@ pipeline {
             steps {
                 deleteDir()
                 checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
-            	bat 'copy /Y C:\\Users\\buildmaster\\bin\\test_ids_internal.txt autobuild\\ids.txt'
+            	bat 'copy /Y C:\\Users\\buildmaster\\braincloud-bin\\test_ids_internal.txt autobuild\\ids.txt'
             	bat 'autobuild\\runtests.bat %TEST_NAME%'
             }
             post {
