@@ -15,7 +15,7 @@ pipeline {
                 label 'clientUnit'
             }
             environment {
-			    PATH = "/Applications/CMake.app/Contents/braincloud-bin:/usr/local/braincloud-bin:${env.PATH}"
+			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
   			}
             steps {
                 deleteDir()
@@ -35,7 +35,7 @@ pipeline {
                 label '"Linux Build Agent (.41)"'
             }
             environment {
-			    PATH = "/Applications/CMake.app/Contents/braincloud-bin:/usr/local/braincloud-bin:${env.PATH}"
+			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
   			}
             steps {
                 deleteDir()
