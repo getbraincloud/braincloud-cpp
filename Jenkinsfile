@@ -1,61 +1,62 @@
 pipeline {
     agent none
-// Block build if certain jobs are running.
-    blockOn('bitHeads_BrainCloud_Client_UnitTest_.*_internal') {
-        // Possible values are 'GLOBAL' and 'NODE' (default).
-        blockLevel('GLOBAL')
-        // Possible values are 'ALL', 'BUILDABLE' and 'DISABLED' (default).
-        scanQueueFor('DISABLED')
-    } 
+    triggers {
+        cron('H 2 * * 1-5') // nightly around 2 am
+        pollSCM('H/5 * * * *') // check git every five minutes
+    }
+        parameters {
+        string(name: 'BC_LIB', defaultValue: '', description: 'braincloud-cpp branch')
+        booleanParam(name: 'TEST_NAME', defaultValue: true, description: 'test filter')
+    }
         stages {
-
-        stage('Tests on Mac') {
+            
+        stage('Unit Tests on Mac') {
             agent {
                 label 'clientUnit'
-            }    
+            }
             environment {
 			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
   			}
             steps {
-            	echo "Mac..."
-                cleanWs()
-				sh 'cp ~/bin/test_ids_internal.txt autobuild/ids.txt'
-				sh 'autobuild/runtests.sh ${TEST_NAME}'
+                deleteDir()
+                checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
+                sh 'cp ~/bin/test_ids_internal.txt autobuild/ids.txt'
+			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
 	      		always {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
-  			}	 
-        }
-        
-        stage('Tests on Linux') {
-            agent { 
+            }
+        }        
+            
+        stage('Unit Tests on Linux') {
+            agent {
                 label '"Linux Build Agent (.41)"'
             }
             environment {
-			    PATH = "/usr/bin:${env.PATH}"
+			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
   			}
-  			steps { 
-            	echo 'Linux...'
-                cleanWs()
-				sh 'cp ~/bin/test_ids_internal.txt autobuild/ids.txt'
-				sh 'bash autobuild/runtests.sh ${TEST_NAME}'
+            steps {
+                deleteDir()
+                checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
+                sh 'cp ~/bin/test_ids_internal.txt autobuild/ids.txt'
+			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
 	      		always {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
-  			}	 
+            }
         }
-        
+                    
          stage('Tests on Windows') {
             agent {
                 label 'Windows Build Agent (.34)'
             }
             steps {
-            	echo "Windows..."
-                cleanWs()
+              deleteDir()
+                checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
             	bat 'copy /Y C:\\Users\\buildmaster\\bin\\test_ids_internal.txt autobuild\\ids.txt'
             	bat 'autobuild\\runtests.bat %TEST_NAME%'
             }
@@ -64,42 +65,6 @@ pipeline {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
   			}	 
-        }
-        
-        stage('Package on Mac') {
-            agent {
-                label 'clientUnit'
-            }
-            environment {
-			    PATH = "/Applications/CMake.app/Contents/bin:/usr/local/bin:${env.PATH}"
-  			}
-            steps {
-                        cleanWs()
-        				sh 'autobuild/build_apple_unified.sh'
-        	}
-        	post{
-        	    always{
-        	        archiveArtifacts artifacts: 'artifacts/*.zip', fingerprint: true
-        	       }
-        	}
-        }
-                
-        stage('Package for Linux') {
-            agent { 
-                label '"Linux Build Agent (.41)"'
-            }
-            environment {
-			    PATH = "/usr/bin:${env.PATH}"
-  			}
-            steps {
-                        cleanWs()
-        				sh 'autobuild/build_linux.sh i386'
-        	}
-        	post{
-        	    always{
-        	        archiveArtifacts artifacts: 'artifacts/*.zip', fingerprint: true
-        	       }
-        	}
         }
         // end stages
     }
