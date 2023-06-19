@@ -5,8 +5,8 @@ pipeline {
         pollSCM('H/5 * * * *') // check git every five minutes
     }
         parameters {
-        string(name: 'BC_LIB', defaultValue: '', description: 'braincloud-cpp branch')
-        booleanParam(name: 'TEST_NAME', defaultValue: true, description: 'test filter')
+        string(name: 'BC_LIB', defaultValue: 'develop', description: 'braincloud-cpp branch')
+        string(name: 'TEST_NAME', defaultValue: 'Auth', description: 'test filter')
     }
         stages {
             
@@ -24,7 +24,7 @@ pipeline {
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
-	      		always {
+	      		completed {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
             }
@@ -44,7 +44,7 @@ pipeline {
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
-	      		always {
+	      		completed {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
             }
@@ -55,13 +55,13 @@ pipeline {
                 label 'Windows Build Agent (.34)'
             }
             steps {
-              deleteDir()
+                deleteDir()
                 checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
             	bat 'copy /Y C:\\Users\\buildmaster\\bin\\test_ids_internal.txt autobuild\\ids.txt'
             	bat 'autobuild\\runtests.bat %TEST_NAME%'
             }
             post {
-	      		always {
+	      		completed {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
   			}	 
