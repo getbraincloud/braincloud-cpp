@@ -24,8 +24,8 @@ pipeline {
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
-	      		success {
-    	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
+	      		always {
+                    junit allowEmptyResults: true, skipPublishingChecks: true, testResults: 'build/tests/results.xml'
       			}
             }
         }        
@@ -44,8 +44,8 @@ pipeline {
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
-	      		success {
-    	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
+	      		always {
+                    junit allowEmptyResults: true, skipPublishingChecks: true, testResults: 'build/tests/results.xml'
       			}
             }
         }
@@ -61,8 +61,8 @@ pipeline {
             	bat 'autobuild\\runtests.bat %TEST_NAME%'
             }
             post {
-	      		success {
-    	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
+	      		always {
+                    junit allowEmptyResults: true, skipPublishingChecks: true, testResults: 'build/tests/results.xml'
       			}
   			}	 
         }
