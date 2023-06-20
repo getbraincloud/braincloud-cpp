@@ -4,7 +4,7 @@ pipeline {
         cron('H 2 * * 1-5') // nightly around 2 am
         pollSCM('H/5 * * * *') // check git every five minutes
     }
-        parameters {
+    parameters {
         string(name: 'BC_LIB', defaultValue: 'develop', description: 'braincloud-cpp branch')
         string(name: 'TEST_NAME', defaultValue: 'Auth', description: 'test filter')
     }
@@ -24,7 +24,7 @@ pipeline {
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
-	      		completed {
+	      		success {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
             }
@@ -44,7 +44,7 @@ pipeline {
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
-	      		completed {
+	      		success {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
             }
@@ -61,7 +61,7 @@ pipeline {
             	bat 'autobuild\\runtests.bat %TEST_NAME%'
             }
             post {
-	      		completed {
+	      		success {
     	    		junit testResults: 'build/tests/results.xml', skipPublishingChecks: true
       			}
   			}	 
