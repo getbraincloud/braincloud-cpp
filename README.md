@@ -227,4 +227,18 @@ http://getbraincloud.com/apidocs/apiref/?java#capi-auth
 
 ## Attributions
 
-The brainCloud C++ library uses [libwebsockets v3.0.1](https://github.com/warmcat/libwebsockets/releases/tag/v3.0.1).
+The brainCloud C++ windows library uses [libwebsockets v3.0.1](https://github.com/warmcat/libwebsockets/releases/tag/v3.0.1).
+Linux and Mac uses [libwebsockets v4.3-stable](https://github.com/warmcat/libwebsockets/commit/58af7b44).
+Also depends on [MBedTLS v2.8](https://github.com/ARMmbed/mbedtls.git)
+And redistributes public domain library [JsonCpp](https://github.com/getbraincloud/braincloud-jsoncpp.git)
+
+### Important Submodule Note
+
+These are included as submodules so can be retrieved using 
+
+   ``bash
+   git submodule update --init --recursive
+   ```
+However should not be updated or pulled to another version since the initialized version is known to build and run stable. 
+
+JsonCpp has recently been made a submodule (as of brainCloud 4.15) so if pulling or changing branches the existing folder lib/jsoncpp-1.0.0/ should be deleted or there will be git errors.
