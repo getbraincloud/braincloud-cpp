@@ -103,7 +103,6 @@ Or,
 Use cmake --help to see available generators. Then, use command eg.:
    ```bash
    cmake -G"CodeBlocks" ..
-   cmake -G "MinGW Makefiles" ..
    cmake -G Ninja ..
    ```
    
