@@ -8,12 +8,12 @@ If you haven't signed up or you want to log into the brainCloud portal, you can 
 
 https://portal.braincloudservers.com/
 
-## Build for Windows
+## Build in Visual Studio
 
 Prerequisis:
 
-- git
-- Visual Studio 2017. But everything after 2013 should work.
+- git or downloaded zip archive of brainCloud
+- Visual Studio 17 2022. But everything after 2013 should work.
 - CMake https://cmake.org/
 
 Steps (Command lines are done in PowerShell):
@@ -36,19 +36,31 @@ Steps (Command lines are done in PowerShell):
    ```bash
    cmake ..
    ```
+   You may specify a Visual Studio version with the generator command:
+   ```bash
+   cmake -G"Visual Studio 16 2019" ..
+   cmake -G"Visual Studio 17 2022" ..
+   ```    
    Or if you are building for **UWP**, do the following instead:
    ```bash
     cmake -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION="10.0" -DCMAKE_GENERATOR_PLATFORM=x64 -DBUILD_TESTS=ON ..
    ```
-5. From file explorer, `"explorer ."`, double click `brainCloud.sln` and open Visual Studio.
-6. Build the **brainCloud** project with desired configuration. Release/Debug/static or shared libraries, etc..
+5. From file explorer, `"explorer ."`, open `brainCloud.sln` in Visual Studio and build the **brainCloud** project with desired configuration. Release/Debug/static or shared libraries, etc..
+
+6. You may build brainCloud.lib at the shell commandline:
+  
+   ```bash
+   cmake ..
+   cmake --build . --target brainCloud
+   ```
 
 ## Build for Linux or Mac
 
 Prerequisis:
 
-- git
+- git or downloaded zip archive of brainCloud
 - A C++ compiler
+- Ninja optional for faster build
 - CMake https://cmake.org/
 - libcurl-dev with openssl
 - pthread
@@ -81,6 +93,26 @@ Steps (Command lines are done in PowerShell):
    ```bash
    make
    ```
+Or,
+   ```bash
+   cmake --build . --config Release
+   ```
+
+## Other IDE/Build System Support
+
+Use cmake --help to see available generators. Then, use command eg.:
+   ```bash
+   cmake -G"CodeBlocks" ..
+   cmake -G "MinGW Makefiles" ..
+   cmake -G Ninja ..
+   ```
+   
+## CLion
+
+1. Open the folder braincloud-cpp in CLion.
+2. Set CMake options in Clion > Settings...
+3. Select Build > Build 'brainCloud'
+Or, add brainCloud directly to your cmake project (see below).
 
 ## Build for Android
 
@@ -88,30 +120,40 @@ Do the following step by adding brainCloud directly to your NDK Application's CM
 
 ## Add brainCloud to your application's cmake project.
 
-If this is an Android project, do those steps inside your `YourAppDir/app/src/main/cpp/` directory where the `CMakeLists.txt` resides.
+Find the directory where the `CMakeLists.txt` resides. For example, if this is an Android project do these steps inside your `YourAppDir/app/src/main/cpp/`.
 
-1. Clone the repository to your submodules, in `./thirdparty/` path.
+1. Clone the repository to your submodules, in `./thirdparty/` path for example.
    ```bash
    mkdir thirdparty
    cd thirdparty
    git submodule add https://github.com/getbraincloud/braincloud-cpp.git
    ```
-2. Update submodules so thirdparty libraries are present when building.
+2. Update submodules so required libraries are present when building.
    ```bash
    cd braincloud-cpp
    git submodule update --init --recursive
    ```
-3. Add the following to your `CMakeLists.txt`:
+3. Add the subirectory to your `CMakeLists.txt`, example:
    ```cmake
    add_subdirectory(./thirdparty/braincloud-cpp)
    target_link_libraries(${PROJECT_NAME} brainCloud) # Note the capital 'C'
    ```
+   Or:
+   ```cmake
+	add_subdirectory(/path/to/braincloud-cpp ./builddir/braincloud-cpp)
+	list(APPEND includes PUBLIC /path/to/braincloud-cpp/include/)
+	list(APPEND includes PUBLIC /path/to/braincloud-cpp/libs/jsoncpp-1.0.0)
+    list(APPEND libs brainCloud)
+    target_include_directories(${PROJECT_NAME} ${includes})
+    target_link_libraries(${PROJECT_NAME} ${libs})
+    ```
+
 4. **For Android apps only**, don't forget to add `INTERNET` permission to your `AndroidManifest.xml` or else brainCloud won't work.
    ```xml
    <uses-permission android:name="android.permission.INTERNET" />
    ```
 
-## Installation
+## Cocoapod Installation
 
 The library is distributed through `CocoaPods`. In order to install the library, simply add the following to your `Podfile`.
 
@@ -119,9 +161,22 @@ The library is distributed through `CocoaPods`. In order to install the library,
 pod 'BrainCloudCpp'
 ```
 
+Or,
+
+```ruby
+pod 'BrainCloudCpp', '4.xx.y'
+```
+
+
 If you're a newcomer to the `CocoaPods` world, you can find documentation on how to set up your Xcode project here:
 
 https://guides.cocoapods.org/
+
+After adding to your Podfile, run the command:
+
+```bash
+pod update
+```
 
 ## Troubleshooting
 
@@ -225,18 +280,33 @@ _bc->getBCClient()->getIdentityService()->attachEmailIdentity(_email, _password,
 There are many authentication types. You can also merge profiles and detach idenities. See the brainCloud documentation for more information:
 http://getbraincloud.com/apidocs/apiref/?java#capi-auth
 
+## Building and Running Tests
+
+Refer to Jenkinsfile for platform builds and unit test pipeline.
+
+To run unit tests locally, you can use the autobuild script runtests.sh or runtest.bat. The process is:
+
+1. Run cmake with BUILD_TESTS set to ON in debug configuration.
+2. Run cmake to build target bctests in debug configuration.
+3. Create/copy file ids.txt to the folder where tests will run. Input your server url, app ids and secret keys.
+4. Execute with desired test filter.
+
 ## Attributions
 
 The brainCloud C++ windows library uses [libwebsockets v3.0.1](https://github.com/warmcat/libwebsockets/releases/tag/v3.0.1).
 Linux and Mac uses [libwebsockets v4.3-stable](https://github.com/warmcat/libwebsockets/commit/58af7b44).
-Also depends on [MBedTLS v2.8](https://github.com/ARMmbed/mbedtls.git)
-And redistributes public domain library [JsonCpp](https://github.com/getbraincloud/braincloud-jsoncpp.git)
+Also depends on [MBedTLS v2.8](https://github.com/ARMmbed/mbedtls.git).
+And redistributes public domain library [JsonCpp](https://github.com/getbraincloud/braincloud-jsoncpp.git).
+
+### Cocoapod Depenencies
+
+The brainCloud library ships with SSKeychain and requires SocketRocket and JsonCpp cocoapods. 
 
 ### Important Submodule Note
 
 These are included as submodules so can be retrieved using 
 
-   ``bash
+   ```bash
    git submodule update --init --recursive
    ```
 However should not be updated or pulled to another version since the initialized version is known to build and run stable. 
