@@ -1,7 +1,7 @@
 #!/bin/bash
 
-project_dir=../solutions/mac/BrainCloudCpp.xcodeproj
-solution_dir=../solutions/mac
+project_dir=solutions/mac/BrainCloudCpp.xcodeproj
+solution_dir=solutions/mac
 artifacts_dir=artifacts
 config=Release
 
@@ -15,18 +15,24 @@ fi
 
 library_os="Apple_C++"
 
+sim_archs="x86_64"
+#verbose=-verbose
+
 build_version="$1"
 if [ "$build_version" == "" ]
 then
-  echo "build_apple_unified.sh <build_version>"
-  echo ""
-  echo "Must set build_version via 4 digit number"
-  echo " ie \"1.6.0.1234\""
-  exit 1
+    build_version=$(cat BrainCloudCpp.podspec | grep "s.version  =" | grep -o '".*"' | tr -d '"')
+    if [ "$build_version" == "" ]
+    then  echo "build_apple_unified.sh <build_version>"
+          echo ""
+          echo "Must set build_version via 4 digit number"
+          echo " ie \"1.6.0.1234\""
+          exit 1
+    fi
 fi
 
-build_internal_version=`echo $build_version | cut -d \".\" -f 4`
-build_external_version=`echo $build_version | cut -d \".\" -f 1-3`
+build_internal_version=`echo $build_version | cut -d "." -f 4`
+build_external_version=`echo $build_version | cut -d "." -f 1-3`
 
 
 function failed()
@@ -49,15 +55,15 @@ function build_app()
   mkdir tmp
   
   output_folder_ios="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-iOS" -sdk "iphoneos" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
-  xcodebuild -verbose -project $project_dir -scheme "BrainCloudSDK-iOS" -sdk "iphoneos" -configuration "$build_config" clean build 
+  xcodebuild ${verbose} -project $project_dir -scheme "BrainCloudSDK-iOS" -sdk "iphoneos" -configuration "$build_config" clean build
   if [ $? -ne 0 ]
   then
     failed xcodebuild
   fi
   mv "$output_folder_ios/libBrainCloud-iOS.a" "tmp/libBrainCloud_ios.a"
 
-  output_folder_ios_sim="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-iOS" ARCHS=x86_64 -sdk "iphonesimulator" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
-  xcodebuild -verbose -project $project_dir -scheme "BrainCloudSDK-iOS" ARCHS="i386 x86_64" -sdk "iphonesimulator" -configuration "$build_config" clean build 
+  output_folder_ios_sim="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-iOS" ARCHS="${sim_archs}" -sdk "iphonesimulator" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
+  xcodebuild ${verbose} -project $project_dir -scheme "BrainCloudSDK-iOS" ARCHS="${sim_archs}" -sdk "iphonesimulator" -configuration "$build_config" clean build
   if [ $? -ne 0 ]
   then
     failed xcodebuild
@@ -67,15 +73,15 @@ function build_app()
 
   # tvos arm/sim
   output_folder_tvos="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-tvOS" -sdk "appletvos" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
-  xcodebuild -verbose -project $project_dir -scheme "BrainCloudSDK-tvOS" -sdk "appletvos" -configuration "$build_config" clean build 
+  xcodebuild ${verbose} -project $project_dir -scheme "BrainCloudSDK-tvOS" -sdk "appletvos" -configuration "$build_config" clean build
   if [ $? -ne 0 ]
   then
     failed xcodebuild
   fi
   mv "$output_folder_tvos/libBrainCloud-tvOS.a" "tmp/libBrainCloud_tvos.a"
 
-  output_folder_tvos_sim="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-tvOS" ARCHS=x86_64 -sdk "appletvsimulator" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
-  xcodebuild -verbose -project $project_dir -scheme "BrainCloudSDK-tvOS" ARCHS=x86_64 -sdk "appletvsimulator" -configuration "$build_config" clean build 
+  output_folder_tvos_sim="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-tvOS" ARCHS="${sim_archs}" -sdk "appletvsimulator" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
+  xcodebuild ${verbose} -project $project_dir -scheme "BrainCloudSDK-tvOS" ARCHS="${sim_archs}" -sdk "appletvsimulator" -configuration "$build_config" clean build
   if [ $? -ne 0 ]
   then
     failed xcodebuild
@@ -85,15 +91,15 @@ function build_app()
 
   # watchos arm/sim
   output_folder_watchos="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-watchOS" -sdk "watchos" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
-  xcodebuild -verbose -project $project_dir -scheme "BrainCloudSDK-watchOS" -sdk "watchos" -configuration "$build_config" clean build 
+  xcodebuild ${verbose} -project $project_dir -scheme "BrainCloudSDK-watchOS" -sdk "watchos" -configuration "$build_config" clean build
   if [ $? -ne 0 ]
   then
     failed xcodebuild
   fi
   mv "$output_folder_watchos/libBrainCloud-watchOS.a" "tmp/libBrainCloud_watchos.a"
 
-  output_folder_watchos_sim="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-watchOS" ARCHS=i386 -sdk "watchsimulator" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
-  xcodebuild -verbose -project $project_dir -scheme "BrainCloudSDK-watchOS" ARCHS=i386 -sdk "watchsimulator" -configuration "$build_config" clean build 
+  output_folder_watchos_sim="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-watchOS" ARCHS="${sim_archs}" -sdk "watchsimulator" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
+  xcodebuild ${verbose} -project $project_dir -scheme "BrainCloudSDK-watchOS" ARCHS="${sim_archs}" -sdk "watchsimulator" -configuration "$build_config" clean build
   if [ $? -ne 0 ]
   then
     failed xcodebuild
@@ -102,7 +108,7 @@ function build_app()
 
   # mac osx
   output_folder_osx="`xcodebuild -project $project_dir -scheme "BrainCloudSDK-OSX" -sdk "macosx" -showBuildSettings | grep " BUILT_PRODUCTS_DIR" |cut -d "=" -f 2 | tr -d " "`"
-  xcodebuild -verbose -project $project_dir -scheme "BrainCloudSDK-OSX" -sdk "macosx" -configuration "$build_config" clean build 
+  xcodebuild ${verbose} -project $project_dir -scheme "BrainCloudSDK-OSX" -sdk "macosx" -configuration "$build_config" clean build
   if [ $? -ne 0 ]
   then
     failed xcodebuild
@@ -121,15 +127,15 @@ function build_app()
   lipo -create "tmp/libBrainCloud_watchos.a" "tmp/libBrainCloud_watchossim.a" -output brainCloud/libs/brainCloudClient_watchos.a
   cp "$output_folder_osx/libBrainCloud-OSX.a" brainCloud/libs/brainCloudClient_osx.a
 
-  cp -r ../include/braincloud brainCloud/include
+  cp -r include/braincloud brainCloud/include
 
   #update the libwebsocket dependencies
-  git submodule update --init
+#  git submodule update --init
 
   # copy in the thirdparty dependencies
-  cp -r ../lib/jsoncpp-1.0.0 brainCloud/thirdparty
+  cp -r lib/jsoncpp-1.0.0 brainCloud/thirdparty
 
-  cp docs/README.TXT brainCloud
+  cp autobuild/docs/README.TXT brainCloud
   pushd brainCloud
   sed -i xxx "s/Platform: xxx/Platform: Apple C++/g" README.TXT
   sed -i xxx "s/Version: x.x.x/Version: ${build_version}/g" README.TXT
@@ -139,6 +145,7 @@ function build_app()
   zip -r $artifacts_dir/brainCloudClient_${library_os}_${build_version}.zip brainCloud
 
   rm -rf brainCloud
+  rm -rf tmp
 }
 
 function clean_artifacts
@@ -151,10 +158,10 @@ function clean_artifacts
 set -x
 
 # turn on exit on fail 
-set -e
+#set -e
 
 # turn on fail if something in pipeline fails
-set -o pipefail
+#set -o pipefail
 
 echo "**** Clean artifacts"
 clean_artifacts

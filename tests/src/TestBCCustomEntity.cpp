@@ -1,23 +1,17 @@
-#include <stdlib.h>
 #include "gtest/gtest.h"
-#include "braincloud/BrainCloudClient.h"
 #include "braincloud/BrainCloudEntity.h"
 #include "TestResult.h"
 #include "json/json.h"
 #include "TestBCCustomEntity.h"
-#include "braincloud/reason_codes.h"
-#include "braincloud/http_codes.h"
-
 
 using namespace BrainCloud;
-
 
 TEST_F(TestBCCustomEntity, CreateCustomEntity)
 {
 	TestResult tr;
 
 	Json::FastWriter fw;
-	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	if (tr.run(m_bc))
 	{
 		m_entityId = tr.m_response["data"]["entityId"].asString();
@@ -55,7 +49,7 @@ TEST_F(TestBCCustomEntity, ReadEntity)
 	std::string id;
 
 	Json::FastWriter fw;
-	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	if (tr.run(m_bc))
 	{
 		id = tr.m_response["data"]["entityId"].asString();
@@ -72,7 +66,7 @@ TEST_F(TestBCCustomEntity, ReadCustomEntity)
 	std::string id;
 
 	Json::FastWriter fw;
-	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	if (tr.run(m_bc))
 	{
 		id = tr.m_response["data"]["entityId"].asString();
@@ -89,14 +83,14 @@ TEST_F(TestBCCustomEntity, UpdateCustomEntity)
 	std::string id;
 
 	Json::FastWriter fw;
-	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	if (tr.run(m_bc))
 	{
 		id = tr.m_response["data"]["entityId"].asString();
 		ASSERT_NE("", id);
 	}
 	TestResult tr2;
-	m_bc->getCustomEntityService()->updateEntity(m_entityType, id.c_str(), 1, "{\"taergaregest\": \"rsgsdrsrgerg\"}", "{\"teaergaegst\": \"Teergergergergasersting\"}", NULL, &tr2);
+	m_bc->getCustomEntityService()->updateEntity(m_entityType, id.c_str(), 1, "{\"taergaregest\": \"rsgsdrsrgerg\"}", "{\"teaergaegst\": \"Teergergergergasersting\"}", 0, &tr2);
 	tr2.run(m_bc);
 }
 
@@ -107,7 +101,7 @@ TEST_F(TestBCCustomEntity, UpdateCustomEntityFields)
 	// std::string id;
 
 	// Json::FastWriter fw;
-	// m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	// m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	// if (tr.run(m_bc))
 	// {
 	// 	id = tr.m_response["data"]["entityId"].asString();
@@ -154,7 +148,7 @@ TEST_F(TestBCCustomEntity, GetCount)
 	std::string id;
 
 	Json::FastWriter fw;
-	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	if (tr.run(m_bc))
 	{
 		id = tr.m_response["data"]["entityId"].asString();
@@ -171,7 +165,7 @@ TEST_F(TestBCCustomEntity, GetRandomEntitiesMatching)
 	std::string id;
 
 	Json::FastWriter fw;
-	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	if (tr.run(m_bc))
 	{
 		id = tr.m_response["data"]["entityId"].asString();
@@ -193,7 +187,7 @@ TEST_F(TestBCCustomEntity, DeleteEntity)
 	std::string id;
 
 	Json::FastWriter fw;
-	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	if (tr.run(m_bc))
 	{
 		id = tr.m_response["data"]["entityId"].asString();
@@ -231,8 +225,8 @@ TEST_F(TestBCCustomEntity, UpdateSingleton)
 	std::string id;
 
 	TestResult tr2;
-	m_bc->getCustomEntityService()->updateSingleton(m_entityType, -1, "{\"entityId\": \"Testing\"}", "{\"entityId\": \"Testing\"}", NULL, &tr2);
-	//(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->updateSingleton(m_entityType, -1, "{\"entityId\": \"Testing\"}", "{\"entityId\": \"Testing\"}", 0, &tr2);
+	//(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	tr2.run(m_bc);
 }
 
@@ -260,7 +254,7 @@ TEST_F(TestBCCustomEntity, IncrementData)
 {
 	TestResult tr;
 	const char *id = "";
-	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+	m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
 	if (tr.run(m_bc))
 	{
 		id = tr.m_response["data"]["entityId"].asCString();
@@ -278,8 +272,8 @@ TEST_F(TestBCCustomEntity, IncrementData)
 TEST_F(TestBCCustomEntity, IncrementSingletonData)
 {
     TestResult tr;
-    const char *id = "";
-    m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", NULL, true, &tr);
+
+    m_bc->getCustomEntityService()->createEntity(m_entityType, "{\"test\": \"Testing\"}", "{\"test\": \"Testing\"}", 0, true, &tr);
     tr.run(m_bc);
     
     TestResult tr2;

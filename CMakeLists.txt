@@ -1,3 +1,5 @@
+project(brainCloud)
+
 if (CMAKE_SYSTEM_NAME STREQUAL WindowsStore)
     set(UWP 1)
 endif()
@@ -13,8 +15,6 @@ if (UWP)
 else()
     cmake_minimum_required(VERSION 3.0.0)
 endif()
-
-project(brainCloud)
 
 # Setup modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
@@ -55,10 +55,10 @@ if (UWP)
 endif()
 
 if (SSL_ALLOW_SELFSIGNED)
-    message(status "Skipping certificate verification in RTT")
+    message("brainCloud Skipping certificate verification in RTT")
     add_definitions(-DBC_SSL_ALLOW_SELFSIGNED)
     else()
-    message(status "Building with certificates for RTT")
+    message("brainCloud Building with certificates for RTT")
 endif()
 
 # lets use libwebsockets by default
@@ -69,10 +69,10 @@ else()
 endif()
 
 if(BC_USE_OPENSSL)
-    message(status "Building with OpenSSL TLS")
+    message("brainCloud Building with OpenSSL TLS")
     add_definitions(-DBC_MBEDTLS_OFF)
 else()
-    message(status "Building with MbedTLS TLS")
+    message("brainCloud Building with MbedTLS TLS")
 endif()
 
 #=============================================================================
@@ -85,7 +85,8 @@ set(CMAKE_CXX_STANDARD 11)
 # Unit Tests
 #=============================================================================
 if (DEFINED(${BUILD_TESTS}) OR ${BUILD_TESTS})
-    add_subdirectory("${CMAKE_SOURCE_DIR}/tests")
+    message("brainCloud Building with BUILD_TESTS ON")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests")
 endif()
 
 #=============================================================================
@@ -95,7 +96,8 @@ set (BC_DIR "${PROJECT_SOURCE_DIR}")
 set (OS_SPECIFIC_SRCS "")
 set (OS_SPECIFIC_INCS "")
 
-file(GLOB_RECURSE JSONCPP_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.*")
+file(GLOB_RECURSE JSONCPP_INCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.h")
+file(GLOB_RECURSE JSONCPP_SRCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.cpp")
 
 # HTTP related files
 if (APPLE)
@@ -175,9 +177,9 @@ elseif (WIN32)
             "include/braincloud/internal/win/WindowsSaveDataHelper.h")
     list(APPEND OS_SPECIFIC_SRCS "src/win/WindowsSaveDataHelper.cpp")
 else()
-    list(APPEND OS_SPECIFIC_SRCS
-            "include/braincloud/internal/DefaultSaveDataHelper.h"
-            "src/DefaultSaveDataHelper.cpp")
+    list(APPEND OS_SPECIFIC_INCS
+            "include/braincloud/internal/DefaultSaveDataHelper.h")
+    list(APPEND OS_SPECIFIC_SRCS "src/DefaultSaveDataHelper.cpp")
 endif()
 
 # Device
@@ -196,7 +198,15 @@ if (APPLE)
     list(APPEND OS_SPECIFIC_SRCS
             "lib/apple/sskeychain/SSKeychain/SSKeychain.m"
             "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.m")
-    include_directories("${BC_DIR}/lib/apple/sskeychain")
+    list(APPEND OS_SPECIFIC_INCS
+            "lib/apple/sskeychain/SSKeychain/SSKeychain.h"
+            "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.h")
+    # for memory management in obj-c files
+    set_source_files_properties(
+            "lib/apple/sskeychain/SSKeychain/SSKeychain.m"
+            "lib/apple/sskeychain/SSKeychain/SSKeychainQuery.m"
+            PROPERTIES COMPILE_FLAGS "-fobjc-arc")
+    list(APPEND includes PUBLIC "lib/apple/sskeychain")
 elseif (WIN32)
     if (UWP)
         list(APPEND OS_SPECIFIC_INCS
@@ -204,26 +214,31 @@ elseif (WIN32)
         list(APPEND OS_SPECIFIC_SRCS "src/win/MD5.cpp")
     endif()
 elseif (ANDROID)
-    list(APPEND OS_SPECIFIC_SRCS
+            list(APPEND OS_SPECIFIC_INCS
             "include/braincloud/internal/android/com_bitheads_braincloud_AndroidBridge.h"
-            "src/android/com_bitheads_braincloud_AndroidBridge.cpp")
+            "include/braincloud/internal/android/AndroidGlobals.h")
+            list(APPEND OS_SPECIFIC_SRCS
+                    "src/android/com_bitheads_braincloud_AndroidBridge.cpp")
 endif()
 
 if (NOT UWP)
     list(APPEND OS_SPECIFIC_SRCS "src/md5x.c") # UWP doesn't like c files
 endif()
 
-list(APPEND includes PUBLIC "${BC_DIR}/include")
-list(APPEND includes PUBLIC "${BC_DIR}/lib/jsoncpp-1.0.0")
+list(APPEND includes PUBLIC "include")
+list(APPEND includes PUBLIC "lib/jsoncpp-1.0.0")
 
 add_library(brainCloud STATIC
         # public headers
+        include/braincloud/AuthenticationIds.h
         include/braincloud/AuthenticationType.h
         include/braincloud/BrainCloudAppStore.h
         include/braincloud/BrainCloudAsyncMatch.h
         include/braincloud/BrainCloudAuthentication.h
-        include/braincloud/BrainCloudClient.h
         include/braincloud/BrainCloudBlockchain.h
+        include/braincloud/BrainCloudChat.h
+        include/braincloud/BrainCloudClient.h
+        include/braincloud/BrainCloudCustomEntity.h
         include/braincloud/BrainCloudDataStream.h
         include/braincloud/BrainCloudEntity.h
         include/braincloud/BrainCloudEvent.h
@@ -237,27 +252,29 @@ add_library(brainCloud STATIC
         include/braincloud/BrainCloudGroup.h
         include/braincloud/BrainCloudGroupFile.h
         include/braincloud/BrainCloudIdentity.h
+        include/braincloud/BrainCloudItemCatalog.h
+        include/braincloud/BrainCloudLobby.h
         include/braincloud/BrainCloudMail.h
         include/braincloud/BrainCloudMatchmaking.h
+        include/braincloud/BrainCloudMessaging.h
         include/braincloud/BrainCloudOneWayMatch.h
         include/braincloud/BrainCloudPlaybackStream.h
         include/braincloud/BrainCloudPlayerState.h
         include/braincloud/BrainCloudPlayerStatistics.h
         include/braincloud/BrainCloudPlayerStatisticsEvent.h
+        include/braincloud/BrainCloudPresence.h
         include/braincloud/BrainCloudProfanity.h
         include/braincloud/BrainCloudPushNotification.h
+        include/braincloud/BrainCloudRTT.h
         include/braincloud/BrainCloudRedemptionCode.h
         include/braincloud/BrainCloudRelay.h
-        include/braincloud/BrainCloudRTT.h
         include/braincloud/BrainCloudS3Handling.h
         include/braincloud/BrainCloudScript.h
         include/braincloud/BrainCloudSocialLeaderboard.h
         include/braincloud/BrainCloudTime.h
         include/braincloud/BrainCloudTournament.h
-        include/braincloud/BrainCloudCustomEntity.h
-        include/braincloud/BrainCloudItemCatalog.h
-        include/braincloud/BrainCloudUserItems.h
         include/braincloud/BrainCloudTypes.h
+        include/braincloud/BrainCloudUserItems.h
         include/braincloud/BrainCloudVirtualCurrency.h
         include/braincloud/BrainCloudWrapper.h
         include/braincloud/FriendPlatform.h
@@ -276,21 +293,25 @@ add_library(brainCloud STATIC
         include/braincloud/reason_codes.h
 
         # private headers
+        include/braincloud/internal/DefaultBrainCloudComms.h
+        include/braincloud/internal/DefaultPinger.h
+        include/braincloud/internal/DefaultRelayTCPSocket.h
+        include/braincloud/internal/DefaultRelayUDPSocket.h
+        include/braincloud/internal/DefaultTCPSocket.h
+        include/braincloud/internal/DefaultWebSocket.h
         include/braincloud/internal/Device.h
-        include/braincloud/internal/Mutex.h
         include/braincloud/internal/GUID.h
         include/braincloud/internal/IBrainCloudComms.h
         include/braincloud/internal/IFileUploader.h
         include/braincloud/internal/IPinger.h
-        include/braincloud/internal/ITCPSocket.h
-        include/braincloud/internal/IRelayUDPSocket.h
+        include/braincloud/internal/IRelaySocket.h
         include/braincloud/internal/IRelayTCPSocket.h
-        include/braincloud/internal/DefaultRelayUDPSocket.h
-        include/braincloud/internal/DefaultRelayTCPSocket.h
-        include/braincloud/internal/DefaultBrainCloudComms.h
+        include/braincloud/internal/IRelayUDPSocket.h
+        include/braincloud/internal/ITCPSocket.h
         include/braincloud/internal/JsonUtil.h
-        include/braincloud/internal/RelayComms.h
+        include/braincloud/internal/Mutex.h
         include/braincloud/internal/RTTComms.h
+        include/braincloud/internal/RelayComms.h
         include/braincloud/internal/SaveDataHelper.h
         include/braincloud/internal/StringUtil.h
         include/braincloud/internal/TimeUtil.h
@@ -312,6 +333,7 @@ add_library(brainCloud STATIC
         src/BrainCloudBlockchain.cpp
         src/BrainCloudChat.cpp
         src/BrainCloudClient.cpp
+        src/BrainCloudCustomEntity.cpp
         src/BrainCloudDataStream.cpp
         src/BrainCloudEntity.cpp
         src/BrainCloudEvent.cpp
@@ -325,6 +347,7 @@ add_library(brainCloud STATIC
         src/BrainCloudGroup.cpp
         src/BrainCloudGroupFile.cpp
         src/BrainCloudIdentity.cpp
+        src/BrainCloudItemCatalog.cpp
         src/BrainCloudLobby.cpp
         src/BrainCloudMail.cpp
         src/BrainCloudMatchmaking.cpp
@@ -337,16 +360,14 @@ add_library(brainCloud STATIC
         src/BrainCloudPresence.cpp
         src/BrainCloudProfanity.cpp
         src/BrainCloudPushNotification.cpp
+        src/BrainCloudRTT.cpp
         src/BrainCloudRedemptionCode.cpp
         src/BrainCloudRelay.cpp
-        src/BrainCloudRTT.cpp
         src/BrainCloudS3Handling.cpp
         src/BrainCloudScript.cpp
         src/BrainCloudSocialLeaderboard.cpp
         src/BrainCloudTime.cpp
         src/BrainCloudTournament.cpp
-        src/BrainCloudCustomEntity.cpp
-        src/BrainCloudItemCatalog.cpp
         src/BrainCloudUserItems.cpp
         src/BrainCloudVirtualCurrency.cpp
         src/BrainCloudWrapper.cpp
@@ -357,8 +378,8 @@ add_library(brainCloud STATIC
         src/JsonUtil.cpp
         src/OperationParam.cpp
         src/Platform.cpp
-        src/RelayComms.cpp
         src/RTTComms.cpp
+        src/RelayComms.cpp
         src/SaveDataHelper.cpp
         src/ServerCall.cpp
         src/ServiceName.cpp
@@ -375,7 +396,8 @@ add_library(brainCloud STATIC
 
         ${OS_SPECIFIC_INCS}
         ${OS_SPECIFIC_SRCS}
-        ${JSONCPP_FILES}
+        ${JSONCPP_INCS_FILES}
+        ${JSONCPP_SRCS_FILES}
         )
 
 # Set files to be "consume windows runtime exceptions" to build them with CX
@@ -412,7 +434,7 @@ elseif (LINUX)
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES})
 elseif (ANDROID)
-    list(APPEND includes PUBLIC "${BC_DIR}/lib/android/include/")
+    list(APPEND includes PUBLIC "lib/android/include/")
 
     add_library(libz STATIC IMPORTED)
     set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libz.a)
@@ -500,37 +522,25 @@ if (USE_LIBWEBSOCKETS)
 
 		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
 		list(APPEND includes
-				PUBLIC ${BC_DIR}/${BC_MBEDTLS_DIR}/include/)
+				PUBLIC ${BC_MBEDTLS_DIR}/include/)
 		option(LWS_WITH_MBEDTLS "" ON)
-		set(LWS_MBEDTLS_INCLUDE_DIRS
-				"${BC_DIR}/${BC_MBEDTLS_DIR}/include")
-		if (CMAKE_GENERATOR STREQUAL Xcode)
-			# setting this blank causes no warnings in cmake, links in xcode
-			set(LWS_MBEDTLS_LIBRARIES "")
-		elseif(WIN32)
-			# when generator is Visual Studio 16
-			# or compiler is MSVC
-            # need to set the path to build for lws v3.0
-            # this produces warning: Targets may link only to libraries.  CMake is dropping the item.
-            set(LWS_MBEDTLS_LIBRARIES
-                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/")
-		else()
-		    # setting libraries for regular commandline build on linux, mac
-			set(LWS_MBEDTLS_LIBRARIES
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedtls.a"
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a"
-					"${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
-		endif()
-
+		set(LWS_MBEDTLS_INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include>")
+        if(WIN32)
+            set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedtls.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedcrypto.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedx509.lib")
+        else()
+            set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
+        endif()
 	endif()
 
     # LibWebSockets
     if(WIN32)
         # v3.0 (on fork SHA1 is eaa935a8)
          set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+         set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
     else()
          # v4.3-stable (SHA1 is 58af7b44)
          set(BC_LWS_DIR lib/libwebsockets)
+         set(BC_LWS_INC ${BC_LWS_DIR}/include)
     endif()
 
     option(LWS_WITHOUT_SERVER
@@ -553,26 +563,30 @@ if (USE_LIBWEBSOCKETS)
     add_subdirectory("${BC_LWS_DIR}")
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
-    if(Win32)
+    if (MSVC)
        target_compile_options(websockets PRIVATE /WX-)
-       target_compile_options(mbedtls PRIVATE /WX-)
-    endif()
-    if(APPLE)
-       target_compile_options(websockets PRIVATE -Wno-error=unused-but-set-variable)
-       target_compile_options(mbedtls PRIVATE -Wno-error=unused-but-set-variable)
-       target_compile_options(mbedcrypto PRIVATE -Wno-error=unused-but-set-variable)
+       if (NOT BC_USE_OPENSSL)
+           target_compile_options(mbedtls PRIVATE /WX-)
+           target_compile_options(mbedcrypto PRIVATE /WX-)
+       endif()
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND NOT ANDROID)
+       target_compile_options(websockets PRIVATE -Wno-unused-but-set-variable -Wno-typedef-redefinition)
+       if (NOT BC_USE_OPENSSL)
+          target_compile_options(mbedtls PRIVATE -Wno-unused-but-set-variable)
+          target_compile_options(mbedcrypto PRIVATE -Wno-unused-but-set-variable)
+       endif()
     endif()
 
     list(APPEND libs websockets)
     list(APPEND includes
-            PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}
-            ${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include
-            ${BC_DIR}/${BC_LWS_DIR}/include)
+            PUBLIC
+            ${BC_LWS_INC}
+            )
 
 endif()
 
 # Setup includes and linked libraries
-target_include_directories(brainCloud PUBLIC "${BC_DIR}/include" ${includes})
+target_include_directories(brainCloud PUBLIC "include" ${includes})
 target_link_libraries(brainCloud PUBLIC ${libs})
 
 # Compile flags

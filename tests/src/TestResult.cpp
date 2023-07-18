@@ -64,7 +64,7 @@ void TestResult::sleepAndUpdate(BrainCloudClient * in_bc)
     while (!m_done && maxWaitMs > 0)
     {
         in_bc->runCallbacks();
-        sleep(sleepSliceMs);
+        sleep(static_cast<int>(sleepSliceMs));
         maxWaitMs -= sleepSliceMs;
     }
 }

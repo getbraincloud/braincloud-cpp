@@ -6,6 +6,11 @@ endif()
 
 project (brainCloudUnitTest)
 
+# xcode generator properties
+set(CMAKE_XCODE_GENERATE_SCHEME ON)
+# visual studio generator properties
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT bctests)
+    
 if (UNIX AND NOT APPLE)
     set(LINUX 1)
     add_definitions(-DBC_TEST_LINUX)

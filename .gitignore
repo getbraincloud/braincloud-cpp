@@ -58,11 +58,12 @@ solutions/**/*.sdf
 # various build artifacts
 cmake_*
 **/__pycache__
-autobuild/artifacts
+**/artifacts
 autobuild/tmp
 *.swp
 CMakeFiles/
 CMakeCache.txt
+cmake-build-debug/
 
 # visual studio
 .vs/

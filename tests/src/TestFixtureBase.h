@@ -51,7 +51,7 @@ protected:
 	bool DetachPeer();
     void Logout();
 
-    void LoadIds();
+    static void LoadIds();
     void Init();
 
 private:

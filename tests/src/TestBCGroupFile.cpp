@@ -10,17 +10,17 @@
 
 using namespace BrainCloud;
 using namespace std::chrono;
+BrainCloudWrapper* TestBCGroupFile::wrapper = nullptr;
+GroupFileUploadCallback* TestBCGroupFile::uploadCallback = nullptr;
+std::string TestBCGroupFile::filename = "testingGroupFile.dat";
+std::string TestBCGroupFile::newFileName = "testCopiedFile.dat";
+std::string TestBCGroupFile::tempFilename = "deleteThisFileAfter.dat";
+std::string TestBCGroupFile::updatedName = "UpdatedGroupFile.dat";
+std::string TestBCGroupFile::groupFileId = "d2dd646a-f1af-4a96-90a7-a0310246f5a2";
+std::string TestBCGroupFile::groupID = "a7ff751c-3251-407a-b2fd-2bd1e9bca64a";
+int TestBCGroupFile::version = -1;
 
-TestBCGroupFile::TestBCGroupFile():
-groupFileId ("d2dd646a-f1af-4a96-90a7-a0310246f5a2"),
-groupID("a7ff751c-3251-407a-b2fd-2bd1e9bca64a"),
-version(-1),
-_returnCount(0),
-_failCount(0),
-filename("testingGroupFile.dat"),
-newFileName("testCopiedFile.dat"),
-tempFilename("deleteThisFileAfter.dat"),
-updatedName("UpdatedGroupFile.dat")
+TestBCGroupFile::TestBCGroupFile()
 {
 }
 
@@ -150,11 +150,9 @@ TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
     acl["member"] = 2; // can be 0, 1 or 2
     acl["other"] = 0;
     
-    m_bc->registerFileUploadCallback(this);
-    
     // create new file and wait for upload
     std::string uploadId;
-    if (!simpleUpload(5, "TestFolder", tempFilename.c_str(), uploadId))
+    if (!simpleUpload(m_bc, 5, "TestFolder", tempFilename.c_str(), uploadId))
     {
         return;
     }
@@ -238,7 +236,6 @@ TEST_F(TestBCGroupFile, testUpdateFileInfo)
 /*
  * Helpers
  */
-
 void TestBCGroupFile::Authenticate()
 {
     TestResult tr;
@@ -250,20 +247,20 @@ void TestBCGroupFile::Authenticate()
     tr.run(m_bc);
 }
 
-void TestBCGroupFile::fileUploadCompleted(const char * in_fileUploadId, const std::string & in_jsonResponse)
+void GroupFileUploadCallback::fileUploadCompleted(const char * in_fileUploadId, const std::string & in_jsonResponse)
 {
     std::cout << "FileUploadCompleted callback hit" << std::endl;
-    
+
     UploadCompletedDetails details;
     details._fileUploadId = in_fileUploadId;
     details._jsonResponse = in_jsonResponse;
     _completedUploadDetails.push_back(details);
 }
 
-void TestBCGroupFile::fileUploadFailed(const char * in_fileUploadId, int in_statusCode, int in_reasonCode, const std::string & in_jsonResponse)
+void GroupFileUploadCallback::fileUploadFailed(const char * in_fileUploadId, int in_statusCode, int in_reasonCode, const std::string & in_jsonResponse)
 {
     std::cout << "FileUploadFailed callback hit status(" << in_statusCode << ") reason(" << in_reasonCode << ") id(" << in_fileUploadId << ")" << std::endl;
-    
+
     UploadFailedDetails details;
     details._fileUploadId = in_fileUploadId;
     details._statusCode = in_statusCode;
@@ -291,30 +288,89 @@ int TestBCGroupFile::createFile(const char * in_path, int in_size)
     return fileLen;
 }
 
-bool TestBCGroupFile::simpleUpload(int mb, const std::string & cloudPath, const std::string & cloudFilename, std::string & out_uploadId)
+bool TestBCGroupFile::simpleUpload(BrainCloudClient* client, int mb, const std::string & cloudPath, const std::string & cloudFilename, std::string & out_uploadId)
 {
     std::string localPath = cloudFilename;
+
+    uploadCallback = new GroupFileUploadCallback();
     createFile(localPath.c_str(), mb * 1024 * 1024);
-    
+
     TestResult tr;
-    m_bc->getFileService()->uploadFile(cloudPath.c_str(), cloudFilename.c_str(), true, true, localPath.c_str(), &tr);
-    if (!tr.run(m_bc))
+    client->getFileService()->uploadFile(cloudPath.c_str(), cloudFilename.c_str(), true, true, localPath.c_str(), &tr);
+    if (!tr.run(client))
     {
         return false;
     }
     out_uploadId = tr.m_response["data"]["fileDetails"]["uploadId"].asString();
-    
-    m_bc->registerFileUploadCallback(this);
-    while (_completedUploadDetails.size() == 0 && _failedUploadDetails.size() == 0)
+
+    client->registerFileUploadCallback(uploadCallback);
+
+    while (uploadCallback->_completedUploadDetails.size() == 0 && uploadCallback->_failedUploadDetails.size() == 0)
     {
-        m_bc->runCallbacks();
+        client->runCallbacks();
         TestResult::sleep(SLEEP_INTERVAL_MS);
-        
-        int64_t transferred = m_bc->getFileService()->getUploadBytesTransferred(out_uploadId.c_str());
-        int64_t total = m_bc->getFileService()->getUploadTotalBytesToTransfer(out_uploadId.c_str());
-        double progress = m_bc->getFileService()->getUploadProgress(out_uploadId.c_str());
-        printf("%lld transfered %lld total %f progress\n", transferred, total, progress);        
+
+        int64_t transferred = client->getFileService()->getUploadBytesTransferred(out_uploadId.c_str());
+        int64_t total = client->getFileService()->getUploadTotalBytesToTransfer(out_uploadId.c_str());
+        double progress = client->getFileService()->getUploadProgress(out_uploadId.c_str());
+        printf("%lld transfered %lld total %f progress\n", transferred, total, progress);
     }
-    m_bc->deregisterFileUploadCallback();
+    client->deregisterFileUploadCallback();
+    delete uploadCallback;
+    uploadCallback = nullptr;
     return true;
+}
+
+void TestBCGroupFile::SetUpTestCase()
+{
+    printf("Setting up files for TestGroupFile\n");
+    wrapper = new BrainCloudWrapper("_wrapperName");
+
+    LoadIds();
+
+    std::map<std::string, std::string> secretMap;
+    secretMap[m_appId] = m_secret;
+    secretMap[m_childAppId] = m_childSecret;
+    wrapper->initializeWithApps(m_serverUrl.c_str(), m_appId.c_str(), secretMap, m_version.c_str(), "", "");
+
+    TestResult tr;
+    wrapper->getBCClient()->getAuthenticationService()->authenticateEmailPassword(
+            "cpp-tester",
+            "cpp-tester",
+            false,
+            &tr);
+    tr.run(wrapper->getBCClient());
+
+    Json::FastWriter fw;
+    Json::Value acl;
+    acl["member"] = 2; // can be 0, 1 or 2
+    acl["other"] = 0;
+
+    // create new file and wait for upload
+    std::string uploadId;
+    if (!simpleUpload(wrapper->getBCClient(), 5, "TestFolder", filename.c_str(), uploadId))
+    {
+        wrapper->getBCClient()->resetCommunication();
+        wrapper->getBCClient()->getAuthenticationService()->clearSavedProfileId();
+        delete wrapper;
+        wrapper = nullptr;
+        return;
+    }
+
+    /* Add user to test group */
+    wrapper->getGroupService()->joinGroup(groupID.c_str(), &tr);
+    tr.run(wrapper->getBCClient());
+
+    /* moveUserToGroupFile Test */
+    wrapper->getBCClient()->getGroupFileService()->moveUserToGroupFile("TestFolder/", filename, groupID, "", filename, fw.write(acl).c_str(), true, &tr);
+    tr.run(wrapper->getBCClient());
+
+    /* Save group file ID for tests */
+    groupFileId = tr.m_response["data"]["fileDetails"]["fileId"].asString();
+
+    wrapper->getBCClient()->resetCommunication();
+    wrapper->getBCClient()->getAuthenticationService()->clearSavedProfileId();
+
+    delete wrapper;
+    wrapper = nullptr;
 }

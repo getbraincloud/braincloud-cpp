@@ -115,22 +115,22 @@ TEST_F(TestBCIdentity, changeEmailIdentity)
 {
 	TestResult tr;
 
-	char m_newEmail[256];
-	char m_oldEmail[256];
+	std::string m_newEmail;
+	std::string m_oldEmail;
 
-	sprintf(m_newEmail, "%s%d%s", "test_", rand() % 100000000, "@bitheads.com");
-	sprintf(m_oldEmail, "%s%d%s", "test_", rand() % 100000000, "@bitheads.com");
+    m_newEmail = "test_" + std::to_string(rand() % 100000000) + "@bitheads.com";
+	m_oldEmail = "test_" + std::to_string(rand() % 100000000) + "@bitheads.com";
 
 	const char* password = "password";
 
 	//expected that the old e-mail randomly generated isn't already associated with the profile. 
-	m_bc->getAuthenticationService()->authenticateEmailPassword(m_oldEmail, m_oldEmail, true, &tr);
+	m_bc->getAuthenticationService()->authenticateEmailPassword(m_oldEmail.c_str(), m_oldEmail.c_str(), true, &tr);
 	tr.runExpectFail(m_bc, 202, 40206);
 
 	m_bc->getIdentityService()->changeEmailIdentity(
-		m_oldEmail,
+		m_oldEmail.c_str(),
 		password,
-		m_newEmail,
+		m_newEmail.c_str(),
 		true,
 		&tr);
 	tr.runExpectFail(m_bc, 400, 40584);

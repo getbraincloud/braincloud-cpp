@@ -1,6 +1,11 @@
 #include "braincloud/internal/android/com_bitheads_braincloud_AndroidBridge.h"
 
 #if defined(__ANDROID__)
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+// BrainCloudClient::getInstance() is deprecated
+#endif
 
 #include <stdio.h>
 #include "braincloud/BrainCloudClient.h"
@@ -45,5 +50,7 @@ JNIEXPORT void JNICALL Java_com_bitheads_braincloud_AndroidBridge_setTimezoneOff
     BrainCloudClient *client = BrainCloudClient::getInstance();
     client->setTimezoneOffset(jTimezoneOffset);
 }
-
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 #endif

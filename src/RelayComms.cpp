@@ -153,6 +153,8 @@ namespace BrainCloud
         m_eventPool.reclaim();
         m_packetPool.reclaim();
         m_rsmgHistory.clear();
+        m_trackedPacketIds.clear();
+        m_trackedPacketIds.resize(4);
 
         switch (m_connectionType)
         {
@@ -379,10 +381,18 @@ namespace BrainCloud
             pPacket->resendInterval = RELIABLE_RESEND_INTERVALS[(int)in_channel];
             uint64_t ackId = *(uint64_t*)(pPacket->data.data() + 3);
             m_reliables[ackId] = pPacket;
-            std::cout<<"add reliable "<<ackId<<std::endl;
+            if (m_loggingEnabled && m_loggingPackets)
+            {
+                std::cout<<"<<< send on "<<static_cast<int>(in_channel)<<" netId: "<<m_netId<<" packet: "<<packetId<<" "<<ackId<<std::endl;
+            }
         }
         else
         {
+            if (m_loggingEnabled && m_loggingPackets)
+            {
+                uint64_t ackId = *(uint64_t*)(pPacket->data.data() + 3);
+                std::cout<<"<<< send on "<<static_cast<int>(in_channel)<<" netId: "<<m_netId<<" packet: "<<packetId<<" "<<ackId<<std::endl;
+            }
             m_packetPool.free(pPacket);
         }
     }
@@ -596,6 +606,22 @@ namespace BrainCloud
             auto cxId = json["cxId"].asString();
             auto profileId = extractProfileIdFromCxId(cxId);
 
+            Json::Value PacketIdsArray = json["orderedPacketIds"];
+            
+            // Loop through the array to get the index and value of each packet id
+            for (int channelId = 0; channelId < static_cast<int>(PacketIdsArray.size()); channelId++)
+            {
+                int PacketId = PacketIdsArray[channelId].asInt();
+                if (PacketId != 0) {
+                    
+                    m_trackedPacketIds[channelId].insert({netId, PacketId});
+                    if (m_loggingEnabled)
+                    {
+                        std::cout << "Added tracked packetId "<< PacketId <<" for netId "<< netId <<" at channel " << channelId << std::endl;
+                    }
+                }
+            }
+            
             m_netIdToCxId[netId] = cxId;
             m_cxIdToNetId[cxId] = netId;
             m_netIdToProfileId[netId] = profileId;
@@ -653,9 +679,13 @@ namespace BrainCloud
                 //std::cout << "Acked packet id: " << packetId << std::endl;
             }
 #endif
+            if (m_loggingEnabled && m_loggingPackets)
+            {
+                std::cout<<"-*- ack recvd netId: "<<m_netId<<" packet: "<<pPacket->id<<" "<<ackId<<std::endl;
+            }
             m_packetPool.free(pPacket);
             m_reliables.erase(it);
-            std::cout<<"del reliable "<<ackId<<std::endl;
+            
         }
     }
 
@@ -694,6 +724,11 @@ namespace BrainCloud
         auto packetId = rh & 0xFFF;
         auto netId = (uint8_t)(playerMask2 & 0x00FF);
 
+        if (m_loggingEnabled && m_loggingPackets)
+        {
+            std::cout<<">>> recv on "<<static_cast<int>(channel)<<" netId: "<<static_cast<int>(netId)<<" packet: "<<packetId<<" "<<ackId<<std::endl;
+        }
+
         // Reconstruct ack id without packet id
         if (m_connectionType == eRelayConnectionType::UDP)
         {
@@ -710,6 +745,23 @@ namespace BrainCloud
                 if (it != m_recvPacketId.end())
                 {
                     prevPacketId = it->second;
+                }
+                
+                //look for a tracked packetId in channel for netId
+                if (m_trackedPacketIds.size() > 0){
+                    std::map<uint8_t, int>::iterator it;
+                    it = m_trackedPacketIds[channel].find(netId);
+                    if(it != m_trackedPacketIds[channel].end()){
+                        // use the tracked packet id rather than
+                        prevPacketId = m_trackedPacketIds[channel][netId];
+                        m_trackedPacketIds[channel].erase(it);
+                        if (m_loggingEnabled)
+                        {
+                            std::cout << "Found tracked packetId for channel: "
+                            <<channel<<" netId: "<<static_cast<int>(netId)<<" which was "<<prevPacketId
+                            << std::endl;
+                        }
+                    }
                 }
 
                 if (reliable)
