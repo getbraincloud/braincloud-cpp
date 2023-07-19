@@ -109,7 +109,10 @@ Use cmake --help to see available generators. Then, use command eg.:
 ## CLion
 
 1. Open the folder braincloud-cpp in CLion.
-2. Set CMake options in Clion > Settings...
+2. Set CMake options in Clion > Settings... For Windows, set  
+```
+-DSSL_ALLOW_SELFSIGNED=ON -DCMAKE_GENERATOR_PLATFORM=x64
+```
 3. Select Build > Build 'brainCloud'
 Or, add brainCloud directly to your cmake project (see below).
 
@@ -281,7 +284,7 @@ http://getbraincloud.com/apidocs/apiref/?java#capi-auth
 
 ## Building and Running Tests
 
-Refer to Jenkinsfile for platform builds and unit test pipeline.
+Refer to Jenkinsfile for platform builds and unit test pipeline. See also tests/README.md.
 
 To run unit tests locally, you can use the autobuild script runtests.sh or runtest.bat. The process is:
 
