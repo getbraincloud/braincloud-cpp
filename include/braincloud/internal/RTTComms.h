@@ -9,7 +9,7 @@
 #include "braincloud/ServiceName.h"
 #include "braincloud/BrainCloudRTT.h"
 
-#include <json/json.h>
+#include "json/json.h"
 
 #include <atomic>
 #include <map>
