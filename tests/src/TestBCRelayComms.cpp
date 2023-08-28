@@ -159,6 +159,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
     }
 
     // Register relay callback
+    bc->getRelayComms()->enableLogging(true);
     bool relayFailed = false;
     auto pData = "Hello World!";
     int size = (int)strlen(pData);
