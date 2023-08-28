@@ -157,7 +157,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         // We only support WS for our gamelift server, we just test that they launched successfully.
         return;
     }
-
+    bc->getRelayComms()->enableLogging(true);
     // Register relay callback
     bool relayFailed = false;
     auto pData = "Hello World!";
