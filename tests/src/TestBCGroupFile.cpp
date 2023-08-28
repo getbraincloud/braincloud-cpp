@@ -242,7 +242,7 @@ void TestBCGroupFile::Authenticate()
     m_bc->getAuthenticationService()->authenticateEmailPassword(
                                                                 "cpp-tester",
                                                                 "cpp-tester",
-                                                                false,
+                                                                true,
                                                                 &tr);
     tr.run(m_bc);
 }
