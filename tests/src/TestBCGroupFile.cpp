@@ -26,6 +26,11 @@ TestBCGroupFile::TestBCGroupFile()
 
 TEST_F(TestBCGroupFile, testCheckFilenameExists)
 {
+    if (TestFixtureBase::getServerUrl().find("api.internal.braincloudservers.com") != std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testCheckFilenameExists...\n");
     
     Authenticate();
