@@ -26,11 +26,18 @@ TestBCGroupFile::TestBCGroupFile()
 
 TEST_F(TestBCGroupFile, testCheckFilenameExists)
 {
-    if (TestFixtureBase::getServerUrl().find("api.internal.braincloudservers.com") != std::string::npos)
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
     {
         printf("This env doesn't support the file set up for GroupFile testing..\n");
         return;
     }
+    printf("Server URL: %s", TestFixtureBase::getServerUrl());
     printf("testCheckFilenameExists...\n");
     
     Authenticate();
@@ -47,6 +54,17 @@ TEST_F(TestBCGroupFile, testCheckFilenameExists)
 
 TEST_F(TestBCGroupFile, testCheckFilenameNoExists)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testCheckFilenameNoExists...\n");
     
     Authenticate();
@@ -63,6 +81,17 @@ TEST_F(TestBCGroupFile, testCheckFilenameNoExists)
 
 TEST_F(TestBCGroupFile, testCheckFullpathFilenameExists)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testCheckFullpathFilenameExists...\n");
     
     Authenticate();
@@ -79,6 +108,17 @@ TEST_F(TestBCGroupFile, testCheckFullpathFilenameExists)
 
 TEST_F(TestBCGroupFile, testGetFileInfo)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testGetFileInfo...\n");
     
     Authenticate();
@@ -96,6 +136,17 @@ TEST_F(TestBCGroupFile, testGetFileInfo)
 
 TEST_F(TestBCGroupFile, testGetFileInfoSimple)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testGetFileInfoSimple...\n");
     
     Authenticate();
@@ -110,6 +161,17 @@ TEST_F(TestBCGroupFile, testGetFileInfoSimple)
 
 TEST_F(TestBCGroupFile, testGetFileList)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testGetFileList...\n");
     
     Authenticate();
@@ -126,6 +188,17 @@ TEST_F(TestBCGroupFile, testGetFileList)
 
 TEST_F(TestBCGroupFile, testMoveFile)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testMoveFile...\n");
     
     Authenticate();
@@ -145,6 +218,17 @@ TEST_F(TestBCGroupFile, testMoveFile)
 
 TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testMoveUserToGroupFile...\n");
     
     Authenticate();
@@ -180,6 +264,17 @@ TEST_F(TestBCGroupFile, testMoveUserToGroupFile)
 
 TEST_F(TestBCGroupFile, testCopyDeleteFile)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testCopyDeleteFile...\n");
     
     Authenticate();
@@ -216,6 +311,17 @@ TEST_F(TestBCGroupFile, testCopyDeleteFile)
 
 TEST_F(TestBCGroupFile, testUpdateFileInfo)
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+    TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+    {
+        printf("This env doesn't support the file set up for GroupFile testing..\n");
+        return;
+    }
     printf("testUpdateFileInfo...\n");
     
     Authenticate();
