@@ -37,7 +37,6 @@ TEST_F(TestBCGroupFile, testCheckFilenameExists)
         printf("This env doesn't support the file set up for GroupFile testing..\n");
         return;
     }
-    printf("Server URL: %s", TestFixtureBase::getServerUrl());
     printf("testCheckFilenameExists...\n");
     
     Authenticate();
