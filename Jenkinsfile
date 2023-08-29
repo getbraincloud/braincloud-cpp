@@ -7,7 +7,7 @@ pipeline {
     parameters {
         string(name: 'BC_LIB', defaultValue: 'develop', description: 'braincloud-cpp branch')
         string(name: 'TEST_NAME', defaultValue: 'Auth', description: 'test filter')
-       choice(name: 'SERVER_ENV', choices: ['internal', 'prod', 'talespin'], description: 'Where to run tests?') 
+       choice(name: 'SERVER_ENVIRONMENT', choices: ['internal', 'prod', 'talespin'], description: 'Where to run tests?') 
     }
         stages {
             
