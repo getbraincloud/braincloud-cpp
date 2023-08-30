@@ -433,6 +433,17 @@ bool TestBCGroupFile::simpleUpload(BrainCloudClient* client, int mb, const std::
 
 void TestBCGroupFile::SetUpTestCase()
 {
+    if (TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.braincloudservers.com") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.dev.bc.talespin.io") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.bc.talespin.io") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.bc.bigfishgames.com") == std::string::npos)
+        {
+            printf("This env doesn't support the file set up for GroupFile testing..\n");
+            return;
+        }
     printf("Setting up files for TestGroupFile\n");
     wrapper = new BrainCloudWrapper("_wrapperName");
 
