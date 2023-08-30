@@ -21,7 +21,7 @@ pipeline {
             steps {
                 deleteDir()
                 checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
-                sh 'cp ~/braincloud-client-master/data/test_ids_${SERVER_ENVIRONMENT}.txt autobuild/ids.txt'
+                sh 'cp ~/braincloud-client-master/data/test_ids_${params.SERVER_ENVIRONMENT}.txt autobuild/ids.txt'
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 deleteDir()
                 checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
-                sh 'cp ~/braincloud-client-master/data/test_ids_${SERVER_ENVIRONMENT}.txt autobuild/ids.txt'
+                sh 'cp ~/braincloud-client-master/data/test_ids_${params.SERVER_ENVIRONMENT}.txt autobuild/ids.txt'
 			    sh 'autobuild/runtests.sh ${TEST_NAME}'
             }
             post {
@@ -58,7 +58,7 @@ pipeline {
             steps {
                 deleteDir()
                 checkout([$class: 'GitSCM', branches: [[name: '*/${BC_LIB}']], extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], userRemoteConfigs: [[url: 'https://github.com/getbraincloud/braincloud-cpp.git']]])				
-            	bat 'copy /Y C:\\Users\\buildmaster\\braincloud-client-master\\data\\test_ids_${SERVER_ENVIRONMENT}.txt autobuild\\ids.txt'
+            	bat 'copy /Y C:\\Users\\buildmaster\\braincloud-client-master\\data\\test_ids_${params.SERVER_ENVIRONMENT}.txt autobuild\\ids.txt'
             	bat 'autobuild\\runtests.bat %TEST_NAME%'
             }
             post {
