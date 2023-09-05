@@ -41,7 +41,7 @@
 
 - (void)send:(const std::string&)message
 {
-    [_webSocket send:[NSString stringWithUTF8String:message.c_str()]];
+    [_webSocket sendString:[NSString stringWithUTF8String:message.c_str()] error:NULL];
 }
 
 - (void)close
