@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.name     = "BrainCloudCpp"
 
-  s.version  = "4.15.0"
+  s.version  = "5.0.0"
 
   s.summary  = "The C++ client library for brainCloud"
   s.homepage = "http://getbraincloud.com/"
@@ -43,7 +43,7 @@ Pod::Spec.new do |s|
 
   # hack for use_frameworks!
   s.xcconfig = {
-    'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/BrainCloudCpp/include"'
+        'USER_HEADER_SEARCH_PATHS' => '"${SRCROOT}/include/"'
   }
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
