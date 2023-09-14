@@ -576,6 +576,8 @@ if (USE_LIBWEBSOCKETS)
           target_compile_options(mbedtls PRIVATE -Wno-unused-but-set-variable)
           target_compile_options(mbedcrypto PRIVATE -Wno-unused-but-set-variable)
        endif()
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
     endif()
 
     list(APPEND libs websockets)
