@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.name     = "BrainCloudCpp"
 
-  s.version  = "5.0.0"
+  s.version  = "5.0.1"
 
   s.summary  = "The C++ client library for brainCloud"
   s.homepage = "http://getbraincloud.com/"
@@ -41,9 +41,12 @@ Pod::Spec.new do |s|
   s.source_files            = "src/*.{c,cpp}", "src/apple/*.{c,cpp,mm}", "include/braincloud/*.h", "include/braincloud/internal/*.h", "include/braincloud/internal/apple/*.h"
   s.exclude_files           = "src/DefaultSaveDataHelper.cpp", "src/DefaultGUID.cpp" , "src/DefaultFileUploader.cpp", "src/DefaultWebSocket.cpp", "src/DefaultPinger.cpp"
 
-  # hack for use_frameworks!
+  # for use_frameworks!
+  # to use development pod: change below to your full source code path
+  # to use cocoapod release: change to be relative to ${PODS_ROOT}
   s.xcconfig = {
-        'USER_HEADER_SEARCH_PATHS' => '"${SRCROOT}/include/"'
+        # eg. 'USER_HEADER_SEARCH_PATHS' => '"/local/path/to/braincloud-cpp/include"'
+        'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/BrainCloudCpp/include"'
   }
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -51,7 +54,7 @@ Pod::Spec.new do |s|
   s.libraries               = 'c++', 'z'
   s.osx.framework           = 'LDAP'
   s.dependency                'SSKeychain'
- s.dependency                'BrainCloudJsonCpp', '~>1.1.4'
+  s.dependency                'BrainCloudJsonCpp', '~>1.2'
   s.ios.dependency            'SocketRocket', '~> 0.5'
   s.osx.dependency            'SocketRocket', '~> 0.5'
   #s.watchos.dependency       'SocketRocket', '~> 0.5'
