@@ -283,8 +283,8 @@ TEST_F(TestBCAuth, AuthenticateAdvanced)
 
 TEST_F(TestBCAuth, AuthenticateUltra)
 {
-    if (TestFixtureBase::getServerUrl().find("api-internal.braincloudservers.com") == std::string::npos &&
-        TestFixtureBase::getServerUrl().find("internala.braincloudservers.com") == std::string::npos &&
+    if (TestFixtureBase::getServerUrl().find("api-internal.braincloudservers.com") == std::string::npos ||
+        TestFixtureBase::getServerUrl().find("api.internala.braincloudservers.com") == std::string::npos ||
         TestFixtureBase::getServerUrl().find("api.internalg.braincloudservers.com") == std::string::npos/* &&
         TestFixtureBase::getServerUrl().find("api.ultracloud.ultra.io") == std::string::npos*/)
     {
