@@ -393,6 +393,8 @@
 		574B0C632ABDCE6E00227041 /* DefaultPinger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultPinger.cpp; sourceTree = "<group>"; };
 		574B0C702ABDCEA500227041 /* RelayComms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RelayComms.cpp; sourceTree = "<group>"; };
 		574B0CA52ABDEE2C00227041 /* DefaultWebSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultWebSocket.cpp; sourceTree = "<group>"; };
+		574B0CF42ABE233700227041 /* mbed TLS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "mbed TLS.xcodeproj"; path = "gen/lib/mbedtls/mbed TLS.xcodeproj"; sourceTree = "<group>"; };
+		574B0CF72ABE233F00227041 /* libwebsockets.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libwebsockets.xcodeproj; path = gen/lib/libwebsockets/libwebsockets.xcodeproj; sourceTree = "<group>"; };
 		8517BAD2221C9622006E3C95 /* BrainCloudAppStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainCloudAppStore.cpp; sourceTree = "<group>"; };
 		8517BAD3221C9622006E3C95 /* BrainCloudChat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainCloudChat.cpp; sourceTree = "<group>"; };
 		8517BAD4221C9622006E3C95 /* BrainCloudLobby.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainCloudLobby.cpp; sourceTree = "<group>"; };
@@ -401,7 +403,6 @@
 		8517BAD8221C9622006E3C95 /* BrainCloudVirtualCurrency.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainCloudVirtualCurrency.cpp; sourceTree = "<group>"; };
 		8517BAD9221C9622006E3C95 /* DefaultFileUploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultFileUploader.cpp; sourceTree = "<group>"; };
 		8517BADA221C9622006E3C95 /* DefaultTCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultTCPSocket.cpp; sourceTree = "<group>"; };
-		8517BADB221C9622006E3C95 /* DefaultWebSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultWebSocket.cpp; sourceTree = "<group>"; };
 		8517BADC221C9622006E3C95 /* RTTComms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTTComms.cpp; sourceTree = "<group>"; };
 		8517BADD221C9622006E3C95 /* SaveDataHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaveDataHelper.cpp; sourceTree = "<group>"; };
 		D84A700E1C73704D00291D06 /* libBrainCloud-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libBrainCloud-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -507,9 +508,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		574B0CF52ABE233700227041 /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		574B0CF82ABE233F00227041 /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D84A6FE51C736F7800291D06 = {
 			isa = PBXGroup;
 			children = (
+				574B0CF72ABE233F00227041 /* libwebsockets.xcodeproj */,
+				574B0CF42ABE233700227041 /* mbed TLS.xcodeproj */,
 				DF932E281CD92B460085137C /* include */,
 				DF932CD61CD9233B0085137C /* lib */,
 				DF932C551CD9231B0085137C /* src */,
@@ -795,6 +808,16 @@
 			mainGroup = D84A6FE51C736F7800291D06;
 			productRefGroup = D84A6FF01C736F7800291D06 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 574B0CF82ABE233F00227041 /* Products */;
+					ProjectRef = 574B0CF72ABE233F00227041 /* libwebsockets.xcodeproj */;
+				},
+				{
+					ProductGroup = 574B0CF52ABE233700227041 /* Products */;
+					ProjectRef = 574B0CF42ABE233700227041 /* mbed TLS.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D84A700D1C73704D00291D06 /* BrainCloudCpp-iOS */,
