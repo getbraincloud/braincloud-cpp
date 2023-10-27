@@ -15,7 +15,7 @@ fi
 
 library_os="Apple_C++"
 
-sim_archs="x86_64"
+sim_archs="arm64 x86_64"
 #verbose=-verbose
 
 build_version="$1"
@@ -130,7 +130,7 @@ function build_app()
   cp -r include/braincloud brainCloud/include
 
   #update the libwebsocket dependencies
-#  git submodule update --init
+  git submodule update --init
 
   # copy in the thirdparty dependencies
   cp -r lib/jsoncpp-1.0.0 brainCloud/thirdparty

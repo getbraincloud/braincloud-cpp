@@ -9,6 +9,10 @@ if (CMAKE_SYSTEM_NAME STREQUAL Android)
     set(BC_USE_OPENSSL 1)
 endif()
 
+if (CMAKE_GENERATOR STREQUAL Xcode)
+    set(XCODE 1)
+endif()
+
 if (UWP)
     # We require 3.4.0 for UWP generation
     cmake_minimum_required(VERSION 3.4.0)
@@ -528,6 +532,8 @@ if (USE_LIBWEBSOCKETS)
 		set(LWS_MBEDTLS_INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include>")
         if(WIN32)
             set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedtls.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedcrypto.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedx509.lib")
+        elseif(XCODE)
+            set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedx509.a")
         else()
             set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
         endif()
@@ -586,6 +592,11 @@ if (USE_LIBWEBSOCKETS)
             ${BC_LWS_INC}
             )
 
+endif()
+
+if (XCODE)
+    # removing warning in clang 15, safe to ignore
+    target_link_options(brainCloud PUBLIC "LINKER:-no_warn_duplicate_libraries")
 endif()
 
 # Setup includes and linked libraries
