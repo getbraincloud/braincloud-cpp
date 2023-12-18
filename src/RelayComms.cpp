@@ -640,6 +640,7 @@ namespace BrainCloud
             {
                 // We are the one that got disconnected!
                 socketCleanup();
+                queueErrorEvent("Relay: Disconnected by server");
                 return;
             }
         }
@@ -947,7 +948,7 @@ namespace BrainCloud
                     m_isSocketConnected = true;
                     if (m_loggingEnabled)
                     {
-                        std::cout << "Relay Socket Connected" << std::endl;
+                        std::cout << "RelayComms: Relay Socket Connected" << std::endl;
                     }
                     send(CL2RS_CONNECT, buildConnectionRequest());
                     if (m_connectionType == eRelayConnectionType::UDP)
