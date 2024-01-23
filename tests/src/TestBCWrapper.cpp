@@ -51,7 +51,6 @@ TEST_F(TestBCWrapper, AuthenticateEmailPassword)
 	m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
     
     std::string email = GetUser(UserA)->m_email;
-    //email.append("_wrapper");
     
     TestResult tr;
 	m_bcWrapper->authenticateEmailPassword(email.c_str(), GetUser(UserA)->m_password, true, &tr);
@@ -221,7 +220,6 @@ TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
 	#if defined(_WIN32)
 
 	std::string email = GetUser(UserA)->m_email;
-	//email.append("_wrapper");
 
 	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
 	m_bcWrapper->resetStoredProfileId();
@@ -242,7 +240,6 @@ TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
 	#elif defined(UNIX)
 
 	std::string email = GetUser(UserA)->m_email;
-	//email.append("_wrapper");
 
 	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
 	m_bcWrapper->resetStoredProfileId();
