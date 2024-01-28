@@ -51,8 +51,10 @@ TEST_F(TestBCWrapper, AuthenticateEmailPassword)
 	m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
     
     std::string email = GetUser(UserA)->m_email;
-    email.append("_wrapper");
-    
+    size_t pos = email.find('@');
+    if(pos > 0)
+        email.insert(pos, "_wrapper");
+
     TestResult tr;
 	m_bcWrapper->authenticateEmailPassword(email.c_str(), GetUser(UserA)->m_password, true, &tr);
     tr.run(m_bc);

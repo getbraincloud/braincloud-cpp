@@ -86,3 +86,6 @@ tests/uploadsimplefile.txt
 # Common place to build out of source with cmake
 build/
 gen/
+
+.cache/
+cmake-**/
