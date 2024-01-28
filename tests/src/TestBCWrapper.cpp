@@ -223,9 +223,10 @@ TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
 	#if defined(_WIN32)
 
 	std::string email = GetUser(UserA)->m_email;
-	email.append("_wrapper");
-
-	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
+    size_t pos = email.find('@');
+    if(pos > 0)
+        email.insert(pos, "_wrapper");
+    m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
 	m_bcWrapper->resetStoredProfileId();
 
 	TestResult tr;
@@ -244,8 +245,9 @@ TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
 	#elif defined(UNIX)
 
 	std::string email = GetUser(UserA)->m_email;
-	email.append("_wrapper");
-
+    size_t pos = email.find('@');
+    if(pos > 0)
+        email.insert(pos, "_wrapper");
 	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
 	m_bcWrapper->resetStoredProfileId();
 
