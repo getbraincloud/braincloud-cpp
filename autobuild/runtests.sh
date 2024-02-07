@@ -1,7 +1,9 @@
 #!/bin/bash
 # execute from cmake directory
 
-./autobuild/buildtests.sh
+if [ "$2" != "-nobuild" ]; then
+  ./autobuild/buildtests.sh
+fi
 
 pushd build
 
