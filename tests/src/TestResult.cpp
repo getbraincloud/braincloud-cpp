@@ -83,12 +83,12 @@ bool TestResult::runExpectCount(BrainCloudClient * in_bc, int in_apiCountExpecte
     if (!m_done)
     {
         // we timed out so try to reset the comms and throw the error
-        if (!in_noAssert) EXPECT_TRUE(m_done);
         in_bc->resetCommunication();
         m_result = false;
         m_statusCode = 999;
         m_reasonCode = 999;
         m_statusMessage = "TEST TIMEOUT EXCEEDED";
+        if (!in_noAssert) EXPECT_TRUE(m_done);
     }
     else
     {
