@@ -8,7 +8,7 @@
 // Build machines dislike this :-)
 // However you can uncomment to verify the wrapper is working.
 
-//#ifndef __APPLE__
+#ifndef __APPLE__
 
 TEST_F(TestBCWrapper, AaaRunFirst)
 {
@@ -331,6 +331,5 @@ TEST_F(TestBCWrapper, ReInit)
     tr3.runExpectFail(m_bc, HTTP_FORBIDDEN, NO_SESSION);
 }
 
-
-//#endif
+#endif
 
