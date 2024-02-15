@@ -717,7 +717,6 @@ namespace BrainCloud {
     {
         if (forgetUser) {
             resetStoredProfileId();
-            client->getAuthenticationService()->clearSavedProfileId();
         }
          client->getPlayerStateService()->logout(in_callback);
     }
