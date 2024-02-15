@@ -713,6 +713,15 @@ namespace BrainCloud {
 		}
     }
 
+    void BrainCloudWrapper::logout(bool forgetUser, IServerCallback * in_callback)
+    {
+        if (forgetUser) {
+            resetStoredProfileId();
+            client->getAuthenticationService()->clearSavedProfileId();
+        }
+         client->getPlayerStateService()->logout(in_callback);
+    }
+
     void BrainCloudWrapper::resetEmailPassword(const char * in_externalId, IServerCallback * in_callback)
     {
         client->getAuthenticationService()->resetEmailPassword(in_externalId, in_callback);

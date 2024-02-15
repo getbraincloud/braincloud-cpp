@@ -8,7 +8,7 @@
 // Build machines dislike this :-)
 // However you can uncomment to verify the wrapper is working.
 
-#ifndef __APPLE__
+//#ifndef __APPLE__
 
 TEST_F(TestBCWrapper, AaaRunFirst)
 {
@@ -158,6 +158,38 @@ TEST_F(TestBCWrapper, Reconnect)
 	Logout();
 }
 
+TEST_F(TestBCWrapper, LogoutRememberUser)
+{
+    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
+
+    TestResult tr;
+    std::string uid = GetUser(UserA)->m_id;
+    uid.append("_wrapper");
+    m_bcWrapper->authenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
+    tr.run(m_bc);
+
+    m_bcWrapper->logout(false, &tr);
+    tr.run(m_bc);
+
+    EXPECT_FALSE(m_bcWrapper->getStoredProfileId()=="");
+}
+
+TEST_F(TestBCWrapper, LogoutForgetUser)
+{
+    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
+
+    TestResult tr;
+    std::string uid = GetUser(UserA)->m_id;
+    uid.append("_wrapper");
+    m_bcWrapper->authenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
+    tr.run(m_bc);
+
+    m_bcWrapper->logout(true, &tr);
+    tr.run(m_bc);
+
+    EXPECT_TRUE(m_bcWrapper->getStoredProfileId()=="");
+}
+
 TEST_F(TestBCWrapper, SmartSwitchAnonToUniversal)
 {
 	//need to separate these tests for windows and linux for the time being. 
@@ -300,5 +332,5 @@ TEST_F(TestBCWrapper, ReInit)
 }
 
 
-#endif
+//#endif
 
