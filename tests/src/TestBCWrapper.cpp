@@ -158,11 +158,61 @@ TEST_F(TestBCWrapper, Reconnect)
 	Logout();
 }
 
+TEST_F(TestBCWrapper, LogoutRememberUser)
+{
+    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
+
+    TestResult tr;
+    std::string uid = GetUser(UserA)->m_id;
+    uid.append("_wrapper");
+    m_bcWrapper->authenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
+    tr.run(m_bc);
+
+    m_bcWrapper->logout(false, &tr);
+    tr.run(m_bc);
+
+    EXPECT_FALSE(m_bcWrapper->getStoredProfileId()=="");
+}
+
+TEST_F(TestBCWrapper, LogoutForgetUser)
+{
+    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
+
+    TestResult tr;
+    std::string uid = GetUser(UserA)->m_id;
+    uid.append("_wrapper");
+    m_bcWrapper->authenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
+    tr.run(m_bc);
+
+    m_bcWrapper->logout(true, &tr);
+    tr.run(m_bc);
+
+    EXPECT_TRUE(m_bcWrapper->getStoredProfileId()=="");
+}
+
 TEST_F(TestBCWrapper, SmartSwitchAnonToUniversal)
 {
 	//need to separate these tests for windows and linux for the time being. 
-	#if defined(_WIN32)
-	
+	#if defined(UNIX)
+    std::string uid = GetUser(UserA)->m_id;
+	uid.append("_wrapper");
+
+	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
+	m_bcWrapper->resetStoredProfileId();
+
+	TestResult tr;
+
+	m_bcWrapper->authenticateAnonymous(&tr);
+	tr.run(m_bc);
+
+	std::string profileId = m_bcWrapper->getStoredProfileId();
+
+	m_bcWrapper->smartSwitchAuthenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
+	tr.run(m_bc);
+
+	//WE WILL NOT HAVE A SAVED ANON ID, <<BUT>> the switchauthentication call works.
+	EXPECT_FALSE(profileId.compare(m_bcWrapper->getStoredAnonymousId()) != 0);
+    #else
 	std::string uid = GetUser(UserA)->m_id;
 	uid.append("_wrapper");
 
@@ -193,35 +243,34 @@ TEST_F(TestBCWrapper, SmartSwitchAnonToUniversal)
 
 	EXPECT_TRUE(profileId.compare(m_bcWrapper->getStoredAnonymousId()) != 0);
 
-	#elif defined (UNIX)
-
-	std::string uid = GetUser(UserA)->m_id;
-	uid.append("_wrapper");
-
-	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
-	m_bcWrapper->resetStoredProfileId();
-
-	TestResult tr;
-
-	m_bcWrapper->authenticateAnonymous(&tr);
-	tr.run(m_bc);
-
-	std::string profileId = m_bcWrapper->getStoredProfileId();
-
-	m_bcWrapper->smartSwitchAuthenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
-	tr.run(m_bc);
-
-	//WE WILL NOT HAVE A SAVED ANON ID, <<BUT>> the switchauthentication call works. 
-	EXPECT_FALSE(profileId.compare(m_bcWrapper->getStoredAnonymousId()) != 0);
-
 	#endif
 }
 
 TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
 {
 	//same reason, we have no way to properly store an anon id in linux yet
-	#if defined(_WIN32)
+	#if defined(UNIX)
+    std::string email = GetUser(UserA)->m_email;
+    size_t pos = email.find('@');
+    if(pos > 0)
+        email.insert(pos, "_wrapper");
+	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
+	m_bcWrapper->resetStoredProfileId();
 
+	TestResult tr;
+	std::string uid = GetUser(UserA)->m_id;
+	uid.append("_wrapper");
+	m_bcWrapper->authenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
+	tr.run(m_bc);
+
+	std::string profileId = m_bcWrapper->getStoredProfileId();
+
+	m_bcWrapper->smartSwitchAuthenticateEmailPassword(email.c_str(), GetUser(UserA)->m_password, true, &tr);
+	tr.run(m_bc);
+
+	//makes it through until failure here.
+	EXPECT_FALSE(profileId.compare(m_bcWrapper->getStoredProfileId()) != 0);
+    #else
 	std::string email = GetUser(UserA)->m_email;
     size_t pos = email.find('@');
     if(pos > 0)
@@ -241,29 +290,6 @@ TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
 	tr.run(m_bc);
 
 	EXPECT_TRUE(profileId.compare(m_bcWrapper->getStoredProfileId()) != 0);
-
-	#elif defined(UNIX)
-
-	std::string email = GetUser(UserA)->m_email;
-    size_t pos = email.find('@');
-    if(pos > 0)
-        email.insert(pos, "_wrapper");
-	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
-	m_bcWrapper->resetStoredProfileId();
-
-	TestResult tr;
-	std::string uid = GetUser(UserA)->m_id;
-	uid.append("_wrapper");
-	m_bcWrapper->authenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
-	tr.run(m_bc);
-
-	std::string profileId = m_bcWrapper->getStoredProfileId();
-
-	m_bcWrapper->smartSwitchAuthenticateEmailPassword(email.c_str(), GetUser(UserA)->m_password, true, &tr);
-	tr.run(m_bc);
-
-	//makes it through until failure here. 
-	EXPECT_FAIL(profileId.compare(m_bcWrapper->getStoredProfileId()) != 0);
 
 	#endif
 }
@@ -304,7 +330,6 @@ TEST_F(TestBCWrapper, ReInit)
     m_bc->getTimeService()->readServerTime(&tr3);
     tr3.runExpectFail(m_bc, HTTP_FORBIDDEN, NO_SESSION);
 }
-
 
 #endif
 
