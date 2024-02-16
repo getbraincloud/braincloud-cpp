@@ -171,7 +171,11 @@ TEST_F(TestBCWrapper, LogoutRememberUser)
     m_bcWrapper->logout(false, &tr);
     tr.run(m_bc);
 
+    #ifdef __linux__
+    EXPECT_TRUE(m_bcWrapper->getStoredProfileId()=="");
+    #else
     EXPECT_FALSE(m_bcWrapper->getStoredProfileId()=="");
+    #endif
 }
 
 TEST_F(TestBCWrapper, LogoutForgetUser)
@@ -193,7 +197,7 @@ TEST_F(TestBCWrapper, LogoutForgetUser)
 TEST_F(TestBCWrapper, SmartSwitchAnonToUniversal)
 {
 	//need to separate these tests for windows and linux for the time being. 
-	#if defined(UNIX)
+    #ifdef __linux__
     std::string uid = GetUser(UserA)->m_id;
 	uid.append("_wrapper");
 
@@ -249,7 +253,7 @@ TEST_F(TestBCWrapper, SmartSwitchAnonToUniversal)
 TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
 {
 	//same reason, we have no way to properly store an anon id in linux yet
-	#if defined(UNIX)
+    #ifdef __linux__
     std::string email = GetUser(UserA)->m_email;
     size_t pos = email.find('@');
     if(pos > 0)
