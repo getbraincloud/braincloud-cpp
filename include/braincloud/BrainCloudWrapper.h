@@ -849,6 +849,8 @@ namespace BrainCloud {
          */
         bool getAlwaysAllowProfileSwitch();
 
+        void logout(bool forgetUser, IServerCallback * in_callback);
+
         virtual void serverCallback(BrainCloud::ServiceName serviceName, BrainCloud::ServiceOperation serviceOperation, std::string const & jsonData);
         virtual void serverError(BrainCloud::ServiceName serviceName,
             BrainCloud::ServiceOperation serviceOperation,

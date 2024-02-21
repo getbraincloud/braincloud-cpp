@@ -7,7 +7,9 @@
 # Generate makefiles
 mkdir -p build
 pushd build
-rm -rf *	
+if [ "$1" != "-noclean" ]; then
+  rm -rf *
+fi
 cmake -GNinja -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug ..
 
 # Build
