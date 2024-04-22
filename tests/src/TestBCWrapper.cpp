@@ -8,7 +8,6 @@
 // Build machines dislike this :-)
 // However you can uncomment to verify the wrapper is working.
 
-#ifndef __APPLE__
 
 TEST_F(TestBCWrapper, AaaRunFirst)
 {
@@ -97,7 +96,6 @@ TEST_F(TestBCWrapper, VerifyAlwaysAllowProfileFalse)
     tr.run(m_bc);
 
     Logout();
-	m_bcWrapper->getBCClient()->getAuthenticationService()->clearSavedProfileId();
 
     m_bcWrapper->authenticateUniversal(uid.c_str(), GetUser(UserA)->m_password, true, &tr);
     tr.run(m_bc);
@@ -146,18 +144,6 @@ TEST_F(TestBCWrapper, ResetEmailPasswordAdvanced)
     tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_FROM_ADDRESS);
 }
 
-TEST_F(TestBCWrapper, Reconnect)
-{
-	TestResult tr;
-
-	m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
-	m_bcWrapper->resetStoredAnonymousId();
-	m_bcWrapper->reconnect(&tr);
-	tr.runExpectFail(m_bc, HTTP_ACCEPTED, MISSING_PROFILE_ERROR);
-
-	Logout();
-}
-
 TEST_F(TestBCWrapper, LogoutRememberUser)
 {
     m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
@@ -174,7 +160,7 @@ TEST_F(TestBCWrapper, LogoutRememberUser)
     #ifdef __linux__
     EXPECT_TRUE(m_bcWrapper->getStoredProfileId()=="");
     #else
-    EXPECT_FALSE(m_bcWrapper->getStoredProfileId()=="");
+    EXPECT_TRUE(m_bcWrapper->canReconnect());
     #endif
 }
 
@@ -192,6 +178,40 @@ TEST_F(TestBCWrapper, LogoutForgetUser)
     tr.run(m_bc);
 
     EXPECT_TRUE(m_bcWrapper->getStoredProfileId()=="");
+}
+
+TEST_F(TestBCWrapper, Reconnect)
+{
+    TestResult tr;
+
+    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
+    m_bcWrapper->authenticateAnonymous(&tr);
+    tr.run(m_bc);
+
+    m_bcWrapper->logout(false, &tr);
+    tr.run(m_bc);
+
+    m_bcWrapper->reconnect(&tr);
+    tr.run(m_bc);
+
+    Logout();
+}
+
+TEST_F(TestBCWrapper, ReconnectMissingProfile)
+{
+    TestResult tr;
+
+    m_bcWrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "wrapper", "unittest");
+    m_bcWrapper->authenticateAnonymous(&tr);
+    tr.run(m_bc);
+
+    m_bcWrapper->logout(true, &tr);
+    tr.run(m_bc);
+
+    m_bcWrapper->reconnect(&tr);
+    tr.runExpectFail(m_bc, HTTP_ACCEPTED, MISSING_PROFILE_ERROR);
+
+    Logout();
 }
 
 TEST_F(TestBCWrapper, SmartSwitchAnonToUniversal)
@@ -334,6 +354,3 @@ TEST_F(TestBCWrapper, ReInit)
     m_bc->getTimeService()->readServerTime(&tr3);
     tr3.runExpectFail(m_bc, HTTP_FORBIDDEN, NO_SESSION);
 }
-
-#endif
-

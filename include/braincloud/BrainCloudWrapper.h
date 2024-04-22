@@ -757,7 +757,13 @@ namespace BrainCloud {
 		 */
 		void resetUniversalIdPasswordAdvancedWithExpiry(const char * in_emailAddress, std::string in_serviceParams, int in_tokenTtlInMinutes , IServerCallback * in_callback = NULL);
 
-		/**
+        /**
+         * Returns true IF both Profile ID and Anonymous ID are stored - meaning reconnect possible
+         * @return true if reconnect possible
+         */
+        bool canReconnect();
+
+        /**
 		* Re-authenticates the user with brainCloud
 		*
 		* @param in_callback The method to be invoked when the server response is received
@@ -873,14 +879,8 @@ namespace BrainCloud {
         bool m_alwaysAllowProfileSwitch;
 
         void initializeIdentity(bool in_isAnonymousAuth = false);
-        void reauthenticate();
 
 		void getIdentitiesCallback(IServerCallback *success);
-
-        // these methods are not really used
-        std::string getStoredAuthenticationType();
-        void setStoredAuthenticationType(const char * authenticationType);
-        void resetStoredAuthenticationType();
     };
 }
 #if defined(__clang__)
