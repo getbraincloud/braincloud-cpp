@@ -772,6 +772,13 @@ namespace BrainCloud {
 		void reconnect(IServerCallback * in_callback = NULL);
 
         /**
+         * Clears Profile Id and Anonymous Id and deletes data entry on device
+         * Can only be called when a user is not authenticated. Use Logout in that case.
+         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
+         */
+        void clearIds();
+
+        /**
          * Run callbacks, to be called once per frame from your main thread
          */
         void runCallbacks();
@@ -811,32 +818,10 @@ namespace BrainCloud {
         std::string getStoredProfileId();
 
         /**
-         * Sets the stored profile id
-         * @param in_profileId The profile id to set
-         */
-        void setStoredProfileId(const char * in_profileId);
-
-        /**
-         * Resets the profile id to empty string
-         */
-        void resetStoredProfileId();
-
-        /**
          * Returns the stored anonymous id
          * @return The stored anonymous id
          */
         std::string getStoredAnonymousId();
-
-        /**
-         * Sets the stored anonymous id
-         * @param in_anonymousId The anonymous id to set
-         */
-        void setStoredAnonymousId(const char * in_anonymousId);
-
-        /**
-         * Resets the anonymous id to empty string
-         */
-        void resetStoredAnonymousId();
 
         /**
          * For non-anonymous authentication methods, a profile id will be passed in
@@ -855,6 +840,12 @@ namespace BrainCloud {
          */
         bool getAlwaysAllowProfileSwitch();
 
+        /**
+         * Logs user out of playerState and optionally clears the profile id (eg. shared computer)
+         * NOTE: if forgetUser is true for an AuthenticateAnonymous THEN the user data will be in-accessible and non-recoverable
+         * @param forgetUser true if user profile should be deleted from device on logout, false to allow reconnect
+         * @param in_callback
+         */
         void logout(bool forgetUser, IServerCallback * in_callback);
 
         virtual void serverCallback(BrainCloud::ServiceName serviceName, BrainCloud::ServiceOperation serviceOperation, std::string const & jsonData);
@@ -863,7 +854,6 @@ namespace BrainCloud {
             int statusCode, int reasonCode, const std::string & message);
 
     protected:
-
         static BrainCloudWrapper* m_instance;
         static std::string AUTHENTICATION_ANONYMOUS;
 
@@ -881,6 +871,32 @@ namespace BrainCloud {
         void initializeIdentity(bool in_isAnonymousAuth = false);
 
 		void getIdentitiesCallback(IServerCallback *success);
+
+        /**
+         * Sets the stored profile id (just the stored value must call InitializeIdentity)
+         * @param in_profileId The profile id to set
+         */
+        void setStoredProfileId(const char * in_profileId);
+
+
+        /**
+         * Sets the stored anonymous id (just the stored value must call InitializeIdentity)
+         * @param in_anonymousId The anonymous id to set
+         */
+        void setStoredAnonymousId(const char * in_anonymousId);
+
+
+        /**
+         * Deletes data for the profile id and sets to empty string in Authentication
+         */
+        void resetStoredProfileId();
+
+        /**
+         * Deletes data for the profile id and sets to empty string in Authentication
+         */
+        void resetStoredAnonymousId();
+
+
     };
 }
 #if defined(__clang__)

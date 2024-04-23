@@ -19,8 +19,7 @@ TEST_F(TestBCWrapper, AaaRunFirst)
 #endif
 
     // this forces us to create a new anonymous account
-	m_bcWrapper->setStoredAnonymousId("");
-	m_bcWrapper->setStoredProfileId("");
+	m_bcWrapper->clearIds();
 }
 
 TEST_F(TestBCWrapper, AuthenticateAnonymous)
@@ -80,8 +79,7 @@ TEST_F(TestBCWrapper, VerifyAlwaysAllowProfileFalse)
     m_bcWrapper->setAlwaysAllowProfileSwitch(false);
 
     // this forces us to create a new anonymous account
-    m_bcWrapper->setStoredAnonymousId("");
-    m_bcWrapper->setStoredProfileId("");
+    m_bcWrapper->clearIds();
 
     TestResult tr;
     m_bcWrapper->authenticateAnonymous(&tr);
@@ -252,8 +250,7 @@ TEST_F(TestBCWrapper, SmartSwitchAnonToUniversal)
 	*/
 	//CONFIRMED : setStoredAnonymousId uses a pure virtual method save data helper, which is only implemented for Windows. Due to this it will not work on linux. 
 
-	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
-	m_bcWrapper->resetStoredProfileId();
+	m_bcWrapper->clearIds();
 
 	TestResult tr;
 
@@ -299,8 +296,7 @@ TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
     size_t pos = email.find('@');
     if(pos > 0)
         email.insert(pos, "_wrapper");
-    m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
-	m_bcWrapper->resetStoredProfileId();
+    m_bcWrapper->clearIds();
 
 	TestResult tr;
 	std::string uid = GetUser(UserA)->m_id;

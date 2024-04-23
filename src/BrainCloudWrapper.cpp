@@ -343,12 +343,6 @@ namespace BrainCloud {
 		BrainCloudWrapper * wrapper;
 		IServerCallback * callback;
 
-		void clearIds() {
-			wrapper->resetStoredAnonymousId();
-			wrapper->resetStoredProfileId();
-			wrapper->client->getAuthenticationService()->clearSavedProfileId();
-		}
-
 		void serverError(ServiceName serviceName, ServiceOperation serviceOperation, int statusCode, int reasonCode, const std::string & jsonError)
 		{
 			callback->serverError(serviceName, serviceOperation, statusCode, reasonCode, jsonError);
@@ -371,7 +365,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateEmailPassword(email, password, forceCreate, callback);
 				delete this;
 			}
@@ -397,7 +391,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateExternal(userid, token, externalAuthName, forceCreate, callback);
 				delete this;
 			}
@@ -422,7 +416,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateFacebook(fbUserId, fbAuthToken, forceCreate, callback);
 				delete this;
 			}
@@ -447,7 +441,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateOculus(oculusUserId, oculusNonce, forceCreate, callback);
 				delete this;
 			}
@@ -471,7 +465,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateGameCenter(gameCenterId, forceCreate, callback);
 				delete this;
 			}
@@ -496,7 +490,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateGoogle(userid, token, forceCreate, callback);
 				delete this;
 			}
@@ -521,7 +515,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateGoogle(userid, token, forceCreate, callback);
 				delete this;
 			}
@@ -546,7 +540,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateApple(userid, token, forceCreate, callback);
 				delete this;
 			}
@@ -571,7 +565,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateSteam(userid, sessionticket, forceCreate, callback);
 				delete this;
 			}
@@ -597,7 +591,7 @@ namespace BrainCloud {
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateTwitter(userid, token, secret, forceCreate, callback);
 				delete this;
 			}
@@ -622,7 +616,7 @@ namespace BrainCloud {
 			
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
-				clearIds();
+				wrapper->clearIds();
 				wrapper->client->getAuthenticationService()->authenticateUniversal(userid, password, forceCreate, callback);
 				delete this;
 			}
@@ -647,7 +641,7 @@ namespace BrainCloud {
             
             void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
             {
-                clearIds();
+                wrapper->clearIds();
                 wrapper->client->getAuthenticationService()->authenticateUltra(ultraUsername, ultraIdToken, forceCreate, callback);
                 delete this;
             }
@@ -676,7 +670,7 @@ namespace BrainCloud {
             
             void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
             {
-                clearIds();
+                wrapper->clearIds();
                 wrapper->client->getAuthenticationService()->authenticateAdvanced(authenticationType, ids, forceCreate, extraJson, callback);
                 delete this;
             }
@@ -704,7 +698,7 @@ namespace BrainCloud {
         if (forgetUser) {
             resetStoredProfileId();
         }
-         client->getPlayerStateService()->logout(in_callback);
+        client->getPlayerStateService()->logout(in_callback);
     }
 
     void BrainCloudWrapper::resetEmailPassword(const char * in_externalId, IServerCallback * in_callback)
@@ -752,6 +746,14 @@ namespace BrainCloud {
         return getStoredProfileId() != "" && getStoredAnonymousId() != "";
     }
 
+    void BrainCloudWrapper::clearIds()
+    {
+        if(!client->isAuthenticated()){
+            resetStoredProfileId();
+            resetStoredAnonymousId();
+        }
+    }
+
     void BrainCloudWrapper::reconnect(IServerCallback * in_callback)
 	{
 		authenticateAnonymous(in_callback, false);
@@ -772,11 +774,6 @@ namespace BrainCloud {
         SaveDataHelper::getInstance()->saveData(PROFILE_ID_KEY, profileId);
     }
 
-    void BrainCloudWrapper::resetStoredProfileId()
-    {
-        SaveDataHelper::getInstance()->deleteData(PROFILE_ID_KEY);
-    }
-
     std::string BrainCloudWrapper::getStoredAnonymousId()
     {
         return SaveDataHelper::getInstance()->readData(ANONYMOUS_ID_KEY);
@@ -790,9 +787,14 @@ namespace BrainCloud {
     void BrainCloudWrapper::resetStoredAnonymousId()
     {
         SaveDataHelper::getInstance()->deleteData(ANONYMOUS_ID_KEY);
+        client->getAuthenticationService()->setAnonymousId("");
     }
 
-
+    void BrainCloudWrapper::resetStoredProfileId()
+    {
+        SaveDataHelper::getInstance()->deleteData(PROFILE_ID_KEY);
+        client->getAuthenticationService()->setProfileId("");
+    }
 
     void BrainCloudWrapper::setAlwaysAllowProfileSwitch(bool in_alwaysAllow)
     {
