@@ -772,13 +772,6 @@ namespace BrainCloud {
 		void reconnect(IServerCallback * in_callback = NULL);
 
         /**
-         * Clears Profile Id and Anonymous Id and deletes data entry on device
-         * Can only be called when a user is not authenticated. Use Logout in that case.
-         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
-         */
-        void clearIds();
-
-        /**
          * Run callbacks, to be called once per frame from your main thread
          */
         void runCallbacks();
@@ -853,24 +846,18 @@ namespace BrainCloud {
             BrainCloud::ServiceOperation serviceOperation,
             int statusCode, int reasonCode, const std::string & message);
 
-    protected:
-        static BrainCloudWrapper* m_instance;
-        static std::string AUTHENTICATION_ANONYMOUS;
+        /**
+         * Clears Profile Id and Anonymous Id and deletes data entry on device
+         * Use Logout
+         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
+         */
+        void clearIds();
 
-        IServerCallback* m_authenticateCallback;
-
-        std::string m_lastUrl;
-        std::string m_lastSecretKey;
-        std::string m_lastGameId;
-        std::string m_lastGameVersion;
-        std::string m_wrapperName;
-        std::map<std::string, std::string> m_secretMap;
-
-        bool m_alwaysAllowProfileSwitch;
-
-        void initializeIdentity(bool in_isAnonymousAuth = false);
-
-		void getIdentitiesCallback(IServerCallback *success);
+        /** Resets the profile Id to blank and generates a new Anonymous Id
+         * Use a switchUser function or Logout and then Authenticate
+         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
+         */
+        void generateAnonymousIdentity();
 
         /**
          * Sets the stored profile id (just the stored value must call InitializeIdentity)
@@ -896,6 +883,25 @@ namespace BrainCloud {
          */
         void resetStoredAnonymousId();
 
+    protected:
+
+        static BrainCloudWrapper* m_instance;
+        static std::string AUTHENTICATION_ANONYMOUS;
+
+        IServerCallback* m_authenticateCallback;
+
+        std::string m_lastUrl;
+        std::string m_lastSecretKey;
+        std::string m_lastGameId;
+        std::string m_lastGameVersion;
+        std::string m_wrapperName;
+        std::map<std::string, std::string> m_secretMap;
+
+        bool m_alwaysAllowProfileSwitch;
+
+        void initializeIdentity(bool in_isAnonymousAuth = false);
+
+		void getIdentitiesCallback(IServerCallback *success);
 
     };
 }

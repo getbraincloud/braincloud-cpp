@@ -748,10 +748,14 @@ namespace BrainCloud {
 
     void BrainCloudWrapper::clearIds()
     {
-        if(!client->isAuthenticated()){
-            resetStoredProfileId();
-            resetStoredAnonymousId();
-        }
+        resetStoredProfileId();
+        resetStoredAnonymousId();
+    }
+
+    void BrainCloudWrapper::generateAnonymousIdentity()
+    {
+        setStoredProfileId("");
+        setStoredAnonymousId(client->getAuthenticationService()->generateAnonymousId().c_str());
     }
 
     void BrainCloudWrapper::reconnect(IServerCallback * in_callback)

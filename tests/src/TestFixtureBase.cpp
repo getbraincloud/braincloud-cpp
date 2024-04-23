@@ -244,11 +244,10 @@ bool TestFixtureBase::DetachPeer()
 void TestFixtureBase::Logout()
 {
 	TestResult tr;
-	m_bc->getPlayerStateService()->logout(&tr);
+	m_bcWrapper->logout(true, &tr); // clears saved profile id
 	tr.run(m_bc, true);
 
 	m_bc->resetCommunication();
-	m_bc->getAuthenticationService()->clearSavedProfileId();
 
 	// preston - in bccomms2 (win c++) the internal thread is killed during resetCommunication.
 	// for consistency, we re-initialize the comms to re-create the thread in case any further
