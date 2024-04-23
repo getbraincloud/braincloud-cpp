@@ -900,9 +900,14 @@ namespace BrainCloud {
         bool m_alwaysAllowProfileSwitch;
 
         void initializeIdentity(bool in_isAnonymousAuth = false);
+        void reauthenticate();
 
 		void getIdentitiesCallback(IServerCallback *success);
 
+        // these methods are not really used
+        std::string getStoredAuthenticationType();
+        void setStoredAuthenticationType(const char * authenticationType);
+        void resetStoredAuthenticationType();
     };
 }
 #if defined(__clang__)

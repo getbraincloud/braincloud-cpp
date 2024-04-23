@@ -139,9 +139,23 @@ namespace BrainCloud {
         {
             profileIdToAuthenticateWith = "";
         }
+        setStoredAuthenticationType(in_isAnonymousAuth ? AUTHENTICATION_ANONYMOUS.c_str() : "");
 
         // send our IDs to brainCloud
         client->initializeIdentity(profileIdToAuthenticateWith.c_str(), anonymousId.c_str());
+    }
+
+    void BrainCloudWrapper::reauthenticate()
+    {
+        // send our saved app info to brainCloud
+        // company and app name can be NULL since they are already set
+        initialize(m_lastUrl.c_str(), m_lastSecretKey.c_str(), m_lastGameId.c_str(), m_lastGameVersion.c_str(), NULL, NULL);
+
+        std::string authType = getStoredAuthenticationType();
+        if (authType == AUTHENTICATION_ANONYMOUS)
+        {
+            authenticateAnonymous();
+        }
     }
 
     // authenticate the player with an anonymous id
@@ -798,6 +812,21 @@ namespace BrainCloud {
     {
         SaveDataHelper::getInstance()->deleteData(PROFILE_ID_KEY);
         client->getAuthenticationService()->setProfileId("");
+    }
+
+    std::string BrainCloudWrapper::getStoredAuthenticationType()
+    {
+        return SaveDataHelper::getInstance()->readData(AUTHENTICATION_TYPE_KEY);
+    }
+
+    void BrainCloudWrapper::setStoredAuthenticationType(const char * authenticationType)
+    {
+        SaveDataHelper::getInstance()->saveData(AUTHENTICATION_TYPE_KEY, authenticationType);
+    }
+
+    void BrainCloudWrapper::resetStoredAuthenticationType()
+    {
+        SaveDataHelper::getInstance()->deleteData(AUTHENTICATION_TYPE_KEY);
     }
 
     void BrainCloudWrapper::setAlwaysAllowProfileSwitch(bool in_alwaysAllow)
