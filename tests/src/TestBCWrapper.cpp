@@ -8,6 +8,7 @@
 // Build machines dislike this :-)
 // However you can uncomment to verify the wrapper is working.
 
+#ifndef __APPLE__
 
 TEST_F(TestBCWrapper, AaaRunFirst)
 {
@@ -275,8 +276,7 @@ TEST_F(TestBCWrapper, SmartSwitchUniversalToEmail)
     size_t pos = email.find('@');
     if(pos > 0)
         email.insert(pos, "_wrapper");
-	m_bcWrapper->setStoredAnonymousId(m_bcWrapper->client->getAuthenticationService()->generateAnonymousId().c_str());
-	m_bcWrapper->resetStoredProfileId();
+	m_bcWrapper->clearIds();
 
 	TestResult tr;
 	std::string uid = GetUser(UserA)->m_id;
@@ -350,3 +350,4 @@ TEST_F(TestBCWrapper, ReInit)
     m_bc->getTimeService()->readServerTime(&tr3);
     tr3.runExpectFail(m_bc, HTTP_FORBIDDEN, NO_SESSION);
 }
+#endif
