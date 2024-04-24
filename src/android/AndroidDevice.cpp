@@ -17,6 +17,13 @@ namespace BrainCloud
 
         void getLocale(float* out_timezoneOffset, std::string* out_languageCode, std::string* out_countryCode) {
 
+            // if using java activity to initialize
+            jclass jcAndroidBridge = appEnv->FindClass("com/bitheads/braincloud/AndroidBridge");
+            if (!appEnv->ExceptionCheck()) {
+                    return;
+            }
+            appEnv->ExceptionClear();
+
             jclass jcLocale = appEnv->FindClass("java/util/Locale");
             jmethodID jmDefault = appEnv->GetStaticMethodID(jcLocale, "getDefault",
                                                             "()Ljava/util/Locale;");
@@ -37,16 +44,18 @@ namespace BrainCloud
             *out_languageCode = std::string(valueP);
             appEnv->ReleaseStringUTFChars(value, valueP);
 
+            jclass jcDateType = appEnv->FindClass("java/util/Date");
+            jmethodID jmDateInit= appEnv->GetMethodID(jcDateType, "<init>", "()V");
+            jobject joDateObject= appEnv->NewObject(jcDateType , jmDateInit);
+            jmethodID jmDateTime= appEnv->GetMethodID(jcDateType, "getTime", "()J");
+
+            jlong currtime = appEnv->CallLongMethod(joDateObject, jmDateTime);
+
             jclass jcTimeZone = appEnv->FindClass("java/util/TimeZone");
             jmDefault = appEnv->GetStaticMethodID(jcTimeZone, "getDefault",
                                                   "()Ljava/util/TimeZone;");
             jobject joTimeZone = appEnv->CallStaticObjectMethod(jcTimeZone, jmDefault);
             jmethodID jmTimeZone = appEnv->GetMethodID(jcTimeZone, "getOffset", "(J)I");
-            struct timespec res;
-
-            struct timeval now;
-            gettimeofday(&now, NULL);
-            long currtime = static_cast<long>(now.tv_sec) * 1000 + now.tv_usec / 1000;
 
             *out_timezoneOffset = appEnv->CallIntMethod(joTimeZone, jmTimeZone, currtime)  / static_cast<float>(60 * 60 * 1000);
         }
