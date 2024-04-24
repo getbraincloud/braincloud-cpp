@@ -199,7 +199,13 @@ TEST_F(TestBCWrapper, Reconnect)
     tr.run(m_bc);
 
     m_bcWrapper->reconnect(&tr);
+    
+    //WE WILL NOT HAVE A SAVED PROFILE ID, so reconnect will not work
+#ifdef __linux__
+    tr.runExpectFail(m_bc, HTTP_ACCEPTED, MISSING_PROFILE_ERROR);
+#else
     tr.run(m_bc);
+#endif
 
     Logout();
 }
