@@ -804,11 +804,30 @@ namespace BrainCloud {
             return client;
         }
 
+
+        /**
+         * Clears Profile Id and Anonymous Id and deletes data entry on device
+         * Use Logout
+         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
+         */
+        void clearIds();
+        
         /**
          * Returns the stored profile id
          * @return The stored profile id
          */
         std::string getStoredProfileId();
+
+        /**
+         * Sets the stored profile id
+         * @param in_profileId The profile id to set
+         */
+        void setStoredProfileId(const char * in_profileId);
+
+        /**
+         * Resets the profile id to empty string
+         */
+        void resetStoredProfileId();
 
         /**
          * Returns the stored anonymous id
@@ -817,33 +836,14 @@ namespace BrainCloud {
         std::string getStoredAnonymousId();
 
         /**
-         * Clears Profile Id and Anonymous Id and deletes data entry on device
-         * Use Logout
-         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
-         */
-        void clearIds();
-
-        /**
-         * Sets the stored profile id (just the stored value must call InitializeIdentity)
-         * @param in_profileId The profile id to set
-         */
-        void setStoredProfileId(const char * in_profileId);
-
-        /**
-         * Sets the stored anonymous id (just the stored value must call InitializeIdentity)
+         * Sets the stored anonymous id
          * @param in_anonymousId The anonymous id to set
          */
         void setStoredAnonymousId(const char * in_anonymousId);
 
         /**
-         * Deletes data for the profile id and resets to empty string in Authentication
+         * Resets the anonymous id to empty string
          */
-        void resetStoredProfileId();
-
-        /**
-         * Deletes data for the profile id and resets to empty string in Authentication
-         */
-
         void resetStoredAnonymousId();
 
 
