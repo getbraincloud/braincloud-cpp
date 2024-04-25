@@ -15,7 +15,7 @@ TEST_F(TestBCIdentity, SwitchToChildProfile)
 
 	// open up a fresh session with UserC who should have no child profiles
 	TestResult tr;
-	m_bcWrapper->authenticateUniversal(GetUser(UserC)->m_id, GetUser(UserC)->m_password, true, &tr);
+	m_bc->getAuthenticationService()->authenticateUniversal(GetUser(UserC)->m_id, GetUser(UserC)->m_password, true, &tr);
 	tr.run(m_bc);
 
 	TestResult tr2;
@@ -124,7 +124,7 @@ TEST_F(TestBCIdentity, changeEmailIdentity)
 	const char* password = "password";
 
 	//expected that the old e-mail randomly generated isn't already associated with the profile. 
-	m_bcWrapper->authenticateEmailPassword(m_oldEmail.c_str(), m_oldEmail.c_str(), true, &tr);
+	m_bc->getAuthenticationService()->authenticateEmailPassword(m_oldEmail.c_str(), m_oldEmail.c_str(), true, &tr);
 	tr.runExpectFail(m_bc, 202, 40206);
 
 	m_bc->getIdentityService()->changeEmailIdentity(

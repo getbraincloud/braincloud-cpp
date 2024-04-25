@@ -58,7 +58,7 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		wrapper->initialize(m_serverUrl.c_str(), m_secret.c_str(), m_appId.c_str(), m_version.c_str(), "", "");
 		auto bc = wrapper->getBCClient();
 		bc->enableLogging(true);
-		m_bcWrapper->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
+		bc->getAuthenticationService()->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
 		tr.run(bc);
 
 		// Wait for the other user to connect to RTT (Put that at 60sec timeout)
