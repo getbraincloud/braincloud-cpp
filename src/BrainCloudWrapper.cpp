@@ -755,6 +755,11 @@ namespace BrainCloud {
         client->getAuthenticationService()->resetUniversalIdPasswordAdvancedWithExpiry(in_externalId, in_serviceParams, tokenTtlInMinutes , in_callback);
     }
 
+	void BrainCloudWrapper::reconnect(IServerCallback * in_callback)
+	{
+		authenticateAnonymous(in_callback, false);
+	}
+
     bool BrainCloudWrapper::canReconnect()
     {
         return getStoredProfileId() != "" && getStoredAnonymousId() != "";
@@ -765,17 +770,6 @@ namespace BrainCloud {
         resetStoredProfileId();
         resetStoredAnonymousId();
     }
-
-    void BrainCloudWrapper::generateAnonymousIdentity()
-    {
-        setStoredProfileId("");
-        setStoredAnonymousId(client->getAuthenticationService()->generateAnonymousId().c_str());
-    }
-
-    void BrainCloudWrapper::reconnect(IServerCallback * in_callback)
-	{
-		authenticateAnonymous(in_callback, false);
-	}
 
     void BrainCloudWrapper::runCallbacks()
     {

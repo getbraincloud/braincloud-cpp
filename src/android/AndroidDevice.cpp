@@ -17,10 +17,12 @@ namespace BrainCloud
 
         void getLocale(float* out_timezoneOffset, std::string* out_languageCode, std::string* out_countryCode) {
 
-            // if using java activity to initialize
+            // check for AndroidBridge class, if it exists assume java activity will initialize
             jclass jcAndroidBridge = appEnv->FindClass("com/bitheads/braincloud/AndroidBridge");
             if (!appEnv->ExceptionCheck()) {
-                    return;
+                // do NOT set countryCode etc here as the android
+                // java layer is responsible for setting it.
+                return;
             }
             appEnv->ExceptionClear();
 

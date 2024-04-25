@@ -817,6 +817,37 @@ namespace BrainCloud {
         std::string getStoredAnonymousId();
 
         /**
+         * Clears Profile Id and Anonymous Id and deletes data entry on device
+         * Use Logout
+         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
+         */
+        void clearIds();
+
+        /**
+         * Sets the stored profile id (just the stored value must call InitializeIdentity)
+         * @param in_profileId The profile id to set
+         */
+        void setStoredProfileId(const char * in_profileId);
+
+        /**
+         * Sets the stored anonymous id (just the stored value must call InitializeIdentity)
+         * @param in_anonymousId The anonymous id to set
+         */
+        void setStoredAnonymousId(const char * in_anonymousId);
+
+        /**
+         * Deletes data for the profile id and resets to empty string in Authentication
+         */
+        void resetStoredProfileId();
+
+        /**
+         * Deletes data for the profile id and resets to empty string in Authentication
+         */
+
+        void resetStoredAnonymousId();
+
+
+        /**
          * For non-anonymous authentication methods, a profile id will be passed in
          * when this value is set to false. This will generate an error on the server
          * if the profile id passed in does not match the profile associated with the
@@ -845,43 +876,6 @@ namespace BrainCloud {
         virtual void serverError(BrainCloud::ServiceName serviceName,
             BrainCloud::ServiceOperation serviceOperation,
             int statusCode, int reasonCode, const std::string & message);
-
-        /**
-         * Clears Profile Id and Anonymous Id and deletes data entry on device
-         * Use Logout
-         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
-         */
-        void clearIds();
-
-        /** Resets the profile Id to blank and generates a new Anonymous Id
-         * Use a switchUser function or Logout and then Authenticate
-         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
-         */
-        void generateAnonymousIdentity();
-
-        /**
-         * Sets the stored profile id (just the stored value must call InitializeIdentity)
-         * @param in_profileId The profile id to set
-         */
-        void setStoredProfileId(const char * in_profileId);
-
-
-        /**
-         * Sets the stored anonymous id (just the stored value must call InitializeIdentity)
-         * @param in_anonymousId The anonymous id to set
-         */
-        void setStoredAnonymousId(const char * in_anonymousId);
-
-
-        /**
-         * Deletes data for the profile id and sets to empty string in Authentication
-         */
-        void resetStoredProfileId();
-
-        /**
-         * Deletes data for the profile id and sets to empty string in Authentication
-         */
-        void resetStoredAnonymousId();
 
     protected:
 

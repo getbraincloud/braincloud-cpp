@@ -166,7 +166,7 @@ TEST_F(TestBCPlayerState, SetUserStatus)
 void TestBCPlayerState::Authenticate()
 {
     TestResult tr;
-    m_bc->getAuthenticationService()->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
+    m_bcWrapper->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
     tr.run(m_bc);
 }
 

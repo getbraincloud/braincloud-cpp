@@ -662,7 +662,7 @@ void TestBCGroup::DeleteGroupAsUserA()
 void TestBCGroup::Authenticate(Users user)
 {
 	TestResult tr;
-	m_bc->getAuthenticationService()->authenticateUniversal(
+	m_bcWrapper->authenticateUniversal(
 		GetUser(user)->m_id,
 		GetUser(user)->m_password,
 		true,
