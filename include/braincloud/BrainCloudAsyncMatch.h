@@ -118,7 +118,20 @@ namespace BrainCloud {
             const char * in_jsonSummary = NULL,
             const char * in_jsonStatistics = NULL,
             IServerCallback * in_callback = NULL );
-    
+
+        /**
+         * Allows the current player in the game to overwrite the matchState and
+         * statistics without completing their turn or adding to matchHistory.
+         *
+         * @param in_ownerId   Match owner identifier
+         * @param in_matchId   Match identifier
+         * @param in_version Game state version being updated, to ensure data integrity
+         * @param in_jsonMatchState JSON string provided by the caller Required.
+         * @param in_jsonStatistics Optional JSON string provided by the caller.
+         * @param in_callback
+         */
+        void updateMatchStateCurrentTurn( const char * in_ownerId, const char * in_matchId, uint64_t in_version, const char * in_jsonMatchState, const char * in_jsonStatistics, IServerCallback * in_callback = NULL );
+
         /**
          * Allows the current player (only) to update Summary data without having to submit a whole turn.
          *

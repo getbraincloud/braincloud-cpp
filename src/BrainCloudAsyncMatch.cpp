@@ -82,6 +82,30 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudAsyncMatch::updateMatchStateCurrentTurn(
+		const char * in_ownerId,
+		const char * in_matchId,
+		uint64_t in_version,
+		const char * in_jsonMatchState,
+		const char * in_jsonStatistics,
+		IServerCallback * in_callback)
+	{
+        Json::Value message;
+        message[OperationParam::AsyncMatchServiceOwnerId.getValue()] = in_ownerId;
+        message[OperationParam::AsyncMatchServiceMatchId.getValue()] = in_matchId;
+        message[OperationParam::AsyncMatchServiceVersion.getValue()] = (Json::UInt64) in_version;
+
+        if (StringUtil::IsOptionalParameterValid(in_jsonMatchState)) {
+            message[OperationParam::AsyncMatchServiceMatchState.getValue()] = JsonUtil::jsonStringToValue(in_jsonMatchState);
+        }
+        if (StringUtil::IsOptionalParameterValid(in_jsonStatistics)) {
+            message[OperationParam::AsyncMatchServiceStatistics.getValue()] = JsonUtil::jsonStringToValue(in_jsonStatistics);
+        }
+
+        ServerCall * sc = new ServerCall(ServiceName::AsyncMatch, ServiceOperation::UpdateMatchStateCurrentTurn, message, in_callback);
+        m_client->getBrainCloudComms()->addToQueue(sc);
+    }
+
 	void BrainCloudAsyncMatch::updateMatchSummaryData(const char * in_ownerId, const char * in_matchId, uint64_t in_version, const char * in_jsonSummary, IServerCallback * in_callback)
 	{
 		Json::Value message;
