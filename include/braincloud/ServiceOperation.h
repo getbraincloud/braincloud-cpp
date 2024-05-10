@@ -206,6 +206,7 @@ namespace BrainCloud {
 		static const ServiceOperation DeleteMatch;
 		static const ServiceOperation CompleteMatchWithSummaryData;
 		static const ServiceOperation AbandonMatchWithSummaryData;
+        static const ServiceOperation UpdateMatchStateCurrentTurn;
 
 		static const ServiceOperation LastUploadStatus;
 

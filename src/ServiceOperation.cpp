@@ -188,6 +188,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::FindPlayersUsingFilter = ServiceOperation("FIND_PLAYERS_USING_FILTER");
 
 	const ServiceOperation ServiceOperation::SubmitTurn = ServiceOperation("SUBMIT_TURN");
+	const ServiceOperation ServiceOperation::UpdateMatchStateCurrentTurn = ServiceOperation("UPDATE_MATCH_STATE_CURRENT_TURN");
 	const ServiceOperation ServiceOperation::UpdateMatchSummary = ServiceOperation("UPDATE_SUMMARY");
 	const ServiceOperation ServiceOperation::Abandon = ServiceOperation("ABANDON");
 	const ServiceOperation ServiceOperation::Complete = ServiceOperation("COMPLETE");
