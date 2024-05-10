@@ -122,7 +122,10 @@ namespace BrainCloud {
         /**
          * Allows the current player in the game to overwrite the matchState and
          * statistics without completing their turn or adding to matchHistory.
-         *
+         * 
+         * Service Name - AsyncMatch
+         * Service Operation - UpdateMatchStateCurrentTurn
+         *          *
          * @param in_ownerId   Match owner identifier
          * @param in_matchId   Match identifier
          * @param in_version Game state version being updated, to ensure data integrity
