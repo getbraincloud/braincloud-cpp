@@ -349,7 +349,7 @@ TEST_F(TestBCGroupFile, testUpdateFileInfo)
 void TestBCGroupFile::Authenticate()
 {
     TestResult tr;
-    m_bc->getAuthenticationService()->authenticateEmailPassword(
+    m_bcWrapper->authenticateEmailPassword(
                                                                 "cpp-tester",
                                                                 "cpp-tester",
                                                                 true,
@@ -455,7 +455,7 @@ void TestBCGroupFile::SetUpTestCase()
     wrapper->initializeWithApps(m_serverUrl.c_str(), m_appId.c_str(), secretMap, m_version.c_str(), "", "");
 
     TestResult tr;
-    wrapper->getBCClient()->getAuthenticationService()->authenticateEmailPassword(
+    wrapper->authenticateEmailPassword(
             "cpp-tester",
             "cpp-tester",
             false,
@@ -471,8 +471,9 @@ void TestBCGroupFile::SetUpTestCase()
     std::string uploadId;
     if (!simpleUpload(wrapper->getBCClient(), 5, "TestFolder", filename.c_str(), uploadId))
     {
+        wrapper->logout(true, &tr);
+        tr.run(wrapper->client);
         wrapper->getBCClient()->resetCommunication();
-        wrapper->getBCClient()->getAuthenticationService()->clearSavedProfileId();
         delete wrapper;
         wrapper = nullptr;
         return;
@@ -489,9 +490,9 @@ void TestBCGroupFile::SetUpTestCase()
     /* Save group file ID for tests */
     groupFileId = tr.m_response["data"]["fileDetails"]["fileId"].asString();
 
+    wrapper->logout(true, &tr);
+    tr.run(wrapper->client);
     wrapper->getBCClient()->resetCommunication();
-    wrapper->getBCClient()->getAuthenticationService()->clearSavedProfileId();
-
     delete wrapper;
     wrapper = nullptr;
 }

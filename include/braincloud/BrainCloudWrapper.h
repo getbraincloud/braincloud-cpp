@@ -757,7 +757,13 @@ namespace BrainCloud {
 		 */
 		void resetUniversalIdPasswordAdvancedWithExpiry(const char * in_emailAddress, std::string in_serviceParams, int in_tokenTtlInMinutes , IServerCallback * in_callback = NULL);
 
-		/**
+        /**
+         * Returns true IF both Profile ID and Anonymous ID are stored - meaning reconnect possible
+         * @return true if reconnect possible
+         */
+        bool canReconnect();
+
+        /**
 		* Re-authenticates the user with brainCloud
 		*
 		* @param in_callback The method to be invoked when the server response is received
@@ -798,6 +804,14 @@ namespace BrainCloud {
             return client;
         }
 
+
+        /**
+         * Clears Profile Id and Anonymous Id and deletes data entry on device
+         * Use Logout
+         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
+         */
+        void clearIds();
+        
         /**
          * Returns the stored profile id
          * @return The stored profile id
@@ -832,6 +846,7 @@ namespace BrainCloud {
          */
         void resetStoredAnonymousId();
 
+
         /**
          * For non-anonymous authentication methods, a profile id will be passed in
          * when this value is set to false. This will generate an error on the server
@@ -849,6 +864,12 @@ namespace BrainCloud {
          */
         bool getAlwaysAllowProfileSwitch();
 
+        /**
+         * Logs user out of playerState and optionally clears the profile id (eg. shared computer)
+         * NOTE: if forgetUser is true for an AuthenticateAnonymous THEN the user data will be in-accessible and non-recoverable
+         * @param forgetUser true if user profile should be deleted from device on logout, false to allow reconnect
+         * @param in_callback
+         */
         void logout(bool forgetUser, IServerCallback * in_callback);
 
         virtual void serverCallback(BrainCloud::ServiceName serviceName, BrainCloud::ServiceOperation serviceOperation, std::string const & jsonData);

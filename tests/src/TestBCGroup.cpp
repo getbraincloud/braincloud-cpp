@@ -194,6 +194,38 @@ TEST_F(TestBCGroup, DeleteGroupEntity)
 	Logout();
 }
 
+
+TEST_F(TestBCGroup, DeleteGroupJoinRequest)
+{
+    CreateGroupAsUserA();
+    Authenticate(UserB);
+
+    TestResult tr;
+    m_bc->getGroupService()->joinGroup(
+            _groupId.c_str(),
+            &tr);
+    tr.run(m_bc);
+
+    m_bc->getGroupService()->getMyGroups(&tr);
+    tr.run(m_bc);
+    Json::Value groups = tr.m_response["data"]["requested"];
+
+    ASSERT_FALSE(groups.empty());
+
+    m_bc->getGroupService()->deleteGroupJoinRequest(
+            _groupId.c_str(),
+            &tr);
+    tr.run(m_bc);
+
+    m_bc->getGroupService()->getMyGroups(&tr);
+    tr.run(m_bc);
+    groups = tr.m_response["data"]["requested"];
+
+    ASSERT_TRUE(groups.empty());
+
+    DeleteGroupAsUserA();
+}
+
 TEST_F(TestBCGroup, GetMyGroups)
 {
 	Authenticate(UserA);
@@ -662,7 +694,7 @@ void TestBCGroup::DeleteGroupAsUserA()
 void TestBCGroup::Authenticate(Users user)
 {
 	TestResult tr;
-	m_bc->getAuthenticationService()->authenticateUniversal(
+	m_bcWrapper->authenticateUniversal(
 		GetUser(user)->m_id,
 		GetUser(user)->m_password,
 		true,

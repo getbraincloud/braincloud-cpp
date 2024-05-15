@@ -71,7 +71,7 @@ TEST_F(TestBCAsyncMatch, SubmitTurn)
 {
     TestBCAsyncMatch::CreateMatch();
     TestResult tr;
-    
+
     Json::Value matchState;
     matchState["map"] = "level01";
     Json::FastWriter fw;
@@ -82,6 +82,25 @@ TEST_F(TestBCAsyncMatch, SubmitTurn)
                                              fw.write(matchState).c_str(),
                                              NULL,
                                              GetUser(UserB)->m_profileId,
+                                             fw.write(matchState).c_str(),
+                                             fw.write(matchState).c_str(),
+                                             &tr);
+    tr.run(m_bc);
+    TestBCAsyncMatch::AbandonMatch();
+}
+
+TEST_F(TestBCAsyncMatch, UpdateMatchStateCurrentTurn)
+{
+    TestBCAsyncMatch::CreateMatch();
+    TestResult tr;
+
+    Json::Value matchState;
+    matchState["map"] = "level01";
+    Json::FastWriter fw;
+
+    m_bc->getAsyncMatchService()->updateMatchStateCurrentTurn(GetUser(UserA)->m_profileId,
+                                             m_matchId.c_str(),
+                                             0,
                                              fw.write(matchState).c_str(),
                                              fw.write(matchState).c_str(),
                                              &tr);

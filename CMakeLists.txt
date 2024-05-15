@@ -594,11 +594,6 @@ if (USE_LIBWEBSOCKETS)
 
 endif()
 
-if (XCODE)
-    # removing warning in clang 15, safe to ignore
-    target_link_options(brainCloud PUBLIC "LINKER:-no_warn_duplicate_libraries")
-endif()
-
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
 target_link_libraries(brainCloud PUBLIC ${libs})

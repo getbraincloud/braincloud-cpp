@@ -346,13 +346,22 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudGroup::rejectGroupJoinRequest(const char * in_groupId, const char * in_profileId, IServerCallback * in_callback)
+    void BrainCloudGroup::rejectGroupJoinRequest(const char * in_groupId, const char * in_profileId, IServerCallback * in_callback)
+    {
+        Json::Value message;
+        message[OperationParam::GroupId.getValue()] = in_groupId;
+        message[OperationParam::GroupProfileId.getValue()] = in_profileId;
+
+        ServerCall * sc = new ServerCall(ServiceName::Group, ServiceOperation::RejectGroupJoinRequest, message, in_callback);
+        m_client->getBrainCloudComms()->addToQueue(sc);
+    }
+
+	void BrainCloudGroup::deleteGroupJoinRequest(const char * in_groupId, IServerCallback * in_callback)
 	{
 		Json::Value message;
 		message[OperationParam::GroupId.getValue()] = in_groupId;
-		message[OperationParam::GroupProfileId.getValue()] = in_profileId;
-
-		ServerCall * sc = new ServerCall(ServiceName::Group, ServiceOperation::RejectGroupJoinRequest, message, in_callback);
+        
+		ServerCall * sc = new ServerCall(ServiceName::Group, ServiceOperation::DeleteGroupJoinRequest, message, in_callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 

@@ -188,6 +188,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::FindPlayersUsingFilter = ServiceOperation("FIND_PLAYERS_USING_FILTER");
 
 	const ServiceOperation ServiceOperation::SubmitTurn = ServiceOperation("SUBMIT_TURN");
+	const ServiceOperation ServiceOperation::UpdateMatchStateCurrentTurn = ServiceOperation("UPDATE_MATCH_STATE_CURRENT_TURN");
 	const ServiceOperation ServiceOperation::UpdateMatchSummary = ServiceOperation("UPDATE_SUMMARY");
 	const ServiceOperation ServiceOperation::Abandon = ServiceOperation("ABANDON");
 	const ServiceOperation ServiceOperation::Complete = ServiceOperation("COMPLETE");
@@ -320,7 +321,8 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::CreateGroupEntity = ServiceOperation("CREATE_GROUP_ENTITY");
 	const ServiceOperation ServiceOperation::DeleteGroup = ServiceOperation("DELETE_GROUP");
 	const ServiceOperation ServiceOperation::DeleteGroupEntity = ServiceOperation("DELETE_GROUP_ENTITY");
-	const ServiceOperation ServiceOperation::DeleteGroupMemeber = ServiceOperation("DELETE_MEMBER_FROM_GROUP");
+    const ServiceOperation ServiceOperation::DeleteGroupJoinRequest = ServiceOperation("DELETE_GROUP_JOIN_REQUEST");
+	const ServiceOperation ServiceOperation::DeleteGroupMember = ServiceOperation("DELETE_MEMBER_FROM_GROUP");
 	const ServiceOperation ServiceOperation::GetMyGroups = ServiceOperation("GET_MY_GROUPS");
 	const ServiceOperation ServiceOperation::IncrementGroupData = ServiceOperation("INCREMENT_GROUP_DATA");
 	const ServiceOperation ServiceOperation::IncrementGroupEntityData = ServiceOperation("INCREMENT_GROUP_ENTITY_DATA");

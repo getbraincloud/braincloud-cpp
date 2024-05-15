@@ -119,8 +119,7 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		bc->getPlayerStateService()->logout(&tr);
-		tr.run(bc);
+		Logout();
 		delete wrapper;
 	});
 
@@ -189,8 +188,7 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		bc->getPlayerStateService()->logout(&tr);
-		tr.run(bc);
+		Logout();
 	});
 
 	// Join threads

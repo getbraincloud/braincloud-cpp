@@ -57,7 +57,7 @@ void TestFixtureBase::SetUp()
 	if (!ShouldSkipAuthenticate())
 	{
 		TestResult tr;
-		m_bc->getAuthenticationService()->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
+		m_bcWrapper->authenticateUniversal(GetUser(UserA)->m_id, GetUser(UserA)->m_password, true, &tr);
 		tr.run(m_bc);
 	}
 
@@ -71,11 +71,11 @@ void TestFixtureBase::TearDown()
 	if (!ShouldSkipAuthenticate())
 	{
 		TestResult tr;
-		m_bc->getPlayerStateService()->logout(&tr);
+		m_bcWrapper->logout(true, &tr); // clears profile id
 		tr.run(m_bc);
 	}
 	m_bc->resetCommunication();
-	m_bc->getAuthenticationService()->clearSavedProfileId();
+
 	m_bc->deregisterEventCallback();
 	m_bc->deregisterRewardCallback();
 
@@ -108,7 +108,7 @@ void TestFixtureBase::Init()
 	printf("Creating test users");
 	for (int i = 0; i < USERS_MAX; i++)
 	{
-		m_testUsers.push_back(new TestUser(Users_names[i], rand() % 100000000, m_bc));
+		m_testUsers.push_back(new TestUser(Users_names[i], rand() % 100000000, m_bcWrapper));
 		printf("..%i", i + 1);
 	}
 	printf("..completed\n\n");
@@ -244,11 +244,10 @@ bool TestFixtureBase::DetachPeer()
 void TestFixtureBase::Logout()
 {
 	TestResult tr;
-	m_bc->getPlayerStateService()->logout(&tr);
+	m_bcWrapper->logout(true, &tr); // clears saved profile id
 	tr.run(m_bc, true);
 
 	m_bc->resetCommunication();
-	m_bc->getAuthenticationService()->clearSavedProfileId();
 
 	// preston - in bccomms2 (win c++) the internal thread is killed during resetCommunication.
 	// for consistency, we re-initialize the comms to re-create the thread in case any further

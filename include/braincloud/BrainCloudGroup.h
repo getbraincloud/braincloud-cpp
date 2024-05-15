@@ -212,6 +212,17 @@ namespace BrainCloud
 		*/
 		void deleteGroupEntity(const char* in_groupId, const char* in_entityId, int32_t in_version, IServerCallback* in_callback = NULL);
 
+        /**
+        * Delete an outstanding request to join the group.
+        *
+        * Service Name - group
+        * Service Operation - DELETE_GROUP_JOIN_REQUEST
+        *
+        * @param in_groupId ID of the group.
+        * @param in_callback The method to be invoked when the server response is received
+        */
+        void deleteGroupJoinRequest(const char* in_groupId, IServerCallback* in_callback = NULL);
+
 		/**
 		* Read information on groups to which the current user belongs.
 		*
@@ -395,17 +406,17 @@ namespace BrainCloud
 		*/
 		void rejectGroupInvitation(const char* in_groupId, IServerCallback* in_callback = NULL);
 
-		/**
-		* Reject an outstanding request to join the group.
-		*
-		* Service Name - group
-		* Service Operation - REJECT_GROUP_JOIN_REQUEST
-		*
-		* @param in_groupId ID of the group.
-		* @param in_profileId Profile ID of the invitation being deleted.
-		* @param in_callback The method to be invoked when the server response is received
-		*/
-		void rejectGroupJoinRequest(const char* in_groupId, const char* in_profileId, IServerCallback* in_callback = NULL);
+        /**
+        * Reject an outstanding request to join the group.
+        *
+        * Service Name - group
+        * Service Operation - REJECT_GROUP_JOIN_REQUEST
+        *
+        * @param in_groupId ID of the group.
+        * @param in_profileId Profile ID of the invitation being deleted.
+        * @param in_callback The method to be invoked when the server response is received
+        */
+        void rejectGroupJoinRequest(const char* in_groupId, const char* in_profileId, IServerCallback* in_callback = NULL);
 
 		/**
 		* Remove a member from the group.
