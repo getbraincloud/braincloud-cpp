@@ -109,11 +109,15 @@ namespace BrainCloud {
 		static const ServiceOperation GetUsersOnlineStatus;
 		static const ServiceOperation FindPlayerByUniversalId;
 		static const ServiceOperation GetSocialLeaderboard;
+		static const ServiceOperation GetSocialLeaderboardIfExists;
 		static const ServiceOperation GetSocialLeaderboardByVersion;
+		static const ServiceOperation GetSocialLeaderboardByVersionIfExists;
 		static const ServiceOperation GetMultiSocialLeaderboard;
 		static const ServiceOperation GetGlobalLeaderboard;
 		static const ServiceOperation GetGlobalLeaderboardPage;
+		static const ServiceOperation GetGlobalLeaderboardPageIfExists;
 		static const ServiceOperation GetGlobalLeaderboardView;
+		static const ServiceOperation GetGlobalLeaderboardViewIfExists;
 		static const ServiceOperation GetGlobalLeaderboardVersions;
 		static const ServiceOperation GetCompletedTournament;
 		static const ServiceOperation RewardTournament;
@@ -127,7 +131,9 @@ namespace BrainCloud {
 		static const ServiceOperation GetGroupLeaderboardView;
 		static const ServiceOperation GetSummaryDataForProfileId;
 		static const ServiceOperation GetPlayersSocialLeaderboard;
+		static const ServiceOperation GetPlayersSocialLeaderboardIfExists;
 		static const ServiceOperation GetPlayersSocialLeaderboardByVersion;
+		static const ServiceOperation GetPlayersSocialLeaderboardByVersionIfExists;
 		static const ServiceOperation ListAllLeaderboards;
 		static const ServiceOperation GetGlobalLeaderboardEntryCount;
 		static const ServiceOperation RemovePlayerScore;

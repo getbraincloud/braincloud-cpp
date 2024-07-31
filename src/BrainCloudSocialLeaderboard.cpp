@@ -27,6 +27,16 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudSocialLeaderboard::getSocialLeaderboardIfExists(const char * in_leaderboardId, bool in_replaceName, IServerCallback * in_callback)
+	{
+		Json::Value message;
+		message[OperationParam::SocialLeaderboardServiceLeaderboardId.getValue()] = in_leaderboardId;
+		message[OperationParam::SocialLeaderboardServiceReplaceName.getValue()] = in_replaceName;
+
+		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetSocialLeaderboardIfExists, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudSocialLeaderboard::getSocialLeaderboardByVersion(const char * in_leaderboardId, bool in_replaceName, int in_versionId, IServerCallback * in_callback)
 	{
 		Json::Value message;
@@ -35,6 +45,17 @@ namespace BrainCloud
 		message[OperationParam::SocialLeaderboardServiceVersionId.getValue()] = in_versionId;
 
 		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetSocialLeaderboardByVersion, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
+	void BrainCloudSocialLeaderboard::getSocialLeaderboardByVersionIfExists(const char * in_leaderboardId, bool in_replaceName, int in_versionId, IServerCallback * in_callback)
+	{
+		Json::Value message;
+		message[OperationParam::SocialLeaderboardServiceLeaderboardId.getValue()] = in_leaderboardId;
+		message[OperationParam::SocialLeaderboardServiceReplaceName.getValue()] = in_replaceName;
+		message[OperationParam::SocialLeaderboardServiceVersionId.getValue()] = in_versionId;
+
+		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetSocialLeaderboardByVersionIfExists, message, in_callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
@@ -67,6 +88,21 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudSocialLeaderboard::getGlobalLeaderboardPageIfExists(const char * in_leaderboardId, SortOrder in_sortOrder, int in_startIndex,
+		int in_endIndex, IServerCallback * in_callback)
+	{
+		std::string sortOrder = sortOrderToString(in_sortOrder);
+
+		Json::Value message;
+		message[OperationParam::SocialLeaderboardServiceLeaderboardId.getValue()] = in_leaderboardId;
+		message[OperationParam::SocialLeaderboardServiceSortOrder.getValue()] = sortOrder;
+		message[OperationParam::SocialLeaderboardServiceStartIndex.getValue()] = in_startIndex;
+		message[OperationParam::SocialLeaderboardServiceEndIndex.getValue()] = in_endIndex;
+
+		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetGlobalLeaderboardPageIfExists, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudSocialLeaderboard::getGlobalLeaderboardPageByVersion(const char * in_leaderboardId, SortOrder in_sortOrder, int in_startIndex, int in_endIndex, int in_versionId, IServerCallback * in_callback)
 	{
 		std::string sortOrder = sortOrderToString(in_sortOrder);
@@ -82,10 +118,31 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudSocialLeaderboard::getGlobalLeaderboardPageByVersionIfExists(const char * in_leaderboardId, SortOrder in_sortOrder, int in_startIndex, int in_endIndex, int in_versionId, IServerCallback * in_callback)
+	{
+		std::string sortOrder = sortOrderToString(in_sortOrder);
+
+		Json::Value message;
+		message[OperationParam::SocialLeaderboardServiceLeaderboardId.getValue()] = in_leaderboardId;
+		message[OperationParam::SocialLeaderboardServiceSortOrder.getValue()] = sortOrder;
+		message[OperationParam::SocialLeaderboardServiceStartIndex.getValue()] = in_startIndex;
+		message[OperationParam::SocialLeaderboardServiceEndIndex.getValue()] = in_endIndex;
+		message[OperationParam::SocialLeaderboardServiceVersionId.getValue()] = in_versionId;
+
+		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetGlobalLeaderboardPageIfExists, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudSocialLeaderboard::getGlobalLeaderboardView(const char * in_leaderboardId, SortOrder in_sortOrder, int in_beforeCount,
 		int in_afterCount, IServerCallback * in_callback)
 	{
 		getGlobalLeaderboardViewByVersion(in_leaderboardId, in_sortOrder, in_beforeCount, in_afterCount, -1, in_callback);
+	}
+
+	void BrainCloudSocialLeaderboard::getGlobalLeaderboardViewIfExists(const char * in_leaderboardId, SortOrder in_sortOrder, int in_beforeCount,
+		int in_afterCount, IServerCallback * in_callback)
+	{
+		getGlobalLeaderboardViewByVersionIfExists(in_leaderboardId, in_sortOrder, in_beforeCount, in_afterCount, -1, in_callback);
 	}
 
 	void BrainCloudSocialLeaderboard::getGlobalLeaderboardViewByVersion(const char * in_leaderboardId, SortOrder in_sortOrder, int in_beforeCount,
@@ -101,6 +158,22 @@ namespace BrainCloud
 		if (in_versionId != -1) message[OperationParam::SocialLeaderboardServiceVersionId.getValue()] = in_versionId;
 
 		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetGlobalLeaderboardView, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
+	void BrainCloudSocialLeaderboard::getGlobalLeaderboardViewByVersionIfExists(const char * in_leaderboardId, SortOrder in_sortOrder, int in_beforeCount,
+		int in_afterCount, int in_versionId, IServerCallback * in_callback)
+	{
+		std::string sortOrder = sortOrderToString(in_sortOrder);
+
+		Json::Value message;
+		message[OperationParam::SocialLeaderboardServiceLeaderboardId.getValue()] = in_leaderboardId;
+		message[OperationParam::SocialLeaderboardServiceSortOrder.getValue()] = sortOrder;
+		message[OperationParam::SocialLeaderboardServiceBeforeCount.getValue()] = in_beforeCount;
+		message[OperationParam::SocialLeaderboardServiceAfterCount.getValue()] = in_afterCount;
+		if (in_versionId != -1) message[OperationParam::SocialLeaderboardServiceVersionId.getValue()] = in_versionId;
+
+		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetGlobalLeaderboardViewIfExists, message, in_callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
@@ -286,6 +359,16 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudSocialLeaderboard::getPlayersSocialLeaderboardIfExists(const char * in_leaderboardId, std::vector<std::string> in_profileIds, IServerCallback * in_callback)
+	{
+		Json::Value message;
+		message[OperationParam::SocialLeaderboardServiceLeaderboardId.getValue()] = in_leaderboardId;
+		message[OperationParam::ProfileIds.getValue()] = JsonUtil::stringVectorToJson(in_profileIds);
+
+		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetPlayersSocialLeaderboardIfExists, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudSocialLeaderboard::getPlayersSocialLeaderboardByVersion(const char * in_leaderboardId, std::vector<std::string> in_profileIds, int in_versionId, IServerCallback * in_callback)
 	{
 		Json::Value message;
@@ -294,6 +377,17 @@ namespace BrainCloud
 		message[OperationParam::SocialLeaderboardServiceVersionId.getValue()] = in_versionId;
 
 		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetPlayersSocialLeaderboardByVersion, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
+	void BrainCloudSocialLeaderboard::getPlayersSocialLeaderboardByVersionIfExists(const char * in_leaderboardId, std::vector<std::string> in_profileIds, int in_versionId, IServerCallback * in_callback)
+	{
+		Json::Value message;
+		message[OperationParam::SocialLeaderboardServiceLeaderboardId.getValue()] = in_leaderboardId;
+		message[OperationParam::ProfileIds.getValue()] = JsonUtil::stringVectorToJson(in_profileIds);
+		message[OperationParam::SocialLeaderboardServiceVersionId.getValue()] = in_versionId;
+
+		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::GetPlayersSocialLeaderboardByVersionIfExists, message, in_callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
