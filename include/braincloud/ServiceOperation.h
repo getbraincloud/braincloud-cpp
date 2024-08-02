@@ -123,6 +123,7 @@ namespace BrainCloud {
 		static const ServiceOperation RewardTournament;
 		static const ServiceOperation PostScore;
 		static const ServiceOperation PostScoreDynamic;
+		static const ServiceOperation PostScoreDynamicUsingConfig;
 		static const ServiceOperation GetGroupSocialLeaderboard;
 		static const ServiceOperation GetGroupSocialLeaderboardByVersion;
 		static const ServiceOperation PostScoreToGroupLeaderboard;

@@ -387,6 +387,46 @@ namespace BrainCloud
 			IServerCallback * in_callback = NULL);
 
 		/**
+		 * Post the player's score to the given social leaderboard, 
+		 * dynamically creating the leaderboard if it does not exist yet. 
+		 * To create new leaderboard, configJson must specify leaderboardType, rotationType, resetAt, and retainedCount, at a minimum, with support to optionally specify an expiry in minutes.
+		 *
+		 * Service Name - SocialLeaderboard
+		 * Service Operation - POST_SCORE_DYNAMIC_USING_CONFIG
+		 *
+		 * @param in_leaderboardId The leaderboard to post to.
+		 * @param in_score A score to post.
+		 * @param in_scoreData Optional user-defined data to post with the score.
+		 * @param in_configJson Configuration for the leaderboard if it does not exist yet, specified as JSON object. 
+		 *                      Configuration fields supported are:
+		 *                          'leaderboardType': Required. Type of leaderboard. Valid values are:
+		 *                              'LAST_VALUE',
+		 *                              'HIGH_VALUE',
+		 *                              'LOW_VALUE',
+		 *                              'CUMULATIVE',
+		 *                              'ARCADE_HIGH',
+		 *                              'ARCADE_LOW';
+		 *                          'rotationType': Required. Type of rotation. Valid values are:
+		 *                              'NEVER',
+		 *                              'DAILY',
+		 *                              'DAYS', 
+		 *                              'WEEKLY',
+		 *                              'MONTHLY',
+		 *                              'YEARLY';
+		 *                          'numDaysToRotate': Required if 'DAYS' rotation type, with valid values between 2 and 14; otherwise, null; 
+		 *                          'resetAt': UTC timestamp, in milliseconds, at which to rotate the period. Always null if 'NEVER' rotation type;
+		 *                          'retainedCount': Required. Number of rotations (versions) of the leaderboard to retain;
+		 *                          'expireInMins': Optional. Duration, in minutes, before the leaderboard is to automatically expire.
+		 * @param in_callback The method to be invoked when the server response is received.
+		 */
+		void postScoreToDynamicLeaderboardUsingConfig(
+			const char * in_leaderboardId,
+			int64_t in_score,
+			const std::string& in_scoreData,
+			const std::string& in_configJson,
+			IServerCallback * in_callback = NULL);
+
+		/**
 		 * Post the players score to the given social leaderboard.
 		 * Pass leaderboard config data to dynamically create if necessary.
 		 * You can optionally send a user-defined json string of data

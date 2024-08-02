@@ -385,6 +385,15 @@ TEST_F(TestBCSocialLeaderboard, GetPlayerScoresFromLeaderboards)
 	tr.run(m_bc);
 }
 
+TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicLeaderboardUsingConfig)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->postScoreToDynamicLeaderboardUsingConfig(DYNAMIC_LB_ID, 10, "{\"nickname\": \"CPP-Tester\"}", "{\"leaderboardType\": \"HIGH_VALUE\", \"rotationType\": \"DAYS\", \"numDaysToRotate\": 4, \"resetAt\": \"[[#ts+60000]]\", \"retainedCount\": 2, \"expireInMins\": None}", &tr);
+    tr.run(m_bc);
+    
+}
+
 void TestBCSocialLeaderboard::PostScoreToDynamic()
 {
     srand(static_cast<unsigned int>(time(NULL)));

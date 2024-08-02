@@ -227,6 +227,23 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudSocialLeaderboard::postScoreToDynamicLeaderboardUsingConfig(
+		const char * in_leaderboardId,
+		int64_t in_score,
+		const std::string& in_scoreData,
+		const std::string& in_configJson,
+		IServerCallback * in_callback)
+	{
+		Json::Value message;
+		message[OperationParam::SocialLeaderboardServiceLeaderboardId.getValue()] = in_leaderboardId;
+		message[OperationParam::SocialLeaderboardServiceScore.getValue()] = (Json::Int64) in_score;
+		message[OperationParam::SocialLeaderboardServiceScoreData.getValue()] = JsonUtil::jsonStringToValue(in_scoreData);
+		message[OperationParam::SocialLeaderboardServiceConfigJson.getValue()] = JsonUtil::jsonStringToValue(in_configJson);
+
+		ServerCall * sc = new ServerCall(ServiceName::Leaderboard, ServiceOperation::PostScoreDynamicUsingConfig, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudSocialLeaderboard::postScoreToDynamicLeaderboardUTC(
 		const char * in_leaderboardId,
 		int64_t in_score,

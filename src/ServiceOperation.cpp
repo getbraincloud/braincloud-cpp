@@ -116,6 +116,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::RewardTournament = ServiceOperation("REWARD_TOURNAMENT");
 	const ServiceOperation ServiceOperation::PostScore = ServiceOperation("POST_SCORE");
 	const ServiceOperation ServiceOperation::PostScoreDynamic = ServiceOperation("POST_SCORE_DYNAMIC");
+	const ServiceOperation ServiceOperation::PostScoreDynamicUsingConfig = ServiceOperation("POST_SCORE_DYNAMIC_USING_CONFIG");
 	const ServiceOperation ServiceOperation::GetGroupSocialLeaderboard = ServiceOperation("GET_GROUP_SOCIAL_LEADERBOARD");
 	const ServiceOperation ServiceOperation::GetGroupSocialLeaderboardByVersion = ServiceOperation("GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION");
 	const ServiceOperation ServiceOperation::PostScoreToGroupLeaderboard = ServiceOperation("POST_GROUP_SCORE");
