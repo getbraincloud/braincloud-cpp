@@ -213,6 +213,8 @@ namespace BrainCloud {
 		static const OperationParam SocialLeaderboardServiceLeaderboardIds;
 		static const OperationParam SocialLeaderboardServiceReplaceName;
 		static const OperationParam SocialLeaderboardServiceScore;
+		static const OperationParam SocialLeaderboardServiceScoreData;
+		static const OperationParam SocialLeaderboardServiceConfigJson;
 		static const OperationParam SocialLeaderboardServiceData;
 		static const OperationParam SocialLeaderboardServiceEventName;
 		static const OperationParam SocialLeaderboardServiceEventMultiplier;

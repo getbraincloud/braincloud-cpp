@@ -70,6 +70,32 @@ namespace BrainCloud
 		void getSocialLeaderboard(const char * in_leaderboardId, bool in_replaceName, IServerCallback * in_callback = NULL);
 
 		/**
+		 * Method returns the social leaderboard. A player's social leaderboard is
+		 * comprised of players who are recognized as being your friend.
+		 *
+		 * This method returns the same data as getSocialLeaderboard, but it will not return an error if the leaderboard is not found.
+		 *
+		 * The method will retrieve all friends from all friend platforms, so
+		 * - all external friends (Facebook, Steam, PlaystationNetwork)
+		 * - all internal friends (brainCloud)
+		 * - plus "self".
+		 *
+		 * Leaderboards entries contain the player's score and optionally, some user-defined
+		 * data associated with the score. The currently logged in player will also
+		 * be returned in the social leaderboard.
+		 *
+		 * Note: If no friends have played the game, the bestScore, createdAt, updatedAt
+		 * will contain NULL.
+		 *
+		 * @param in_leaderboardId The id of the leaderboard to retrieve
+		 * @param in_replaceName If true, the currently logged in player's name will be replaced
+		 * by the string "You".
+		 * @param in_callback The method to be invoked when the server response is received
+		 *
+		 */
+		void getSocialLeaderboardIfExists(const char *in_leaderboardId, bool in_replaceName, IServerCallback *in_callback = NULL);
+
+		/**
 		 * Method returns the social leaderboard by its version. A player's social leaderboard is
 		 * comprised of players who are recognized as being your friend.
          * 
@@ -93,6 +119,33 @@ namespace BrainCloud
 		 *
 		 */
 		void getSocialLeaderboardByVersion(const char * in_leaderboardId, bool in_replaceName, int in_versionId, IServerCallback * in_callback = NULL);
+
+		/**
+		 * Method returns the social leaderboard by its version. A player's social leaderboard is
+		 * comprised of players who are recognized as being your friend.
+		 *
+		 * This method returns the same data as getSocialLeaderboardByVersion, but it will not return an error if the leaderboard is not found.
+		 *
+		 * The method will retrieve all friends from all friend platforms, so
+		 * - all external friends (Facebook, Steam, PlaystationNetwork)
+		 * - all internal friends (brainCloud)
+		 * - plus "self".
+		 *
+		 * Leaderboards entries contain the player's score and optionally, some user-defined
+		 * data associated with the score. The currently logged in player will also
+		 * be returned in the social leaderboard.
+		 *
+		 * Note: If no friends have played the game, the bestScore, createdAt, updatedAt
+		 * will contain NULL.
+		 *
+		 * @param in_leaderboardId The id of the leaderboard to retrieve
+		 * @param in_replaceName If true, the currently logged in player's name will be replaced
+		 * by the string "You".
+		 * @param in_versionId the version of the leaderboard
+		 * @param in_callback The method to be invoked when the server response is received
+		 *
+		 */
+		void getSocialLeaderboardByVersionIfExists(const char *in_leaderboardId, bool in_replaceName, int in_versionId, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Reads multiple social leaderboards.
@@ -131,6 +184,30 @@ namespace BrainCloud
 			int in_endIndex,
 			IServerCallback * in_callback = NULL);
 
+		/**
+		 * Method returns a page of global leaderboard results.
+		 * Returns the same data as getGlobalLeaderboardPage, but does not return an error if the leaderboard does not exist.
+		 *
+		 * Leaderboards entries contain the player's score and optionally, some user-defined
+		 * data associated with the score.
+		 *
+		 * Note: This method allows the client to retrieve pages from within the global leaderboard list
+		 *
+		 * Service Name - SocialLeaderboard
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS
+		 *
+		 * @param in_leaderboardId The id of the leaderboard to retrieve.
+		 * @param in_sort Sort key Sort order of page.
+		 * @param in_startIndex The index at which to start the page.
+		 * @param in_endIndex The index at which to end the page.
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getGlobalLeaderboardPageIfExists(
+			const char *in_leaderboardId,
+			SortOrder in_sortOrder,
+			int in_startIndex,
+			int in_endIndex,
+			IServerCallback *in_callback = NULL);
 
 		/**
 		 * Method returns a page of global leaderboard results.
@@ -138,7 +215,7 @@ namespace BrainCloud
 		 * See GetGlobalLeaderboardVersions method to retrieve the version id.
 		 *
 		 * Service Name - SocialLeaderboard
-		 * Service Operation - GetGlobalLeaderboardPage
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_BY_VERSION
 		 *
 		 * @param in_leaderboardId The id of the leaderboard to retrieve.
 		 * @param in_sort Sort key Sort order of page.
@@ -155,7 +232,31 @@ namespace BrainCloud
 			int in_versionId,
 			IServerCallback * in_callback = NULL);
 
-	
+		/**
+		 * Method returns a page of global leaderboard results.
+		 * By using a non-current version id, the user can retrieve a historical leaderboard.
+		 * See GetGlobalLeaderboardVersions method to retrieve the version id.
+		 *
+		 * This method returns the same data as getGlobalLeaderboardPageByVersion, but it will not return an error if the leaderboard does not exist
+		 *
+		 * Service Name - SocialLeaderboard
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_BY_VERSION_IF_EXISTS
+		 *
+		 * @param in_leaderboardId The id of the leaderboard to retrieve.
+		 * @param in_sort Sort key Sort order of page.
+		 * @param in_startIndex The index at which to start the page.
+		 * @param in_endIndex The index at which to end the page.
+		 * @param in_versionId The historical version to retrieve.
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getGlobalLeaderboardPageByVersionIfExists(
+			const char *in_leaderboardId,
+			SortOrder in_sortOrder,
+			int in_startIndex,
+			int in_endIndex,
+			int in_versionId,
+			IServerCallback *in_callback = NULL);
+
 		/**
 		 * Method returns a view of global leaderboard results that centers on the current player.
 		 *
@@ -175,6 +276,24 @@ namespace BrainCloud
 
 		/**
 		 * Method returns a view of global leaderboard results that centers on the current player.
+		 * Returns the same data as getGlobalLeaderboardView, but will not return an error if the leaderboard does not exist.
+		 *
+		 * Leaderboards entries contain the player's score and optionally, some user-defined
+		 * data associated with the score.
+		 *
+		 * Service Name - SocialLeaderboard
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS
+		 *
+		 * @param in_leaderboardId The id of the leaderboard to retrieve.
+		 * @param in_sort Sort key Sort order of page.
+		 * @param in_beforeCount The count of number of players before the current player to include.
+		 * @param in_afterCount The count of number of players after the current player to include.
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getGlobalLeaderboardViewIfExists(const char * in_leaderboardId, SortOrder in_sortOrder, int in_beforeCount, int in_afterCount, IServerCallback * in_callback = NULL);
+
+		/**
+		 * Method returns a view of global leaderboard results that centers on the current player.
 		 * By using a non-current version id, the user can retrieve a historical leaderboard.
 		 * See GetGlobalLeaderboardVersions method to retrieve the version id.
 		 *
@@ -189,6 +308,25 @@ namespace BrainCloud
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void getGlobalLeaderboardViewByVersion(const char * in_leaderboardId, SortOrder in_sortOrder, int in_beforeCount, int in_afterCount, int in_versionId, IServerCallback * in_callback = NULL);
+
+		/**
+		 * Method returns a view of global leaderboard results that centers on the current player.
+		 * By using a non-current version id, the user can retrieve a historical leaderboard.
+		 * See GetGlobalLeaderboardVersions method to retrieve the version id.
+		 * 
+		 * This method returns the same data as getGlobalLeaderboardViewByVersion, but it will not return an error if the leaderboard does not exist.
+		 *
+		 * Service Name - SocialLeaderboard
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS
+		 *
+		 * @param in_leaderboardId The id of the leaderboard to retrieve.
+		 * @param in_sort Sort key Sort order of page.
+		 * @param in_beforeCount The count of number of players before the current player to include.
+		 * @param in_afterCount The count of number of players after the current player to include.
+		 * @param in_versionId The historical version to retrieve.
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getGlobalLeaderboardViewByVersionIfExists(const char * in_leaderboardId, SortOrder in_sortOrder, int in_beforeCount, int in_afterCount, int in_versionId, IServerCallback * in_callback = NULL);
 
 		/** Gets the global leaderboard versions.
 		 *
@@ -246,6 +384,46 @@ namespace BrainCloud
 			RotationType in_rotationType, 
 			struct tm* in_rotationResetUTC,
 			int in_retainedCount,
+			IServerCallback * in_callback = NULL);
+
+		/**
+		 * Post the player's score to the given social leaderboard, 
+		 * dynamically creating the leaderboard if it does not exist yet. 
+		 * To create new leaderboard, configJson must specify leaderboardType, rotationType, resetAt, and retainedCount, at a minimum, with support to optionally specify an expiry in minutes.
+		 *
+		 * Service Name - SocialLeaderboard
+		 * Service Operation - POST_SCORE_DYNAMIC_USING_CONFIG
+		 *
+		 * @param in_leaderboardId The leaderboard to post to.
+		 * @param in_score A score to post.
+		 * @param in_scoreData Optional user-defined data to post with the score.
+		 * @param in_configJson Configuration for the leaderboard if it does not exist yet, specified as JSON object. 
+		 *                      Configuration fields supported are:
+		 *                          'leaderboardType': Required. Type of leaderboard. Valid values are:
+		 *                              'LAST_VALUE',
+		 *                              'HIGH_VALUE',
+		 *                              'LOW_VALUE',
+		 *                              'CUMULATIVE',
+		 *                              'ARCADE_HIGH',
+		 *                              'ARCADE_LOW';
+		 *                          'rotationType': Required. Type of rotation. Valid values are:
+		 *                              'NEVER',
+		 *                              'DAILY',
+		 *                              'DAYS', 
+		 *                              'WEEKLY',
+		 *                              'MONTHLY',
+		 *                              'YEARLY';
+		 *                          'numDaysToRotate': Required if 'DAYS' rotation type, with valid values between 2 and 14; otherwise, null; 
+		 *                          'resetAt': UTC timestamp, in milliseconds, at which to rotate the period. Always null if 'NEVER' rotation type;
+		 *                          'retainedCount': Required. Number of rotations (versions) of the leaderboard to retain;
+		 *                          'expireInMins': Optional. Duration, in minutes, before the leaderboard is to automatically expire.
+		 * @param in_callback The method to be invoked when the server response is received.
+		 */
+		void postScoreToDynamicLeaderboardUsingConfig(
+			const char * in_leaderboardId,
+			int64_t in_score,
+			const std::string& in_scoreData,
+			const std::string& in_configJson,
 			IServerCallback * in_callback = NULL);
 
 		/**
@@ -396,6 +574,19 @@ namespace BrainCloud
 		void getPlayersSocialLeaderboard(const char * in_leaderboardId, std::vector<std::string> in_profileIds, IServerCallback * in_callback = NULL);
 
 		/**
+		 * Retrieve the social leaderboard for a list of players.
+		 * This method returns the same data as getPlayersSocialLeaderboard, but it will not return an error if the leaderboard is not found.
+		 *
+		 * Service Name - leaderboard
+		 * Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD_IF_EXISTS
+		 *
+		 * @param in_leaderboardId The leaderboard to retrieve
+		 * @param in_profileIds The IDs of the players
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getPlayersSocialLeaderboardIfExists(const char * in_leaderboardId, std::vector<std::string> in_profileIds, IServerCallback * in_callback = NULL);
+
+		/**
 		 * Retrieve the social leaderboard for a list of players by its version.
 		 *
 		 * Service Name - leaderboard
@@ -406,6 +597,19 @@ namespace BrainCloud
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void getPlayersSocialLeaderboardByVersion(const char * in_leaderboardId, std::vector<std::string> in_profileIds, int in_versionId, IServerCallback * in_callback = NULL);
+
+		/**
+		 * Retrieve the social leaderboard for a list of players by its version.
+		 * This method returns the same data as getPlayersSocialLeaderboardByVersion, but it will not return an error if the leaderboard is not found.
+		 *
+		 * Service Name - leaderboard
+		 * Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD
+		 *
+		 * @param in_leaderboardId The leaderboard to retrieve
+		 * @param in_profileIds The IDs of the players
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getPlayersSocialLeaderboardByVersionIfExists(const char * in_leaderboardId, std::vector<std::string> in_profileIds, int in_versionId, IServerCallback * in_callback = NULL);
 
 		/**
 		 * Retrieve a list of all leaderboards

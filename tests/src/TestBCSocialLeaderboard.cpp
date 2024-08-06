@@ -23,11 +23,43 @@ TEST_F(TestBCSocialLeaderboard, GetSocialLeaderboard)
     tr.run(m_bc);
 }
 
+TEST_F(TestBCSocialLeaderboard, GetSocialLeaderboardIfExistsTrue)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->getSocialLeaderboardIfExists(LB_ID, true, &tr);
+    tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetSocialLeaderboardIfExistsFalse)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->getSocialLeaderboardIfExists("nonExistentLeaderboard", true, &tr);
+    tr.run(m_bc);
+}
+
 TEST_F(TestBCSocialLeaderboard, GetSocialLeaderboardByVersion)
 {
     TestResult tr;
 
     m_bc->getLeaderboardService()->getSocialLeaderboardByVersion(LB_ID, true, 0, &tr);
+    tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetSocialLeaderboardByVersionIfExistsTrue)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->getSocialLeaderboardByVersionIfExists(LB_ID, true, 0, &tr);
+    tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetSocialLeaderboardByVersionIfExistsFalse)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->getSocialLeaderboardByVersionIfExists("nonExistentLeaderboard", true, 0, &tr);
     tr.run(m_bc);
 }
 
@@ -72,6 +104,20 @@ TEST_F(TestBCSocialLeaderboard, GetGlobalLeaderboardPageLow)
     tr.run(m_bc);
 }
 
+TEST_F(TestBCSocialLeaderboard, GetGlobalLeaderboardPageIfExistsTrue)
+{
+    TestResult tr;
+    m_bc->getLeaderboardService()->getGlobalLeaderboardPageIfExists(LB_ID, HIGH_TO_LOW, 0, 10, &tr);
+    tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetGlobalLeaderboardPageIfExistsFalse)
+{
+    TestResult tr;
+    m_bc->getLeaderboardService()->getGlobalLeaderboardPageIfExists("nonExistentLeaderboard", HIGH_TO_LOW, 0, 10, &tr);
+    tr.run(m_bc);
+}
+
 TEST_F(TestBCSocialLeaderboard, GetGlobalLeaderboardViewHigh)
 {
     TestResult tr;
@@ -86,6 +132,20 @@ TEST_F(TestBCSocialLeaderboard, GetGlobalLeaderboardViewLow)
     tr.run(m_bc);
 }
 
+TEST_F(TestBCSocialLeaderboard, GetGlobalLeaderboardViewIfExistsTrue)
+{
+    TestResult tr;
+    m_bc->getLeaderboardService()->getGlobalLeaderboardViewIfExists(LB_ID, HIGH_TO_LOW, 4, 5, &tr);
+    tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetGlobalLeaderboardViewIfExistsFalse)
+{
+    TestResult tr;
+    m_bc->getLeaderboardService()->getGlobalLeaderboardViewIfExists("nonExistentLeaderboard", HIGH_TO_LOW, 4, 5, &tr);
+    tr.run(m_bc);
+}
+
 TEST_F(TestBCSocialLeaderboard, GetGlobalPageByVersion)
 {
     TestResult tr;
@@ -94,11 +154,43 @@ TEST_F(TestBCSocialLeaderboard, GetGlobalPageByVersion)
     tr.run(m_bc);
 }
 
+TEST_F(TestBCSocialLeaderboard, GetGlobalPageByVersionIfExistsTrue)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->getGlobalLeaderboardPageByVersionIfExists(LB_ID, HIGH_TO_LOW, 0, 10, 0, &tr);
+    tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetGlobalPageByVersionIfExistsFalse)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->getGlobalLeaderboardPageByVersionIfExists("nonExistentLeaderboard", HIGH_TO_LOW, 0, 10, 0, &tr);
+    tr.run(m_bc);
+}
+
 TEST_F(TestBCSocialLeaderboard, GetGlobalViewByVersion)
 {
     TestResult tr;
 
     m_bc->getLeaderboardService()->getGlobalLeaderboardViewByVersion(LB_ID, HIGH_TO_LOW, 0, 10, 0, &tr);
+    tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetGlobalViewByVersionIfExistsTrue)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->getGlobalLeaderboardViewByVersionIfExists(LB_ID, HIGH_TO_LOW, 0, 10, 0, &tr);
+    tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetGlobalViewByVersionIfExistsFalse)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->getGlobalLeaderboardViewByVersionIfExists("nonExistentLeaderboard", HIGH_TO_LOW, 0, 10, 0, &tr);
     tr.run(m_bc);
 }
 
@@ -163,6 +255,30 @@ TEST_F(TestBCSocialLeaderboard, GetPlayersSocialLeaderboard)
 	tr.run(m_bc);
 }
 
+TEST_F(TestBCSocialLeaderboard, GetPlayersSocialLeaderboardIfExistsTrue)
+{
+	TestResult tr;
+
+	std::vector<std::string> profileIds;
+	profileIds.push_back(GetUser(UserA)->m_profileId);
+	profileIds.push_back(GetUser(UserB)->m_profileId);
+
+	m_bc->getLeaderboardService()->getPlayersSocialLeaderboardIfExists(SOCIAL_LB_ID, profileIds, &tr);
+	tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetPlayersSocialLeaderboardIfExistsFalse)
+{
+	TestResult tr;
+
+	std::vector<std::string> profileIds;
+	profileIds.push_back(GetUser(UserA)->m_profileId);
+	profileIds.push_back(GetUser(UserB)->m_profileId);
+
+	m_bc->getLeaderboardService()->getPlayersSocialLeaderboardIfExists("nonExistentLeaderboard", profileIds, &tr);
+	tr.run(m_bc);
+}
+
 TEST_F(TestBCSocialLeaderboard, GetPlayersSocialLeaderboardByVersion)
 {
 	TestResult tr;
@@ -172,6 +288,30 @@ TEST_F(TestBCSocialLeaderboard, GetPlayersSocialLeaderboardByVersion)
 	profileIds.push_back(GetUser(UserB)->m_profileId);
 
 	m_bc->getLeaderboardService()->getPlayersSocialLeaderboardByVersion(SOCIAL_LB_ID, profileIds, 0, &tr);
+	tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetPlayersSocialLeaderboardByVersionIfExistsTrue)
+{
+	TestResult tr;
+
+	std::vector<std::string> profileIds;
+	profileIds.push_back(GetUser(UserA)->m_profileId);
+	profileIds.push_back(GetUser(UserB)->m_profileId);
+
+	m_bc->getLeaderboardService()->getPlayersSocialLeaderboardByVersionIfExists(SOCIAL_LB_ID, profileIds, 0, &tr);
+	tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, GetPlayersSocialLeaderboardByVersionIfExistsFalse)
+{
+	TestResult tr;
+
+	std::vector<std::string> profileIds;
+	profileIds.push_back(GetUser(UserA)->m_profileId);
+	profileIds.push_back(GetUser(UserB)->m_profileId);
+
+	m_bc->getLeaderboardService()->getPlayersSocialLeaderboardByVersionIfExists("nonExistentLeaderboard", profileIds, 0, &tr);
 	tr.run(m_bc);
 }
 
@@ -243,6 +383,15 @@ TEST_F(TestBCSocialLeaderboard, GetPlayerScoresFromLeaderboards)
 	lbIds.push_back(DYNAMIC_LB_ID);
 	m_bc->getLeaderboardService()->getPlayerScoresFromLeaderboards(lbIds, &tr);
 	tr.run(m_bc);
+}
+
+TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicLeaderboardUsingConfig)
+{
+    TestResult tr;
+
+    m_bc->getLeaderboardService()->postScoreToDynamicLeaderboardUsingConfig(DYNAMIC_LB_ID, 10, "{\"nickname\": \"CPP-Tester\"}", "{\"leaderboardType\": \"HIGH_VALUE\", \"rotationType\": \"DAYS\", \"numDaysToRotate\": 4, \"resetAt\": \"1722965911665\", \"retainedCount\": 2, \"expireInMins\": None}", &tr);
+    tr.run(m_bc);
+    
 }
 
 void TestBCSocialLeaderboard::PostScoreToDynamic()
