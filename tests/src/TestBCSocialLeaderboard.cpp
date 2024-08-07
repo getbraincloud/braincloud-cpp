@@ -389,7 +389,19 @@ TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicLeaderboardUsingConfig)
 {
     TestResult tr;
 
-    m_bc->getLeaderboardService()->postScoreToDynamicLeaderboardUsingConfig(DYNAMIC_LB_ID, 10, "{\"nickname\": \"CPP-Tester\"}", "{\"leaderboardType\": \"HIGH_VALUE\", \"rotationType\": \"DAYS\", \"numDaysToRotate\": 4, \"resetAt\": \"1722965911665\", \"retainedCount\": 2, \"expireInMins\": None}", &tr);
+    int64_t milliseconds_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    milliseconds_since_epoch += 1000000;    //adding about 15 minutes
+
+    Json::FastWriter fw;
+	Json::Value configJson;
+    configJson["leaderboardType"] = "HIGH_VALUE";
+    configJson["rotationType"] = "DAYS";
+    configJson["numDaysToRotate"] = 4;
+    configJson["resetAt"] = milliseconds_since_epoch;
+    configJson["retainedCount"] = 2;
+    configJson["expireInMins"] = "None";
+
+    m_bc->getLeaderboardService()->postScoreToDynamicLeaderboardUsingConfig(DYNAMIC_LB_ID, 10, "{\"nickname\": \"CPP-Tester\"}", fw.write(configJson), &tr);
     tr.run(m_bc);
     
 }
