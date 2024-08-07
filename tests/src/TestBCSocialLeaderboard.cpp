@@ -393,7 +393,7 @@ TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicLeaderboardUsingConfig)
     milliseconds_since_epoch += 1000000;    //adding about 15 minutes
 
     Json::FastWriter fw;
-	Json::Value configJson;
+    Json::Value configJson;
     configJson["leaderboardType"] = "HIGH_VALUE";
     configJson["rotationType"] = "DAYS";
     configJson["numDaysToRotate"] = 4;
