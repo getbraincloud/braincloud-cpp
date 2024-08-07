@@ -399,7 +399,6 @@ TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicLeaderboardUsingConfig)
     configJson["numDaysToRotate"] = 4;
     configJson["resetAt"] = milliseconds_since_epoch;
     configJson["retainedCount"] = 2;
-    configJson["expireInMins"] = "None";
 
     m_bc->getLeaderboardService()->postScoreToDynamicLeaderboardUsingConfig(DYNAMIC_LB_ID, 10, "{\"nickname\": \"CPP-Tester\"}", fw.write(configJson), &tr);
     tr.run(m_bc);
