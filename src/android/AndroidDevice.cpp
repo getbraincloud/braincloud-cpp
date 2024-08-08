@@ -37,6 +37,16 @@ namespace BrainCloud
             auto value = (jstring) (appEnv->CallObjectMethod(joLocale, jmCountry));
             const char *valueP = appEnv->GetStringUTFChars(value, nullptr);
             *out_countryCode = std::string(valueP);
+            if (*out_countryCode == "419")
+            {
+                *out_countryCode = "_LA_";
+            }
+
+            if (*out_countryCode == "Hans" || *out_countryCode == "Hant")
+            {
+                *out_countryCode = "CN";
+            }
+
             appEnv->ReleaseStringUTFChars(value, valueP);
 
             jmethodID jmLanguage = appEnv->GetMethodID(jcLocale, "getLanguage",
