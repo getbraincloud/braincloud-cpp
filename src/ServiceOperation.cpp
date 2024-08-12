@@ -158,6 +158,7 @@ namespace BrainCloud
 
 	const ServiceOperation ServiceOperation::Send = ServiceOperation("SEND");
 	const ServiceOperation ServiceOperation::UpdateEventData = ServiceOperation("UPDATE_EVENT_DATA");
+	const ServiceOperation ServiceOperation::UpdateEventDataIfExists = ServiceOperation("UPDATE_EVENT_DATA_IF_EXISTS");
 	const ServiceOperation ServiceOperation::DeleteSent = ServiceOperation("DELETE_SENT");
 	const ServiceOperation ServiceOperation::DeleteIncoming = ServiceOperation("DELETE_INCOMING");
 	const ServiceOperation ServiceOperation::DeleteIncomingEvents = ServiceOperation("DELETE_INCOMING_EVENTS");

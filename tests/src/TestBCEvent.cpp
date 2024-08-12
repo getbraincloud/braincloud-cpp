@@ -134,6 +134,33 @@ TEST_F(TestBCEvent, UpdateIncoming)
 	DeleteIncomingMessage();
 }
 
+TEST_F(TestBCEvent, UpdateIncomingIfExistsTrue){
+	SendDefaultMessage();
+
+	TestResult tr;
+	Json::FastWriter fw;
+	Json::Value eventData;
+	eventData[m_eventDataKey] = "testEventValue1";
+
+	m_bc->getEventService()->updateIncomingEventDataIfExists(m_eventId.c_str(), fw.write(eventData).c_str(), &tr);
+	tr.run(m_bc);
+
+	DeleteIncomingMessage();
+}
+
+TEST_F(TestBCEvent, UpdateIncomingIfExistsFalse){
+	std::string m_nonExistentEventId = "66ba5285d9002730d8f707a0";
+	TestResult tr;
+	Json::FastWriter fw;
+	Json::Value eventData;
+	eventData[m_eventDataKey] = "testEventValue2";
+
+	m_bc->getEventService()->updateIncomingEventDataIfExists(m_nonExistentEventId.c_str(), fw.write(eventData).c_str(), &tr);
+	tr.run(m_bc);
+
+	DeleteIncomingMessage();
+}
+
 TEST_F(TestBCEvent, GetEvents)
 {
 	SendDefaultMessage();
