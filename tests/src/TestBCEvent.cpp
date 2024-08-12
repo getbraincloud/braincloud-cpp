@@ -149,8 +149,6 @@ TEST_F(TestBCEvent, UpdateIncomingIfExistsTrue){
 }
 
 TEST_F(TestBCEvent, UpdateIncomingIfExistsFalse){
-	//SendDefaultMessage();
-
 	std::string m_nonExistentEventId = "66ba5285d9002730d8f707a0";
 	TestResult tr;
 	Json::FastWriter fw;
