@@ -109,16 +109,21 @@ namespace BrainCloud {
 		static const ServiceOperation GetUsersOnlineStatus;
 		static const ServiceOperation FindPlayerByUniversalId;
 		static const ServiceOperation GetSocialLeaderboard;
+		static const ServiceOperation GetSocialLeaderboardIfExists;
 		static const ServiceOperation GetSocialLeaderboardByVersion;
+		static const ServiceOperation GetSocialLeaderboardByVersionIfExists;
 		static const ServiceOperation GetMultiSocialLeaderboard;
 		static const ServiceOperation GetGlobalLeaderboard;
 		static const ServiceOperation GetGlobalLeaderboardPage;
+		static const ServiceOperation GetGlobalLeaderboardPageIfExists;
 		static const ServiceOperation GetGlobalLeaderboardView;
+		static const ServiceOperation GetGlobalLeaderboardViewIfExists;
 		static const ServiceOperation GetGlobalLeaderboardVersions;
 		static const ServiceOperation GetCompletedTournament;
 		static const ServiceOperation RewardTournament;
 		static const ServiceOperation PostScore;
 		static const ServiceOperation PostScoreDynamic;
+		static const ServiceOperation PostScoreDynamicUsingConfig;
 		static const ServiceOperation GetGroupSocialLeaderboard;
 		static const ServiceOperation GetGroupSocialLeaderboardByVersion;
 		static const ServiceOperation PostScoreToGroupLeaderboard;
@@ -127,7 +132,9 @@ namespace BrainCloud {
 		static const ServiceOperation GetGroupLeaderboardView;
 		static const ServiceOperation GetSummaryDataForProfileId;
 		static const ServiceOperation GetPlayersSocialLeaderboard;
+		static const ServiceOperation GetPlayersSocialLeaderboardIfExists;
 		static const ServiceOperation GetPlayersSocialLeaderboardByVersion;
+		static const ServiceOperation GetPlayersSocialLeaderboardByVersionIfExists;
 		static const ServiceOperation ListAllLeaderboards;
 		static const ServiceOperation GetGlobalLeaderboardEntryCount;
 		static const ServiceOperation RemovePlayerScore;
@@ -158,6 +165,7 @@ namespace BrainCloud {
 
 		static const ServiceOperation Send;
 		static const ServiceOperation UpdateEventData;
+		static const ServiceOperation UpdateEventDataIfExists;
 		static const ServiceOperation DeleteSent;
 		static const ServiceOperation DeleteIncoming;
 		static const ServiceOperation DeleteIncomingEvents;

@@ -102,16 +102,21 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::GetUsersOnlineStatus = ServiceOperation("GET_USERS_ONLINE_STATUS");
 	const ServiceOperation ServiceOperation::FindPlayerByUniversalId = ServiceOperation("FIND_PLAYER_BY_UNIVERSAL_ID");
 	const ServiceOperation ServiceOperation::GetSocialLeaderboard = ServiceOperation("GET_SOCIAL_LEADERBOARD");
+	const ServiceOperation ServiceOperation::GetSocialLeaderboardIfExists = ServiceOperation("GET_SOCIAL_LEADERBOARD_IF_EXISTS");
 	const ServiceOperation ServiceOperation::GetSocialLeaderboardByVersion = ServiceOperation("GET_SOCIAL_LEADERBOARD_BY_VERSION");
+	const ServiceOperation ServiceOperation::GetSocialLeaderboardByVersionIfExists = ServiceOperation("GET_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS");
 	const ServiceOperation ServiceOperation::GetMultiSocialLeaderboard = ServiceOperation("GET_MULTI_SOCIAL_LEADERBOARD");
 	const ServiceOperation ServiceOperation::GetGlobalLeaderboard = ServiceOperation("GET_GLOBAL_LEADERBOARD");
 	const ServiceOperation ServiceOperation::GetGlobalLeaderboardPage = ServiceOperation("GET_GLOBAL_LEADERBOARD_PAGE");
+	const ServiceOperation ServiceOperation::GetGlobalLeaderboardPageIfExists = ServiceOperation("GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS");
 	const ServiceOperation ServiceOperation::GetGlobalLeaderboardView = ServiceOperation("GET_GLOBAL_LEADERBOARD_VIEW");
+	const ServiceOperation ServiceOperation::GetGlobalLeaderboardViewIfExists = ServiceOperation("GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS");
 	const ServiceOperation ServiceOperation::GetGlobalLeaderboardVersions = ServiceOperation("GET_GLOBAL_LEADERBOARD_VERSIONS");
 	const ServiceOperation ServiceOperation::GetCompletedTournament = ServiceOperation("GET_COMPLETED_TOURNAMENT");
 	const ServiceOperation ServiceOperation::RewardTournament = ServiceOperation("REWARD_TOURNAMENT");
 	const ServiceOperation ServiceOperation::PostScore = ServiceOperation("POST_SCORE");
 	const ServiceOperation ServiceOperation::PostScoreDynamic = ServiceOperation("POST_SCORE_DYNAMIC");
+	const ServiceOperation ServiceOperation::PostScoreDynamicUsingConfig = ServiceOperation("POST_SCORE_DYNAMIC_USING_CONFIG");
 	const ServiceOperation ServiceOperation::GetGroupSocialLeaderboard = ServiceOperation("GET_GROUP_SOCIAL_LEADERBOARD");
 	const ServiceOperation ServiceOperation::GetGroupSocialLeaderboardByVersion = ServiceOperation("GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION");
 	const ServiceOperation ServiceOperation::PostScoreToGroupLeaderboard = ServiceOperation("POST_GROUP_SCORE");
@@ -120,7 +125,9 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::GetGroupLeaderboardView = ServiceOperation("GET_GROUP_LEADERBOARD_VIEW");
 	const ServiceOperation ServiceOperation::GetSummaryDataForProfileId = ServiceOperation("GET_SUMMARY_DATA_FOR_PROFILE_ID");
 	const ServiceOperation ServiceOperation::GetPlayersSocialLeaderboard = ServiceOperation("GET_PLAYERS_SOCIAL_LEADERBOARD");
+	const ServiceOperation ServiceOperation::GetPlayersSocialLeaderboardIfExists = ServiceOperation("GET_PLAYERS_SOCIAL_LEADERBOARD_IF_EXISTS");
 	const ServiceOperation ServiceOperation::GetPlayersSocialLeaderboardByVersion = ServiceOperation("GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION");
+	const ServiceOperation ServiceOperation::GetPlayersSocialLeaderboardByVersionIfExists = ServiceOperation("GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION_IF_EXISTS");
 	const ServiceOperation ServiceOperation::ListAllLeaderboards = ServiceOperation("LIST_ALL_LEADERBOARDS");
 	const ServiceOperation ServiceOperation::GetGlobalLeaderboardEntryCount = ServiceOperation("GET_GLOBAL_LEADERBOARD_ENTRY_COUNT");
 	const ServiceOperation ServiceOperation::RemovePlayerScore = ServiceOperation("REMOVE_PLAYER_SCORE");
@@ -151,6 +158,7 @@ namespace BrainCloud
 
 	const ServiceOperation ServiceOperation::Send = ServiceOperation("SEND");
 	const ServiceOperation ServiceOperation::UpdateEventData = ServiceOperation("UPDATE_EVENT_DATA");
+	const ServiceOperation ServiceOperation::UpdateEventDataIfExists = ServiceOperation("UPDATE_EVENT_DATA_IF_EXISTS");
 	const ServiceOperation ServiceOperation::DeleteSent = ServiceOperation("DELETE_SENT");
 	const ServiceOperation ServiceOperation::DeleteIncoming = ServiceOperation("DELETE_INCOMING");
 	const ServiceOperation ServiceOperation::DeleteIncomingEvents = ServiceOperation("DELETE_INCOMING_EVENTS");

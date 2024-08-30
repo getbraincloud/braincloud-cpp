@@ -54,6 +54,19 @@ namespace BrainCloud
 		void updateIncomingEventData(const char * in_evId, const std::string& in_jsonEventData, IServerCallback * in_callback = NULL);
 
 		/**
+		 * Updates an event in the user's incoming event mailbox.
+		 * Returns the same data as updateIncomingEventData, but returns null instead of an error if none exists.
+		 *
+		 * Service Name - event
+		 * Service Operation - UPDATE_EVENT_DATA
+		 *
+		 * @param in_evId The event id
+		 * @param in_jsonEventData The user-defined data for this event encoded in JSON.
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void updateIncomingEventDataIfExists(const char * in_evId, const std::string& in_jsonEventData, IServerCallback * in_callback = NULL);
+
+		/**
 		 * Delete an event out of the user's incoming mailbox.
 		 *
 		 * Service Name - event

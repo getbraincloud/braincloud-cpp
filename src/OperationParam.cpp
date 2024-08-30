@@ -204,6 +204,8 @@ namespace BrainCloud
 	const OperationParam OperationParam::SocialLeaderboardServiceLeaderboardIds = OperationParam("leaderboardIds");
 	const OperationParam OperationParam::SocialLeaderboardServiceReplaceName = OperationParam("replaceName");
 	const OperationParam OperationParam::SocialLeaderboardServiceScore = OperationParam("score");
+	const OperationParam OperationParam::SocialLeaderboardServiceScoreData = OperationParam("scoreData");
+	const OperationParam OperationParam::SocialLeaderboardServiceConfigJson = OperationParam("configJson");
 	const OperationParam OperationParam::SocialLeaderboardServiceData = OperationParam("data");
 	const OperationParam OperationParam::SocialLeaderboardServiceEventName = OperationParam("eventName");
 	const OperationParam OperationParam::SocialLeaderboardServiceEventMultiplier = OperationParam("eventMultiplier");

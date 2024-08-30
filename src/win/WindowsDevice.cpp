@@ -34,7 +34,17 @@ namespace BrainCloud
 
             GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SISO3166CTRYNAME, wbuf, 16);
             wcstombs_s(&bytes, cbuf, 16, wbuf, 15);
+
             *out_countryCode = cbuf;
+            if (*out_countryCode == "419")
+            {
+                *out_countryCode = "_LA_";
+            }
+
+            if (*out_countryCode == "Hans" || *out_countryCode == "Hant")
+            {
+                *out_countryCode = "CN";
+            }
         }
     }
 }

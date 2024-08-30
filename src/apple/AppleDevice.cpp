@@ -44,6 +44,15 @@ namespace BrainCloud
                 {
                     CFStringGetCString(countryCode, charBuf, 16, kCFStringEncodingUTF8);
                     *out_countryCode = std::string(charBuf);
+                    if (*out_countryCode == "419")
+                    {
+                        *out_countryCode = "_LA_";
+                    }
+
+                    if (*out_countryCode == "Hans" || *out_countryCode == "Hant")
+                    {
+                        *out_countryCode = "CN";
+                    }
                 }
 
                 CFTimeZoneRef tz = CFTimeZoneCopySystem();
