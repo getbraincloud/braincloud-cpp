@@ -118,8 +118,7 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 			std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		}
 
-		// TearDown
-		Logout();
+		wrapper->logout(true, nullptr);
 		delete wrapper;
 	});
 
@@ -188,7 +187,7 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		Logout();
+		wrapper->logout(true, nullptr);
 	});
 
 	// Join threads
