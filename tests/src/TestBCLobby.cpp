@@ -119,10 +119,10 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		TestResult tr;
-		wrapper->logout(true, &tr);
+		TestResult tr2;
+		wrapper->logout(true, &tr2);
 
-		tr.run(bc, true);
+		tr2.run(bc, true);
 
 		bc->resetCommunication();
 
@@ -194,10 +194,10 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		TestResult tr;
-		wrapper->logout(true, &tr);
+		TestResult tr2;
+		wrapper->logout(true, &tr2);
 
-		tr.run(bc, true);
+		tr2.run(bc, true);
 
 		bc->resetCommunication();
 
