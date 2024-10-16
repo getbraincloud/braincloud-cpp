@@ -297,6 +297,18 @@ TEST_F(TestBCLobby, UpdateSettings)
 	tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, LOBBY_NOT_FOUND);
 }
 
+TEST_F(TestBCLobby, DeprecatedCancelFindRequest)
+{
+	TestResult tr;
+
+	std::vector<std::string> otherUserCxIds;
+	m_bc->getLobbyService()->findOrCreateLobby("MATCH_UNRANKED", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
+	tr.run(m_bc);
+
+	m_bc->getLobbyService()->cancelFindRequest("MATCH_UNRANKED", &tr);
+	tr.run(m_bc);
+}
+
 TEST_F(TestBCLobby, CancelFindRequest)
 {
 	TestResult tr;

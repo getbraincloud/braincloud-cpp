@@ -528,6 +528,19 @@ namespace BrainCloud
 		ServerCall* sc = new ServerCall(ServiceName::Lobby, ServiceOperation::UpdateSettings, message, in_callback);
 		m_client->sendRequest(sc);
 	}
+
+	/// <summary>
+	/// Cancel this members Find, Join and Searching of Lobbies
+	/// Deprecated: Use cancelFindRequest with entryId parameter
+	/// </summary>
+	void BrainCloudLobby::cancelFindRequest(const std::string& in_lobbyType, IServerCallback* in_callback)
+	{
+		Json::Value message;
+		message[OperationParam::LobbyType.getValue()] = in_lobbyType;
+
+		ServerCall* sc = new ServerCall(ServiceName::Lobby, ServiceOperation::CancelFindRequest, message, in_callback);
+		m_client->sendRequest(sc);
+	}
 	
 	/// <summary>
 	/// Cancel this members Find, Join and Searching of Lobbies

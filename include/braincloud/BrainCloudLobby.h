@@ -273,6 +273,12 @@ namespace BrainCloud
 
 		/// <summary>
 		/// Cancel this members Find, Join and Searching of Lobbies
+		/// Deprecated: Use cancelFindRequest with entryId parameter
+		/// </summary>
+		DEPRECATED void cancelFindRequest(const std::string& in_lobbyType, IServerCallback* in_callback);
+
+		/// <summary>
+		/// Cancel this members Find, Join and Searching of Lobbies
 		/// </summary>
 		void cancelFindRequest(const std::string& in_lobbyType, std::string in_entryId, IServerCallback* in_callback);
 
