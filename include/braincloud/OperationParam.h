@@ -448,6 +448,7 @@ namespace BrainCloud {
 		static const OperationParam Text;
 
 		//lobby
+		static const OperationParam EntryId;
 		static const OperationParam LobbyType;
 		static const OperationParam LobbyTypes;
 		static const OperationParam Rating;

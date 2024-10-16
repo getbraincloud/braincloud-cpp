@@ -301,8 +301,13 @@ TEST_F(TestBCLobby, CancelFindRequest)
 {
 	TestResult tr;
 
-	m_bc->getLobbyService()->cancelFindRequest("MATCH_UNRANKED", &tr);
-	
+	std::vector<std::string> otherUserCxIds;
+	m_bc->getLobbyService()->findOrCreateLobby("MATCH_UNRANKED", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
+	tr.run(m_bc);
+
+	std::string in_entryId = tr.m_response["data"]["entryId"].asString();
+
+	m_bc->getLobbyService()->cancelFindRequest("MATCH_UNRANKED", in_entryId, &tr);
 	tr.run(m_bc);
 }
 
