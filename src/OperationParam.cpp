@@ -441,6 +441,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::Text = OperationParam("text");
 
 	//lobby
+	const OperationParam OperationParam::EntryId = OperationParam("entryId");
 	const OperationParam OperationParam::LobbyType = OperationParam("lobbyType");
 	const OperationParam OperationParam::LobbyTypes = OperationParam("lobbyTypes");
 	const OperationParam OperationParam::Rating = OperationParam("rating");
