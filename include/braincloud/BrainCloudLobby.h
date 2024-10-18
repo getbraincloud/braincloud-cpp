@@ -273,8 +273,14 @@ namespace BrainCloud
 
 		/// <summary>
 		/// Cancel this members Find, Join and Searching of Lobbies
+		/// Deprecated: Use cancelFindRequest with entryId parameter
 		/// </summary>
-		void cancelFindRequest(const std::string& in_lobbyType, IServerCallback* in_callback);
+		DEPRECATED void cancelFindRequest(const std::string& in_lobbyType, IServerCallback* in_callback);
+
+		/// <summary>
+		/// Cancel this members Find, Join and Searching of Lobbies
+		/// </summary>
+		void cancelFindRequest(const std::string& in_lobbyType, std::string in_entryId, IServerCallback* in_callback);
 
 		/* Runs ping callbacks if pingRegions was called.
 		 * Note: This is already called by BrainCloudClient::runCallbacks

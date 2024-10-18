@@ -119,7 +119,13 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		Logout();
+		TestResult tr2;
+		wrapper->logout(true, &tr2);
+
+		tr2.run(bc, true);
+
+		bc->resetCommunication();
+
 		delete wrapper;
 	});
 
@@ -188,7 +194,14 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		Logout();
+		TestResult tr2;
+		wrapper->logout(true, &tr2);
+
+		tr2.run(bc, true);
+
+		bc->resetCommunication();
+
+		delete wrapper;
 	});
 
 	// Join threads
@@ -297,12 +310,29 @@ TEST_F(TestBCLobby, UpdateSettings)
 	tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, LOBBY_NOT_FOUND);
 }
 
+TEST_F(TestBCLobby, DeprecatedCancelFindRequest)
+{
+	TestResult tr;
+
+	std::vector<std::string> otherUserCxIds;
+	m_bc->getLobbyService()->findOrCreateLobby("MATCH_UNRANKED", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
+	tr.run(m_bc);
+
+	m_bc->getLobbyService()->cancelFindRequest("MATCH_UNRANKED", &tr);
+	tr.run(m_bc);
+}
+
 TEST_F(TestBCLobby, CancelFindRequest)
 {
 	TestResult tr;
 
-	m_bc->getLobbyService()->cancelFindRequest("MATCH_UNRANKED", &tr);
-	
+	std::vector<std::string> otherUserCxIds;
+	m_bc->getLobbyService()->findOrCreateLobby("MATCH_UNRANKED", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
+	tr.run(m_bc);
+
+	std::string in_entryId = tr.m_response["data"]["entryId"].asString();
+
+	m_bc->getLobbyService()->cancelFindRequest("MATCH_UNRANKED", in_entryId, &tr);
 	tr.run(m_bc);
 }
 
