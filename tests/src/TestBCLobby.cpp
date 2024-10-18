@@ -119,7 +119,13 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		Logout();
+		TestResult tr2;
+		wrapper->logout(true, &tr2);
+
+		tr2.run(bc, true);
+
+		bc->resetCommunication();
+
 		delete wrapper;
 	});
 
@@ -188,7 +194,14 @@ TEST_F(TestBCLobbyNoAuth, CreateAndJoinLobby)
 		}
 
 		// TearDown
-		Logout();
+		TestResult tr2;
+		wrapper->logout(true, &tr2);
+
+		tr2.run(bc, true);
+
+		bc->resetCommunication();
+
+		delete wrapper;
 	});
 
 	// Join threads
