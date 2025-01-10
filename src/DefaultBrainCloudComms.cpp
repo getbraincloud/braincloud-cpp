@@ -1004,7 +1004,8 @@ namespace BrainCloud
 				|| call->getOperation() == ServiceOperation::ResetEmailPassword
 				|| call->getOperation() == ServiceOperation::ResetEmailPasswordAdvanced
 				|| call->getOperation() == ServiceOperation::ResetUniversalIdPassword
-				|| call->getOperation() == ServiceOperation::ResetUniversalIdPasswordAdvanced)
+				|| call->getOperation() == ServiceOperation::ResetUniversalIdPasswordAdvanced
+				|| call->getOperation() == ServiceOperation::GetServerVersion)
 			{
 				authenticating = true;
 			}
