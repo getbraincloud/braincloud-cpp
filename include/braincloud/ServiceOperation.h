@@ -10,6 +10,7 @@ namespace BrainCloud {
 		static const ServiceOperation None;
 
 		static const ServiceOperation Authenticate;
+		static const ServiceOperation GetServerVersion;
 		static const ServiceOperation Attach;
 		static const ServiceOperation Merge;
 		static const ServiceOperation Detach;

@@ -5,6 +5,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::None = ServiceOperation("NONE");
 
 	const ServiceOperation ServiceOperation::Authenticate = ServiceOperation("AUTHENTICATE");
+	const ServiceOperation ServiceOperation::GetServerVersion = ServiceOperation("GET_SERVER_VERSION");
 	const ServiceOperation ServiceOperation::Attach = ServiceOperation("ATTACH");
 	const ServiceOperation ServiceOperation::Merge = ServiceOperation("MERGE");
 	const ServiceOperation ServiceOperation::Detach = ServiceOperation("DETACH");
