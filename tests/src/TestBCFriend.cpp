@@ -22,6 +22,15 @@ TEST_F(TestBCFriend, GetProfileInfoForCredential)
 	tr.run(m_bc);
 }
 
+TEST_F(TestBCFriend, GetProfileInfoForCredentialIfExists)
+{
+	TestResult tr;
+
+	m_bc->getFriendService()->getProfileInfoForCredentialIfExists(GetUser(UserA)->m_id, AuthenticationType::Universal, &tr);
+
+	tr.run(m_bc);
+}
+
 TEST_F(TestBCFriend, GetProfileInfoForExternalAuthId)
 {
 	TestResult tr;

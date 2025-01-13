@@ -91,6 +91,7 @@ namespace BrainCloud {
 
 		static const ServiceOperation GetFriendProfileInfoForExternalId;
 		static const ServiceOperation GetProfileInfoForCredential;
+		static const ServiceOperation GetProfileInfoForCredentialIfExists;
 		static const ServiceOperation GetProfileInfoForExternalAuthId;
 		static const ServiceOperation GetExternalIdForProfileId;
 		static const ServiceOperation ReadFriendEntity;

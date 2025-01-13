@@ -60,6 +60,16 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudFriend::getProfileInfoForCredentialIfExists(const char *in_externalId, AuthenticationType in_authenticationType, IServerCallback *in_callback)
+	{
+		Json::Value message;
+		message[OperationParam::FriendServiceExternalId.getValue()] = in_externalId;
+		message[OperationParam::FriendServiceAuthenticationType.getValue()] = in_authenticationType.toString();
+
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForCredentialIfExists, message, in_callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudFriend::getProfileInfoForExternalAuthId(const char * in_externalId, const char * in_externalAuthType, IServerCallback * in_callback)
 	{
 		Json::Value message;

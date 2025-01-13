@@ -60,6 +60,19 @@ namespace BrainCloud
 		void getProfileInfoForCredential(const char * in_externalId, AuthenticationType in_authenticationType, IServerCallback * in_callback = NULL);
 
 		/**
+		* Retrieves profile information for the specified user.
+		Silently fails, if profile does not exist, just returns null and success, instead of an error.
+		*
+		* Service Name - friend
+		* Service Operation - GET_PROFILE_INFO_FOR_CREDENTIAL_IF_EXISTS
+		*
+		* @param in_externalId The users's external ID
+		* @param in_authenticationType The authentication type of the user ID
+		* @param in_callback Method to be invoked when the server response is received.
+		*/
+		void getProfileInfoForCredentialIfExists(const char *in_externalId, AuthenticationType in_authenticationType, IServerCallback *in_callback = NULL);
+
+		/**
 		* Retrieves profile information for the specified external auth user.
 		*
 		* Service Name - friend
