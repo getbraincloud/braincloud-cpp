@@ -299,6 +299,7 @@ namespace BrainCloud {
 		static const OperationParam PlaybackStreamServiceIncludeSharedData;
 		static const OperationParam PlaybackStreamServiceEventData;
 		static const OperationParam PlaybackStreamServiceSummary;
+		static const OperationParam PlaybackStreamServiceNumDays;
 
 		static const OperationParam ProductServiceTransId;
 		static const OperationParam ProductServiceLanguage;

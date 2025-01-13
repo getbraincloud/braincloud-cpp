@@ -291,6 +291,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::PlaybackStreamServiceIncludeSharedData = OperationParam("includeSharedData");
 	const OperationParam OperationParam::PlaybackStreamServiceEventData = OperationParam("eventData");
 	const OperationParam OperationParam::PlaybackStreamServiceSummary = OperationParam("summary");
+	const OperationParam OperationParam::PlaybackStreamServiceNumDays = OperationParam("numDays");
 
 	const OperationParam OperationParam::ProductServiceTransId = OperationParam("transId");
 	const OperationParam OperationParam::ProductServiceLanguage = OperationParam("language");

@@ -257,6 +257,7 @@ namespace BrainCloud {
 		static const ServiceOperation GetStreamSummariesForTargetPlayer;
 		static const ServiceOperation GetRecentStreamsForInitiatingPlayer;
 		static const ServiceOperation GetRecentStreamsForTargetPlayer;
+		static const ServiceOperation ProtectStreamUntil;
 
 		static const ServiceOperation GetUserInfo;
 

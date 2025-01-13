@@ -102,6 +102,20 @@ namespace BrainCloud
         */
         void getRecentStreamsForTargetPlayer(const char * in_targetPlayerId, int in_maxNumStreams, IServerCallback * in_callback = NULL);
 
+        /**
+         * Protects a playback stream from being purged (but not deleted) for the given number of days (from now).
+         * If the number of days given is less than the normal purge interval days (from createdAt), the longer protection date is applied.
+         * Can only be called by users involved in the playback stream.
+         *
+         * Service Name - PlaybackStream
+         * Service Operation - PROTECT_STREAM_UNTIL
+         *
+         * @param in_playbackStreamId Identifies the stream to protect
+         * @param in_numDays The number of days the stream is to be protected (from now)
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void protectStreamUntil(const char *in_playbackStreamId, int in_numDays, IServerCallback *in_callback = NULL);
+
     private:
         BrainCloudClient * m_client;
     };
