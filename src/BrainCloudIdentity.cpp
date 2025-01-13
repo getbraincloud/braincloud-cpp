@@ -296,6 +296,18 @@ namespace BrainCloud
 		m_client->sendRequest(sc);
 	}
 
+	void BrainCloudIdentity::getIdentityStatus(AuthenticationType in_authenticationType, const char *in_externalAuthName, IServerCallback *in_callback)
+	{
+		Json::Value message;
+
+		message[OperationParam::IdentityServiceAuthenticationType.getValue()] = in_authenticationType.toString();
+		if (StringUtil::IsOptionalParameterValid(in_externalAuthName))
+			message[OperationParam::AuthenticateServiceAuthenticateExternalAuthName.getValue()] = in_externalAuthName;
+
+		ServerCall *sc = new ServerCall(ServiceName::Identity, ServiceOperation::GetIdentityStatus, message, in_callback);
+		m_client->sendRequest(sc);
+	}
+
 	void BrainCloudIdentity::getExpiredIdentities(IServerCallback * in_callback)
 	{
 		Json::Value message = Json::nullValue;

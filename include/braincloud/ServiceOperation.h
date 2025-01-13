@@ -28,6 +28,7 @@ namespace BrainCloud {
 		static const ServiceOperation UpdateUniversalIdLogin;
 		static const ServiceOperation GetChildProfiles;
 		static const ServiceOperation GetIdentities;
+		static const ServiceOperation GetIdentityStatus;
 		static const ServiceOperation GetExpiredIdentities;
 		static const ServiceOperation RefreshIdentity;
 		static const ServiceOperation ChangeEmailIdentity;

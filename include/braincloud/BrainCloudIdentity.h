@@ -737,6 +737,11 @@ namespace BrainCloud
 		*/
 		void getIdentities(IServerCallback * in_callback = NULL);
 
+		/*
+		 * Retrieves identity status for given identity type for this profile.
+		 */
+		void getIdentityStatus(AuthenticationType in_authenticationType, const char *in_externalAuthName, IServerCallback *in_callback);
+
 		/**
 		* Retrieve list of expired identities
 		*

@@ -21,6 +21,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::SwitchToParentProfile = ServiceOperation("SWITCH_TO_PARENT_PROFILE");
 	const ServiceOperation ServiceOperation::GetChildProfiles = ServiceOperation("GET_CHILD_PROFILES");
 	const ServiceOperation ServiceOperation::GetIdentities = ServiceOperation("GET_IDENTITIES");
+	const ServiceOperation ServiceOperation::GetIdentityStatus = ServiceOperation("GET_IDENTITY_STATUS");
 	const ServiceOperation ServiceOperation::GetExpiredIdentities = ServiceOperation("GET_EXPIRED_IDENTITIES");
 	const ServiceOperation ServiceOperation::RefreshIdentity = ServiceOperation("REFRESH_IDENTITY");
 	const ServiceOperation ServiceOperation::ChangeEmailIdentity = ServiceOperation("CHANGE_EMAIL_IDENTITY");
