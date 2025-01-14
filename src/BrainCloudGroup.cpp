@@ -394,7 +394,7 @@ namespace BrainCloud
 		message[OperationParam::GroupVersion.getValue()] = in_version;
 		message[OperationParam::GroupData.getValue()] = JsonUtil::jsonStringToValue(in_jsonData);
 
-		ServerCall * sc = new ServerCall(ServiceName::Group, ServiceOperation::UpdateGroupEntity, message, in_callback);
+		ServerCall * sc = new ServerCall(ServiceName::Group, ServiceOperation::UpdateGroupEntityData, message, in_callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 

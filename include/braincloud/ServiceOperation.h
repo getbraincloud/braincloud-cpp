@@ -375,7 +375,7 @@ namespace BrainCloud {
         static const ServiceOperation RejectGroupJoinRequest;
 		static const ServiceOperation RemoveGroupMember;
 		static const ServiceOperation UpdateGroupData;
-		static const ServiceOperation UpdateGroupEntity;
+		static const ServiceOperation UpdateGroupEntityData;
 		static const ServiceOperation UpdateGroupMember;
 		static const ServiceOperation UpdateGroupName;
 		static const ServiceOperation SetGroupOpen;
