@@ -444,6 +444,19 @@ namespace BrainCloud
 		void updateGroupData(const char* in_groupId, int32_t in_version, const std::string& in_jsonData, IServerCallback* in_callback = NULL);
 
 		/**
+		 * Update the acl settings for a group entity, enforcing ownership.
+		 *
+		 * Service Name - Group
+		 * Service Operation - UPDATE_GROUP_ENTITY_ACL
+		 *
+		 * @param in_groupId The id of the group
+		 * @param in_entityId The id of the entity to update
+		 * @param in_acl Access control list for the group entity
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void updateGroupEntityAcl(const char *in_groupId, const char *in_entityId, const std::string &in_acl, IServerCallback *in_callback = NULL);
+
+		/**
 		* Update a group entity.
 		*
 		* Service Name - group

@@ -386,6 +386,19 @@ namespace BrainCloud
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
+	void BrainCloudGroup::updateGroupEntityAcl(const char *in_groupId, const char *in_entityId, const std::string &in_acl, IServerCallback *in_callback)
+	{
+		Json::Value data;
+
+		data[OperationParam::GroupId.getValue()] = in_groupId;
+		data[OperationParam::GroupEntityId.getValue()] = in_entityId;
+		data[OperationParam::GroupAcl.getValue()] = JsonUtil::jsonStringToValue(in_acl);
+
+		ServerCall *sc = new ServerCall(ServiceName::Group, ServiceOperation::UpdateGroupEntityAcl, data, in_callback);
+
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
 	void BrainCloudGroup::updateGroupEntityData(const char * in_groupId, const char * in_entityId, int32_t in_version, const std::string& in_jsonData, IServerCallback * in_callback)
 	{
 		Json::Value message;

@@ -354,6 +354,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::RejectGroupJoinRequest = ServiceOperation("REJECT_GROUP_JOIN_REQUEST");
 	const ServiceOperation ServiceOperation::RemoveGroupMember = ServiceOperation("REMOVE_GROUP_MEMBER");
 	const ServiceOperation ServiceOperation::UpdateGroupData = ServiceOperation("UPDATE_GROUP_DATA");
+	const ServiceOperation ServiceOperation::UpdateGroupEntityAcl = ServiceOperation("UPDATE_GROUP_ENTITY_ACL");
 	const ServiceOperation ServiceOperation::UpdateGroupEntityData = ServiceOperation("UPDATE_GROUP_ENTITY_DATA");
 	const ServiceOperation ServiceOperation::UpdateGroupMember = ServiceOperation("UPDATE_GROUP_MEMBER");
 	const ServiceOperation ServiceOperation::UpdateGroupName = ServiceOperation("UPDATE_GROUP_NAME");
