@@ -380,6 +380,7 @@ namespace BrainCloud {
 		static const ServiceOperation UpdateGroupMember;
 		static const ServiceOperation UpdateGroupName;
 		static const ServiceOperation SetGroupOpen;
+		static const ServiceOperation UpdateGroupAcl;
 		static const ServiceOperation GetRandomGroupsMatching;
 		static const ServiceOperation UpdateGroupSummaryData;
 

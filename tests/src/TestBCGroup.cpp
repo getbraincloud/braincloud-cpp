@@ -662,6 +662,24 @@ TEST_F(TestBCGroup, SetGroupOpen)
 	Logout();
 }
 
+TEST_F(TestBCGroup, UpdateGroupAcl){
+	TestResult tr;
+	const char *groupId;
+	const char *acl = _testAcl;
+	
+	Authenticate(UserA);
+	CreateGroup();
+
+	groupId = _groupId.c_str();
+
+	m_bc->getGroupService()->updateGroupAcl(groupId, acl, &tr);
+
+	tr.run(m_bc);
+
+	DeleteGroup();
+	Logout();
+}
+
 TEST_F(TestBCGroup, UpdateGroupSummaryData)
 {
 	Authenticate(UserA);

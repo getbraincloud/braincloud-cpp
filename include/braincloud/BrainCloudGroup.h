@@ -509,6 +509,18 @@ namespace BrainCloud
 		void setGroupOpen(const char* in_groupId, bool in_isOpenGroup, IServerCallback *callback = nullptr);
 
 		/**
+		 * Set a group's access conditions.
+		 *
+		 * Service Name - Group
+		 * Service Operation - UPDATE_GROUP_ACL
+		 *
+		 * @param groupId ID of the group
+		 * @param acl The group's access control list. A null ACL implies default
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void updateGroupAcl(const char *in_groupId, const std::string &in_acl, IServerCallback *in_callback = NULL);
+
+		/**
 		 * Update a group's summary data
 		 *
 		 * Service Name - group
