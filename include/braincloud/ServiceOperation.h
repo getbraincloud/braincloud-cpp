@@ -169,6 +169,7 @@ namespace BrainCloud {
 		static const ServiceOperation ResetParentVC;
 
 		static const ServiceOperation Send;
+		static const ServiceOperation SendEventToProfiles;
 		static const ServiceOperation UpdateEventData;
 		static const ServiceOperation UpdateEventDataIfExists;
 		static const ServiceOperation DeleteSent;

@@ -42,6 +42,19 @@ namespace BrainCloud
 		void sendEvent(const char * in_toProfileId, const char * in_eventType, const std::string& in_jsonEventData, IServerCallback * in_callback = NULL);
 
 		/**
+		 * Sends an event to multiple users with the attached json data.
+		 *
+		 * Service Name - Event
+		 * Service Operation - SEND_EVENT_TO_PROFILES
+		 *
+		 * @param in_toIds The profile ids of the users to send the event
+		 * @param in_eventType The user-defined type of the event
+		 * @param in_eventData The user-defined data for this event encoded in JSON
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void sendEventToProfiles(const std::vector<std::string> &in_toIds, const char *in_eventType, const std::string &in_eventData, IServerCallback *in_callback);
+
+		/**
 		 * Updates an event in the user's incoming event mailbox.
 		 *
 		 * Service Name - event

@@ -116,6 +116,7 @@ namespace BrainCloud
 
 	// Event Service - Send Params
 	const OperationParam OperationParam::EventServiceSendToId = OperationParam("toId");
+	const OperationParam OperationParam::EventServiceToIds = OperationParam("toIds");
 	const OperationParam OperationParam::EventServiceSendEventType = OperationParam("eventType");
 	const OperationParam OperationParam::EventServiceSendEventId = OperationParam("eventId");
 	const OperationParam OperationParam::EventServiceSendEventData = OperationParam("eventData");

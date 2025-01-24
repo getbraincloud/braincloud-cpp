@@ -162,6 +162,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::ResetParentVC = ServiceOperation("RESET_PARENT_VC");
 
 	const ServiceOperation ServiceOperation::Send = ServiceOperation("SEND");
+	const ServiceOperation ServiceOperation::SendEventToProfiles = ServiceOperation("SEND_EVENT_TO_PROFILES");
 	const ServiceOperation ServiceOperation::UpdateEventData = ServiceOperation("UPDATE_EVENT_DATA");
 	const ServiceOperation ServiceOperation::UpdateEventDataIfExists = ServiceOperation("UPDATE_EVENT_DATA_IF_EXISTS");
 	const ServiceOperation ServiceOperation::DeleteSent = ServiceOperation("DELETE_SENT");

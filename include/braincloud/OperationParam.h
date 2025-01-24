@@ -125,6 +125,7 @@ namespace BrainCloud {
 
 		// Event Service - Send Params
 		static const OperationParam EventServiceSendToId;
+		static const OperationParam EventServiceToIds;
 		static const OperationParam EventServiceSendEventType;
 		static const OperationParam EventServiceSendEventId;
 		static const OperationParam EventServiceSendEventData;
