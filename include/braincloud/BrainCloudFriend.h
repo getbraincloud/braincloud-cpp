@@ -85,6 +85,18 @@ namespace BrainCloud
 		void getProfileInfoForExternalAuthId(const char * in_externalId, const char * in_externalAuthType, IServerCallback * in_callback = NULL);
 
 		/**
+		 * Retrieves profile information for the specified user. Silently fails, if profile does not exist, just returns null and success, instead of an error.
+		 *
+		 * Service Name - Friend
+		 * Service Operation - GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID_IF_EXISTS
+		 *
+		 * @param in_externalId External ID of the friend to find
+		 * @param in_externalAuthType The external authentication type used for this friend's external ID
+		 * @param in_callback Method to be invoked when the server response is received.
+		 */
+		void getProfileInfoForExternalAuthIdIfExists(const char *in_externalId, const char *in_externalAuthType, IServerCallback *in_callback = NULL);
+
+		/**
 		 * Retrieves the external ID for the specified user profile ID on the specified social platform.
 		 *
 		 * @param in_profileId Profile (user) ID.

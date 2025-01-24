@@ -38,6 +38,13 @@ TEST_F(TestBCFriend, GetProfileInfoForExternalAuthId)
 	tr.runExpectFail(m_bc, 400, INVALID_EXT_AUTH_TYPE);
 }
 
+TEST_F(TestBCFriend, GetProfileInfoForExternalAuthIdIfExists)
+{
+	TestResult tr;
+	m_bc->getFriendService()->getProfileInfoForExternalAuthIdIfExists(GetUser(UserA)->m_id, "testExternal", &tr);
+	tr.run(m_bc);
+}
+
 TEST_F(TestBCFriend, GetExternalIdForProfileId)
 {
 	TestResult tr;
