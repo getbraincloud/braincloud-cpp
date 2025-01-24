@@ -132,6 +132,7 @@ namespace BrainCloud {
 		static const ServiceOperation GetGroupSocialLeaderboardByVersion;
 		static const ServiceOperation PostScoreToGroupLeaderboard;
 		static const ServiceOperation PostScoreToDynamicGroupLeaderboard;
+		static const ServiceOperation PostScoreToDynamicGroupLeaderboardUsingConfig;
 		static const ServiceOperation RemoveGroupScore;
 		static const ServiceOperation GetGroupLeaderboardView;
 		static const ServiceOperation GetSummaryDataForProfileId;
@@ -389,6 +390,7 @@ namespace BrainCloud {
 		static const ServiceOperation SendBasicEmail;
 		static const ServiceOperation SendAdvancedEmail;
 		static const ServiceOperation SendAdvancedEmailByAddress;
+		static const ServiceOperation SendAdvancedEmailByAddresses;
 
 		//tournament
 		static const ServiceOperation GetTournamentStatus;

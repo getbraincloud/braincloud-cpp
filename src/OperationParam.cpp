@@ -398,6 +398,7 @@ namespace BrainCloud
 
 	//mail
 	const OperationParam OperationParam::EmailAddress = OperationParam("emailAddress");
+	const OperationParam OperationParam::EmailAddresses = OperationParam("emailAddresses");
 	const OperationParam OperationParam::Subject = OperationParam("subject");
 	const OperationParam OperationParam::Body = OperationParam("body");
 	const OperationParam OperationParam::ServiceParams = OperationParam("serviceParams");

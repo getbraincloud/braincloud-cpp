@@ -404,6 +404,7 @@ namespace BrainCloud {
 		static const OperationParam FieldAuthenticationToken;
 
 		static const OperationParam EmailAddress;
+		static const OperationParam EmailAddresses;
 		static const OperationParam Subject;
 		static const OperationParam Body;
 		static const OperationParam ServiceParams;

@@ -772,6 +772,20 @@ namespace BrainCloud
 		void postScoreToDynamicGroupLeaderboardDaysUTC(const char * in_leaderboardId, const char * in_groupId, int32_t in_score, const std::string& in_jsonData, const char * in_leaderboardType, 
 			int64_t in_rotationResetUTC, int32_t in_retainedCount, int32_t in_numDaysToRotate,  IServerCallback * in_callback = NULL);
 
+		/**
+		 * Post the group's score to the given social leaderboard, dynamically creating the group leaderboard if it does not exist yet.
+		 * To create new leaderboard, configJson must specify leaderboardType, rotationType, resetAt, and retainedCount, at a minimum, with support to optionally specify an expiry in minutes.
+		 *
+		 * Service Name - Leaderboard
+		 * Service Operation - POST_GROUP_SCORE_DYNAMIC_USING_CONFIG
+		 *
+		 * @param in_leaderboard The leaderboard to post to
+		 * @param in_groupId The ID of the group
+		 * @param in_score A score to post
+		 * @param in_configJson Configuration for the leaderboard if it does not exist yet, specified as JSON object. The supporting configuration fields are listed in the following table of configJson fields.
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void postScoreToDynamicGroupLeaderboardUsingConfig(const char *in_leaderboardId, const char *in_groupId, int32_t in_score, const std::string &in_scoreData, const std::string &in_configJson, IServerCallback *in_callback);
 
 		/**
 		* Removes score from group leaderboard

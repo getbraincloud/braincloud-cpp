@@ -125,6 +125,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::GetGroupSocialLeaderboardByVersion = ServiceOperation("GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION");
 	const ServiceOperation ServiceOperation::PostScoreToGroupLeaderboard = ServiceOperation("POST_GROUP_SCORE");
 	const ServiceOperation ServiceOperation::PostScoreToDynamicGroupLeaderboard = ServiceOperation("POST_GROUP_SCORE_DYNAMIC");
+	const ServiceOperation ServiceOperation::PostScoreToDynamicGroupLeaderboardUsingConfig = ServiceOperation("POST_GROUP_SCORE_DYNAMIC_USING_CONFIG");
 	const ServiceOperation ServiceOperation::RemoveGroupScore = ServiceOperation("REMOVE_GROUP_SCORE");
 	const ServiceOperation ServiceOperation::GetGroupLeaderboardView = ServiceOperation("GET_GROUP_LEADERBOARD_VIEW");
 	const ServiceOperation ServiceOperation::GetSummaryDataForProfileId = ServiceOperation("GET_SUMMARY_DATA_FOR_PROFILE_ID");
@@ -382,6 +383,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::SendBasicEmail = ServiceOperation("SEND_BASIC_EMAIL");
 	const ServiceOperation ServiceOperation::SendAdvancedEmail = ServiceOperation("SEND_ADVANCED_EMAIL");
 	const ServiceOperation ServiceOperation::SendAdvancedEmailByAddress = ServiceOperation("SEND_ADVANCED_EMAIL_BY_ADDRESS");
+	const ServiceOperation ServiceOperation::SendAdvancedEmailByAddresses = ServiceOperation("SEND_ADVANCED_EMAIL_BY_ADDRESSES");
 
 	//rtt registration
 	const ServiceOperation ServiceOperation::RequestClientConnection = ServiceOperation("REQUEST_CLIENT_CONNECTION");
