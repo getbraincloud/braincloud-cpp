@@ -21,7 +21,7 @@ protected:
     void Authenticate(Users user);
     void CreateGroup(bool isOpen = false);
     void CreateGroupWithSummaryData(bool isOpen = false);
-    std::string CreateGroupEntity();
+    std::string CreateGroupEntity(bool isOwnedByGroupMember);
     void DeleteGroup();
     std::string CreateContext(int numItemsPerPage, int startPage, std::string searchKey, std::string searchValue);
 

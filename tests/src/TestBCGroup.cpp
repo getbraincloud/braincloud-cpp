@@ -162,7 +162,7 @@ TEST_F(TestBCGroup, CreateGroupEntity)
 {
 	Authenticate(UserA);
 	CreateGroup();
-	CreateGroupEntity();
+	CreateGroupEntity(false);
 	DeleteGroup();
 	Logout();
 }
@@ -180,7 +180,7 @@ TEST_F(TestBCGroup, DeleteGroupEntity)
 {
 	Authenticate(UserA);
 	CreateGroup();
-	std::string entityId = CreateGroupEntity();
+	std::string entityId = CreateGroupEntity(false);
 
 	TestResult tr;
 	m_bc->getGroupService()->deleteGroupEntity(
@@ -260,7 +260,7 @@ TEST_F(TestBCGroup, IncrementGroupEntityData)
 {
 	Authenticate(UserA);
 	CreateGroup();
-	std::string id = CreateGroupEntity();
+	std::string id = CreateGroupEntity(false);
 
 	TestResult tr;
 	m_bc->getGroupService()->incrementGroupEntityData(
@@ -454,7 +454,7 @@ TEST_F(TestBCGroup, ReadGroupEntity)
 {
 	Authenticate(UserA);
 	CreateGroup();
-	std::string id = CreateGroupEntity();
+	std::string id = CreateGroupEntity(false);
 
 	TestResult tr;
 	m_bc->getGroupService()->readGroupEntity(
@@ -571,11 +571,33 @@ TEST_F(TestBCGroup, UpdateGroupData)
 	Logout();
 }
 
+TEST_F(TestBCGroup, UpdateGroupEntityAcl)
+{
+	TestResult tr;
+	const char *groupId;
+	const char *entityId;
+	const char *acl = _testAcl;
+
+	Authenticate(UserA);
+	CreateGroup();
+
+	std::string _entityId = CreateGroupEntity(true);
+	groupId = _groupId.c_str();
+	entityId = _entityId.c_str();
+
+	m_bc->getGroupService()->updateGroupEntityAcl(groupId, entityId, acl, &tr);
+
+	tr.run(m_bc);
+
+	DeleteGroup();
+	Logout();
+}
+
 TEST_F(TestBCGroup, UpdateGroupEntity)
 {
 	Authenticate(UserA);
 	CreateGroup();
-	std::string id = CreateGroupEntity();
+	std::string id = CreateGroupEntity(false);
 
 	TestResult tr;
 	m_bc->getGroupService()->updateGroupEntityData(
@@ -634,6 +656,24 @@ TEST_F(TestBCGroup, SetGroupOpen)
 		_groupId.c_str(),
 		true,
 		&tr);
+	tr.run(m_bc);
+
+	DeleteGroup();
+	Logout();
+}
+
+TEST_F(TestBCGroup, UpdateGroupAcl){
+	TestResult tr;
+	const char *groupId;
+	const char *acl = _testAcl;
+	
+	Authenticate(UserA);
+	CreateGroup();
+
+	groupId = _groupId.c_str();
+
+	m_bc->getGroupService()->updateGroupAcl(groupId, acl, &tr);
+
 	tr.run(m_bc);
 
 	DeleteGroup();
@@ -737,7 +777,7 @@ void TestBCGroup::CreateGroupWithSummaryData(bool isOpen)
 	_groupId = tr.m_response["data"]["groupId"].asString();
 }
 
-std::string TestBCGroup::CreateGroupEntity()
+std::string TestBCGroup::CreateGroupEntity(bool isOwnedByGroupMember)
 {
 	TestResult tr;
 	Json::Value entityData;
@@ -749,7 +789,7 @@ std::string TestBCGroup::CreateGroupEntity()
 	std::string entityId;
 
 	Json::FastWriter fw;
-	m_bc->getGroupService()->createGroupEntity(_groupId.c_str(), _entityType, false, fw.write(entityAcl), fw.write(entityData), &tr);
+	m_bc->getGroupService()->createGroupEntity(_groupId.c_str(), _entityType, isOwnedByGroupMember, fw.write(entityAcl), fw.write(entityData), &tr);
 	if (tr.run(m_bc))
 	{
 		return tr.m_response["data"]["entityId"].asString();

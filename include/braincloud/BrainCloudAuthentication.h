@@ -141,6 +141,11 @@ namespace BrainCloud
 		void authenticateUniversal(const char * in_userId, const char * in_password, bool in_forceCreate, IServerCallback * in_callback = NULL);
 
 		/*
+		 * Get server version.
+		 */
+		void getServerVersion(IServerCallback *in_callback = NULL);
+
+		/*
 		 * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
 		 *
 		 * Service Name - Authenticate

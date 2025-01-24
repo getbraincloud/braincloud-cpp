@@ -93,6 +93,16 @@ TEST_F(TestBCIdentity, GetIdentities)
 	tr.run(m_bc);
 }
 
+TEST_F(TestBCIdentity, GetIdentityStatus)
+{
+	TestResult tr;
+	AuthenticationType authenticationType = AuthenticationType::Universal;
+	const char *externalAuthName = "";
+
+	m_bc->getIdentityService()->getIdentityStatus(authenticationType, externalAuthName, &tr);
+	tr.run(m_bc);
+}
+
 TEST_F(TestBCIdentity, GetExpiredIdentities)
 {
 	TestResult tr;

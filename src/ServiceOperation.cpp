@@ -5,6 +5,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::None = ServiceOperation("NONE");
 
 	const ServiceOperation ServiceOperation::Authenticate = ServiceOperation("AUTHENTICATE");
+	const ServiceOperation ServiceOperation::GetServerVersion = ServiceOperation("GET_SERVER_VERSION");
 	const ServiceOperation ServiceOperation::Attach = ServiceOperation("ATTACH");
 	const ServiceOperation ServiceOperation::Merge = ServiceOperation("MERGE");
 	const ServiceOperation ServiceOperation::Detach = ServiceOperation("DETACH");
@@ -20,6 +21,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::SwitchToParentProfile = ServiceOperation("SWITCH_TO_PARENT_PROFILE");
 	const ServiceOperation ServiceOperation::GetChildProfiles = ServiceOperation("GET_CHILD_PROFILES");
 	const ServiceOperation ServiceOperation::GetIdentities = ServiceOperation("GET_IDENTITIES");
+	const ServiceOperation ServiceOperation::GetIdentityStatus = ServiceOperation("GET_IDENTITY_STATUS");
 	const ServiceOperation ServiceOperation::GetExpiredIdentities = ServiceOperation("GET_EXPIRED_IDENTITIES");
 	const ServiceOperation ServiceOperation::RefreshIdentity = ServiceOperation("REFRESH_IDENTITY");
 	const ServiceOperation ServiceOperation::ChangeEmailIdentity = ServiceOperation("CHANGE_EMAIL_IDENTITY");
@@ -82,7 +84,9 @@ namespace BrainCloud
 
 	const ServiceOperation ServiceOperation::GetFriendProfileInfoForExternalId = ServiceOperation("GET_FRIEND_PROFILE_INFO_FOR_EXTERNAL_ID");
 	const ServiceOperation ServiceOperation::GetProfileInfoForCredential = ServiceOperation("GET_PROFILE_INFO_FOR_CREDENTIAL");
+	const ServiceOperation ServiceOperation::GetProfileInfoForCredentialIfExists = ServiceOperation("GET_PROFILE_INFO_FOR_CREDENTIAL_IF_EXISTS");
 	const ServiceOperation ServiceOperation::GetProfileInfoForExternalAuthId = ServiceOperation("GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID");
+	const ServiceOperation ServiceOperation::GetProfileInfoForExternalAuthIdIfExists = ServiceOperation("GET_PROFILE_INFO_FOR_EXTERNAL_AUTH_ID_IF_EXISTS");
 	const ServiceOperation ServiceOperation::GetExternalIdForProfileId = ServiceOperation("GET_EXTERNAL_ID_FOR_PROFILE_ID");
 	const ServiceOperation ServiceOperation::ReadFriendEntity = ServiceOperation("READ_FRIEND_ENTITY");
 	const ServiceOperation ServiceOperation::ReadFriendsEntities = ServiceOperation("READ_FRIENDS_ENTITIES");
@@ -121,6 +125,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::GetGroupSocialLeaderboardByVersion = ServiceOperation("GET_GROUP_SOCIAL_LEADERBOARD_BY_VERSION");
 	const ServiceOperation ServiceOperation::PostScoreToGroupLeaderboard = ServiceOperation("POST_GROUP_SCORE");
 	const ServiceOperation ServiceOperation::PostScoreToDynamicGroupLeaderboard = ServiceOperation("POST_GROUP_SCORE_DYNAMIC");
+	const ServiceOperation ServiceOperation::PostScoreToDynamicGroupLeaderboardUsingConfig = ServiceOperation("POST_GROUP_SCORE_DYNAMIC_USING_CONFIG");
 	const ServiceOperation ServiceOperation::RemoveGroupScore = ServiceOperation("REMOVE_GROUP_SCORE");
 	const ServiceOperation ServiceOperation::GetGroupLeaderboardView = ServiceOperation("GET_GROUP_LEADERBOARD_VIEW");
 	const ServiceOperation ServiceOperation::GetSummaryDataForProfileId = ServiceOperation("GET_SUMMARY_DATA_FOR_PROFILE_ID");
@@ -157,6 +162,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::ResetParentVC = ServiceOperation("RESET_PARENT_VC");
 
 	const ServiceOperation ServiceOperation::Send = ServiceOperation("SEND");
+	const ServiceOperation ServiceOperation::SendEventToProfiles = ServiceOperation("SEND_EVENT_TO_PROFILES");
 	const ServiceOperation ServiceOperation::UpdateEventData = ServiceOperation("UPDATE_EVENT_DATA");
 	const ServiceOperation ServiceOperation::UpdateEventDataIfExists = ServiceOperation("UPDATE_EVENT_DATA_IF_EXISTS");
 	const ServiceOperation ServiceOperation::DeleteSent = ServiceOperation("DELETE_SENT");
@@ -245,6 +251,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::GetStreamSummariesForTargetPlayer = ServiceOperation("GET_STREAM_SUMMARIES_FOR_TARGET_PLAYER");
 	const ServiceOperation ServiceOperation::GetRecentStreamsForInitiatingPlayer = ServiceOperation("GET_RECENT_STREAMS_FOR_INITIATING_PLAYER");
 	const ServiceOperation ServiceOperation::GetRecentStreamsForTargetPlayer = ServiceOperation("GET_RECENT_STREAMS_FOR_TARGET_PLAYER");
+	const ServiceOperation ServiceOperation::ProtectStreamUntil = ServiceOperation("PROTECT_STREAM_UNTIL");
 
 	const ServiceOperation ServiceOperation::GetUserInfo = ServiceOperation("GET_USER_INFO");
 
@@ -350,10 +357,12 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::RejectGroupJoinRequest = ServiceOperation("REJECT_GROUP_JOIN_REQUEST");
 	const ServiceOperation ServiceOperation::RemoveGroupMember = ServiceOperation("REMOVE_GROUP_MEMBER");
 	const ServiceOperation ServiceOperation::UpdateGroupData = ServiceOperation("UPDATE_GROUP_DATA");
-	const ServiceOperation ServiceOperation::UpdateGroupEntity = ServiceOperation("UPDATE_GROUP_ENTITY_DATA");
+	const ServiceOperation ServiceOperation::UpdateGroupEntityAcl = ServiceOperation("UPDATE_GROUP_ENTITY_ACL");
+	const ServiceOperation ServiceOperation::UpdateGroupEntityData = ServiceOperation("UPDATE_GROUP_ENTITY_DATA");
 	const ServiceOperation ServiceOperation::UpdateGroupMember = ServiceOperation("UPDATE_GROUP_MEMBER");
 	const ServiceOperation ServiceOperation::UpdateGroupName = ServiceOperation("UPDATE_GROUP_NAME");
 	const ServiceOperation ServiceOperation::SetGroupOpen = ServiceOperation("SET_GROUP_OPEN");
+	const ServiceOperation ServiceOperation::UpdateGroupAcl = ServiceOperation("UPDATE_GROUP_ACL");
 	const ServiceOperation ServiceOperation::GetRandomGroupsMatching = ServiceOperation("GET_RANDOM_GROUPS_MATCHING");
 	const ServiceOperation ServiceOperation::UpdateGroupSummaryData = ServiceOperation("UPDATE_GROUP_SUMMARY_DATA");
 
@@ -375,6 +384,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::SendBasicEmail = ServiceOperation("SEND_BASIC_EMAIL");
 	const ServiceOperation ServiceOperation::SendAdvancedEmail = ServiceOperation("SEND_ADVANCED_EMAIL");
 	const ServiceOperation ServiceOperation::SendAdvancedEmailByAddress = ServiceOperation("SEND_ADVANCED_EMAIL_BY_ADDRESS");
+	const ServiceOperation ServiceOperation::SendAdvancedEmailByAddresses = ServiceOperation("SEND_ADVANCED_EMAIL_BY_ADDRESSES");
 
 	//rtt registration
 	const ServiceOperation ServiceOperation::RequestClientConnection = ServiceOperation("REQUEST_CLIENT_CONNECTION");

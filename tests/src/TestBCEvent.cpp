@@ -18,6 +18,27 @@ TEST_F(TestBCEvent, Send)
 	m_bc->deregisterEventCallback();
 }
 
+TEST_F(TestBCEvent, SendEventToProfiles)
+{
+	m_didCallback = false;
+	m_bc->registerEventCallback(this);
+
+	std::vector<std::string> toIds;
+	toIds.push_back(GetUser(UserA)->m_profileId);
+
+	TestResult tr;
+	Json::FastWriter fw;
+	Json::Value eventData;
+	eventData[m_eventDataKey] = "testEventValue";
+
+	m_bc->getEventService()->sendEventToProfiles(toIds, m_eventType, fw.write(eventData).c_str(), &tr);
+	tr.run(m_bc);
+	m_eventId = tr.m_response["data"]["evId"].asString();
+
+	DeleteIncomingMessage();
+	m_bc->deregisterEventCallback();
+}
+
 TEST_F(TestBCEvent, DeleteIncoming)
 {
 	SendDefaultMessage();

@@ -89,6 +89,17 @@ namespace BrainCloud {
         authenticate(in_userid, in_password, AuthenticationType::Universal, NULL, in_forceCreate, "", in_callback);
     }
 
+    void BrainCloudAuthentication::getServerVersion(IServerCallback *in_callback)
+    {
+        Json::Value message;
+
+        message[OperationParam::AuthenticateServiceAuthenticateGameId.getValue()] = m_client->getAppId().c_str();
+
+        ServerCall *sc = new ServerCall(ServiceName::AuthenticateV2, ServiceOperation::GetServerVersion, message, in_callback);
+
+        m_client->sendRequest(sc);
+    }
+
     void BrainCloudAuthentication::authenticateSteam(const char * in_userid, const char * in_sessionticket, bool in_forceCreate, IServerCallback * in_callback)
     {
         authenticate(in_userid, in_sessionticket, AuthenticationType::Steam, NULL, in_forceCreate, "", in_callback);

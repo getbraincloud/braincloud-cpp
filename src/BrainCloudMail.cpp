@@ -9,6 +9,7 @@
 #include "braincloud/ServiceOperation.h"
 #include "braincloud/OperationParam.h"
 #include "json/json.h"
+#include <vector>
 
 #include "braincloud/internal/StringUtil.h"
 #include "braincloud/internal/JsonUtil.h"
@@ -49,6 +50,19 @@ namespace BrainCloud
 		message[OperationParam::ServiceParams.getValue()] = jsonData;
 
 		ServerCall * sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendAdvancedEmailByAddress, message, in_callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudMail::sendAdvancedEmailByAddresses(const std::vector<std::string> &in_emailAddresses, const std::string &in_serviceParams, IServerCallback *in_callback)
+	{
+		Json::Value message;
+		Json::Value emailAddresses = JsonUtil::stringVectorToJson(in_emailAddresses);
+		message[OperationParam::EmailAddresses.getValue()] = emailAddresses;
+
+		Json::Value jsonData = JsonUtil::jsonStringToValue(in_serviceParams);
+		message[OperationParam::ServiceParams.getValue()] = jsonData;
+
+		ServerCall *sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendAdvancedEmailByAddresses, message, in_callback);
 		m_client->sendRequest(sc);
 	}
 }

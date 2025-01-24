@@ -116,6 +116,7 @@ namespace BrainCloud
 
 	// Event Service - Send Params
 	const OperationParam OperationParam::EventServiceSendToId = OperationParam("toId");
+	const OperationParam OperationParam::EventServiceToIds = OperationParam("toIds");
 	const OperationParam OperationParam::EventServiceSendEventType = OperationParam("eventType");
 	const OperationParam OperationParam::EventServiceSendEventId = OperationParam("eventId");
 	const OperationParam OperationParam::EventServiceSendEventData = OperationParam("eventData");
@@ -291,6 +292,7 @@ namespace BrainCloud
 	const OperationParam OperationParam::PlaybackStreamServiceIncludeSharedData = OperationParam("includeSharedData");
 	const OperationParam OperationParam::PlaybackStreamServiceEventData = OperationParam("eventData");
 	const OperationParam OperationParam::PlaybackStreamServiceSummary = OperationParam("summary");
+	const OperationParam OperationParam::PlaybackStreamServiceNumDays = OperationParam("numDays");
 
 	const OperationParam OperationParam::ProductServiceTransId = OperationParam("transId");
 	const OperationParam OperationParam::ProductServiceLanguage = OperationParam("language");
@@ -397,6 +399,7 @@ namespace BrainCloud
 
 	//mail
 	const OperationParam OperationParam::EmailAddress = OperationParam("emailAddress");
+	const OperationParam OperationParam::EmailAddresses = OperationParam("emailAddresses");
 	const OperationParam OperationParam::Subject = OperationParam("subject");
 	const OperationParam OperationParam::Body = OperationParam("body");
 	const OperationParam OperationParam::ServiceParams = OperationParam("serviceParams");
