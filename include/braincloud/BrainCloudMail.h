@@ -8,6 +8,7 @@
 
 
 #include <string>
+#include <vector>
 
 #include "braincloud/IServerCallback.h"
 
@@ -59,6 +60,18 @@ namespace BrainCloud
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void sendAdvancedEmailByAddress(const char * in_emailAddress, const std::string & in_jsonServiceParams, IServerCallback * in_callback = NULL);
+
+		/**
+		 * Sends an advanced email to the specified email addresses.
+		 *
+		 * Service Name - Mail
+		 * Service Operation - SEND_ADVANCED_EMAIL_BY_ADDRESSES
+		 *
+		 * @param in_emailAddress The list of addresses to send the email to
+		 * @param in_serviceParams Set of parameters dependant on the mail service configured
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void sendAdvancedEmailByAddresses(const std::vector<std::string> &in_emailAddresses, const std::string &in_serviceParams, IServerCallback *in_callback = NULL);
 
 	private:
 		BrainCloudClient * m_client;

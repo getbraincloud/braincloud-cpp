@@ -83,4 +83,14 @@ namespace BrainCloud
         ServerCall * sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::GetRecentStreamsForTargetPlayer, message, in_callback);
         m_client->sendRequest(sc);
     }
+
+    void BrainCloudPlaybackStream::protectStreamUntil(const char *in_playbackStreamId, int in_numDays, IServerCallback *in_callback)
+    {
+        Json::Value data;
+        data[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = in_playbackStreamId;
+        data[OperationParam::PlaybackStreamServiceNumDays.getValue()] = in_numDays;
+
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::ProtectStreamUntil, data, in_callback);
+        m_client->sendRequest(sc);
+    }
 }

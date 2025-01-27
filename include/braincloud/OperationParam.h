@@ -125,6 +125,7 @@ namespace BrainCloud {
 
 		// Event Service - Send Params
 		static const OperationParam EventServiceSendToId;
+		static const OperationParam EventServiceToIds;
 		static const OperationParam EventServiceSendEventType;
 		static const OperationParam EventServiceSendEventId;
 		static const OperationParam EventServiceSendEventData;
@@ -299,6 +300,7 @@ namespace BrainCloud {
 		static const OperationParam PlaybackStreamServiceIncludeSharedData;
 		static const OperationParam PlaybackStreamServiceEventData;
 		static const OperationParam PlaybackStreamServiceSummary;
+		static const OperationParam PlaybackStreamServiceNumDays;
 
 		static const OperationParam ProductServiceTransId;
 		static const OperationParam ProductServiceLanguage;
@@ -403,6 +405,7 @@ namespace BrainCloud {
 		static const OperationParam FieldAuthenticationToken;
 
 		static const OperationParam EmailAddress;
+		static const OperationParam EmailAddresses;
 		static const OperationParam Subject;
 		static const OperationParam Body;
 		static const OperationParam ServiceParams;

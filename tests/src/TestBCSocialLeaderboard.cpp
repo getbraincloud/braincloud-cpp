@@ -491,6 +491,23 @@ TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicGroupLeaderboardDaysUTC)
     tr.run(m_bc);
 }
 
+TEST_F(TestBCSocialLeaderboard, PostScoreToDynamicGroupLeaderboardUsingConfig)
+{
+    TestResult tr;
+    std::string groupId;
+    Json::FastWriter fw;
+    Json::Value jsonData;
+    jsonData["testKey"] = "TestValue";
+
+    m_bc->getGroupService()->createGroup("testGroup", "test", false, "", "", "", "", &tr);
+    tr.run(m_bc);
+
+    groupId = tr.m_response["data"]["groupId"].asString();
+
+    m_bc->getLeaderboardService()->postScoreToDynamicGroupLeaderboardUsingConfig(GROUP_LB_ID, groupId.c_str(), 99, "{\"nickname\": \"CPP-Tester\"}", fw.write(jsonData), &tr);
+    tr.run(m_bc);
+}
+
 TEST_F(TestBCSocialLeaderboard, RemoveGroupScore)
 {
     TestResult tr; 

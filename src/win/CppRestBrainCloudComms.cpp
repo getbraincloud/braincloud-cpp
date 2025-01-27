@@ -277,7 +277,8 @@ namespace BrainCloud
                 for (; it != _inProgressQueue.end(); it++)
                 {
                     if ((*it)->getOperation() == ServiceOperation::Authenticate ||
-                        (*it)->getOperation() == ServiceOperation::ResetEmailPassword)
+                        (*it)->getOperation() == ServiceOperation::ResetEmailPassword ||
+                        (*it)->getOperation() == ServiceOperation::GetServerVersion)
                     {
                         isAuth = true;
                         break;

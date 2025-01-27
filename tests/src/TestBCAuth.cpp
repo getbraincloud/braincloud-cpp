@@ -100,6 +100,13 @@ TEST_F(TestBCAuth, AuthenticateUniversal)
     Logout();
 }
 
+TEST_F(TestBCAuth, GetServerVersion)
+{
+    TestResult tr;
+    m_bc->getAuthenticationService()->getServerVersion(&tr);
+    tr.run(m_bc);
+}
+
 TEST_F(TestBCAuth, AuthenticateParse)
 {
     TestResult tr;

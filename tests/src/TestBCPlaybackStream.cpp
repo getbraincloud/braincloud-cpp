@@ -47,6 +47,23 @@ TEST_F(TestBCPlaybackStream, GetRecentStreamsForTargetPlayer)
     EndStream();
 }
 
+TEST_F(TestBCPlaybackStream, ProtectStreamUntil)
+{
+    TestResult tr;
+    const char *playbackStreamId;
+    int numDays = 1;
+
+    StartStream();
+
+    playbackStreamId = m_streamId.c_str();
+
+    m_bc->getPlaybackStreamService()->protectStreamUntil(playbackStreamId, numDays, &tr);
+
+    tr.run(m_bc);
+
+    EndStream();
+}
+
 TEST_F(TestBCPlaybackStream, GetRecentStreamsForInitiatingPlayer)
 {
     StartStream();
