@@ -290,13 +290,10 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
 
 TEST_F(TestBCRelayComms, FullFlowTCP)
 {
-    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") != std::string::npos)
     {
-        printf("This env doesn't support hosted servers\n");
+        printf("This env (%s) doesn't support hosted servers\n", m_serverUrl.c_str());
         return;
-    }
-    else{
-        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::TCP);
@@ -304,13 +301,10 @@ TEST_F(TestBCRelayComms, FullFlowTCP)
 
 TEST_F(TestBCRelayComms, FullFlowUDP)
 {
-    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") != std::string::npos)
     {
-        printf("This env doesn't support hosted servers\n");
+        printf("This env (%s) doesn't support hosted servers\n", m_serverUrl.c_str());
         return;
-    }
-    else{
-        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::UDP);
@@ -318,13 +312,10 @@ TEST_F(TestBCRelayComms, FullFlowUDP)
 
 TEST_F(TestBCRelayComms, Gamelift)
 {
-    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") != std::string::npos)
     {
-        printf("This env doesn't support hosted servers\n");
+        printf("This env (%s) doesn't support hosted servers\n", m_serverUrl.c_str());
         return;
-    }
-    else{
-        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::WS, false, true);
@@ -332,13 +323,10 @@ TEST_F(TestBCRelayComms, Gamelift)
 
 TEST_F(TestBCRelayComms, FullFlowTCPEnd)
 {
-    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") != std::string::npos)
     {
-        printf("This env doesn't support hosted servers\n");
+        printf("This env (%s) doesn't support hosted servers\n", m_serverUrl.c_str());
         return;
-    }
-    else{
-        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::TCP, true);
@@ -346,13 +334,10 @@ TEST_F(TestBCRelayComms, FullFlowTCPEnd)
 
 TEST_F(TestBCRelayComms, FullFlowUDPEnd)
 {
-    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") != std::string::npos)
     {
-        printf("This env doesn't support hosted servers\n");
+        printf("This env (%s) doesn't support hosted servers\n", m_serverUrl.c_str());
         return;
-    }
-    else{
-        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::UDP, true);
@@ -360,13 +345,10 @@ TEST_F(TestBCRelayComms, FullFlowUDPEnd)
 
 TEST_F(TestBCRelayComms, GameliftEnd)
 {
-    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") != std::string::npos)
     {
-        printf("This env doesn't support hosted servers\n");
+        printf("This env (%s) doesn't support hosted servers\n", m_serverUrl.c_str());
         return;
-    }
-    else{
-        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::WS, true, true);
