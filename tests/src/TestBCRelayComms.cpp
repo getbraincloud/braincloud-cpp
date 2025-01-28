@@ -102,6 +102,8 @@ private:
 
 static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionType, bool endMatch = false, bool gameLift = false)
 {
+    
+
     bool isRoomReady = false;
     Json::Value connectionInfo;
 
@@ -288,31 +290,67 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
 
 TEST_F(TestBCRelayComms, FullFlowTCP)
 {
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    {
+        printf("This env doesn't support hosted servers\n");
+        return;
+    }
+
     relayFullFlow(m_bc, eRelayConnectionType::TCP);
 }
 
 TEST_F(TestBCRelayComms, FullFlowUDP)
 {
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    {
+        printf("This env doesn't support hosted servers\n");
+        return;
+    }
+
     relayFullFlow(m_bc, eRelayConnectionType::UDP);
 }
 
 TEST_F(TestBCRelayComms, Gamelift)
 {
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    {
+        printf("This env doesn't support hosted servers\n");
+        return;
+    }
+
     relayFullFlow(m_bc, eRelayConnectionType::WS, false, true);
 }
 
 TEST_F(TestBCRelayComms, FullFlowTCPEnd)
 {
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    {
+        printf("This env doesn't support hosted servers\n");
+        return;
+    }
+
     relayFullFlow(m_bc, eRelayConnectionType::TCP, true);
 }
 
 TEST_F(TestBCRelayComms, FullFlowUDPEnd)
 {
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    {
+        printf("This env doesn't support hosted servers\n");
+        return;
+    }
+
     relayFullFlow(m_bc, eRelayConnectionType::UDP, true);
 }
 
 TEST_F(TestBCRelayComms, GameliftEnd)
 {
+    if (TestFixtureBase::getServerUrl().find("api.internal24.braincloudservers.com/dispatcherv2") == std::string::npos)
+    {
+        printf("This env doesn't support hosted servers\n");
+        return;
+    }
+
     relayFullFlow(m_bc, eRelayConnectionType::WS, true, true);
 }
 
