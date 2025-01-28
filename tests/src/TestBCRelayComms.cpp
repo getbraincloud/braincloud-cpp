@@ -295,6 +295,9 @@ TEST_F(TestBCRelayComms, FullFlowTCP)
         printf("This env doesn't support hosted servers\n");
         return;
     }
+    else{
+        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
+    }
 
     relayFullFlow(m_bc, eRelayConnectionType::TCP);
 }
@@ -305,6 +308,9 @@ TEST_F(TestBCRelayComms, FullFlowUDP)
     {
         printf("This env doesn't support hosted servers\n");
         return;
+    }
+    else{
+        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::UDP);
@@ -317,6 +323,9 @@ TEST_F(TestBCRelayComms, Gamelift)
         printf("This env doesn't support hosted servers\n");
         return;
     }
+    else{
+        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
+    }
 
     relayFullFlow(m_bc, eRelayConnectionType::WS, false, true);
 }
@@ -327,6 +336,9 @@ TEST_F(TestBCRelayComms, FullFlowTCPEnd)
     {
         printf("This env doesn't support hosted servers\n");
         return;
+    }
+    else{
+        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::TCP, true);
@@ -339,6 +351,9 @@ TEST_F(TestBCRelayComms, FullFlowUDPEnd)
         printf("This env doesn't support hosted servers\n");
         return;
     }
+    else{
+        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
+    }
 
     relayFullFlow(m_bc, eRelayConnectionType::UDP, true);
 }
@@ -349,6 +364,9 @@ TEST_F(TestBCRelayComms, GameliftEnd)
     {
         printf("This env doesn't support hosted servers\n");
         return;
+    }
+    else{
+        printf("Running full flow because URL = %s", TestFixtureBase::getServerUrl());
     }
 
     relayFullFlow(m_bc, eRelayConnectionType::WS, true, true);
