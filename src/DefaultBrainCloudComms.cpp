@@ -19,6 +19,7 @@
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/internal/DefaultBrainCloudComms.h"
 #include "braincloud/internal/TimeUtil.h"
+#include "braincloud/internal/DataUtilities.h"
 
 namespace BrainCloud
 {
@@ -1054,7 +1055,16 @@ namespace BrainCloud
 			}
 
 			request = new URLRequest(url);
+
+			if (compressRequests) {
+				dataString = DataUtilities::CompressString(dataString);
+
+				request->addHeader(URLRequestHeader("Content-Encoding", "gzip"));
+				request->addHeader(URLRequestHeader("Accept-Encoding", "gzip"));
+			}
+
 			request->setData(dataString);
+			
 			request->setContentType("application/json");
 
 			// Now we'll take our string append an application secret, and MD5 it, adding that to the HTTP header

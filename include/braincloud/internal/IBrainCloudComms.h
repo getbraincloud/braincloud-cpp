@@ -102,6 +102,9 @@ namespace BrainCloud
 		bool isAuthenticated();
 		void setAuthenticated();
 
+		//compression
+		bool compressRequests = false;
+
 		void setHeartbeatInterval(int milliseconds);
 		void setImmediateRetryOnError(bool value);
 
@@ -151,6 +154,9 @@ namespace BrainCloud
 		bool _cacheMessagesOnNetworkError;
 		bool _errorCallbackOn202;
 		int _killSwitchThreshold;
+
+		//compression
+		int _clientSideCompressionThreshold = 5000;
 
 		// This flag is set when _cacheMessagesOnNetworkError is true
 		// and a network error occurs. It is reset when a call is made

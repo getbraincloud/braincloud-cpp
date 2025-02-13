@@ -298,6 +298,7 @@ add_library(brainCloud STATIC
         include/braincloud/reason_codes.h
 
         # private headers
+        include/braincloud/internal/DataUtilities.h
         include/braincloud/internal/DefaultBrainCloudComms.h
         include/braincloud/internal/DefaultPinger.h
         include/braincloud/internal/DefaultRelayTCPSocket.h
@@ -377,6 +378,7 @@ add_library(brainCloud STATIC
         src/BrainCloudVirtualCurrency.cpp
         src/BrainCloudWrapper.cpp
         src/DefaultBrainCloudComms.cpp
+        src/DataUtilities.cpp
         src/FriendPlatform.cpp
         src/GUID.cpp
         src/IBrainCloudComms.cpp
@@ -476,10 +478,13 @@ elseif (WIN32)
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
         find_library(BC_CURL_LIB_DEBUG libcurl_a_debug.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
+		find_library(BC_ZLIB zlib.lib
+				"${BC_DIR}/lib/zlib/zlib.lib")
 
         list(APPEND libs general
                 ${Socket_LIBRARIES}
                 ${BC_PTHREADW32_LIB}
+				${BC_ZLIB}
                 optimized ${BC_CURL_LIB_RELEASE}
                 debug ${BC_CURL_LIB_DEBUG})
     else()
@@ -594,9 +599,11 @@ if (USE_LIBWEBSOCKETS)
 
 endif()
 
+
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
 target_link_libraries(brainCloud PUBLIC ${libs})
+
 
 # Compile flags
 if (WIN32 AND NOT UWP)

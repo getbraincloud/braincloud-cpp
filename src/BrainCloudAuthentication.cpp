@@ -273,6 +273,7 @@ namespace BrainCloud {
         message[OperationParam::AuthenticateServiceAuthenticateAuthenticationToken.getValue()] = in_authenticationToken;
         message[OperationParam::AuthenticateServiceAuthenticateAuthenticationType.getValue()] = in_authenticationType.toString();
         message[OperationParam::AuthenticateServiceAuthenticateForceCreate.getValue()] = in_forceCreate;
+        message[OperationParam::AuthenticateServiceAuthenticateCompressResponses.getValue()] = compressResponses;
 
         message[OperationParam::AuthenticateServiceAuthenticateProfileId.getValue()] = _profileId;
         message[OperationParam::AuthenticateServiceAuthenticateAnonymousId.getValue()] = _anonymousId;
