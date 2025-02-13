@@ -424,22 +424,31 @@ if (APPLE)
     find_library(BC_FOUNDATION_LIB Foundation)
     find_library(BC_SYSCONFIG_LIB SystemConfiguration)
     find_library(BC_SECURITY_LIB Security)
+	
+	find_library(BC_ZLIB zlib.lib
+				"${BC_DIR}/lib/zlib/zlib.a")
+				
     list(APPEND libs
             ${BC_GAMEKIT_LIB}
             ${BC_COREFOUNDATION_LIB}
             ${BC_FOUNDATION_LIB}
             ${BC_SYSCONFIG_LIB}
-            ${BC_SECURITY_LIB})
+            ${BC_SECURITY_LIB}
+			${BC_ZLIB})
 elseif (LINUX)
     find_package(CURL REQUIRED)
     list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
 
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
+	
+	find_library(BC_ZLIB zlib.lib
+				"${BC_DIR}/lib/zlib/zlib.a")
 
     list(APPEND libs
             ${CURL_LIBRARIES}
-            ${UUID_LIBRARIES})
+            ${UUID_LIBRARIES}
+			${BC_ZLIB})
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 

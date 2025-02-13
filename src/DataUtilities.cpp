@@ -31,15 +31,32 @@ std::vector<uint8_t> DataUtilities::CompressBytes(const std::vector<uint8_t>& un
 
 std::string DataUtilities::CompressString(const std::string& uncompressedString)
 {
-    uLongf compressedSize = compressBound(uncompressedString.size());  // Get max possible size
-    std::string compressedData(compressedSize, '\0');     // Allocate string with space
+    z_stream zs{};
+    zs.zalloc = Z_NULL;
+    zs.zfree = Z_NULL;
+    zs.opaque = Z_NULL;
 
-    if (compress(reinterpret_cast<Bytef*>(&compressedData[0]), &compressedSize,
-        reinterpret_cast<const Bytef*>(uncompressedString.data()), uncompressedString.size()) != Z_OK)
+    // Initialize with GZip encoding (15 + 16 enables GZip headers)
+    if (deflateInit2(&zs, Z_BEST_COMPRESSION, Z_DEFLATED, 15 | 16, 8, Z_DEFAULT_STRATEGY) != Z_OK)
     {
+        throw std::runtime_error("Failed to initialize zlib for GZip compression");
+    }
+
+    zs.next_in = reinterpret_cast<Bytef*>(const_cast<char*>(uncompressedString.data()));
+    zs.avail_in = static_cast<uInt>(uncompressedString.size());
+
+    std::vector<char> compressedData(uncompressedString.size() * 2); // Allocate buffer (size estimate)
+    zs.next_out = reinterpret_cast<Bytef*>(compressedData.data());
+    zs.avail_out = static_cast<uInt>(compressedData.size());
+
+    if (deflate(&zs, Z_FINISH) != Z_STREAM_END)
+    {
+        deflateEnd(&zs);
         throw std::runtime_error("Compression failed");
     }
 
-    compressedData.resize(compressedSize);  // Trim unused space
-    return compressedData;
+    compressedData.resize(zs.total_out); // Resize to actual compressed size
+    deflateEnd(&zs);
+
+    return std::string(compressedData.begin(), compressedData.end()); // Convert to string
 }

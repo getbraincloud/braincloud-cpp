@@ -1057,13 +1057,18 @@ namespace BrainCloud
 			request = new URLRequest(url);
 
 			if (compressRequests) {
-				dataString = DataUtilities::CompressString(dataString);
+				std::string compressedData = DataUtilities::CompressString(dataString);
 
 				request->addHeader(URLRequestHeader("Content-Encoding", "gzip"));
 				request->addHeader(URLRequestHeader("Accept-Encoding", "gzip"));
+
+				request->setData(compressedData);
+			}
+			else {
+				request->setData(dataString);
 			}
 
-			request->setData(dataString);
+			
 			
 			request->setContentType("application/json");
 
