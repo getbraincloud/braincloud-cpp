@@ -100,6 +100,7 @@ endif()
 set (BC_DIR "${PROJECT_SOURCE_DIR}")
 set (OS_SPECIFIC_SRCS "")
 set (OS_SPECIFIC_INCS "")
+set (ZLIB_INCLUDE_DIR "${BC_DIR}/include/zlib")
 
 file(GLOB_RECURSE JSONCPP_INCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.h")
 file(GLOB_RECURSE JSONCPP_SRCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.cpp")
@@ -425,8 +426,7 @@ if (APPLE)
     find_library(BC_SYSCONFIG_LIB SystemConfiguration)
     find_library(BC_SECURITY_LIB Security)
 	
-	find_library(BC_ZLIB zlib.a
-				"lib/zlib/zlib.a")
+	set(ZLIB_LIBRARY "${BC_DIR}/lib/zlib/zlib.a")
 				
     list(APPEND libs
             ${BC_GAMEKIT_LIB}
@@ -434,7 +434,7 @@ if (APPLE)
             ${BC_FOUNDATION_LIB}
             ${BC_SYSCONFIG_LIB}
             ${BC_SECURITY_LIB}
-			${BC_ZLIB})
+			${ZLIB_LIBRARY})
 elseif (LINUX)
     find_package(CURL REQUIRED)
     list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
@@ -442,13 +442,12 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	find_library(BC_ZLIB zlib.a
-				"lib/zlib/zlib.a")
+	set(ZLIB_LIBRARY "${BC_DIR}/lib/zlib/zlib.a")
 
     list(APPEND libs
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES}
-			${BC_ZLIB})
+			${ZLIB_LIBRARY})
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 
@@ -608,7 +607,7 @@ if (USE_LIBWEBSOCKETS)
 
 endif()
 
-
+include_directories(${ZLIB_INCLUDE_DIR})
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
 target_link_libraries(brainCloud PUBLIC ${libs})
