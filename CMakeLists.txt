@@ -442,7 +442,10 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	set(ZLIB_LIBRARY "lib/zlib/zlib.a")
+	set(ZLIB_LIBRARY "${BC_DIR}/lib/zlib/zlib.a")
+	set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++") #force static linking
+
+	include_directories(${ZLIB_INCLUDE_DIR})
 
     list(APPEND libs
             ${CURL_LIBRARIES}
@@ -607,7 +610,6 @@ if (USE_LIBWEBSOCKETS)
 
 endif()
 
-include_directories(${ZLIB_INCLUDE_DIR})
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
 target_link_libraries(brainCloud PUBLIC ${libs})
