@@ -426,7 +426,7 @@ if (APPLE)
     find_library(BC_SYSCONFIG_LIB SystemConfiguration)
     find_library(BC_SECURITY_LIB Security)
 	
-	set(ZLIB_LIBRARY "${BC_DIR}/lib/zlib/zlib.a")
+	set(ZLIB_LIBRARY "lib/zlib/zlib.a")
 				
     list(APPEND libs
             ${BC_GAMEKIT_LIB}
@@ -442,7 +442,7 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	set(ZLIB_LIBRARY "${BC_DIR}/lib/zlib/zlib.a")
+	set(ZLIB_LIBRARY "lib/zlib/zlib.a")
 
     list(APPEND libs
             ${CURL_LIBRARIES}
