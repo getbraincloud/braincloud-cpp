@@ -442,15 +442,13 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	set(ZLIB_LIBRARY "${BC_DIR}/lib/zlib/zlib.a")
-	set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++") #force static linking
-
-	include_directories(${ZLIB_INCLUDE_DIR})
+	find_package(ZLIB REQUIRED)  # Use the system zlib
+    include_directories(${ZLIB_INCLUDE_DIRS})  # Ensure the headers are found
 
     list(APPEND libs
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES}
-			${ZLIB_LIBRARY})
+			${ZLIB_LIBRARIES})
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 
