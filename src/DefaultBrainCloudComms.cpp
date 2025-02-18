@@ -482,13 +482,7 @@ namespace BrainCloud
 				}
 				else
 				{
-					std::string rawData = writer.write(messages[i]);
-					if (compressRequests) {
-						event->m_data = DataUtilities::DecompressString(rawData);
-					}
-					else {
-						event->m_data = writer.write(messages[i]);
-					}
+					event->m_data = writer.write(messages[i]);
 				}
 
 				_apiCallbackQueue.push(event);
@@ -567,14 +561,23 @@ namespace BrainCloud
 	{
 		Json::Value root;
 		Json::Reader reader;
-		std::string responseData = response.getData();
+
+		std::string rawData = response.getData();
+		std::string responseData;
+		if (compressRequests) {
+			responseData = DataUtilities::DecompressString(rawData);
+		}
+		else {
+			responseData = rawData;
+		}
+		
 		int responseStatus = response.getStatusCode();
 
 		if (_loggingEnabled)
 		{
 			// make it easier to read the json
 			Json::Value jsonDbg;
-			std::string dataOutput = response.getData();
+			std::string dataOutput = responseData;
 			if (reader.parse(responseData, jsonDbg))
 			{
 				Json::StyledWriter w;
