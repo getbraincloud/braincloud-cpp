@@ -563,13 +563,7 @@ namespace BrainCloud
 		Json::Reader reader;
 
 		std::string rawData = response.getData();
-		std::string responseData;
-		if (compressRequests) {
-			responseData = DataUtilities::DecompressString(rawData);
-		}
-		else {
-			responseData = rawData;
-		}
+		std::string responseData = DataUtilities::DecompressString(rawData);
 		
 		int responseStatus = response.getStatusCode();
 

@@ -5,4 +5,5 @@ class DataUtilities {
 public : 
 	static std::string CompressString(const std::string& uncompressedString);
 	static std::string DecompressString(const std::string& compressedString);
+	static bool IsGZipCompressed(const std::string& data);
 };

@@ -41,6 +41,11 @@ std::string DataUtilities::CompressString(const std::string& uncompressedString)
 
 std::string DataUtilities::DecompressString(const std::string& compressedString)
 {
+    if (!IsGZipCompressed(compressedString)) {
+        // Data is already decompressed, just return it
+        return compressedString;
+    }
+
     z_stream zs{};
     zs.zalloc = Z_NULL;
     zs.zfree = Z_NULL;
@@ -70,4 +75,11 @@ std::string DataUtilities::DecompressString(const std::string& compressedString)
     inflateEnd(&zs);
 
     return std::string(decompressedData.begin(), decompressedData.end()); // Convert to string
+}
+
+bool DataUtilities::IsGZipCompressed(const std::string& data)
+{
+    return data.size() >= 2 &&
+        static_cast<unsigned char>(data[0]) == 0x1F &&
+        static_cast<unsigned char>(data[1]) == 0x8B;
 }
