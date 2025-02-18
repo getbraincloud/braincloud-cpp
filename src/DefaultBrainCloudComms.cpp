@@ -482,7 +482,13 @@ namespace BrainCloud
 				}
 				else
 				{
-					event->m_data = writer.write(messages[i]);
+					std::string rawData = writer.write(messages[i]);
+					if (compressRequests) {
+						event->m_data = DataUtilities::DecompressString(rawData);
+					}
+					else {
+						event->m_data = writer.write(messages[i]);
+					}
 				}
 
 				_apiCallbackQueue.push(event);
