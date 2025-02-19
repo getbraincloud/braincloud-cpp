@@ -425,8 +425,7 @@ if (APPLE)
     find_library(BC_FOUNDATION_LIB Foundation)
     find_library(BC_SYSCONFIG_LIB SystemConfiguration)
     find_library(BC_SECURITY_LIB Security)
-	
-	set(ZLIB_LIBRARY "lib/zlib/zlib.a")
+	find_library(BC_Z_LIB z)
 				
     list(APPEND libs
             ${BC_GAMEKIT_LIB}
@@ -434,7 +433,7 @@ if (APPLE)
             ${BC_FOUNDATION_LIB}
             ${BC_SYSCONFIG_LIB}
             ${BC_SECURITY_LIB}
-			${ZLIB_LIBRARY})
+			${BC_Z_LIB})
 elseif (LINUX)
     find_package(CURL REQUIRED)
     list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
