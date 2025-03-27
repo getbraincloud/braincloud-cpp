@@ -442,7 +442,7 @@ elseif (LINUX)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
 	find_package(ZLIB REQUIRED)  # Use the system zlib
-    include_directories(${ZLIB_INCLUDE_DIRS})  # Ensure the headers are found
+    include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
 
     list(APPEND libs
             ${CURL_LIBRARIES}
@@ -471,6 +471,11 @@ elseif (ANDROID)
             )
 
 elseif (WIN32)
+
+	find_library(BC_ZLIB zlib.lib
+			"${BC_DIR}/lib/zlib/zlib.lib")
+	include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
+	
     if (USE_CURL_WIN)
         # pthread
         include_directories(
@@ -486,10 +491,7 @@ elseif (WIN32)
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
         find_library(BC_CURL_LIB_DEBUG libcurl_a_debug.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
-		find_library(BC_ZLIB zlib.lib
-				"${BC_DIR}/lib/zlib/zlib.lib")
-				
-		include_directories(${ZLIB_INCLUDE_DIRS})  # Ensure the headers are found
+		
 
         list(APPEND libs general
                 ${Socket_LIBRARIES}
