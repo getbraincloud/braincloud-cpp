@@ -57,6 +57,9 @@ void TestFixtureBase::SetUp()
 	useCompression = envCompressionVar && std::string(envCompressionVar) == "true";
 
 	m_bc->enableCompression(useCompression);
+	std::string enabledText = useCompression ? "enabled" : "disabled";
+	printf("\n [Compression %s] \n", enabledText);
+
 
 	Init(); //init, only run once
 
