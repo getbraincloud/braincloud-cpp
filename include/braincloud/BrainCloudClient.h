@@ -130,6 +130,13 @@ namespace BrainCloud
 		BrainCloudClient();
 
 		/**
+		* Enables / Disables compression of both API requests and responses, disabled by default
+		*
+		* @param isEnabled Boolean to decide whether to enable or disable compression
+		*/
+		void enableCompression(bool isEnabled);
+
+		/**
 		* Enables / Disables compression of API requests, disabled by default
 		*
 		* @param isEnabled Boolean to decide whether to enable or disable compression
