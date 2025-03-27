@@ -488,6 +488,8 @@ elseif (WIN32)
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
 		find_library(BC_ZLIB zlib.lib
 				"${BC_DIR}/lib/zlib/zlib.lib")
+				
+		include_directories(${ZLIB_INCLUDE_DIRS})  # Ensure the headers are found
 
         list(APPEND libs general
                 ${Socket_LIBRARIES}
