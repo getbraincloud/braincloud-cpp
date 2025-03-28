@@ -71,6 +71,7 @@ namespace BrainCloud {
 		static const OperationParam AuthenticateServiceAuthenticateAnonymousId;
 		static const OperationParam AuthenticateServiceAuthenticateProfileId;
 		static const OperationParam AuthenticateServiceAuthenticateForceCreate;
+		static const OperationParam AuthenticateServiceAuthenticateCompressResponses;
 		static const OperationParam AuthenticateServiceAuthenticateExternalAuthName;
 		static const OperationParam AuthenticateServiceAuthenticateRegion;
 		static const OperationParam AuthenticateServiceAuthenticateCountryCode;

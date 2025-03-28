@@ -52,6 +52,15 @@ void TestFixtureBase::SetUp()
 
 	m_bc->enableLogging(ENABLE_SETUP_TEARDOWN_LOGGING);
 
+	bool useCompression = false;
+	const char* envCompressionVar = std::getenv("USE_COMPRESSION");
+	useCompression = envCompressionVar && std::string(envCompressionVar) == "true";
+
+	m_bc->enableCompression(useCompression);
+	std::string enabledText = useCompression ? "enabled" : "disabled";
+	printf("\n [Compression %s] \n", enabledText.c_str());
+
+
 	Init(); //init, only run once
 
 	if (!ShouldSkipAuthenticate())

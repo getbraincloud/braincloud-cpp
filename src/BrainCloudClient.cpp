@@ -86,6 +86,22 @@ namespace BrainCloud
         _relayService = new BrainCloudRelay(_relayComms, this);
     }
 
+    void BrainCloudClient::enableCompression(bool isEnabled)
+    {
+        enableCompressedRequests(isEnabled);
+        enableCompressedResponses(isEnabled);
+    }
+
+    void BrainCloudClient::enableCompressedRequests(bool isEnabled)
+    {
+        _brainCloudComms->compressRequests = isEnabled;
+    }
+
+    void BrainCloudClient::enableCompressedResponses(bool isEnabled)
+    {
+        _authenticationService->compressResponses = isEnabled;
+    }
+
     BrainCloudClient::~BrainCloudClient()
     {
         delete _relayService;
