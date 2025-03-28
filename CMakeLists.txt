@@ -471,21 +471,21 @@ elseif (ANDROID)
             )
 
 elseif (WIN32)
+
 	find_library(BC_ZLIB zlib
 			"${BC_DIR}/lib/zlib")
+	
 	include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
-	find_package(ZLIB REQUIRED)
 	
 	if(NOT BC_ZLIB)
 		message(FATAL_ERROR "ZLIB NOT FOUND IN ${BC_DIR}/lib/zlib")
 	else()
 		message(STATUS "FOUND ZLIB: ${BC_ZLIB}")
-	endif()	
+	endif()
 	
-	list(APPEND libs PUBLIC
-			${BC_ZLIB}
-			${ZLIB_LIBRARIES})
-
+	list(APPEND libs 
+				${BC_ZLIB})
+	
     if (USE_CURL_WIN)
         # pthread
         include_directories(
