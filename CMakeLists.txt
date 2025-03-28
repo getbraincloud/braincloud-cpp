@@ -472,9 +472,20 @@ elseif (ANDROID)
 
 elseif (WIN32)
 
-	find_library(BC_ZLIB zlib.lib
-			"${BC_DIR}/lib/zlib/zlib.lib")
+	find_library(BC_ZLIB zlib
+			"${BC_DIR}/lib/zlib")
+	list(APPEND includes 
+				${ZLIB_INCLUDE_DIR})
 	include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
+	
+	if(NOT BC_ZLIB)
+		message(FATAL_ERROR "ZLIB NOT FOUND IN ${BC_DIR}/lib/zlib")
+	else()
+		message(STATUS "FOUND ZLIB: ${BC_ZLIB}")
+	endif()
+	
+	list(APPEND libs general
+				${BC_ZLIB})
 	
     if (USE_CURL_WIN)
         # pthread
@@ -496,7 +507,6 @@ elseif (WIN32)
         list(APPEND libs general
                 ${Socket_LIBRARIES}
                 ${BC_PTHREADW32_LIB}
-				${BC_ZLIB}
                 optimized ${BC_CURL_LIB_RELEASE}
                 debug ${BC_CURL_LIB_DEBUG})
     else()
