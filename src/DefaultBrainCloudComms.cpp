@@ -563,6 +563,9 @@ namespace BrainCloud
 		Json::Reader reader;
 
 		std::string rawData = response.getData();
+
+		std::cout << "#BCC INCOMING RESPONSE PRE-DECOMPRESSION(" << rawData << std::endl;
+
 		std::string responseData = DataUtilities::DecompressString(rawData);
 		
 		int responseStatus = response.getStatusCode();
