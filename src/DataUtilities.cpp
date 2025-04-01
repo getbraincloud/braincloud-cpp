@@ -60,16 +60,26 @@ std::string DataUtilities::DecompressString(const std::string& compressedString)
         throw std::runtime_error("Failed to initialize zlib for GZip decompression");
     }
 
-    std::vector<char> decompressedData(compressedString.size() * 4); // Start with a large buffer
-    zs.next_out = reinterpret_cast<Bytef*>(decompressedData.data());
-    zs.avail_out = static_cast<uInt>(decompressedData.size());
+    std::vector<char> decompressedData;
+    decompressedData.resize(compressedString.size() * 4); // Initial buffer size
 
-    int result = inflate(&zs, Z_NO_FLUSH);
-    if (result != Z_STREAM_END)
-    {
-        inflateEnd(&zs);
-        throw std::runtime_error("Decompression failed");
-    }
+    int result;
+    do {
+        zs.next_out = reinterpret_cast<Bytef*>(decompressedData.data() + zs.total_out);
+        zs.avail_out = static_cast<uInt>(decompressedData.size() - zs.total_out);
+
+        result = inflate(&zs, Z_NO_FLUSH);
+
+        if (result == Z_BUF_ERROR) {
+            // Output buffer full, increase its size
+            decompressedData.resize(decompressedData.size() * 2);
+            continue;
+        }
+        if (result != Z_OK && result != Z_STREAM_END) {
+            inflateEnd(&zs);
+            throw std::runtime_error("Decompression failed with error code: " + std::to_string(result));
+        }
+    } while (result != Z_STREAM_END);
 
     decompressedData.resize(zs.total_out); // Resize buffer to actual size
     inflateEnd(&zs);
