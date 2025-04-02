@@ -27,7 +27,7 @@ namespace BrainCloud
             "Singleton usage is disabled. If called by mistake, use your own variable that holds an instance of the bcWrapper/bcClient.";
 
     BrainCloudClient * BrainCloudClient::_instance = NULL;
-    std::string BrainCloudClient::s_brainCloudClientVersion = "5.5.0";
+    std::string BrainCloudClient::s_brainCloudClientVersion = "5.6.0";
     const char* BC_SERVER_URL = "https://api.braincloudservers.com/dispatcherv2"; 
 
     /**
@@ -84,6 +84,22 @@ namespace BrainCloud
         //needed this here otherwise out of scope compiler error
         _rttService = new BrainCloudRTT(_rttComms, this);
         _relayService = new BrainCloudRelay(_relayComms, this);
+    }
+
+    void BrainCloudClient::enableCompression(bool isEnabled)
+    {
+        enableCompressedRequests(isEnabled);
+        enableCompressedResponses(isEnabled);
+    }
+
+    void BrainCloudClient::enableCompressedRequests(bool isEnabled)
+    {
+        _brainCloudComms->compressRequests = isEnabled;
+    }
+
+    void BrainCloudClient::enableCompressedResponses(bool isEnabled)
+    {
+        _authenticationService->compressResponses = isEnabled;
     }
 
     BrainCloudClient::~BrainCloudClient()

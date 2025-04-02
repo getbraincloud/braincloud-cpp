@@ -100,6 +100,7 @@ endif()
 set (BC_DIR "${PROJECT_SOURCE_DIR}")
 set (OS_SPECIFIC_SRCS "")
 set (OS_SPECIFIC_INCS "")
+set (ZLIB_INCLUDE_DIR "${BC_DIR}/include/zlib")
 
 file(GLOB_RECURSE JSONCPP_INCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.h")
 file(GLOB_RECURSE JSONCPP_SRCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.cpp")
@@ -298,6 +299,7 @@ add_library(brainCloud STATIC
         include/braincloud/reason_codes.h
 
         # private headers
+        include/braincloud/internal/DataUtilities.h
         include/braincloud/internal/DefaultBrainCloudComms.h
         include/braincloud/internal/DefaultPinger.h
         include/braincloud/internal/DefaultRelayTCPSocket.h
@@ -377,6 +379,7 @@ add_library(brainCloud STATIC
         src/BrainCloudVirtualCurrency.cpp
         src/BrainCloudWrapper.cpp
         src/DefaultBrainCloudComms.cpp
+        src/DataUtilities.cpp
         src/FriendPlatform.cpp
         src/GUID.cpp
         src/IBrainCloudComms.cpp
@@ -422,22 +425,29 @@ if (APPLE)
     find_library(BC_FOUNDATION_LIB Foundation)
     find_library(BC_SYSCONFIG_LIB SystemConfiguration)
     find_library(BC_SECURITY_LIB Security)
+	find_library(BC_Z_LIB z)
+				
     list(APPEND libs
             ${BC_GAMEKIT_LIB}
             ${BC_COREFOUNDATION_LIB}
             ${BC_FOUNDATION_LIB}
             ${BC_SYSCONFIG_LIB}
-            ${BC_SECURITY_LIB})
+            ${BC_SECURITY_LIB}
+			${BC_Z_LIB})
 elseif (LINUX)
     find_package(CURL REQUIRED)
     list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
 
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
+	
+	find_package(ZLIB REQUIRED)  # Use the system zlib
+    include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
 
     list(APPEND libs
             ${CURL_LIBRARIES}
-            ${UUID_LIBRARIES})
+            ${UUID_LIBRARIES}
+			${ZLIB_LIBRARIES})
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 
@@ -461,6 +471,21 @@ elseif (ANDROID)
             )
 
 elseif (WIN32)
+
+	find_library(BC_ZLIB zlib
+			"${BC_DIR}/lib/zlib")
+	
+	include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
+	
+	if(NOT BC_ZLIB)
+		message(FATAL_ERROR "ZLIB NOT FOUND IN ${BC_DIR}/lib/zlib")
+	else()
+		message(STATUS "FOUND ZLIB: ${BC_ZLIB}")
+	endif()
+	
+	list(APPEND libs 
+				${BC_ZLIB})
+	
     if (USE_CURL_WIN)
         # pthread
         include_directories(
@@ -476,6 +501,7 @@ elseif (WIN32)
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
         find_library(BC_CURL_LIB_DEBUG libcurl_a_debug.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
+		
 
         list(APPEND libs general
                 ${Socket_LIBRARIES}
@@ -597,6 +623,7 @@ endif()
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
 target_link_libraries(brainCloud PUBLIC ${libs})
+
 
 # Compile flags
 if (WIN32 AND NOT UWP)

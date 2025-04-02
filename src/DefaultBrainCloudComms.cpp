@@ -19,6 +19,7 @@
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/internal/DefaultBrainCloudComms.h"
 #include "braincloud/internal/TimeUtil.h"
+#include "braincloud/internal/DataUtilities.h"
 
 namespace BrainCloud
 {
@@ -560,14 +561,18 @@ namespace BrainCloud
 	{
 		Json::Value root;
 		Json::Reader reader;
-		std::string responseData = response.getData();
+
+		std::string rawData = response.getData();
+
+		std::string responseData = DataUtilities::DecompressString(rawData);
+		
 		int responseStatus = response.getStatusCode();
 
 		if (_loggingEnabled)
 		{
 			// make it easier to read the json
 			Json::Value jsonDbg;
-			std::string dataOutput = response.getData();
+			std::string dataOutput = responseData;
 			if (reader.parse(responseData, jsonDbg))
 			{
 				Json::StyledWriter w;
@@ -1054,7 +1059,21 @@ namespace BrainCloud
 			}
 
 			request = new URLRequest(url);
-			request->setData(dataString);
+
+			if (compressRequests) {
+				std::string compressedData = DataUtilities::CompressString(dataString);
+
+				request->addHeader(URLRequestHeader("Content-Encoding", "gzip"));
+				request->addHeader(URLRequestHeader("Accept-Encoding", "gzip"));
+
+				request->setData(compressedData);
+			}
+			else {
+				request->setData(dataString);
+			}
+
+			
+			
 			request->setContentType("application/json");
 
 			// Now we'll take our string append an application secret, and MD5 it, adding that to the HTTP header
