@@ -9,11 +9,11 @@
 #include "braincloud/ServiceOperation.h"
 #include "braincloud/OperationParam.h"
 #include "json/json.h"
-
+#include <iostream>
 #include "braincloud/internal/StringUtil.h"
 #include "braincloud/internal/JsonUtil.h"
 #include "braincloud/Platform.h"
-#include <reason_codes.h>
+#include "brainCloud/reason_codes.h"
 
 namespace BrainCloud
 {
@@ -60,6 +60,9 @@ namespace BrainCloud
         	        errorJson
         	    );
         	}
+			//FL: ToDo would be better to have a check if logging is enabled to see if we want to print this message like other libs have 
+			std::cout << "BCC: Push notification token not registered - empty/null tokens are invalid" <<std::endl;
+			
     	    return;
     	}
 

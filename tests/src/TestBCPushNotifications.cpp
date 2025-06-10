@@ -30,6 +30,16 @@ TEST_F(TestBCPushNotifications, RegisterPushNotificationDeviceToken)
     tr.run(m_bc);
 }
 
+// TEST_F(TestBCPushNotifications, RegisterEmptyPushNotificationDeviceToken)
+// {
+//     TestResult tr;
+//     //FL: not sure why but when I ran this test without anonymous here, I would get an error response saying "No Session".
+//     m_bc->getAuthenticationService()->authenticateAnonymous(true, &tr);
+//     tr.run(m_bc);
+//     m_bc->getPushNotificationService()->registerPushNotificationDeviceToken(Platform::GooglePlayAndroid, "", &tr);
+//     tr.run(m_bc);
+// }
+
 TEST_F(TestBCPushNotifications, SendSimplePushNotification)
 {
     TestResult tr;
