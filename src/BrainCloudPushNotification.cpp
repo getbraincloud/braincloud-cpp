@@ -9,10 +9,11 @@
 #include "braincloud/ServiceOperation.h"
 #include "braincloud/OperationParam.h"
 #include "json/json.h"
-
+#include <iostream>
 #include "braincloud/internal/StringUtil.h"
 #include "braincloud/internal/JsonUtil.h"
 #include "braincloud/Platform.h"
+#include "brainCloud/reason_codes.h"
 
 namespace BrainCloud
 {
@@ -37,6 +38,34 @@ namespace BrainCloud
 
 	void BrainCloudPushNotification::registerPushNotificationDeviceToken(const Platform & in_platform, const char * in_token, IServerCallback * in_callback)
 	{
+		// Validate token
+    	if (in_token == nullptr || strlen(in_token) == 0)
+    	{
+    	    if (in_callback)
+        	{
+        	    int statusCode = 400; // Bad Request
+        	    int reasonCode = INVALID_DEVICE_TOKEN; // Invalid Device Token
+			
+        	    // Build error JSON
+        	    std::string errorJson = 
+        	        "{\"status\":" + std::to_string(statusCode) +
+        	        ",\"reason_code\":" + std::to_string(reasonCode) +
+        	        ",\"message\":\"Invalid device token: " + in_token + " \"}";
+			
+        	    in_callback->serverError(
+        	        ServiceName::PushNotification,
+        	        ServiceOperation::Register,
+        	        statusCode,
+        	        reasonCode,
+        	        errorJson
+        	    );
+        	}
+			//FL: ToDo would be better to have a check if logging is enabled to see if we want to print this message like other libs have 
+			std::cout << "BCC: Push notification token not registered - empty/null tokens are invalid" <<std::endl;
+			
+    	    return;
+    	}
+
 		Json::Value message;
 		message[OperationParam::PushNotificationRegisterParamDeviceType.getValue()] = in_platform.toString().c_str();
 		message[OperationParam::PushNotificationRegisterParamDeviceToken.getValue()] = in_token;

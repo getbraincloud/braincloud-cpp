@@ -50,7 +50,7 @@ static const int RS2CL_PONG = 4;
 static const int RELIABLE_BIT = 0x8000;
 static const int ORDERED_BIT = 0x4000;
 
-static const long CONNECT_RESEND_INTERVAL_MS = 500;
+static const long CONNECT_RESEND_INTERVAL_MS = 2000;
 static const long MAX_RELIABLE_RESEND_INTERVAL_MS = 500;
 
 static const int MAX_PACKET_ID = 0xFFF;
@@ -919,7 +919,7 @@ namespace BrainCloud
 #if VERBOSE_LOG
                             if (m_loggingEnabled)
                             {
-                               // std::cout << "Resend reliable (" << pPacket->id << ", " << std::chrono::duration_cast<std::chrono::milliseconds>(pPacket->timeSinceFirstSend - now).count() << "ms)" << std::endl;
+                                // std::cout << "Resend reliable (" << pPacket->id << ", " << std::chrono::duration_cast<std::chrono::milliseconds>(pPacket->timeSinceFirstSend - now).count() << "ms)" << std::endl;
                             }
 #endif
                         }
