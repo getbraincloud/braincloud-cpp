@@ -419,7 +419,7 @@ namespace BrainCloud
 		const std::string & getAnonymousId() const { return _anonymousId; }
 		const std::string & getProfileId() const { return _profileId; }
 
-		bool compressResponses = false;
+		bool compressResponses = true;
 
 		void setAnonymousId(const char * anonymousId) { _anonymousId = anonymousId; }
 		void setProfileId(const char * profileId) { _profileId = profileId; }
