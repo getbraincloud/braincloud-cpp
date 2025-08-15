@@ -1,4 +1,4 @@
-project(brainCloud)
+cmake_minimum_required(VERSION 3.4.0...4.1.0)
 
 if (CMAKE_SYSTEM_NAME STREQUAL WindowsStore)
     set(UWP 1)
@@ -13,12 +13,15 @@ if (CMAKE_GENERATOR STREQUAL Xcode)
     set(XCODE 1)
 endif()
 
-if (UWP)
-    # We require 3.4.0 for UWP generation
-    cmake_minimum_required(VERSION 3.4.0)
-else()
-    cmake_minimum_required(VERSION 3.0.0)
-endif()
+project(brainCloud)
+
+#
+#if (UWP)
+#    # We require 3.4.0 for UWP generation
+#    cmake_minimum_required(VERSION 3.4.0...4.1.0)
+#else()
+#    cmake_minimum_required(VERSION 3.0.0...4.1.0)
+#endif()
 
 # Setup modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
