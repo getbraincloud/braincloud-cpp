@@ -13,12 +13,13 @@ if (CMAKE_GENERATOR STREQUAL Xcode)
     set(XCODE 1)
 endif()
 
-if (UWP)
+#if (UWP)
     # We require 3.4.0 for UWP generation
-    cmake_minimum_required(VERSION 3.4.0)
-else()
-    cmake_minimum_required(VERSION 3.0.0)
-endif()
+#    cmake_minimum_required(VERSION 3.4.0)
+#else()
+#    cmake_minimum_required(VERSION 3.0.0)
+#endif()
+cmake_minimum_required(VERSION 3.5.0)
 
 # Setup modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
@@ -85,6 +86,7 @@ endif()
 # We want to use C++11 flag on the compiler
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_SYSTEM_VERSION "10.0.22621.0")
 
 #=============================================================================
 # Unit Tests
