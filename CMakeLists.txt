@@ -13,13 +13,7 @@ if (CMAKE_GENERATOR STREQUAL Xcode)
     set(XCODE 1)
 endif()
 
-#if (UWP)
-    # We require 3.4.0 for UWP generation
-#    cmake_minimum_required(VERSION 3.4.0)
-#else()
-#    cmake_minimum_required(VERSION 3.0.0)
-#endif()
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.5)
 
 # Setup modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
