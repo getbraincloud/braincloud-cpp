@@ -493,6 +493,7 @@ namespace BrainCloud {
 
         //appstore
 		static const OperationParam AppStoreStoreId;
+		static const OperationParam AppStoreStoreIAPId;
 		static const OperationParam AppStoreReceiptData;
 		static const OperationParam AppStorePriceInfoCriteria;
 		static const OperationParam AppStoreUserCurrency;
@@ -500,6 +501,8 @@ namespace BrainCloud {
 		static const OperationParam AppStorePurchaseData;
 		static const OperationParam AppStoreTransactionId;
 		static const OperationParam AppStoreTransactionData;
+		static const OperationParam AppStorePayload;
+
 
 		//item catalog
 		static const OperationParam ItemCatalogServiceDefId;

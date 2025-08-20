@@ -453,6 +453,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::VirtualCurrencyResetCurrency = ServiceOperation("RESET_PLAYER_VC");
 
 	//app store
+	const ServiceOperation ServiceOperation::AppStoreCachePurchaseContext = ServiceOperation("CACHE_PURCHASE_PAYLOAD_CONTEXT");
 	const ServiceOperation ServiceOperation::AppStoreVerifyPurchase = ServiceOperation("VERIFY_PURCHASE");
 	const ServiceOperation ServiceOperation::AppStoreGetEligiblePromotions = ServiceOperation("ELIGIBLE_PROMOTIONS");
 	const ServiceOperation ServiceOperation::AppStoreGetSalesInventory = ServiceOperation("GET_INVENTORY");
