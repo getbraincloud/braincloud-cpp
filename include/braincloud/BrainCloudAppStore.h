@@ -136,6 +136,29 @@ namespace BrainCloud
         * Service Operation - RefreshPromotions
         */
         void refreshPromotions(IServerCallback* in_callback = NULL);
+        
+        /*
+        * Before making a purchase with the IAP store, you will need to store the purchase
+        * payload context on brainCloud so that the purchase can be verified for the proper IAP product.
+        * This payload will be used during the VerifyPurchase method to ensure the
+        * user properly paid for the correct product before awarding them the IAP product.
+        *
+        * Service Name - AppStore
+        * Service Operation - CachePurchasePayloadContext
+        *
+        * @param storeId The store platform. Valid stores are:
+        * - itunes
+        * - facebook
+        * - appworld
+        * - steam
+        * - windows
+        * - windowsPhone
+        * - googlePlay
+        * @param transactionId the transactionId returned from start Purchase
+        * @param transactionData specific data for purchasing 2 staged purchases
+        * @param in_callback The method to be invoked when the server response is received
+        */
+        void CachePurchaseContext(const std::string& in_storeId, const std::string& in_iapId, const std::string& in_payload, IServerCallback* in_callback = NULL);
 
     private:
         BrainCloudClient * m_client;
