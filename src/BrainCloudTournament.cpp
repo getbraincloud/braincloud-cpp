@@ -99,22 +99,6 @@ namespace BrainCloud
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudTournament::postTournamentScore(const char * in_leaderboardId, int64_t in_score, const std::string & in_jsonData, const tm * in_roundStartedTimeUTC, IServerCallback * in_callback)
-	{
-		Json::Value message;
-		message[OperationParam::LeaderboardId.getValue()] = in_leaderboardId;
-		message[OperationParam::Score.getValue()] = (Json::Int64) in_score;
-
-		struct tm timeInfo = *in_roundStartedTimeUTC;
-		message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64) ((int64_t)internal_timegm(&timeInfo)) * 1000;
-
-		if (StringUtil::IsOptionalParameterValid(in_jsonData))
-			message[OperationParam::Data.getValue()] = JsonUtil::jsonStringToValue(in_jsonData);
-
-		ServerCall * sc = new ServerCall(ServiceName::Tournament, ServiceOperation::PostTournamentScore, message, in_callback);
-		m_client->sendRequest(sc);
-	}
-
 	void BrainCloudTournament::postTournamentScoreUTC(const char * in_leaderboardId, int64_t in_score, const std::string & in_jsonData, int64_t in_roundStartedTimeUTC, IServerCallback * in_callback)
 	{
 		Json::Value message;
