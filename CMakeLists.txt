@@ -1,3 +1,10 @@
+if (UWP)
+    # We require 3.4.0 for UWP generation
+    cmake_minimum_required(VERSION 3.4.0)
+else()
+    cmake_minimum_required(VERSION 3.16)
+endif()
+
 project(brainCloud)
 
 if (CMAKE_SYSTEM_NAME STREQUAL WindowsStore)
@@ -11,13 +18,6 @@ endif()
 
 if (CMAKE_GENERATOR STREQUAL Xcode)
     set(XCODE 1)
-endif()
-
-if (UWP)
-    # We require 3.4.0 for UWP generation
-    cmake_minimum_required(VERSION 3.4.0)
-else()
-    cmake_minimum_required(VERSION 3.16)
 endif()
 
 
