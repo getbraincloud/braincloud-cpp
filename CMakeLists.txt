@@ -17,7 +17,7 @@ if (UWP)
     # We require 3.4.0 for UWP generation
     cmake_minimum_required(VERSION 3.4.0)
 else()
-    cmake_minimum_required(VERSION 3.0.0)
+    cmake_minimum_required(VERSION 3.16)
 endif()
 
 
