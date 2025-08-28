@@ -158,7 +158,7 @@ namespace BrainCloud
         * @param transactionData specific data for purchasing 2 staged purchases
         * @param in_callback The method to be invoked when the server response is received
         */
-        void cachePurchaseContext(const std::string& in_storeId, const std::string& in_iapId, const std::string& in_payload, IServerCallback* in_callback = NULL);
+        void cachePurchasePayloadContext(const std::string& in_storeId, const std::string& in_iapId, const std::string& in_payload, IServerCallback* in_callback = NULL);
 
     private:
         BrainCloudClient * m_client;

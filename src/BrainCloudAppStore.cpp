@@ -89,7 +89,7 @@ namespace BrainCloud
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudAppStore::cachePurchaseContext(const std::string& in_storeId, const std::string& in_iapId,
+    void BrainCloudAppStore::cachePurchasePayloadContext(const std::string& in_storeId, const std::string& in_iapId,
         const std::string& in_payload, IServerCallback* in_callback)
     {
         Json::Value message;
