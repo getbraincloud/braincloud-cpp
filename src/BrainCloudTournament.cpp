@@ -114,36 +114,6 @@ namespace BrainCloud
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudTournament::postTournamentScoreWithResults(
-		const char * in_leaderboardId,
-		int64_t in_score,
-		const std::string & in_jsonData,
-		const tm * in_roundStartedTimeLocal,
-		SortOrder in_sort,
-		int32_t in_beforeCount,
-		int32_t in_afterCount,
-		int64_t in_initialScore,
-		IServerCallback * in_callback)
-	{
-		Json::Value message;
-		message[OperationParam::LeaderboardId.getValue()] = in_leaderboardId;
-		message[OperationParam::Score.getValue()] = (Json::Int64) in_score;
-
-		struct tm timeInfo = *in_roundStartedTimeLocal;
-		message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64) ((int64_t)internal_timegm(&timeInfo)) * 1000;
-
-		if (StringUtil::IsOptionalParameterValid(in_jsonData))
-			message[OperationParam::Data.getValue()] = JsonUtil::jsonStringToValue(in_jsonData);
-
-		message[OperationParam::SocialLeaderboardServiceSortOrder.getValue()] = BrainCloudSocialLeaderboard::sortOrderToString(in_sort);
-		message[OperationParam::SocialLeaderboardServiceBeforeCount.getValue()] = in_beforeCount;
-		message[OperationParam::SocialLeaderboardServiceAfterCount.getValue()] = in_afterCount;
-		message[OperationParam::InitialScore.getValue()] = (Json::Int64) in_initialScore;
-
-		ServerCall * sc = new ServerCall(ServiceName::Tournament, ServiceOperation::PostTournamentScoreWithResults, message, in_callback);
-		m_client->sendRequest(sc);
-	}
-
 		void BrainCloudTournament::postTournamentScoreWithResultsUTC(
 		const char * in_leaderboardId,
 		int64_t in_score,
