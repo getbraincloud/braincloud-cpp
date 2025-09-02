@@ -441,7 +441,7 @@ elseif (LINUX)
     find_package(CURL REQUIRED)
     list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
 
-    find_package(glfw3 3.3 REQUIRED)
+    #find_package(glfw3 3.3 REQUIRED)
     find_package(OpenGL REQUIRED)
 
     target_link_libraries(gltuto glfw)
