@@ -72,9 +72,9 @@ namespace BrainCloud
         /**
          * Set the ping interval. Ping allows to keep the connection
          * alive, but also inform the player of his current ping.
-         * The default is 1000 miliseconds interval. (1 seconds)
+         * The default is 1 second interval.
          */
-        void setPingInterval(int in_intervalMS);
+        void setPingInterval(int in_intervalSeconds);
 
         /**
          * Get the lobby's owner profile Id.
