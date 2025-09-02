@@ -623,7 +623,7 @@ endif()
 
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
-target_link_libraries(gltuto PUBLIC glfw OpenGL::GL ${CMAKE_DL_LIBS})
+target_link_libraries(brainCloud PUBLIC ${CMAKE_DL_LIBS} ${libs})
 
 
 # Compile flags
