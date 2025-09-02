@@ -193,7 +193,7 @@ namespace BrainCloud
 
         // Ping
         int m_ping = 999;
-        std::chrono::milliseconds m_pingInterval;
+        std::chrono::seconds m_pingInterval;
         std::chrono::time_point<std::chrono::system_clock> m_lastPingTime;
         std::chrono::time_point<std::chrono::system_clock> m_lastRecvTime; // For UDP timeout
 
