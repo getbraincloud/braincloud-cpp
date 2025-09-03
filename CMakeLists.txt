@@ -629,7 +629,7 @@ target_include_directories(brainCloud PUBLIC "include" ${includes})
 target_include_directories(brainCloud PUBLIC
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
                            $<INSTALL_INTERFACE:include>)
-target_link_libraries(brainCloud PUBLIC glfw OpenGL::GL ${CMAKE_DL_LIBS} ${libs})
+target_link_libraries(brainCloud PUBLIC ${CMAKE_DL_LIBS} ${libs})
 
 # Compile flags
 if (WIN32 AND NOT UWP)
