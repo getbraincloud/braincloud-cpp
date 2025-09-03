@@ -441,13 +441,6 @@ elseif (LINUX)
     find_package(CURL REQUIRED)
     list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
 
-    find_package(glfw3 3.3 REQUIRED)
-    find_package(OpenGL REQUIRED)
-
-    target_link_libraries(gltuto glfw)
-    target_include_directories(gltuto PUBLIC ${OPENGL_INCLUDE_DIR})
-    target_link_libraries(gltuto ${OPENGL_gl_LIBRARY})
-
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
@@ -633,7 +626,10 @@ endif()
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
 # target_link_libraries(brainCloud PUBLIC ${libs})
-target_link_libraries(brainCloud PUBLIC ${CMAKE_DL_LIBS} ${libs})
+target_include_directories(brainCloud PUBLIC
+                           $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+                           $<INSTALL_INTERFACE:include>)
+target_link_libraries(brainCloud PUBLIC glfw OpenGL::GL ${CMAKE_DL_LIBS} ${libs})
 
 # Compile flags
 if (WIN32 AND NOT UWP)
