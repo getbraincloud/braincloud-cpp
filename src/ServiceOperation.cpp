@@ -234,7 +234,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::ReadInProgressMilestones = ServiceOperation("READ_IN_PROGRESS_MILESTONES");
 
 	const ServiceOperation ServiceOperation::Logout = ServiceOperation("LOGOUT");
-	const ServiceOperation ServiceOperation::UpdateName = ServiceOperation("UPDATE_NAME");
+	const ServiceOperation ServiceOperation::UpdateUserName = ServiceOperation("UPDATE_NAME");
 
 	const ServiceOperation ServiceOperation::StartMatch = ServiceOperation("START_MATCH");
 	const ServiceOperation ServiceOperation::CancelMatch = ServiceOperation("CANCEL_MATCH");

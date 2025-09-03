@@ -244,7 +244,7 @@ namespace BrainCloud {
 		static const ServiceOperation ReadInProgressMilestones;
 
 		static const ServiceOperation Logout;
-		static const ServiceOperation UpdateName;
+		static const ServiceOperation UpdateUserName;
 
 		static const ServiceOperation StartMatch;
 		static const ServiceOperation CancelMatch;
