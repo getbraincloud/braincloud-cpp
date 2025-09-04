@@ -450,7 +450,8 @@ elseif (LINUX)
     list(APPEND libs
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES}
-			${ZLIB_LIBRARIES})
+			${ZLIB_LIBRARIES}
+            dl)
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 
