@@ -451,7 +451,7 @@ elseif (LINUX)
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES}
 			${ZLIB_LIBRARIES}
-            dl)
+            ${CMAKE_DL_LIBS})
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 
