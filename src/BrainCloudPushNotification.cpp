@@ -13,7 +13,7 @@
 #include "braincloud/internal/StringUtil.h"
 #include "braincloud/internal/JsonUtil.h"
 #include "braincloud/Platform.h"
-#include "brainCloud/reason_codes.h"
+#include "braincloud/reason_codes.h"
 
 namespace BrainCloud
 {
