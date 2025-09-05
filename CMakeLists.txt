@@ -623,7 +623,7 @@ endif()
 
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
-target_link_libraries(brainCloud PUBLIC ${libs})
+target_link_libraries(brainCloud PUBLIC -ldl ${libs})
 
 
 # Compile flags

@@ -47,10 +47,6 @@ if (APPLE)
 	find_library(FOUNDATION_LIB Foundation)
 	find_library(SECURITY_LIB Security)
 	target_link_libraries(bctests PUBLIC ${GAMEKIT_LIB} ${COREFOUNDATION_LIB} ${FOUNDATION_LIB} ${SECURITY_LIB})
-elseif (LINUX)
-	message(STATUS "Linking libdl for dynamic loading support on Linux")
-	find_library(DL_LIB dl)
-	target_link_libraries(bctests PUBLIC ${DL_LIB})
 else()
 	set(ZLIB_DLL "${BC_DIR}/lib/zlib/zlib1.dll")
 	
@@ -78,4 +74,5 @@ target_link_libraries(bctests PUBLIC gtest gtest_main)
 # BrainCloudLib
 ################################
 
-target_link_libraries(bctests PUBLIC brainCloud)
+	message(STATUS "BUILDING WITH BRAINCLOUD LIBRARY")
+target_link_libraries(bctests PUBLIC -ldl brainCloud)
