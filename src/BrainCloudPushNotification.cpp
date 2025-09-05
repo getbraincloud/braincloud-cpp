@@ -13,6 +13,7 @@
 #include "braincloud/internal/StringUtil.h"
 #include "braincloud/internal/JsonUtil.h"
 #include "braincloud/Platform.h"
+#include "braincloud/reason_codes.h"
 
 namespace BrainCloud
 {
@@ -43,7 +44,7 @@ namespace BrainCloud
     	    if (in_callback)
         	{
         	    int statusCode = 400; // Bad Request
-        	    int reasonCode = 40419; // Invalid Device Token
+        	    int reasonCode = INVALID_DEVICE_TOKEN; // Invalid Device Token
 			
         	    // Build error JSON
         	    std::string errorJson = 
