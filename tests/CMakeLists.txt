@@ -74,4 +74,4 @@ target_link_libraries(bctests PUBLIC gtest gtest_main)
 # BrainCloudLib
 ################################
 
-target_link_libraries(bctests PUBLIC brainCloud dl)
+target_link_libraries(bctests PUBLIC brainCloud ${CMAKE_DL_LIBS})
