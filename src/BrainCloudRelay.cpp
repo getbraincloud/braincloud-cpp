@@ -38,9 +38,9 @@ namespace BrainCloud
         return m_commsLayer->getPing();
     }
 
-    void BrainCloudRelay::setPingInterval(int in_intervalMS)
+    void BrainCloudRelay::setPingInterval(int in_intervalSeconds)
     {
-        m_commsLayer->setPingInterval(in_intervalMS);
+        m_commsLayer->setPingInterval(in_intervalSeconds);
     }
 
     const std::string& BrainCloudRelay::getOwnerProfileId() const

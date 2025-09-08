@@ -356,37 +356,6 @@ namespace BrainCloud
 		void postScoreToLeaderboard(const char * in_leaderboardId, int64_t in_score, const std::string& in_jsonOtherData, IServerCallback * in_callback = NULL);
 
 		/**
-		 * Post the players score to the given social leaderboard.
-		 * Pass leaderboard config data to dynamically create if necessary.
-		 * You can optionally send a user-defined json string of data
-		 * with the posted score. This string could include information
-		 * relevant to the posted score.
-		 *
-		 * Service Name - SocialLeaderboard
-		 * Service Operation - PostScoreDynamic
-		 *
-		 * @param in_leaderboardId The leaderboard to post to
-		 * @param in_score The score to post
-		 * @param in_data Optional user-defined data to post with the score
-		 * @param in_leaderboardType leaderboard type
-		 * @param in_rotationType Type of rotation
-		 * @param in_rotationResetUTC Date in UTC to start rotation calculations
-		 * @param in_retainedCount How many rotations to keep
-		 * @param in_callback The method to be invoked when the server response is received
-		 * 
-		 * @deprecated Use postScoreToDynamicLeaderboardUTC instead - Removal after september 1 2021
-		 */
-		DEPRECATED void postScoreToDynamicLeaderboard(
-			const char * in_leaderboardId,
-			int64_t in_score,
-			const std::string& in_jsonData,
-			SocialLeaderboardType in_leaderboardType,
-			RotationType in_rotationType, 
-			struct tm* in_rotationResetUTC,
-			int in_retainedCount,
-			IServerCallback * in_callback = NULL);
-
-		/**
 		 * Post the player's score to the given social leaderboard, 
 		 * dynamically creating the leaderboard if it does not exist yet. 
 		 * To create new leaderboard, configJson must specify leaderboardType, rotationType, resetAt, and retainedCount, at a minimum, with support to optionally specify an expiry in minutes.
@@ -453,37 +422,6 @@ namespace BrainCloud
 			RotationType in_rotationType, 
 			int64_t in_rotationResetUTC,
 			int in_retainedCount,
-			IServerCallback * in_callback = NULL);
-
-		/**
-		* Post the players score to the given social leaderboard.
-		* Pass leaderboard config data to dynamically create if necessary.
-		* You can optionally send a user-defined json string of data
-		* with the posted score. This string could include information
-		* relevant to the posted score.
-		*
-		* Service Name - SocialLeaderboard
-		* Service Operation - PostScoreDynamic
-		*
-		* @param in_leaderboardId The leaderboard to post to
-		* @param in_score The score to post
-		* @param in_data Optional user-defined data to post with the score
-		* @param in_leaderboardType leaderboard type
-		* @param in_rotationResetUTC Date in UTC to start rotation calculations
-		* @param in_retainedCount How many rotations to keep
-		* @param in_numDaysToRotate How many days between each rotation
-		* @param in_callback The method to be invoked when the server response is received
-		*
-		* @deprecated Use postScoreToDynamicLeaderboardDaysUTC instead - Removal after september 1 2021
-		*/
-		DEPRECATED void postScoreToDynamicLeaderboardDays(
-			const char * in_leaderboardId,
-			int64_t in_score,
-			const std::string& in_jsonData,
-			SocialLeaderboardType in_leaderboardType,
-			struct tm* in_rotationResetUTC,
-			int32_t in_retainedCount,
-			int32_t in_numDaysToRotate,
 			IServerCallback * in_callback = NULL);
 
 		/**
@@ -712,27 +650,6 @@ namespace BrainCloud
 		* @param in_callback The method to be invoked when the server response is received
 		*/
 		void postScoreToDynamicGroupLeaderboard(const char * in_leaderboardId, const char * in_groupId, int32_t in_score, const std::string& in_jsonData, IServerCallback * in_callback = NULL);
-
-		/**
-		* Posts score to gorup leaderbopard and dynamically creates if necessary. leaderboardType, rotationReset, retainedCount and rotationType are required.
-		*
-		* Service Name - leaderboard
-		* Service Operation - POST_GROUP_SCORE
-		*
-		* @param in_leaderboardId the leaderboard to post to
-		* @param in_groupId the group's id
-		* @param in_score the score to post
-		* @param in_data optional user defined datat to post with scor
-		* @param in_leaderboardType type of leaderboard
-		* @param in_rotationType type of rtation
-		* @param in_rotationResetUTC date time in UTC
-		* @param in_retainedCount how long to keep rotation
-		* @param in_callback The method to be invoked when the server response is received
-		 * 
-		 * @deprecated Use postScoreToDynamicGroupLeaderboardUTC instead - Removal after september 1 2021
-		*/
-		DEPRECATED void postScoreToDynamicGroupLeaderboard(const char * in_leaderboardId, const char * in_groupId, int32_t in_score, const std::string& in_jsonData, const char * in_leaderboardType, 
-			const char * in_rotationType, int64_t in_rotationResetUTC, int32_t in_retainedCount,  IServerCallback * in_callback = NULL);
 
 		/**
 		* Posts score to group leaderbopard and dynamically creates if necessary. leaderboardType, rotationReset, retainedCount and rotationType are required. uses UTC time in milliseconds since epoch

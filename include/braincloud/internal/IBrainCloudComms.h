@@ -103,7 +103,7 @@ namespace BrainCloud
 		void setAuthenticated();
 
 		//compression
-		bool compressRequests = false;
+		bool compressRequests = true;
 
 		void setHeartbeatInterval(int milliseconds);
 		void setImmediateRetryOnError(bool value);

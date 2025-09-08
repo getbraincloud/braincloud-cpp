@@ -73,11 +73,6 @@ namespace BrainCloud
         void logout(IServerCallback * in_callback = NULL);
 
         /**
-        * @deprecated Use updateUserName instead - Removal September 1, 2021
-        */
-        DEPRECATED void updateName(const char *in_name, IServerCallback *in_callback = NULL);
-
-        /**
         * Sets the user's name.
         *
         * Service Name - playerState

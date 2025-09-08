@@ -56,3 +56,9 @@ TEST_F(TestBCAppStore, RefreshPromotions)
     tr.run(m_bc);
 }
 
+TEST_F(TestBCAppStore, cachePurchasePayloadContext)
+{
+    TestResult tr;
+    m_bc->getAppStoreService()->cachePurchasePayloadContext("_invalid_store_id_", "_invalid_transaction_id_", "{}", &tr);
+    tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_STORE_ID);
+}

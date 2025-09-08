@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cstring>
+#include <chrono>
 #if !defined(WIN32)
 #include <arpa/inet.h>
 #endif
@@ -90,7 +91,7 @@ namespace BrainCloud
     {
         m_isConnected = false;
         m_isSocketConnected = false;
-        m_pingInterval = std::chrono::milliseconds(1000);
+        m_pingInterval = std::chrono::seconds(1);
     }
 
     RelayComms::~RelayComms()
@@ -221,9 +222,13 @@ namespace BrainCloud
         return m_ping;
     }
 
-    void RelayComms::setPingInterval(int in_intervalMS)
+    void RelayComms::setPingInterval(int in_intervalSeconds)
     {
-        m_pingInterval = std::chrono::milliseconds(in_intervalMS);
+        if (in_intervalSeconds > 999) {
+            in_intervalSeconds /= 1000;
+
+        }
+        m_pingInterval = std::chrono::seconds(in_intervalSeconds);
     }
 
     const std::string& RelayComms::getOwnerProfileId() const

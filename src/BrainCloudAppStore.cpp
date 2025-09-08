@@ -88,4 +88,16 @@ namespace BrainCloud
         ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreRefreshPromotions, message, in_callback);
         m_client->sendRequest(sc);
     }
+
+    void BrainCloudAppStore::cachePurchasePayloadContext(const std::string& in_storeId, const std::string& in_iapId,
+        const std::string& in_payload, IServerCallback* in_callback)
+    {
+        Json::Value message;
+        message[OperationParam::AppStoreStoreId.getValue()] = in_storeId;
+        message[OperationParam::AppStoreStoreIAPId.getValue()] = in_iapId;
+        message[OperationParam::AppStorePayload.getValue()] = in_payload;
+        
+        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreCachePurchaseContext, message, in_callback);
+        m_client->sendRequest(sc);
+    }
 }

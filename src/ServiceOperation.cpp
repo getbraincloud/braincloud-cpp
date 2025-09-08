@@ -234,7 +234,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::ReadInProgressMilestones = ServiceOperation("READ_IN_PROGRESS_MILESTONES");
 
 	const ServiceOperation ServiceOperation::Logout = ServiceOperation("LOGOUT");
-	const ServiceOperation ServiceOperation::UpdateName = ServiceOperation("UPDATE_NAME");
+	const ServiceOperation ServiceOperation::UpdateUserName = ServiceOperation("UPDATE_NAME");
 
 	const ServiceOperation ServiceOperation::StartMatch = ServiceOperation("START_MATCH");
 	const ServiceOperation ServiceOperation::CancelMatch = ServiceOperation("CANCEL_MATCH");
@@ -453,6 +453,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::VirtualCurrencyResetCurrency = ServiceOperation("RESET_PLAYER_VC");
 
 	//app store
+	const ServiceOperation ServiceOperation::AppStoreCachePurchaseContext = ServiceOperation("CACHE_PURCHASE_PAYLOAD_CONTEXT");
 	const ServiceOperation ServiceOperation::AppStoreVerifyPurchase = ServiceOperation("VERIFY_PURCHASE");
 	const ServiceOperation ServiceOperation::AppStoreGetEligiblePromotions = ServiceOperation("ELIGIBLE_PROMOTIONS");
 	const ServiceOperation ServiceOperation::AppStoreGetSalesInventory = ServiceOperation("GET_INVENTORY");
