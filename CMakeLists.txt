@@ -442,13 +442,13 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	find_package(ZLIB REQUIRED)  # Use the system zlib
+	find_package(ZLIB REQUIRED MODULE)  # Use the system zlib
     include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
 
     list(APPEND libs
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES}
-			ZLIB::ZLIB)
+			${ZLIB_LIBRARIES})
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 
