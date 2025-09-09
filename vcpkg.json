@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    "curl",
+    "libwebsockets",
+    "pthreads",
+    "libuv"
+  ]
+}
