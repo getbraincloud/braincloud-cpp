@@ -442,8 +442,8 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	find_package(ZLIB REQUIRED MODULE)  # Use the system zlib
-    include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
+	find_package(ZLIB MODULE REQUIRED)  # Use the system zlib
+    include_directories(${ZLIB_INCLUDE_DIRS})  # Ensure the headers are found
 
     list(APPEND libs
             ${CURL_LIBRARIES}
