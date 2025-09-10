@@ -113,8 +113,8 @@ namespace BrainCloud
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
             #if(LWS_LIBRARY_VERSION_MAJOR >= 4) && !defined(BC_SSL_ALLOW_SELFSIGNED)
                 //info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
-                info.client_ssl_ca_mem = full_certs.front().c_str();
-                info.client_ssl_ca_mem_len = static_cast<unsigned int>(full_certs.front().length());
+                //info.client_ssl_ca_mem = full_certs.front().c_str();
+                //info.client_ssl_ca_mem_len = static_cast<unsigned int>(full_certs.front().length());
             #endif
             std::unique_lock<std::mutex> lock(lwsContextMutex);
             _pLwsContext = lws_create_context(&info);

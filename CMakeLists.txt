@@ -1,5 +1,3 @@
-project(brainCloud)
-
 if (CMAKE_SYSTEM_NAME STREQUAL WindowsStore)
     set(UWP 1)
 endif()
@@ -29,6 +27,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 if (UNIX AND NOT APPLE AND NOT ANDROID)
     set(LINUX 1)
 endif()
+
+project(brainCloud)
 
 #=============================================================================
 # CMake options
@@ -442,8 +442,8 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	find_package(ZLIB MODULE REQUIRED)  # Use the system zlib
-    include_directories(${ZLIB_INCLUDE_DIRS})  # Ensure the headers are found
+	find_package(ZLIB REQUIRED)  # Use the system zlib
+    include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
 
     list(APPEND libs
             ${CURL_LIBRARIES}
