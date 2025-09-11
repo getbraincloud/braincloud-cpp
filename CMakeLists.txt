@@ -532,9 +532,9 @@ if (USE_LIBWEBSOCKETS)
             set(OPENSSL_FOUND 1)
             option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" OFF)
         else()
-            set(OPENSSL_USE_STATIC_LIBS TRUE)
+            #set(OPENSSL_USE_STATIC_LIBS TRUE)
             find_package(OpenSSL REQUIRED)
-            set(OPENSSL_FOUND 1)
+            #set(OPENSSL_FOUND 1)
             set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
             set(OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
             include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
@@ -570,55 +570,48 @@ if (USE_LIBWEBSOCKETS)
     # LibWebSockets
     if(WIN32)
         # v3.0 (on fork SHA1 is eaa935a8)
-         set(BC_LWS_DIR lib/lwsv3/libwebsockets)
-         set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
+         #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+         #set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
+		find_package(libwebsockets CONFIG REQUIRED)
+
+		target_link_libraries(brainCloud PRIVATE websockets_shared) 
+			
     else()
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
+		# v4.3-stable (SHA1 is 58af7b44)
+		set(BC_LWS_DIR lib/libwebsockets)
+		set(BC_LWS_INC ${BC_LWS_DIR}/include)
+		 
+		list(APPEND libs websockets)
+		list(APPEND includes
+			PUBLIC
+			${BC_LWS_INC}
+		)
+		
+		add_subdirectory("${BC_LWS_DIR}")
     endif()
 
-    option(LWS_WITHOUT_SERVER
-            "Don't build the server part of the library" ON)
-    option(LWS_WITHOUT_TESTAPPS
-            "Don't build the libwebsocket-test-apps" ON)
-    option(LWS_WITHOUT_TEST_SERVER
-            "Don't build the test server" ON)
-    option(LWS_WITHOUT_TEST_SERVER_EXTPOLL
-            "Don't build the test server version that uses external poll" ON)
-    option(LWS_WITHOUT_TEST_PING
-            "Don't build the ping test application" ON)
-    option(LWS_WITHOUT_TEST_CLIENT
-            "Don't build the client test application" ON)
-    option(LWS_WITH_SHARED
-            "Build the shared version of the library" OFF)
-    option(LWS_WITHOUT_EXTENSIONS "" ON)
-    option(LWS_WITH_TLS "" ON)
 
-    add_subdirectory("${BC_LWS_DIR}")
+
+    
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if (MSVC)
-       target_compile_options(websockets PRIVATE /WX-)
+       #target_compile_options(websockets PRIVATE /WX-)
        if (NOT BC_USE_OPENSSL)
            target_compile_options(mbedtls PRIVATE /WX-)
            target_compile_options(mbedcrypto PRIVATE /WX-)
        endif()
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND NOT ANDROID)
-       target_compile_options(websockets PRIVATE -Wno-unused-but-set-variable -Wno-typedef-redefinition)
+       #target_compile_options(websockets PRIVATE -Wno-unused-but-set-variable -Wno-typedef-redefinition)
        if (NOT BC_USE_OPENSSL)
           target_compile_options(mbedtls PRIVATE -Wno-unused-but-set-variable)
           target_compile_options(mbedcrypto PRIVATE -Wno-unused-but-set-variable)
        endif()
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
+        #target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
     endif()
 
-    list(APPEND libs websockets)
-    list(APPEND includes
-            PUBLIC
-            ${BC_LWS_INC}
-            )
+    
 
 endif()
 
