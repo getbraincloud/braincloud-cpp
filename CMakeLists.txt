@@ -520,78 +520,45 @@ endif()
 # android uses openssl instead of tls (pre-built libwebsockets.a is linked above)
 if (USE_LIBWEBSOCKETS)
     # TLS
-    option(ENABLE_TESTING "" OFF)
-    option(ENABLE_PROGRAMS "" OFF)
-	if (BC_USE_OPENSSL)
-
-        if(ANDROID)
-    		set(LWS_OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
-	    	set(LWS_OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
-            set(OPENSSL_LIBRARIES "${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libssl.a;${BC_DIR}/lib/android/libs/${ANDROID_ABI}/libcrypto.a")
-            set(OPENSSL_INCLUDE_DIRS "${BC_DIR}/lib/android/include/")
-            set(OPENSSL_FOUND 1)
-            option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" OFF)
-        else()
-            #set(OPENSSL_USE_STATIC_LIBS TRUE)
-            find_package(OpenSSL REQUIRED)
-            #set(OPENSSL_FOUND 1)
-            set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
-            set(OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
-            include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
-            option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" ON)
-        endif()
-
-        option(LWS_WITH_SSL "Include SSL support (defaults to OpenSSL)" ON)
-
+    if(WIN32 OR APPLE OR UNIX)
+		set(USE_OPENSSL TRUE)
 	else()
-		# TLS
-		option(ENABLE_TESTING "" OFF)
-		option(ENABLE_PROGRAMS "" OFF)
-
-        # mbedtls-2.28 (SHA1 is 1963d67e)
-        set(BC_MBEDTLS_DIR lib/mbedtls)
-
-		add_subdirectory("${BC_MBEDTLS_DIR}")
-
-		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-		list(APPEND includes
-				PUBLIC ${BC_MBEDTLS_DIR}/include/)
-		option(LWS_WITH_MBEDTLS "" ON)
-		set(LWS_MBEDTLS_INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include>")
-        if(WIN32)
-            set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedtls.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedcrypto.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedx509.lib")
-        elseif(XCODE)
-            set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedx509.a")
-        else()
-            set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
-        endif()
-	endif()
-
-    find_package(libwebsockets CONFIG REQUIRED)
-	
-	if(WIN32)
-		target_link_libraries(brainCloud PRIVATE websockets_shared) 
-	else()
-		target_link_libraries(brainCloud PRIVATE websockets) 
+		set(USE_MBEDTLS TRUE)
 	endif()
 	
-    # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
-    if (MSVC)
-       #target_compile_options(websockets PRIVATE /WX-)
-       if (NOT BC_USE_OPENSSL)
-           target_compile_options(mbedtls PRIVATE /WX-)
-           target_compile_options(mbedcrypto PRIVATE /WX-)
-       endif()
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND NOT ANDROID)
-       #target_compile_options(websockets PRIVATE -Wno-unused-but-set-variable -Wno-typedef-redefinition)
-       if (NOT BC_USE_OPENSSL)
-          target_compile_options(mbedtls PRIVATE -Wno-unused-but-set-variable)
-          target_compile_options(mbedcrypto PRIVATE -Wno-unused-but-set-variable)
-       endif()
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        #target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
-    endif()
+	# Pull in libwebsockets with vcpkg
+	find_package(libwebsockets CONFIG REQUIRED)
+	
+	if(USE_OPENSSL)
+		message(STATUS "Using OpenSSL with libwebsockets")
+		find_package(OpenSSL REQUIRED)
 
+		target_link_libraries(mylib
+			PRIVATE
+				websockets::websockets
+				OpenSSL::SSL
+				OpenSSL::Crypto
+		)
+
+		# Make sure LWS is built with OpenSSL
+		target_compile_definitions(brainCloud PRIVATE LWS_WITH_SSL=1 LWS_WITH_MBEDTLS=0)
+
+	elseif(USE_MBEDTLS)
+		message(STATUS "Using MbedTLS with libwebsockets")
+		find_package(MbedTLS CONFIG REQUIRED)
+
+		target_link_libraries(mylib
+			PRIVATE
+				websockets::websockets
+				MbedTLS::mbedtls
+				MbedTLS::mbedcrypto
+				MbedTLS::mbedx509
+		)
+
+		# Make sure LWS is built with MbedTLS
+		target_compile_definitions(brainCloud PRIVATE LWS_WITH_SSL=1 LWS_WITH_MBEDTLS=1)
+	endif()
+	
 endif()
 
 # Setup includes and linked libraries
