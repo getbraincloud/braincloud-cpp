@@ -568,8 +568,13 @@ if (USE_LIBWEBSOCKETS)
 	endif()
 
     find_package(libwebsockets CONFIG REQUIRED)
-	target_link_libraries(brainCloud PRIVATE websockets_shared) 
-
+	
+	if(WIN32)
+		target_link_libraries(brainCloud PRIVATE websockets_shared) 
+	else()
+		target_link_libraries(brainCloud PRIVATE websockets) 
+	endif()
+	
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if (MSVC)
        #target_compile_options(websockets PRIVATE /WX-)
