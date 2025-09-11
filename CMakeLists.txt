@@ -567,32 +567,8 @@ if (USE_LIBWEBSOCKETS)
         endif()
 	endif()
 
-    # LibWebSockets
-    if(WIN32)
-        # v3.0 (on fork SHA1 is eaa935a8)
-         #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
-         #set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
-		find_package(libwebsockets CONFIG REQUIRED)
-
-		target_link_libraries(brainCloud PRIVATE websockets_shared) 
-			
-    else()
-		# v4.3-stable (SHA1 is 58af7b44)
-		set(BC_LWS_DIR lib/libwebsockets)
-		set(BC_LWS_INC ${BC_LWS_DIR}/include)
-		 
-		list(APPEND libs websockets)
-		list(APPEND includes
-			PUBLIC
-			${BC_LWS_INC}
-		)
-		
-		add_subdirectory("${BC_LWS_DIR}")
-    endif()
-
-
-
-    
+    find_package(libwebsockets CONFIG REQUIRED)
+	target_link_libraries(brainCloud PRIVATE websockets_shared) 
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if (MSVC)
@@ -610,8 +586,6 @@ if (USE_LIBWEBSOCKETS)
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         #target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
     endif()
-
-    
 
 endif()
 
