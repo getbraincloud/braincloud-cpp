@@ -1,7 +1,8 @@
 #if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
 
 #include "braincloud/internal/DefaultWebSocket.h"
-
+#include <openssl/ssl.h>
+#include <openssl/x509_vfy.h> // for X509_STORE
 #include <algorithm>
 #include <iostream>
 #include <cctype>
