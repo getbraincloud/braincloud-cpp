@@ -533,7 +533,7 @@ if (USE_LIBWEBSOCKETS)
 		message(STATUS "Using OpenSSL with libwebsockets")
 		find_package(OpenSSL REQUIRED)
 
-		target_link_libraries(mylib
+		target_link_libraries(brainCloud
 			PRIVATE
 				websockets::websockets
 				OpenSSL::SSL
@@ -547,7 +547,7 @@ if (USE_LIBWEBSOCKETS)
 		message(STATUS "Using MbedTLS with libwebsockets")
 		find_package(MbedTLS CONFIG REQUIRED)
 
-		target_link_libraries(mylib
+		target_link_libraries(brainCloud
 			PRIVATE
 				websockets::websockets
 				MbedTLS::mbedtls
