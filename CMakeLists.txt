@@ -532,10 +532,15 @@ if (USE_LIBWEBSOCKETS)
 	if(USE_OPENSSL)
 		message(STATUS "Using OpenSSL with libwebsockets")
 		find_package(OpenSSL REQUIRED)
+		
+		if(WIN32)
+			target_link_libraries(brainCloud PRIVATE websockets_shared)
+		else()
+			target_link_libraries(brainCloud PRIVATE websockets)
+		endif()
 
 		target_link_libraries(brainCloud
 			PRIVATE
-				websockets::websockets
 				OpenSSL::SSL
 				OpenSSL::Crypto
 		)
@@ -546,10 +551,15 @@ if (USE_LIBWEBSOCKETS)
 	elseif(USE_MBEDTLS)
 		message(STATUS "Using MbedTLS with libwebsockets")
 		find_package(MbedTLS CONFIG REQUIRED)
+		
+		if(WIN32)
+			target_link_libraries(brainCloud PRIVATE websockets_shared)
+		else()
+			target_link_libraries(brainCloud PRIVATE websockets)
+		endif()
 
 		target_link_libraries(brainCloud
 			PRIVATE
-				websockets::websockets
 				MbedTLS::mbedtls
 				MbedTLS::mbedcrypto
 				MbedTLS::mbedx509
