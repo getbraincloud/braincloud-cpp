@@ -102,7 +102,7 @@ endif()
 set (BC_DIR "${PROJECT_SOURCE_DIR}")
 set (OS_SPECIFIC_SRCS "")
 set (OS_SPECIFIC_INCS "")
-set (ZLIB_INCLUDE_DIR "${BC_DIR}/include/zlib")
+
 
 file(GLOB_RECURSE JSONCPP_INCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.h")
 file(GLOB_RECURSE JSONCPP_SRCS_FILES "${BC_DIR}/lib/jsoncpp-1.0.0/*.cpp")
@@ -440,7 +440,7 @@ elseif (LINUX)
     find_package(CURL REQUIRED)
     #list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
 
-    find_package(UUID REQUIRED)
+    #find_package(UUID REQUIRED)
     #list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
 	find_package(ZLIB REQUIRED)  # Use the system zlib
@@ -476,6 +476,7 @@ elseif (ANDROID)
 
 elseif (WIN32)
 
+	set (ZLIB_INCLUDE_DIR "${BC_DIR}/include/zlib")
 	find_library(BC_ZLIB zlib
 			"${BC_DIR}/lib/zlib")
 	
