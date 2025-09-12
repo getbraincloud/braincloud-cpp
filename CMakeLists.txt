@@ -566,17 +566,6 @@ if (USE_LIBWEBSOCKETS)
         endif()
 	endif()
 
-    # LibWebSockets
-    if(WIN32)
-        # v3.0 (on fork SHA1 is eaa935a8)
-         set(BC_LWS_DIR lib/lwsv3/libwebsockets)
-         set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
-    else()
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
-    endif()
-
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
     option(LWS_WITHOUT_TESTAPPS
@@ -594,38 +583,47 @@ if (USE_LIBWEBSOCKETS)
     option(LWS_WITHOUT_EXTENSIONS "" ON)
     option(LWS_WITH_TLS "" ON)
 
-    add_subdirectory("${BC_LWS_DIR}")
-
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if (MSVC)
-       target_compile_options(websockets PRIVATE /WX-)
+       #target_compile_options(websockets PRIVATE /WX-)
        if (NOT BC_USE_OPENSSL)
            target_compile_options(mbedtls PRIVATE /WX-)
            target_compile_options(mbedcrypto PRIVATE /WX-)
        endif()
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND NOT ANDROID)
-       target_compile_options(websockets PRIVATE -Wno-unused-but-set-variable -Wno-typedef-redefinition)
+       #target_compile_options(websockets PRIVATE -Wno-unused-but-set-variable -Wno-typedef-redefinition)
        if (NOT BC_USE_OPENSSL)
           target_compile_options(mbedtls PRIVATE -Wno-unused-but-set-variable)
           target_compile_options(mbedcrypto PRIVATE -Wno-unused-but-set-variable)
        endif()
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
+        #target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
     endif()
 
-    list(APPEND libs websockets)
-    list(APPEND includes
-            PUBLIC
-            ${BC_LWS_INC}
-            )
 
 endif()
+
+target_compile_definitions(brainCloud PRIVATE
+    CACERTS_PATH="${CMAKE_SOURCE_DIR}/resources/cacerts.pem")
 
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})
 target_link_libraries(brainCloud PUBLIC ${libs})
 
-
+# Find pthreads based on the platform
+if (WIN32)
+	find_package(libwebsockets CONFIG REQUIRED)
+	target_link_libraries(brainCloud PRIVATE websockets_shared)
+	
+	# Compile flags
+	target_compile_options(brainCloud PRIVATE
+            /MP     # Multi-core compilation
+            )
+elseif(UNIX)
+	find_package(libwebsockets CONFIG REQUIRED)
+	target_link_libraries(brainCloud PRIVATE websockets)
+endif()
+		
 # Compile flags
 if (WIN32 AND NOT UWP)
     target_compile_options(brainCloud PRIVATE
