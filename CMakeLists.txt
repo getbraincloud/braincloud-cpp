@@ -438,19 +438,20 @@ if (APPLE)
 			${BC_Z_LIB})
 elseif (LINUX)
     find_package(CURL REQUIRED)
-    list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
+    #list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
 
     find_package(UUID REQUIRED)
-    list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
+    #list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
 	find_package(ZLIB REQUIRED)  # Use the system zlib
-    include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
+    #include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
 	
 	target_link_libraries(brainCloud PRIVATE ZLIB::ZLIB)
+	target_link_libraries(brainCloud PRIVATE CURL::libcurl)
 
-    list(APPEND libs
-            ${CURL_LIBRARIES}
-            ${UUID_LIBRARIES})
+    #list(APPEND libs
+    #        ${CURL_LIBRARIES}
+    #        ${UUID_LIBRARIES})
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 
