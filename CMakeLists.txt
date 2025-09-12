@@ -443,7 +443,7 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	find_package(ZLIB REQUIRED)  # Use the system zlib
+	find_package(ZLIB REQUIRED HINTS /usr /usr/local /opt/local)  # Use the system zlib
     include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
 
     list(APPEND libs
