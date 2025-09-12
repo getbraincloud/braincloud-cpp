@@ -1,3 +1,4 @@
+set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 project(brainCloud)
 
 if (CMAKE_SYSTEM_NAME STREQUAL WindowsStore)
