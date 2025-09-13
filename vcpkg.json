@@ -8,10 +8,6 @@
       "version>=": "8.8.0"
     },
     {
-      "name": "libuuid",
-      "version>=": "1.0.3#11"
-    },
-    {
       "name": "libuv",
       "version>=": "1.45.0"
     },
