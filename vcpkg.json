@@ -8,10 +8,6 @@
       "version>=": "8.8.0"
     },
     {
-      "name": "libuv",
-      "version>=": "1.45.0"
-    },
-    {
       "name": "libwebsockets",
       "version>=": "4.3.0"
     },
