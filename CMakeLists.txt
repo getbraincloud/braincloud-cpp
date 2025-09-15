@@ -448,6 +448,7 @@ elseif (LINUX)
 	
 	target_link_libraries(brainCloud PRIVATE ZLIB::ZLIB)
 	target_link_libraries(brainCloud PRIVATE CURL::libcurl)
+	target_link_libraries(brainCloud PRIVATE uuid)
 
     #list(APPEND libs
     #        ${CURL_LIBRARIES}
