@@ -438,20 +438,17 @@ if (APPLE)
 			${BC_Z_LIB})
 elseif (LINUX)
     find_package(CURL REQUIRED)
-    #list(APPEND includes PUBLIC ${CURL_INCLUDE_DIRS})
 
     find_package(UUID REQUIRED)
-    #list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
 	find_package(ZLIB REQUIRED)  # Use the system zlib
-    #include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
 	
-	find_package(PThreads4W REQUIRED)
+	find_package(Threads REQUIRED)
 	
 	target_link_libraries(brainCloud PRIVATE ZLIB::ZLIB)
 	target_link_libraries(brainCloud PRIVATE CURL::libcurl)
 	target_link_libraries(brainCloud PRIVATE uuid)
-	target_link_libraries(brainCloud PRIVATE PThreads4W:PThreads4W)
+	target_link_libraries(brainCloud PRIVATE Threads::Threads)
 
     #list(APPEND libs
     #        ${CURL_LIBRARIES}
