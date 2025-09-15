@@ -446,9 +446,12 @@ elseif (LINUX)
 	find_package(ZLIB REQUIRED)  # Use the system zlib
     #include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
 	
+	find_package(PThreads4W REQUIRED)
+	
 	target_link_libraries(brainCloud PRIVATE ZLIB::ZLIB)
 	target_link_libraries(brainCloud PRIVATE CURL::libcurl)
 	target_link_libraries(brainCloud PRIVATE uuid)
+	target_link_libraries(brainCloud PRIVATE PThreads4W:PThreads4W)
 
     #list(APPEND libs
     #        ${CURL_LIBRARIES}
