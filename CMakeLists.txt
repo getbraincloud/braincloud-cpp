@@ -526,6 +526,22 @@ if (USE_LIBWEBSOCKETS)
 
     add_compile_definitions(CACERTS_FILE_PATH="${CMAKE_SOURCE_DIR}/resources/cacerts.pem")
     message("CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
+	
+	# LibWebSockets
+    if(WIN32)
+        # v3.0 (on fork SHA1 is eaa935a8)
+         #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+         #set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
+         # v4.3-stable (SHA1 is 58af7b44)
+         set(BC_LWS_DIR lib/libwebsockets)
+         set(BC_LWS_INC ${BC_LWS_DIR}/include)
+    else()
+         # v4.3-stable (SHA1 is 58af7b44)
+         set(BC_LWS_DIR lib/libwebsockets)
+         set(BC_LWS_INC ${BC_LWS_DIR}/include)
+    endif()
+	
+	add_subdirectory("${BC_LWS_DIR}")
 
 	if (BC_USE_OPENSSL)
 
@@ -605,19 +621,7 @@ if (USE_LIBWEBSOCKETS)
 		message("LWS Configured with MBEDTLS")
 	endif()
 
-    # LibWebSockets
-    if(WIN32)
-        # v3.0 (on fork SHA1 is eaa935a8)
-         #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
-         #set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
-    else()
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
-    endif()
+    
 
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
@@ -636,7 +640,7 @@ if (USE_LIBWEBSOCKETS)
     option(LWS_WITHOUT_EXTENSIONS "" ON)
     option(LWS_WITH_TLS "" ON)
 
-    add_subdirectory("${BC_LWS_DIR}")
+    
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if (MSVC)
