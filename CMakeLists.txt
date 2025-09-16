@@ -545,6 +545,23 @@ if (USE_LIBWEBSOCKETS)
          set(BC_LWS_INC ${BC_LWS_DIR}/include)
     endif()
 	
+    option(LWS_WITHOUT_SERVER
+            "Don't build the server part of the library" ON)
+    option(LWS_WITHOUT_TESTAPPS
+            "Don't build the libwebsocket-test-apps" ON)
+    option(LWS_WITHOUT_TEST_SERVER
+            "Don't build the test server" ON)
+    option(LWS_WITHOUT_TEST_SERVER_EXTPOLL
+            "Don't build the test server version that uses external poll" ON)
+    option(LWS_WITHOUT_TEST_PING
+            "Don't build the ping test application" ON)
+    option(LWS_WITHOUT_TEST_CLIENT
+            "Don't build the client test application" ON)
+    option(LWS_WITH_SHARED
+            "Build the shared version of the library" OFF)
+    option(LWS_WITHOUT_EXTENSIONS "" ON)
+    option(LWS_WITH_TLS "" ON)
+
 	add_subdirectory("${BC_LWS_DIR}")
 
 	if (BC_USE_OPENSSL)
@@ -614,35 +631,12 @@ if (USE_LIBWEBSOCKETS)
             set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
         endif()
 		
-		add_library(bc_mbedtls INTERFACE)
-		target_include_directories(bc_mbedtls INTERFACE ${LWS_MBEDTLS_INCLUDE_DIRS})
-		target_link_libraries(websockets
-			bc_mbedtls
-			${LWS_MBEDTLS_LIBRARIES}
-		)
 		#include_directories(${LWS_MBEDTLS_INCLUDE_DIRS})
 		
 		message("LWS Configured with MBEDTLS")
 	endif()
 
     
-
-    option(LWS_WITHOUT_SERVER
-            "Don't build the server part of the library" ON)
-    option(LWS_WITHOUT_TESTAPPS
-            "Don't build the libwebsocket-test-apps" ON)
-    option(LWS_WITHOUT_TEST_SERVER
-            "Don't build the test server" ON)
-    option(LWS_WITHOUT_TEST_SERVER_EXTPOLL
-            "Don't build the test server version that uses external poll" ON)
-    option(LWS_WITHOUT_TEST_PING
-            "Don't build the ping test application" ON)
-    option(LWS_WITHOUT_TEST_CLIENT
-            "Don't build the client test application" ON)
-    option(LWS_WITH_SHARED
-            "Build the shared version of the library" OFF)
-    option(LWS_WITHOUT_EXTENSIONS "" ON)
-    option(LWS_WITH_TLS "" ON)
 
     
 
