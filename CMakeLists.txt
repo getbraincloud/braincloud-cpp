@@ -632,6 +632,12 @@ if (USE_LIBWEBSOCKETS)
         target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
     endif()
 
+    if(NOT WIN32)
+        if(BC_USE_OPENSSL)
+            target_link_libraries(websockets OpenSSL:SSL OpenSSL::Crypto)
+        endif()
+    endif()
+
     list(APPEND libs websockets)
     list(APPEND includes
             PUBLIC
