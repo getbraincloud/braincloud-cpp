@@ -20,6 +20,12 @@ else()
     cmake_minimum_required(VERSION 3.0.0)
 endif()
 
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0022 NEW)
+    cmake_policy(SET CMP0079 NEW)
+    cmake_policy(SET CMP0003 NEW)
+endif()
+
 
 # Setup modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
@@ -537,20 +543,18 @@ if (USE_LIBWEBSOCKETS)
             set(OPENSSL_FOUND 1)
             option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" OFF)
         else()
-            if(WIN32)
-                # Point CMake to vcpkg for OpenSSL only
-                find_package(OpenSSL REQUIRED)
+            # Point CMake to vcpkg for OpenSSL only
+            find_package(OpenSSL REQUIRED)
 
-                # Include dirs and libraries from vcpkg
-                set(LWS_OPENSSL_LIBRARIES ${OPENSSL_LIBRARIES})
-                set(LWS_OPENSSL_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR})
+            # Include dirs and libraries from vcpkg
+            set(LWS_OPENSSL_LIBRARIES $<BUILD_INTERFACE:${OPENSSL_LIBRARIES}>)
+            set(LWS_OPENSSL_INCLUDE_DIRS $<BUILD_INTERFACE:${OPENSSL_INCLUDE_DIR}>)
             
-                include_directories(${LWS_OPENSSL_INCLUDE_DIRS})
-            endif()
-
+            include_directories($<BUILD_INTERFACE:${LWS_OPENSSL_INCLUDE_DIRS}>)
+            
             # Force LWS to use OpenSSL
-            #set(LWS_WITH_SSL ON CACHE BOOL "Use OpenSSL" FORCE)
-            #set(LWS_WITH_MBEDTLS OFF CACHE BOOL "Disable MbedTLS" FORCE)
+            set(LWS_WITH_SSL ON CACHE BOOL "Use OpenSSL" FORCE)
+            set(LWS_WITH_MBEDTLS OFF CACHE BOOL "Disable MbedTLS" FORCE)
         endif()
 
         option(LWS_WITH_SSL "Include SSL support (defaults to OpenSSL)" ON)
