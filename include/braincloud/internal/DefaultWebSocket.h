@@ -10,6 +10,7 @@
 #include "braincloud/internal/IWebSocket.h"
 
 #include <libwebsockets.h>
+#include <lws_config.h>
 
 #if defined(BC_MBEDTLS_OFF)
 #include <openssl/x509.h>

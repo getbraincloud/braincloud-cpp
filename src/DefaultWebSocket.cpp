@@ -62,6 +62,16 @@ namespace BrainCloud
         , _isConnecting(true)
         , _authHeaders(headers)
     {
+
+#if defined(LWS_OPENSSL_SUPPORT)
+#if defined(LWS_WITH_MBEDTLS)
+        printf("Using MbedTLS\n");
+#else
+        printf("Using OpenSSL\n");
+#endif
+#endif
+
+
 #if !defined(BC_SSL_ALLOW_SELFSIGNED)
         InitializeSSLCertificates();
         std::cout<<"Certs initialized for RTT."<<std::endl;
@@ -111,11 +121,13 @@ namespace BrainCloud
             //info.extensions = exts;
             info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
             info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
-            #if(LWS_LIBRARY_VERSION_MAJOR >= 4) && !defined(BC_SSL_ALLOW_SELFSIGNED)
+            #if(LWS_LIBRARY_VERSION_MAJOR >= 4) && !defined(BC_SSL_ALLOW_SELFSIGNED) && defined(LWS_WITH_MBEDTLS)
                 //info.options |= LWS_SERVER_OPTION_DISABLE_OS_CA_CERTS;
-                info.client_ssl_ca_mem = full_certs.front().c_str();
-                info.client_ssl_ca_mem_len = static_cast<unsigned int>(full_certs.front().length());
+                //info.client_ssl_ca_mem = full_certs.front().c_str();
+                //info.client_ssl_ca_mem_len = static_cast<unsigned int>(full_certs.front().length());
+                info.client_ssl_ca_filepath = CACERTS_FILE_PATH;
             #endif
+
             std::unique_lock<std::mutex> lock(lwsContextMutex);
             _pLwsContext = lws_create_context(&info);
             if (!_pLwsContext)
