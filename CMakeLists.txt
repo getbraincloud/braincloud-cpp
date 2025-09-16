@@ -570,8 +570,7 @@ if (USE_LIBWEBSOCKETS)
 		add_subdirectory("${BC_MBEDTLS_DIR}")
 
 		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-		list(APPEND includes
-				PUBLIC ${BC_MBEDTLS_DIR}/include/)
+		#list(APPEND includes PUBLIC ${BC_MBEDTLS_DIR}/include/)
 				
 		set(LWS_WITH_MBEDTLS ON CACHE BOOL "Use MbedTLS" FORCE)
 		
@@ -595,7 +594,13 @@ if (USE_LIBWEBSOCKETS)
             set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
         endif()
 		
-		include_directories(${LWS_MBEDTLS_INCLUDE_DIRS})
+		add_library(bc_mbedtls INTERFACE)
+		target_include_directories(bc_mbedtls INTERFACE ${LWS_MBEDTLS_INCLUDE_DIRS})
+		target_link_libraries(websockets PRIVATE
+			bc_mbedtls
+			${LWS_MBEDTLS_LIBRARIES}
+		)
+		#include_directories(${LWS_MBEDTLS_INCLUDE_DIRS})
 		
 		message("LWS Configured with MBEDTLS")
 	endif()
