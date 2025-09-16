@@ -549,11 +549,12 @@ if (USE_LIBWEBSOCKETS)
             endif()
 
             # Force LWS to use OpenSSL
-            set(LWS_WITH_SSL ON CACHE BOOL "Use OpenSSL" FORCE)
-            set(LWS_WITH_MBEDTLS OFF CACHE BOOL "Disable MbedTLS" FORCE)
+            #set(LWS_WITH_SSL ON CACHE BOOL "Use OpenSSL" FORCE)
+            #set(LWS_WITH_MBEDTLS OFF CACHE BOOL "Disable MbedTLS" FORCE)
         endif()
 
         option(LWS_WITH_SSL "Include SSL support (defaults to OpenSSL)" ON)
+        option(LWS_WITH_MBEDTLS "Disable MbedTLS" OFF)
 
 	else()
 		# TLS
@@ -632,11 +633,6 @@ if (USE_LIBWEBSOCKETS)
         target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
     endif()
 
-    if(NOT WIN32)
-        if(BC_USE_OPENSSL)
-            #target_link_libraries(websockets OpenSSL:SSL OpenSSL::Crypto)
-        endif()
-    endif()
 
     list(APPEND libs websockets)
     list(APPEND includes
