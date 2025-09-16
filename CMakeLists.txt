@@ -537,20 +537,16 @@ if (USE_LIBWEBSOCKETS)
             set(OPENSSL_FOUND 1)
             option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" OFF)
         else()
-            #set(OPENSSL_USE_STATIC_LIBS TRUE)
-            #find_package(OpenSSL REQUIRED)
-            #set(OPENSSL_FOUND 1)
-            #set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
-            #set(OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
-            #include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
-            #option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" ON)
             # Point CMake to vcpkg for OpenSSL only
             find_package(OpenSSL REQUIRED)
 
             # Include dirs and libraries from vcpkg
             set(LWS_OPENSSL_LIBRARIES ${OPENSSL_LIBRARIES})
             set(LWS_OPENSSL_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR})
-            include_directories(${LWS_OPENSSL_INCLUDE_DIRS})
+            
+            if(WIN32)
+                include_directories(${LWS_OPENSSL_INCLUDE_DIRS})
+            endif()
 
             # Force LWS to use OpenSSL
             set(LWS_WITH_SSL ON CACHE BOOL "Use OpenSSL" FORCE)
@@ -597,18 +593,8 @@ if (USE_LIBWEBSOCKETS)
 	endif()
 
     # LibWebSockets
-    if(WIN32)
-        # v3.0 (on fork SHA1 is eaa935a8)
-         #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
-         #set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
-    else()
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
-    endif()
+	set(BC_LWS_DIR lib/libwebsockets)
+	set(BC_LWS_INC ${BC_LWS_DIR}/include)
 
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
