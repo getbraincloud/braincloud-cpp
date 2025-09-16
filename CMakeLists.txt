@@ -537,14 +537,14 @@ if (USE_LIBWEBSOCKETS)
             set(OPENSSL_FOUND 1)
             option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" OFF)
         else()
-            # Point CMake to vcpkg for OpenSSL only
-            find_package(OpenSSL REQUIRED)
-
-            # Include dirs and libraries from vcpkg
-            set(LWS_OPENSSL_LIBRARIES ${OPENSSL_LIBRARIES})
-            set(LWS_OPENSSL_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR})
-            
             if(WIN32)
+                # Point CMake to vcpkg for OpenSSL only
+                find_package(OpenSSL REQUIRED)
+
+                # Include dirs and libraries from vcpkg
+                set(LWS_OPENSSL_LIBRARIES ${OPENSSL_LIBRARIES})
+                set(LWS_OPENSSL_INCLUDE_DIRS ${OPENSSL_INCLUDE_DIR})
+            
                 include_directories(${LWS_OPENSSL_INCLUDE_DIRS})
             endif()
 
@@ -634,7 +634,7 @@ if (USE_LIBWEBSOCKETS)
 
     if(NOT WIN32)
         if(BC_USE_OPENSSL)
-            target_link_libraries(websockets OpenSSL:SSL OpenSSL::Crypto)
+            #target_link_libraries(websockets OpenSSL:SSL OpenSSL::Crypto)
         endif()
     endif()
 
