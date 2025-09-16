@@ -519,6 +519,10 @@ endif()
 
 # android uses openssl instead of tls (pre-built libwebsockets.a is linked above)
 if (USE_LIBWEBSOCKETS)
+	if(POLICY CMP0079)
+	  cmake_policy(SET CMP0079 NEW)
+	endif()
+
     set(LWS_WITH_SSL ON CACHE BOOL "Enable SSL abstraction" FORCE)
     # TLS
     option(ENABLE_TESTING "" OFF)
