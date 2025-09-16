@@ -612,7 +612,7 @@ if (USE_LIBWEBSOCKETS)
 		
 		add_library(bc_mbedtls INTERFACE)
 		target_include_directories(bc_mbedtls INTERFACE ${LWS_MBEDTLS_INCLUDE_DIRS})
-		target_link_libraries(websockets PRIVATE
+		target_link_libraries(websockets
 			bc_mbedtls
 			${LWS_MBEDTLS_LIBRARIES}
 		)
