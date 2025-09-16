@@ -519,10 +519,6 @@ endif()
 
 # android uses openssl instead of tls (pre-built libwebsockets.a is linked above)
 if (USE_LIBWEBSOCKETS)
-	if(POLICY CMP0079)
-	  cmake_policy(SET CMP0079 NEW)
-	endif()
-
     set(LWS_WITH_SSL ON CACHE BOOL "Enable SSL abstraction" FORCE)
     # TLS
     option(ENABLE_TESTING "" OFF)
@@ -530,39 +526,6 @@ if (USE_LIBWEBSOCKETS)
 
     add_compile_definitions(CACERTS_FILE_PATH="${CMAKE_SOURCE_DIR}/resources/cacerts.pem")
     message("CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
-	
-	# LibWebSockets
-    if(WIN32)
-        # v3.0 (on fork SHA1 is eaa935a8)
-         #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
-         #set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
-    else()
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
-    endif()
-	
-    option(LWS_WITHOUT_SERVER
-            "Don't build the server part of the library" ON)
-    option(LWS_WITHOUT_TESTAPPS
-            "Don't build the libwebsocket-test-apps" ON)
-    option(LWS_WITHOUT_TEST_SERVER
-            "Don't build the test server" ON)
-    option(LWS_WITHOUT_TEST_SERVER_EXTPOLL
-            "Don't build the test server version that uses external poll" ON)
-    option(LWS_WITHOUT_TEST_PING
-            "Don't build the ping test application" ON)
-    option(LWS_WITHOUT_TEST_CLIENT
-            "Don't build the client test application" ON)
-    option(LWS_WITH_SHARED
-            "Build the shared version of the library" OFF)
-    option(LWS_WITHOUT_EXTENSIONS "" ON)
-    option(LWS_WITH_TLS "" ON)
-
-	add_subdirectory("${BC_LWS_DIR}")
 
 	if (BC_USE_OPENSSL)
 
@@ -607,16 +570,13 @@ if (USE_LIBWEBSOCKETS)
 		add_subdirectory("${BC_MBEDTLS_DIR}")
 
 		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-		#list(APPEND includes PUBLIC ${BC_MBEDTLS_DIR}/include/)
+		list(APPEND includes PUBLIC ${BC_MBEDTLS_DIR}/include/)
 				
 		set(LWS_WITH_MBEDTLS ON CACHE BOOL "Use MbedTLS" FORCE)
 		
-		set(LWS_MBEDTLS_INCLUDE_DIRS
-			"${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include"
-			CACHE PATH "MbedTLS include dir" FORCE
-		)
+		#set(LWS_MBEDTLS_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include" CACHE PATH "MbedTLS include dir" FORCE)
 		
-		#set(LWS_MBEDTLS_INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include>")
+		set(LWS_MBEDTLS_INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include>")
         if(WIN32)
             #set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedtls.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedcrypto.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedx509.lib")
             set(LWS_MBEDTLS_LIBRARIES
@@ -636,9 +596,38 @@ if (USE_LIBWEBSOCKETS)
 		message("LWS Configured with MBEDTLS")
 	endif()
 
-    
+    # LibWebSockets
+    if(WIN32)
+        # v3.0 (on fork SHA1 is eaa935a8)
+         #set(BC_LWS_DIR lib/lwsv3/libwebsockets)
+         #set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
+         # v4.3-stable (SHA1 is 58af7b44)
+         set(BC_LWS_DIR lib/libwebsockets)
+         set(BC_LWS_INC ${BC_LWS_DIR}/include)
+    else()
+         # v4.3-stable (SHA1 is 58af7b44)
+         set(BC_LWS_DIR lib/libwebsockets)
+         set(BC_LWS_INC ${BC_LWS_DIR}/include)
+    endif()
 
-    
+    option(LWS_WITHOUT_SERVER
+            "Don't build the server part of the library" ON)
+    option(LWS_WITHOUT_TESTAPPS
+            "Don't build the libwebsocket-test-apps" ON)
+    option(LWS_WITHOUT_TEST_SERVER
+            "Don't build the test server" ON)
+    option(LWS_WITHOUT_TEST_SERVER_EXTPOLL
+            "Don't build the test server version that uses external poll" ON)
+    option(LWS_WITHOUT_TEST_PING
+            "Don't build the ping test application" ON)
+    option(LWS_WITHOUT_TEST_CLIENT
+            "Don't build the client test application" ON)
+    option(LWS_WITH_SHARED
+            "Build the shared version of the library" OFF)
+    option(LWS_WITHOUT_EXTENSIONS "" ON)
+    option(LWS_WITH_TLS "" ON)
+
+    add_subdirectory("${BC_LWS_DIR}")
 
     # turn off 'treat warnings as errors' for libwebsockets in msvc solution (errors on 'size_t' as 'int')
     if (MSVC)
