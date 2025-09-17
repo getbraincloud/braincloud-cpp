@@ -10,11 +10,12 @@ https://portal.braincloudservers.com/
 
 ## Build in Visual Studio
 
-Prerequisis:
+Prerequisites:
 
 - git or downloaded zip archive of brainCloud
 - Visual Studio 17 2022. But everything after 2013 should work.
 - CMake https://cmake.org/
+- VCPKG https://vcpkg.io/en/ (If you plan on using OpenSSL on Windows)
 
 Steps (Command lines are done in PowerShell):
 
@@ -53,7 +54,30 @@ Steps (Command lines are done in PowerShell):
    cmake ..
    cmake --build . --target brainCloud
    ```
+   
+   
+## OpenSSL support 
 
+
+   You may also specify the flag `BC_USE_OPENSSL` to use OpenSSL as a TLS backend instead of mbedtls, if you are building with this flag on Windows, this requires that you use the VCPKG toolchain with CMake. 
+   To make things easier, we've provided a CMakePresets.json file so you would just need to use a preset to build with VCPKG.
+   **IMPORTANT**: You must have an environment variable with the label `VCPKG` set up that has the path of your VCPKG installation.
+   
+   #For Windows:
+   
+   Generate the solution like this:
+   ```
+	cmake --preset=windows-default -DBC_USE_OPENSSL=ON ..
+   ```
+   
+   #OpenSSL for Linux or Mac:
+   
+   You do not need VCPKG for this and can simply configure the project like this:
+   ```
+	cmake -DBC_USE_OPENSSL=ON ..
+   ```
+   
+   
 ## Build for Linux or Mac
 
 Prerequisis:
