@@ -448,8 +448,8 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	find_package(ZLIB REQUIRED)  # Use the system zlib
-    include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
+	find_package(ZLIB REQUIRED)
+    include_directories(${ZLIB_INCLUDE_DIR}) 
 
     list(APPEND libs
             ${CURL_LIBRARIES}
@@ -575,11 +575,8 @@ if (USE_LIBWEBSOCKETS)
 				
 		set(LWS_WITH_MBEDTLS ON CACHE BOOL "Use MbedTLS" FORCE)
 		
-		#set(LWS_MBEDTLS_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include" CACHE PATH "MbedTLS include dir" FORCE)
-		
 		set(LWS_MBEDTLS_INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include>")
         if(WIN32)
-            #set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedtls.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedcrypto.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedx509.lib")
             set(LWS_MBEDTLS_LIBRARIES
                     "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/$<CONFIG>/mbedtls.lib"
                     "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/$<CONFIG>/mbedcrypto.lib"
@@ -591,8 +588,6 @@ if (USE_LIBWEBSOCKETS)
         else()
             set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
         endif()
-		
-		#include_directories(${LWS_MBEDTLS_INCLUDE_DIRS})
 		
 		message("LWS Configured with MBEDTLS")
 	endif()
