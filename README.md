@@ -63,14 +63,14 @@ Steps (Command lines are done in PowerShell):
    To make things easier, we've provided a CMakePresets.json file so you would just need to use a preset to build with VCPKG.
    **IMPORTANT**: You must have an environment variable with the label `VCPKG` set up that has the path of your VCPKG installation.
    
-   #For Windows:
+   - For Windows:
    
    Generate the solution like this:
    ```
 	cmake --preset=windows-default -DBC_USE_OPENSSL=ON ..
    ```
    
-   #OpenSSL for Linux or Mac:
+   - OpenSSL for Linux or Mac:
    
    You do not need VCPKG for this and can simply configure the project like this:
    ```
