@@ -20,6 +20,12 @@ else()
     cmake_minimum_required(VERSION 3.0.0)
 endif()
 
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0022 NEW)
+    cmake_policy(SET CMP0079 NEW)
+    cmake_policy(SET CMP0003 NEW)
+endif()
+
 
 # Setup modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
@@ -442,13 +448,14 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	find_package(ZLIB REQUIRED)  # Use the system zlib
-    include_directories(${ZLIB_INCLUDE_DIR})  # Ensure the headers are found
+	find_package(ZLIB REQUIRED)
+    include_directories(${ZLIB_INCLUDE_DIR}) 
 
     list(APPEND libs
             ${CURL_LIBRARIES}
             ${UUID_LIBRARIES}
 			${ZLIB_LIBRARIES})
+			
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
 
@@ -518,9 +525,14 @@ endif()
 
 # android uses openssl instead of tls (pre-built libwebsockets.a is linked above)
 if (USE_LIBWEBSOCKETS)
+    set(LWS_WITH_SSL ON CACHE BOOL "Enable SSL abstraction" FORCE)
     # TLS
     option(ENABLE_TESTING "" OFF)
     option(ENABLE_PROGRAMS "" OFF)
+
+    add_compile_definitions(CACERTS_FILE_PATH="${CMAKE_SOURCE_DIR}/resources/cacerts.pem")
+    message("CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
+
 	if (BC_USE_OPENSSL)
 
         if(ANDROID)
@@ -531,16 +543,22 @@ if (USE_LIBWEBSOCKETS)
             set(OPENSSL_FOUND 1)
             option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" OFF)
         else()
-            set(OPENSSL_USE_STATIC_LIBS TRUE)
+            # Point CMake to vcpkg for OpenSSL only
             find_package(OpenSSL REQUIRED)
-            set(OPENSSL_FOUND 1)
-            set(BC_OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
-            set(OPENSSL_INCLUDE_DIRS "${OPENSSL_INCLUDE_DIR}")
-            include_directories("${BC_OPENSSL_INCLUDE_DIRS}")
-            option(LWS_SSL_CLIENT_USE_OS_CA_CERTS "SSL support should make use of the OS-installed CA root certs" ON)
+
+            # Include dirs and libraries from vcpkg
+            set(LWS_OPENSSL_LIBRARIES $<BUILD_INTERFACE:${OPENSSL_LIBRARIES}>)
+            set(LWS_OPENSSL_INCLUDE_DIRS $<BUILD_INTERFACE:${OPENSSL_INCLUDE_DIR}>)
+            
+            include_directories($<BUILD_INTERFACE:${LWS_OPENSSL_INCLUDE_DIRS}>)
+            
+            # Force LWS to use OpenSSL
+            set(LWS_WITH_SSL ON CACHE BOOL "Use OpenSSL" FORCE)
+            set(LWS_WITH_MBEDTLS OFF CACHE BOOL "Disable MbedTLS" FORCE)
         endif()
 
         option(LWS_WITH_SSL "Include SSL support (defaults to OpenSSL)" ON)
+        option(LWS_WITH_MBEDTLS "Disable MbedTLS" OFF)
 
 	else()
 		# TLS
@@ -553,29 +571,30 @@ if (USE_LIBWEBSOCKETS)
 		add_subdirectory("${BC_MBEDTLS_DIR}")
 
 		list(APPEND libs PUBLIC mbedtls mbedx509 mbedcrypto)
-		list(APPEND includes
-				PUBLIC ${BC_MBEDTLS_DIR}/include/)
-		option(LWS_WITH_MBEDTLS "" ON)
+		list(APPEND includes PUBLIC ${BC_MBEDTLS_DIR}/include/)
+				
+		set(LWS_WITH_MBEDTLS ON CACHE BOOL "Use MbedTLS" FORCE)
+		
 		set(LWS_MBEDTLS_INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${BC_MBEDTLS_DIR}/include>")
         if(WIN32)
-            set(LWS_MBEDTLS_LIBRARIES "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedtls.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedcrypto.lib;${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/${CMAKE_BUILD_TYPE}/mbedx509.lib")
+            set(LWS_MBEDTLS_LIBRARIES
+                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/$<CONFIG>/mbedtls.lib"
+                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/$<CONFIG>/mbedcrypto.lib"
+                    "${CMAKE_CURRENT_BINARY_DIR}/${BC_MBEDTLS_DIR}/library/$<CONFIG>/mbedx509.lib"
+                    CACHE STRING "MbedTLS libraries" FORCE
+                )
         elseif(XCODE)
             set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/$CONFIGURATION$EFFECTIVE_PLATFORM_NAME/libmbedx509.a")
         else()
             set(LWS_MBEDTLS_LIBRARIES "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedtls.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedcrypto.a;$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/${BC_MBEDTLS_DIR}/library/libmbedx509.a")
         endif()
+		
+		message("LWS Configured with MBEDTLS")
 	endif()
 
     # LibWebSockets
-    if(WIN32)
-        # v3.0 (on fork SHA1 is eaa935a8)
-         set(BC_LWS_DIR lib/lwsv3/libwebsockets)
-         set(BC_LWS_INC "${CMAKE_CURRENT_BINARY_DIR}/${BC_LWS_DIR}/include")
-    else()
-         # v4.3-stable (SHA1 is 58af7b44)
-         set(BC_LWS_DIR lib/libwebsockets)
-         set(BC_LWS_INC ${BC_LWS_DIR}/include)
-    endif()
+	set(BC_LWS_DIR lib/libwebsockets)
+	set(BC_LWS_INC ${BC_LWS_DIR}/include)
 
     option(LWS_WITHOUT_SERVER
             "Don't build the server part of the library" ON)
@@ -612,6 +631,7 @@ if (USE_LIBWEBSOCKETS)
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         target_compile_options(websockets PRIVATE -Wno-typedef-redefinition)
     endif()
+
 
     list(APPEND libs websockets)
     list(APPEND includes

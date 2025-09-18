@@ -10,6 +10,7 @@
 #include "braincloud/internal/IWebSocket.h"
 
 #include <libwebsockets.h>
+#include <lws_config.h>
 
 #if defined(BC_MBEDTLS_OFF)
 #include <openssl/x509.h>
@@ -51,9 +52,6 @@ namespace BrainCloud
         DefaultWebSocket(const std::string& address, int port, const std::map<std::string, std::string>& headers);
 
     private:
-#if !defined(BC_SSL_ALLOW_SELFSIGNED)
-        void InitializeSSLCertificates() const;
-#endif
         void onClose();
         void onError(const char* msg);
         void onConnect();

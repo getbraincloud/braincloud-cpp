@@ -3,6 +3,7 @@
 #include "TestResult.h"
 #include "TestBCGroupFile.h"
 #include <vector>
+#include <inttypes.h>
 #include <chrono>
 
 //#define UPLOAD_TIMEOUT_SECS 30
@@ -423,7 +424,8 @@ bool TestBCGroupFile::simpleUpload(BrainCloudClient* client, int mb, const std::
         int64_t transferred = client->getFileService()->getUploadBytesTransferred(out_uploadId.c_str());
         int64_t total = client->getFileService()->getUploadTotalBytesToTransfer(out_uploadId.c_str());
         double progress = client->getFileService()->getUploadProgress(out_uploadId.c_str());
-        printf("%lld transfered %lld total %f progress\n", transferred, total, progress);
+        printf("%" PRId64 " transferred %" PRId64 " total %f progress\n",
+            transferred, total, progress);
     }
     client->deregisterFileUploadCallback();
     delete uploadCallback;

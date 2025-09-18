@@ -1,0 +1,35 @@
+{
+  "version": 5,
+  "configurePresets": [
+    {
+		"name": "windows-default",
+		"displayName": "Windows x64 Debug",
+		"description": "Sets VS2022 generator, compilers, x64 architecture, build and install directory, debug build type",
+		"generator": "Visual Studio 17 2022",
+		"binaryDir": "${sourceDir}/build",
+		"architecture": {
+			"value": "x64",
+			"strategy": "external"
+		},
+		"cacheVariables": {
+			"CMAKE_BUILD_TYPE":"Debug",
+			"CMAKE_TOOLCHAIN_FILE": "$env{VCPKG}/scripts/buildsystems/vcpkg.cmake",
+			"CMAKE_C_COMPILER": "cl",
+			"CMAKE_CXX_COMPILER": "cl"
+		},
+		"vendor": {
+			"microsoft.com/VisualStudioSettings/CMake/1.30": {
+				"hostOS": [ "Windows" ]
+			}
+		}
+    },
+	{
+		"name": "unix-default",
+		"displayName": "Linux Debug",
+		"cacheVariables": {
+			"CMAKE_BUILD_TYPE":"Debug",
+			"CMAKE_TOOLCHAIN_FILE": "$env{VCPKG}/scripts/buildsystems/vcpkg.cmake"
+		}
+	}
+  ]
+}
