@@ -2,6 +2,7 @@
 #include "braincloud/BrainCloudClient.h"
 #include "TestResult.h"
 #include "TestBCFile.h"
+#include <inttypes.h>
 #include "braincloud/http_codes.h"
 #include "braincloud/reason_codes.h"
 
@@ -46,7 +47,8 @@ bool TestBCFile::simpleUpload(int mb, const std::string & cloudPath, const std::
         int64_t transferred = m_bc->getFileService()->getUploadBytesTransferred(out_uploadId.c_str());
         int64_t total = m_bc->getFileService()->getUploadTotalBytesToTransfer(out_uploadId.c_str());
         double progress = m_bc->getFileService()->getUploadProgress(out_uploadId.c_str());
-        printf("%lld transfered %lld total %f progress\n", transferred, total, progress);
+        printf("%" PRId64 " transferred %" PRId64 " total %f progress\n",
+            transferred, total, progress);
 
         m_bc->runCallbacks();
         TestResult::sleep(SLEEP_INTERVAL_MS);
@@ -114,7 +116,8 @@ TEST_F(TestBCFile, UploadSimpleFileAndCancel)
         int64_t transferred = m_bc->getFileService()->getUploadBytesTransferred(uploadId.c_str());
         int64_t total = m_bc->getFileService()->getUploadTotalBytesToTransfer(uploadId.c_str());
         double progress = m_bc->getFileService()->getUploadProgress(uploadId.c_str());
-        printf("%lld transfered %lld total %f progress\n", transferred, total, progress);
+        printf("%" PRId64 " transferred %" PRId64 " total %f progress\n",
+            transferred, total, progress);
         
         if (transferred > 0)
         {
@@ -184,7 +187,8 @@ TEST_F(TestBCFile, UploadMultipleFiles)
             double progress = m_bc->getFileService()->getUploadProgress(uploadIds[i].c_str());
             if (transferred >= 0)
             {
-                printf("File%d %lld transfered %lld total %f progress\n", i+1, transferred, total, progress);
+                printf("File %d %" PRId64 " transferred %" PRId64 " total %f progress\n",
+                    i+1, transferred, total, progress);
             }
         }
         
