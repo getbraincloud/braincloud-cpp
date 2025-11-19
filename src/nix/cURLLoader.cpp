@@ -424,7 +424,7 @@ namespace BrainCloud
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 30L);
 			
 			//Avoid false stalls
-			curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 0)
+			curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 0);
 
             // Only set timeout if it's not 0.
             if (_timeoutInterval)
