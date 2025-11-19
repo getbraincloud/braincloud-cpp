@@ -38,7 +38,7 @@ namespace BrainCloud
     }
 
     bool cURLLoader::_initialized = false;
-    long cURLLoader::_timeoutInterval = 5000;
+    long cURLLoader::_timeoutInterval = 2000;
 
     /**
      * Constructor
@@ -76,11 +76,14 @@ namespace BrainCloud
         if (_threadRunning)
         {
             // close socket directly to kill the curl request more quickly (WAT !??)
+			// Let's try not doing that to see if it fixes the timeout issues on Linux -Nick
 #ifndef WIN32
+			/*
             if (_socket >= 0)
             {
                 ::close(_socket);
             }
+			*/
 #else
             if (_socket != INVALID_SOCKET)
             {
@@ -383,7 +386,6 @@ namespace BrainCloud
                 headers = curl_slist_append(headers, headerLine.c_str());
             }  // end for
 
-
             // Content Type (special header)
             std::string contentType = "Content-Type: ";
             contentType.append(loader->getRequest().getContentType());
@@ -416,20 +418,20 @@ namespace BrainCloud
             //curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 			
-			//Disable connection reuse
-			curl_easy_setopt(curl, CURLOPT_FORBID_REUSE, 1L);
-			
 			//Enable keep alive
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPIDLE, 30L);
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 30L);
+			
+			//Avoid false stalls
+			curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 0)
 
             // Only set timeout if it's not 0.
             if (_timeoutInterval)
             {
                 curl_easy_setopt(curl, CURLOPT_NOSIGNAL, (long)1);
                 curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, _timeoutInterval);
-				curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 10000);
+				curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, _timeoutInterval);
             }
 
             // Determine the type of request being made.
