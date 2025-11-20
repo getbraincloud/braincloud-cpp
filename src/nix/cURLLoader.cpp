@@ -48,7 +48,7 @@ namespace BrainCloud
 
     cURLLoader::cURLLoader()
     {
-        _threadRunning.store(false)
+        _threadRunning.store(false);
 #ifndef WIN32
         _socket = -1;
 #else
