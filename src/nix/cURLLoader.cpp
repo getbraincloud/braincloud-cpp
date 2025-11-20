@@ -1,4 +1,3 @@
-#include "cURLLoader.h"
 #ifdef __APPLE__
 #include <TargetConditionals.h>
 #endif 
@@ -15,8 +14,8 @@
 #include <cctype>
 
 #ifdef HG_PLATFORM_BB
-#include <stdio.h>
-#include <ctype.h>
+    #include <stdio.h>
+    #include <ctype.h>
 #endif
 
 #include "curl/curl.h"
@@ -60,7 +59,7 @@ namespace BrainCloud
         memset(&_threadId, 0, sizeof(pthread_t));
         memset(&_threadAttributes, 0, sizeof(_threadAttributes));
 #endif
-        printCurlVersion();
+		printCurlVersion();
     }
 
     cURLLoader::~cURLLoader()
@@ -91,7 +90,7 @@ namespace BrainCloud
      *
      * @param urlRequest - HTTP Request
      */
-    void cURLLoader::load(URLRequest const& urlRequest)
+    void cURLLoader::load(URLRequest const & urlRequest)
     {
         // Assume the specified URL in the request is valid.
         setRequest(urlRequest);
@@ -161,12 +160,12 @@ namespace BrainCloud
      * @return int - number of characters received (should equal size * nmemb)
      */
     size_t cURLLoader::writeData(
-        char* toWrite,
+        char * toWrite,
         size_t size,
         size_t nmemb,
-        void* data)
+        void * data)
     {
-        cURLLoader* loader = (cURLLoader*)data;
+        cURLLoader * loader = (cURLLoader*)data;
 
         // What we will return
         size_t result = 0;
@@ -195,16 +194,16 @@ namespace BrainCloud
      * @param response - pointer to the object to receive the response
      */
     size_t cURLLoader::writeHeader(
-        char* line,
+        char * line,
         size_t size,
         size_t nmemb,
-        void* data)
+        void * data)
     {
-        cURLLoader* loader = (cURLLoader*)data;
+        cURLLoader * loader = (cURLLoader*)data;
         size_t num_processed = 0;   // Number of bytes processed for this header
-        // -1 means terminate URL request with an error
+                                    // -1 means terminate URL request with an error
 
-// Check for a valid response object.
+        // Check for a valid response object.
         if (loader != NULL)
         {
             // Parse the header line for Header: Value
@@ -245,14 +244,14 @@ namespace BrainCloud
      *
      * @param urlLoader - pointer to the object which is loading the web page
      */
-    void* cURLLoader::loadThread(void* urlLoader)
+    void * cURLLoader::loadThread(void * urlLoader)
     {
         // This is the starting point of a new thread.
         // A pointer to the object should have been passed as urlLoader.
         // Verify the pointer.
         if (urlLoader != NULL)
         {
-            cURLLoader* loader = reinterpret_cast<cURLLoader*>(urlLoader);
+            cURLLoader * loader = reinterpret_cast<cURLLoader *>(urlLoader);
             loadThreadCurl(loader);
         }
 
@@ -326,9 +325,9 @@ namespace BrainCloud
     }
     */
 
-    curl_socket_t cURLLoader::openSocket(void* data, curlsocktype purpose, struct curl_sockaddr* addr)
+    curl_socket_t cURLLoader::openSocket(void *data, curlsocktype purpose, struct curl_sockaddr *addr)
     {
-        cURLLoader* loader = (cURLLoader*)data;
+        cURLLoader * loader = (cURLLoader*)data;
         loader->_socket = socket(addr->family, addr->socktype, addr->protocol);
         return loader->_socket;
     }
@@ -349,9 +348,9 @@ namespace BrainCloud
      * Use libCurl to load up the web page.
      * @param loader - pointer to the object which is loading the web page
      */
-    void cURLLoader::loadThreadCurl(cURLLoader* loader)
+    void cURLLoader::loadThreadCurl(cURLLoader * loader)
     {
-        CURL* curl = curl_easy_init();
+        CURL * curl = curl_easy_init();
 
         if (curl != NULL)
         {
@@ -362,7 +361,7 @@ namespace BrainCloud
             curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, curlError);
 
             // Set the headers.
-            struct curl_slist* headers = NULL;
+            struct curl_slist * headers = NULL;
 
             std::vector<URLRequestHeader> h = loader->getRequest().getHeaders();
             for (std::string::size_type i = 0; i < h.size(); i++)
@@ -404,14 +403,14 @@ namespace BrainCloud
 
             //curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-
-            //Enable keep alive
-            curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
-            curl_easy_setopt(curl, CURLOPT_TCP_KEEPIDLE, 30L);
-            curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 30L);
-
-            //Avoid false stalls
-            curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 0);
+			
+			//Enable keep alive
+			curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
+			curl_easy_setopt(curl, CURLOPT_TCP_KEEPIDLE, 30L);
+			curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 30L);
+			
+			//Avoid false stalls
+			curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, 0);
 
             //This avoids manually closing sockets and allows libcurl to cancel cleanly when _threadRunning is false
             curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
@@ -423,7 +422,7 @@ namespace BrainCloud
             {
                 curl_easy_setopt(curl, CURLOPT_NOSIGNAL, (long)1);
                 curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, _timeoutInterval);
-                curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, _timeoutInterval);
+				curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, _timeoutInterval);
             }
 
             // Determine the type of request being made.
@@ -531,29 +530,29 @@ namespace BrainCloud
 
         return loader->_threadRunning.load(std::memory_order_acquire) ? 0 : 1;
     }
+	
+	void cURLLoader::printCurlVersion()
+	{
+		curl_version_info_data *info = curl_version_info(CURLVERSION_NOW);
 
-    void cURLLoader::printCurlVersion()
-    {
-        curl_version_info_data* info = curl_version_info(CURLVERSION_NOW);
+		std::cout << "libcurl version: " << info->version << std::endl;
+		std::cout << "SSL version: " << (info->ssl_version ? info->ssl_version : "none") << std::endl;
+		std::cout << "libz version: " << (info->libz_version ? info->libz_version : "none") << std::endl;
 
-        std::cout << "libcurl version: " << info->version << std::endl;
-        std::cout << "SSL version: " << (info->ssl_version ? info->ssl_version : "none") << std::endl;
-        std::cout << "libz version: " << (info->libz_version ? info->libz_version : "none") << std::endl;
-
-        if (info->protocols)
-        {
-            std::cout << "Supported protocols: ";
-            for (const char* const* proto = info->protocols; *proto; ++proto)
-            {
-                std::cout << *proto << " ";
-            }
-            std::cout << std::endl;
-        }
-
+		if (info->protocols)
+		{
+			std::cout << "Supported protocols: ";
+			for (const char *const *proto = info->protocols; *proto; ++proto)
+			{
+				std::cout << *proto << " ";
+			}
+			std::cout << std::endl;
+		}
+		
 #if defined(USE_PTHREAD)
-        std::cout << "glibc version: " << gnu_get_libc_version() << std::endl;
+		std::cout << "glibc version: " << gnu_get_libc_version() << std::endl;
 #endif
-    }
+	}
 }
 
 #endif
