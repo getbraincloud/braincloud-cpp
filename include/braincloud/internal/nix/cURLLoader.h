@@ -70,7 +70,7 @@ namespace BrainCloud
 
         static void     loadThreadCurl(cURLLoader*);
 
-        int xferInfoCallback(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow);
+        static int xferInfoCallback(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow);
 
         static curl_socket_t openSocket(void* data, curlsocktype purpose, struct curl_sockaddr* addr);
         static size_t   readData(char*, size_t, size_t, void*);

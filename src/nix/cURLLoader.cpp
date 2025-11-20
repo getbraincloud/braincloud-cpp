@@ -526,9 +526,13 @@ namespace BrainCloud
     int cURLLoader::xferInfoCallback(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
     {
         cURLLoader* loader = static_cast<cURLLoader*>(clientp);
-        if (!loader) return 1; // abort if null
+        if (!loader) return 1; // non-zero aborts
 
-        return loader->_threadRunning.load(std::memory_order_acquire) ? 0 : 1;
+        // If the loader is no longer running, abort the transfer
+        if (!loader->_threadRunning.load(std::memory_order_acquire))
+            return 1;
+
+        return 0;
     }
 	
 	void cURLLoader::printCurlVersion()
