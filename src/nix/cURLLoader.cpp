@@ -267,3 +267,5 @@ void cURLLoader::printCurlVersion()
 	}
 }
 #endif
+
+#endif //TARGET_OS_WATCH
