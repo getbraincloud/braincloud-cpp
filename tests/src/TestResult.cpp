@@ -42,7 +42,7 @@
 
 #endif
 
-#define MAX_WAIT_SECS 60
+#define MAX_WAIT_SECS 5
 
 TestResult::TestResult()
 {
@@ -84,7 +84,7 @@ void TestResult::sleep(int millis)
 void TestResult::sleepAndUpdate(BrainCloudClient * in_bc)
 {
     long maxWaitMs = m_maxWaitMillis > 0 ? m_maxWaitMillis : MAX_WAIT_SECS * 1000;
-    long sleepSliceMs = 50;
+    long sleepSliceMs = 500;
     while (!m_done && maxWaitMs > 0)
     {
         in_bc->runCallbacks();
