@@ -73,13 +73,30 @@ cURLLoader::~cURLLoader()
 }
 
 void cURLLoader::close()
-if (_threadRunning.load())
 {
-	// try joining (blocks until thread exits); thread will check cancel flag
-	pthread_join(_threadId, nullptr);
-}
+	// Signal cancel
+	_cancelRequested.store(true);
+
+
+	// Wait for thread to clear _threadRunning (bounded wait)
+	const int maxWaitMs = 5000;
+	int waited = 0;
+	while (_threadRunning.load() && waited < maxWaitMs)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		waited += 10;
+	}
+
+
+	// If we still have a running thread, join it (pthreads or std::thread)
+#if defined(USE_PTHREAD)
+	if (_threadRunning.load())
+	{
+		// try joining (blocks until thread exits); thread will check cancel flag
+		pthread_join(_threadId, nullptr);
+	}
 #else
-if (_thread.joinable()) _thread.join();
+	if (_thread.joinable()) _thread.join();
 #endif
 }
 
@@ -250,6 +267,3 @@ void cURLLoader::printCurlVersion()
 	}
 }
 #endif
-
-
-#endif // TARGET_OS_WATCH
