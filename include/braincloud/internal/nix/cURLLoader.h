@@ -3,7 +3,6 @@
 //  GameClientLib
 //
 
-
 #ifndef _CURLLOADER_H_
 #define _CURLLOADER_H_
 
@@ -12,94 +11,93 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #else
-    #include <WinSock2.h>
-    #include <Windows.h>
-    #if defined(USE_PTHREAD)
-        // compilers later than vs2010 define the timespec struct
-        #if (_MSC_VER > 1600)
-            #define HAVE_STRUCT_TIMESPEC 1
-        #endif
-    #endif
+#include <WinSock2.h>
+#include <Windows.h>
 #endif
 
-#if defined(USE_PTHREAD)
-#include <pthread.h>
-#else
 #include <atomic>
-#endif
-
 #include <string>
 
 #include "braincloud/internal/URLLoader.h"
 #include "curl/curl.h"
 
+#if defined(USE_PTHREAD)
+#include <pthread.h>
+#else
+#include <thread>
+#endif
+
 namespace BrainCloud
 {
-    class cURLLoader : virtual public URLLoader
-    {
-    public:
-        // Destructor
-        virtual ~cURLLoader();
+	class cURLLoader : virtual public URLLoader
+	{
+	public:
+		virtual ~cURLLoader();
 
-        // Override the pure virtual methods.
-        virtual void    close();
-        virtual void    load(URLRequest const &);
-        virtual void    load(URLRequest const * r) { if (r != NULL) load(*r); }
-        virtual bool    isDone();
 
-        /*
-         Time in milliseconds that you allow the libcurl transfer operation to take.
-         Normally, name lookups can take a considerable time and limiting operations to less than a few minutes
-         risk aborting perfectly normal operations. This option will cause curl to use the SIGALRM to enable time-outing
-         system calls.
+		// Async, non-blocking: starts background request and returns immediately.
+		virtual void load(URLRequest const& req);
+		virtual void load(URLRequest const* r) { if (r) load(*r); }
 
-         If libcurl is built to use the standard system name resolver,
-         that portion of the transfer will still use full-second resolution for timeouts with a minimum timeout
-         allowed of one second. (Added in 7.16.2)
-         */
-        virtual void setTimeout(int milliseconds) { _timeoutInterval = milliseconds; }
 
-    protected:
-        friend class URLLoader;
+		// request cancellation / close
+		virtual void close();
 
-        // Constructors
-        cURLLoader();
 
-    private:
-        static void     * loadThread(void *);
+		virtual bool isDone();
 
-        static void     loadThreadCurl(cURLLoader *);
 
-        static curl_socket_t openSocket(void *data, curlsocktype purpose, struct curl_sockaddr *addr);
-        static size_t   readData(char *, size_t, size_t, void *);
-        static size_t   writeData(char *, size_t, size_t, void *);
-        static size_t   writeHeader(char *, size_t, size_t, void *);
+		// Timeout in milliseconds (0 = no timeout)
+		virtual void setTimeout(int milliseconds) { _timeoutInterval = milliseconds; }
 
-        static bool     _initialized;
-        static long     _timeoutInterval;
+
+	protected:
+		friend class URLLoader;
+		cURLLoader();
+
+
+	private:
+		// thread entry (same signature for pthread or std::thread wrapper)
+		static void* threadEntry(void* arg);
+		static void loadThreadCurl(cURLLoader* loader);
+
+
+		// libcurl callbacks
+		static curl_socket_t openSocket(void* data, curlsocktype purpose, struct curl_sockaddr* addr);
+		static size_t writeData(char* ptr, size_t size, size_t nmemb, void* userdata);
+		static size_t writeHeader(char* ptr, size_t size, size_t nmemb, void* userdata);
+		static int xfer_info_cb(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow);
+
+
+		// helpers
+		static bool _initialized;
+		static long _timeoutInterval; // ms
+
+
+		// thread control - always atomics for thread-safety
+		std::atomic<bool> _threadRunning{ false };
+		std::atomic<bool> _cancelRequested{ false };
+
 
 #if defined(USE_PTHREAD)
-        pthread_attr_t  _threadAttributes;
-        pthread_t       _threadId;
-#endif
-
-#if defined(USE_PTHREAD) // We should use atomics also in pthread, but I'd rather not touch the behavior of the old code. At least putting it volatlie
-        volatile bool   _threadRunning;
+		pthread_t _threadId;
+		pthread_attr_t _threadAttr;
 #else
-        std::atomic<bool> _threadRunning;
+		std::thread _thread;
 #endif
 
-#if ( defined(GAMECLIENT_DEBUGLEVEL)  &&  GAMECLIENT_DEBUGLEVEL > 0 )
+
+#if ( defined(GAMECLIENT_DEBUGLEVEL) && GAMECLIENT_DEBUGLEVEL > 0 )
 		void printCurlVersion();
 #endif
 
-#ifndef WIN32
-        int             _socket;
-#else
-        SOCKET          _socket;
-#endif
-    };
-}
 
+#ifndef WIN32
+		int _socket{ -1 };
+#else
+		SOCKET _socket{ INVALID_SOCKET };
+#endif
+	};
+}
 
 #endif  // _CURLLOADER_H_
