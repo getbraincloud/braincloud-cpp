@@ -441,12 +441,11 @@ elseif (LINUX)
     #find_package(CURL REQUIRED)
 	find_package(httplib CONFIG REQUIRED)
 	find_package(OpenSSL REQUIRED)
+	find_package(unofficial-brotli CONFIG REQUIRED)
 
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 	
-	find_package(ZLIB REQUIRED)
-    include_directories(${ZLIB_INCLUDE_DIR}) 
 
     list(APPEND libs
             OpenSSL::SSL
