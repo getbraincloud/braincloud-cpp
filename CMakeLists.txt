@@ -135,13 +135,9 @@ elseif (MSVC AND NOT USE_CURL_WIN)
             "src/win/XMLHTTPRequestPinger.cpp")
 else()
     list(APPEND OS_SPECIFIC_INCS
-            "include/braincloud/internal/nix/cURLFileUploader.h"
-            "include/braincloud/internal/nix/cURLLoader.h"
-            "include/braincloud/internal/nix/cURLPinger.h")
+            "include/braincloud/internal/nix/HTTPURLLoader.h")
     list(APPEND OS_SPECIFIC_SRCS
-            "src/nix/cURLFileUploader.cpp"
-            "src/nix/cURLLoader.cpp"
-            "src/nix/cURLPinger.cpp")
+            "src/nix/HTTPURLLoader.cpp")
 endif()
 
 # Sockets
@@ -442,7 +438,9 @@ if (APPLE)
             ${BC_SECURITY_LIB}
 			${BC_Z_LIB})
 elseif (LINUX)
-    find_package(CURL REQUIRED)
+    #find_package(CURL REQUIRED)
+	find_package(httplib CONFIG REQUIRED)
+	find_package(OpenSSL REQUIRED)
 
     find_package(UUID REQUIRED)
     list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
@@ -451,10 +449,9 @@ elseif (LINUX)
     include_directories(${ZLIB_INCLUDE_DIR}) 
 
     list(APPEND libs
-            ${CURL_LIBRARIES}
-            ${UUID_LIBRARIES}
-			${ZLIB_LIBRARIES}
-			CURL::libcurl)
+            OpenSSL::SSL
+			OpenSSL::Crypto
+			httplib::httplib)
 			
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
