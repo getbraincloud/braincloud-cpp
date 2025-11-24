@@ -1,6 +1,6 @@
 #include "braincloud/internal/nix/HTTPURLLoader.h"
 #include "braincloud/internal/URLRequestMethod.h"
-#include "URLRequestHeader.h"
+#include "braincloud/internal/URLRequestHeader.h"
 #include <chrono>
 
 using namespace std::chrono;

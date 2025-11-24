@@ -5,6 +5,7 @@
 #include <atomic>
 #include <memory>
 #include "braincloud/internal/URLLoader.h"
+#include "braincloud/internal/URLRequest.h"
 #include "httplib.h"
 
 namespace BrainCloud
