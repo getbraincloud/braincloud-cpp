@@ -1,5 +1,4 @@
 {
-  "version": 5,
   "configurePresets": [
     {
 		"name": "windows-default",
