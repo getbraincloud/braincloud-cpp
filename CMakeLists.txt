@@ -136,8 +136,12 @@ elseif (MSVC AND NOT USE_CURL_WIN)
 else()
     list(APPEND OS_SPECIFIC_INCS
             "include/braincloud/internal/nix/HTTPURLLoader.h")
+            "include/braincloud/internal/nix/HTTPPinger.h")
+            "include/braincloud/internal/nix/HTTPFileUploader.h")
     list(APPEND OS_SPECIFIC_SRCS
             "src/nix/HTTPURLLoader.cpp")
+            "src/nix/HTTPPinger.cpp")
+            "src/nix/HTTPFileUploader.cpp")
 endif()
 
 # Sockets
@@ -450,7 +454,8 @@ elseif (LINUX)
     list(APPEND libs
             OpenSSL::SSL
 			OpenSSL::Crypto
-			httplib::httplib)
+			httplib::httplib
+			)
 			
 elseif (ANDROID)
     list(APPEND includes PUBLIC "lib/android/include/")
