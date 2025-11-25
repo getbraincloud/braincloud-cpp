@@ -5,6 +5,7 @@
 
 #include <chrono>
 #include <stdexcept>
+#include <httplib.h>
 
 using namespace std::chrono;
 
@@ -93,148 +94,126 @@ namespace BrainCloud
     }
 
     void HTTPURLLoader::runRequest()
-    {
-        const URLRequest& req = getRequest();
-        URLResponse& res = getResponse();
+	{
+		const URLRequest& req = getRequest();
+		URLResponse& res = getResponse();
 
-        std::string scheme, host, path;
-        int port;
-        split_scheme_host_path(req.getUrl(), scheme, host, path, port);
+		std::string scheme, host, path;
+		int port;
+		split_scheme_host_path(req.getUrl(), scheme, host, path, port);
 
-        // headers
-        httplib::Headers headers;
-        for (auto& h : req.getHeaders()) {
-            headers.emplace(h.getName(), h.getValue());
-        }
-        if (!req.getUserAgent().empty())
-            headers.emplace("User-Agent", req.getUserAgent());
-        if (!req.getContentType().empty())
-            headers.emplace("Content-Type", req.getContentType());
+		// headers
+		httplib::Headers headers;
+		for (auto& h : req.getHeaders())
+			headers.emplace(h.getName(), h.getValue());
 
-        // timeout
-        auto sec = std::chrono::seconds(_timeoutMs / 1000);
-        auto usec = std::chrono::microseconds((_timeoutMs % 1000) * 1000);
+		if (!req.getUserAgent().empty())
+			headers.emplace("User-Agent", req.getUserAgent());
 
-        httplib::Result result;
+		if (!req.getContentType().empty())
+			headers.emplace("Content-Type", req.getContentType());
 
-        try {
-            // ------------------------------
-            // HTTPS client
-            // ------------------------------
-            if (scheme == "https") {
-#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-                _sslClient = std::make_unique<httplib::SSLClient>(host.c_str(), port);
-                _sslClient->set_read_timeout(sec.count(), usec.count());
-                _sslClient->set_write_timeout(sec.count(), usec.count());
+		// timeouts
+		auto sec = std::chrono::seconds(_timeoutMs / 1000);
+		auto usec = std::chrono::microseconds((_timeoutMs % 1000) * 1000);
 
-                if (req.getMethod() == URLRequestMethod::GET) {
-                    std::string full = path;
-                    if (!req.getData().empty())
-                        full += "?" + req.getData();
+		// This is the correct type
+		httplib::Result result;
 
-                    result = _sslClient->Get(full.c_str(), headers);
-                }
-                else if (req.getMethod() == URLRequestMethod::POST) {
-                    result = _sslClient->Post(
-                        path.c_str(),
-                        headers,
-                        req.getData(),
-                        req.getContentType().c_str()
-                    );
-                }
-                else if (req.getMethod() == URLRequestMethod::PUT) {
-                    result = _sslClient->Put(
-                        path.c_str(),
-                        headers,
-                        req.getData(),
-                        req.getContentType().c_str()
-                    );
-                }
-#else
-                res.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
-                res.setReasonPhrase("HTTPS request attempted but SSL is not enabled in httplib build");
-                _threadRunning.store(false);
-                return;
-#endif
-            }
-            // ------------------------------
-            // HTTP client
-            // ------------------------------
-            else {
-                _client = std::make_unique<httplib::Client>(host.c_str(), port);
-                _client->set_read_timeout(sec.count(), usec.count());
-                _client->set_write_timeout(sec.count(), usec.count());
+		try {
+			// HTTPS
+			if (scheme == "https") {
+	#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+				_sslClient = std::make_unique<httplib::SSLClient>(host.c_str(), port);
+				_sslClient->set_read_timeout(sec.count(), usec.count());
+				_sslClient->set_write_timeout(sec.count(), usec.count());
 
-                if (req.getMethod() == URLRequestMethod::GET) {
-                    std::string full = path;
-                    if (!req.getData().empty())
-                        full += "?" + req.getData();
+				if (req.getMethod() == URLRequestMethod::GET) {
+					std::string full = path;
+					if (!req.getData().empty())
+						full += "?" + req.getData();
+					result = _sslClient->Get(full.c_str(), headers);
+				}
+				else if (req.getMethod() == URLRequestMethod::POST) {
+					result = _sslClient->Post(path.c_str(),
+						headers, req.getData(), req.getContentType().c_str());
+				}
+				else if (req.getMethod() == URLRequestMethod::PUT) {
+					result = _sslClient->Put(path.c_str(),
+						headers, req.getData(), req.getContentType().c_str());
+				}
+	#else
+				res.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
+				res.setReasonPhrase("HTTPS request attempted but SSL disabled");
+				_threadRunning.store(false);
+				return;
+	#endif
+			}
 
-                    result = _client->Get(full.c_str(), headers);
-                }
-                else if (req.getMethod() == URLRequestMethod::POST) {
-                    result = _client->Post(
-                        path.c_str(),
-                        headers,
-                        req.getData(),
-                        req.getContentType().c_str()
-                    );
-                }
-                else if (req.getMethod() == URLRequestMethod::PUT) {
-                    result = _client->Put(
-                        path.c_str(),
-                        headers,
-                        req.getData(),
-                        req.getContentType().c_str()
-                    );
-                }
-            }
+			// HTTP
+			else {
+				_client = std::make_unique<httplib::Client>(host.c_str(), port);
+				_client->set_read_timeout(sec.count(), usec.count());
+				_client->set_write_timeout(sec.count(), usec.count());
 
-            // ------------------------------
-            // Handle cancellation
-            // ------------------------------
-            if (_cancelRequested.load()) {
-                res.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
-                res.setReasonPhrase("Cancelled");
-            }
-            // ------------------------------
-            // Handle network error
-            // ------------------------------
-            else if (!result) {
-                res.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
-                res.setReasonPhrase(httplib::to_string(result.error()));
-            }
-            // ------------------------------
-            // Successful response
-            // ------------------------------
-            else {
-                auto response = result.value();
-                res.setStatusCode(static_cast<unsigned short>(response->status));
-                res.setData(response->body);
+				if (req.getMethod() == URLRequestMethod::GET) {
+					std::string full = path;
+					if (!req.getData().empty())
+						full += "?" + req.getData();
+					result = _client->Get(full.c_str(), headers);
+				}
+				else if (req.getMethod() == URLRequestMethod::POST) {
+					result = _client->Post(path.c_str(),
+						headers, req.getData(), req.getContentType().c_str());
+				}
+				else if (req.getMethod() == URLRequestMethod::PUT) {
+					result = _client->Put(path.c_str(),
+						headers, req.getData(), req.getContentType().c_str());
+				}
+			}
 
-                for (auto& h : response->headers) {
-                    res.addHeader(URLRequestHeader(h.first, h.second));
-                }
-            }
-        }
-        catch (const std::exception& e) {
-            res.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
-            res.setReasonPhrase(e.what());
-        }
+			// Cancellation
+			if (_cancelRequested.load()) {
+				res.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
+				res.setReasonPhrase("Cancelled");
+			}
 
-        // cleanup
-        if (_client) {
-            _client->stop();
-            _client.reset();
-        }
+			// Network failure
+			else if (!result) {
+				res.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
+				res.setReasonPhrase(httplib::to_string(result.error()));
+			}
 
-#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-        if (_sslClient) {
-            _sslClient->stop();
-            _sslClient.reset();
-        }
-#endif
+			// Success
+			else {
+				// result.value() -> shared_ptr<httplib::Response>
+				auto response = result.value();
 
-        _threadRunning.store(false);
-    }
+				res.setStatusCode(static_cast<unsigned short>(response->status));
+				res.setData(response->body);
+
+				for (auto& h : response->headers)
+					res.addHeader(URLRequestHeader(h.first, h.second));
+			}
+		}
+		catch (const std::exception& e) {
+			res.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
+			res.setReasonPhrase(e.what());
+		}
+
+		// Cleanup
+		if (_client) {
+			_client->stop();
+			_client.reset();
+		}
+	#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+		if (_sslClient) {
+			_sslClient->stop();
+			_sslClient.reset();
+		}
+	#endif
+
+		_threadRunning.store(false);
+	}
+
 }
