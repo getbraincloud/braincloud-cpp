@@ -6,6 +6,11 @@
 
 using namespace BrainCloud;
 
+IPinger* IPinger::create(BrainCloudClient* pClient)
+{
+    return new LinuxPinger();
+}
+
 int LinuxPinger::ping(const std::string& url)
 {
     // Build ping command:
