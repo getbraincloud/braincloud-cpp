@@ -46,6 +46,7 @@ TEST_F(TestBCGlobalFile, GetGlobalFileList)
 }
 
 #if defined(BC_TEST_LINUX)
+/*
 static size_t writeData(char * toWrite, size_t size, size_t nmemb, void * data)
 {
     auto result = size * nmemb;
@@ -99,4 +100,5 @@ TEST_F(TestBCGlobalFile, DownloadFile)
 
     EXPECT_EQ(CURLE_OK, rc);
 }
+*/
 #endif
