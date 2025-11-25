@@ -135,12 +135,12 @@ elseif (MSVC AND NOT USE_CURL_WIN)
             "src/win/XMLHTTPRequestPinger.cpp")
 else()
     list(APPEND OS_SPECIFIC_INCS
-            "include/braincloud/internal/nix/HTTPURLLoader.h")
-            "include/braincloud/internal/nix/HTTPPinger.h")
+            "include/braincloud/internal/nix/HTTPURLLoader.h"
+            "include/braincloud/internal/nix/HTTPPinger.h"
             "include/braincloud/internal/nix/HTTPFileUploader.h")
     list(APPEND OS_SPECIFIC_SRCS
-            "src/nix/HTTPURLLoader.cpp")
-            "src/nix/HTTPPinger.cpp")
+            "src/nix/HTTPURLLoader.cpp"
+            "src/nix/HTTPPinger.cpp"
             "src/nix/HTTPFileUploader.cpp")
 endif()
 
