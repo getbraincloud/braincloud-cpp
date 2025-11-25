@@ -197,6 +197,7 @@ namespace BrainCloud
 
             // Update bytes transferred = file loaded into memory (approximation)
             _bytesTransferred.store(static_cast<int64_t>(fileContents.size()));
+            _totalBytes.store(fileContents.size());
 
             // prepare multipart items
             httplib::MultipartFormDataItems items;
@@ -209,7 +210,6 @@ namespace BrainCloud
                 items.push_back({ "fileUploadId", fileUploadId, "", "" });
 
             // File item: cpp-httplib wants content as string
-            // third param is filename, fourth param is content-type
             std::string contentType = "application/octet-stream";
             items.push_back({ "file", fileContents, fileName, contentType });
 
@@ -219,9 +219,7 @@ namespace BrainCloud
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
                 _sslClient = std::make_unique<httplib::SSLClient>(host.c_str(), port);
                 _sslClient->set_follow_location(true);
-                // timeouts: optional, can be set
 #else
-                // SSL not supported in this build
                 std::lock_guard<std::mutex> lock(_responseMutex);
                 _httpResponseBody = "SSL not supported in this build";
                 _httpStatus = 0;
@@ -236,7 +234,6 @@ namespace BrainCloud
                 _client->set_follow_location(true);
             }
 
-            // If cancellation requested before starting, abort
             if (_cancelRequested.load())
             {
                 _status.store(UPLOAD_STATUS_COMPLETE_FAILED);
@@ -245,19 +242,18 @@ namespace BrainCloud
             }
 
             // Perform multipart post
-            std::shared_ptr<httplib::Response> response;
+            httplib::Result result;
             if (scheme == "https")
             {
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-                response = _sslClient->Post(path.c_str(), items);
+                result = _sslClient->Post(path.c_str(), items);
 #endif
             }
             else
             {
-                response = _client->Post(path.c_str(), items);
+                result = _client->Post(path.c_str(), items);
             }
 
-            // If upload was cancelled via stop(), response may be null
             if (_cancelRequested.load())
             {
                 _status.store(UPLOAD_STATUS_COMPLETE_FAILED);
@@ -265,9 +261,18 @@ namespace BrainCloud
                 return;
             }
 
-            if (response)
+            // Handle result
+            if (!result)
             {
-                // success or server error - inspect HTTP status
+                std::lock_guard<std::mutex> lock(_responseMutex);
+                _httpResponseBody = "Network error: " + httplib::to_string(result.error());
+                _httpStatus = -1;
+                _errorReasonCode = -2;
+                _status.store(UPLOAD_STATUS_COMPLETE_FAILED);
+            }
+            else
+            {
+                auto& response = result.value(); // <-- access actual response
                 {
                     std::lock_guard<std::mutex> lock(_responseMutex);
                     _httpResponseBody = response.body;
@@ -278,18 +283,13 @@ namespace BrainCloud
                 {
                     _status.store(UPLOAD_STATUS_COMPLETE_SUCCESS);
                     _bytesTransferred.store(_totalBytes.load());
+                    _errorReasonCode = 0;
                 }
                 else
                 {
                     _status.store(UPLOAD_STATUS_COMPLETE_FAILED);
                     _errorReasonCode = response.status;
                 }
-            }
-            else
-            {
-                // response null -> network error or aborted
-                _status.store(UPLOAD_STATUS_COMPLETE_FAILED);
-                _errorReasonCode = -2; // indicate network/aborted
             }
         }
         catch (const std::exception& e)
