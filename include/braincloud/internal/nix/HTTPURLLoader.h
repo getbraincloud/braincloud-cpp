@@ -1,39 +1,56 @@
-#pragma once
+#ifndef _HTTPURLLOADER_H_
+#define _HTTPURLLOADER_H_
 
-#include <string>
-#include <thread>
 #include <atomic>
 #include <memory>
+#include <string>
+#include <thread>
+
+#include "httplib.h"
+
 #include "braincloud/internal/URLLoader.h"
 #include "braincloud/internal/URLRequest.h"
-#include "httplib.h"
+#include "braincloud/internal/URLResponse.h"
 
 namespace BrainCloud
 {
     class HTTPURLLoader : virtual public URLLoader
     {
     public:
-        HTTPURLLoader();
+        
         virtual ~HTTPURLLoader();
 
-        virtual void close() override;
-        virtual void load(URLRequest const& req) override;
-        virtual void load(URLRequest const* r) override { if (r) load(*r); }
-        virtual bool isDone() override;
-        virtual void setTimeout(int milliseconds) override { _timeoutMs = milliseconds; }
+        // URLLoader interface
+        virtual void        close() override;
+        virtual void        load(URLRequest const& request) override;
+        virtual void        load(URLRequest const* r) override { if (r) load(*r); }
+        virtual void        setTimeout(int milliseconds) { _timeoutMs = milliseconds; }
+        virtual bool        isDone() override;
+
+    protected:
+        friend class URLLoader;
+        HTTPURLLoader();
 
     private:
+        // Thread worker
         void runRequest();
 
-        std::thread _thread;
-        std::atomic<bool> _threadRunning{ false };
+        // Cancellation / state
         std::atomic<bool> _cancelRequested{ false };
+        std::atomic<bool> _threadRunning{ false };
+
+        // Current request timeout (ms)
         int _timeoutMs{ 2000 };
 
-        // client stored while request in flight
+        // Worker thread
+        std::thread _thread;
+
+        // HTTP client(s)
         std::unique_ptr<httplib::Client> _client;
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
         std::unique_ptr<httplib::SSLClient> _sslClient;
 #endif
     };
 }
+
+#endif // _HTTPURLLOADER_H_

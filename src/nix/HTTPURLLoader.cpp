@@ -12,6 +12,12 @@ using namespace std::chrono;
 namespace BrainCloud
 {
     HTTPURLLoader::HTTPURLLoader() {}
+
+	URLLoader* URLLoader::create()
+	{
+		return new HTTPURLLoader();
+	}
+
     HTTPURLLoader::~HTTPURLLoader()
     {
         close();
