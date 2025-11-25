@@ -73,8 +73,12 @@ if (SSL_ALLOW_SELFSIGNED)
 endif()
 
 # lets use libwebsockets by default
+
+# disabling lws just for a test temporarily
+add_definitions(-DLIBWEBSOCKETS_OFF)
+
 if (NOT UWP)
-    set(USE_LIBWEBSOCKETS 1)
+    #set(USE_LIBWEBSOCKETS 1)
 else()
     add_definitions(-DLIBWEBSOCKETS_OFF)
 endif()
@@ -98,7 +102,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #=============================================================================
 if (DEFINED(${BUILD_TESTS}) OR ${BUILD_TESTS})
     message("brainCloud Building with BUILD_TESTS ON")
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests") 
 endif()
 
 #=============================================================================
@@ -444,7 +448,6 @@ if (APPLE)
 elseif (LINUX)
     #find_package(CURL REQUIRED)
 	find_package(httplib CONFIG REQUIRED)
-	find_package(OpenSSL REQUIRED)
 	find_package(unofficial-brotli CONFIG REQUIRED)
 
     find_package(UUID REQUIRED)
@@ -454,8 +457,6 @@ elseif (LINUX)
 	include_directories(${ZLIB_INCLUDE_DIR})
 	
     list(APPEND libs
-            OpenSSL::SSL
-			OpenSSL::Crypto
 			httplib::httplib
 			${ZLIB_LIBRARIES}
 			${UUID_LIBRARIES}
