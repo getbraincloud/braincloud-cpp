@@ -123,7 +123,6 @@ namespace BrainCloud
 		auto sec = std::chrono::seconds(_timeoutMs / 1000);
 		auto usec = std::chrono::microseconds((_timeoutMs % 1000) * 1000);
 
-		// This is the correct type
 		httplib::Result result;
 
 		try {
@@ -192,13 +191,12 @@ namespace BrainCloud
 
 			// Success
 			else {
-				// result.value() -> shared_ptr<httplib::Response>
 				auto response = result.value();
 
-				res.setStatusCode(static_cast<unsigned short>(response->status));
-				res.setData(response->body);
+				res.setStatusCode(static_cast<unsigned short>(response.status));
+				res.setData(response.body);
 
-				for (auto& h : response->headers)
+				for (auto& h : response.headers)
 					res.addHeader(URLRequestHeader(h.first, h.second));
 			}
 		}
