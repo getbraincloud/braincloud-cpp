@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include "braincloud/BrainCloudTypes.h"
 
 #include <string>
@@ -20,7 +19,7 @@ namespace BrainCloud
 	class BrainCloudMessaging
 	{
 	public:
-		BrainCloudMessaging(BrainCloudClient* in_client);
+		BrainCloudMessaging(BrainCloudClient *in_client);
 
 		/**
 		 * Deletes specified user messages on the server.
@@ -28,10 +27,11 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - DeleteMessages
 		 *
-		 * @param msgIds Arrays of message ids to delete.
-		 * @param callback The method to be invoked when the server response is received
+		 * @param in_msgbox The message box to delete from.
+		 * @param in_msgIds Arrays of message ids to delete.
+		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void deleteMessages(const std::string& in_msgbox, const std::vector<std::string>& in_msgIds, IServerCallback* in_callback = NULL);
+		void deleteMessages(const std::string &in_msgbox, const std::vector<std::string> &in_msgIds, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Retrieve user's message boxes, including 'inbox', 'sent', etc.
@@ -39,9 +39,9 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - GetMessageboxes
 		 *
-		 * @param callback The method to be invoked when the server response is received
-		 */	
-		void getMessageboxes(IServerCallback* in_callback = NULL);
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getMessageboxes(IServerCallback *in_callback = NULL);
 
 		/**
 		 * Retrieve user's message boxes, including 'inbox', 'sent', etc.
@@ -49,9 +49,9 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - GetMessageCounts
 		 *
-		 * @param callback The method to be invoked when the server response is received
-		 */	
-		void getMessageCounts(IServerCallback* in_callback = NULL);
+		 * @param in_callback The method to be invoked when the server response is received
+		 */
+		void getMessageCounts(IServerCallback *in_callback = NULL);
 
 		/**
 		 * Retrieves list of specified messages.
@@ -59,11 +59,12 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - GetMessages
 		 *
-		 * @param msgIds Arrays of message ids to get.
+		 * @param in_msgbox The message box to get messages from.
+		 * @param in_msgIds Arrays of message ids to get.
 		 * @param markAsRead mark messages that are read
-		 * @param callback The method to be invoked when the server response is received
+		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void getMessages(const std::string& in_msgbox, const std::vector<std::string>& in_msgIds, bool markAsRead, IServerCallback* in_callback = NULL);
+		void getMessages(const std::string &in_msgbox, const std::vector<std::string> &in_msgIds, bool markAsRead, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Retrieves a page of messages.
@@ -71,10 +72,10 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - GetMessagesPage
 		 *
-		 * @param context
-		 * @param callback The method to be invoked when the server response is received
+		 * @param in_context The context for the page of messages.
+		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void getMessagesPage(const std::string& in_context, IServerCallback* in_callback = NULL);
+		void getMessagesPage(const std::string &in_context, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Gets the page of messages from the server based on the encoded context and specified page offset.
@@ -82,11 +83,11 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - GetMessagesPageOffset
 		 *
-		 * @param context
-		 * @param pageOffset
-		 * @param callback The method to be invoked when the server response is received
+		 * @param in_context The context for the page of messages.
+		 * @param pageOffset The page offset.
+		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void getMessagesPageOffset(const std::string& in_context, int in_pageOffset, IServerCallback* in_callback = NULL);
+		void getMessagesPageOffset(const std::string &in_context, int in_pageOffset, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Sends a message with specified 'subject' and 'text' to list of users.
@@ -94,11 +95,11 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - SendMessage
 		 *
-		 * @param toProfileIds
-		 * @param contentJson the message you are sending
-		 * @param callback The method to be invoked when the server response is received
+		 * @param toProfileIds The list of profile ids to send the message to.
+		 * @param contentJson The message you are sending
+		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void sendMessage(const std::vector<std::string>& in_toProfileIds, std::string in_contentJson, IServerCallback* in_callback = NULL);
+		void sendMessage(const std::vector<std::string> &in_toProfileIds, std::string in_contentJson, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Sends a simple message to specified list of users.
@@ -106,11 +107,11 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - SendMessageSimple
 		 *
-		 * @param toProfileIds
-		 * @param messageText
-		 * @param callback The method to be invoked when the server response is received
+		 * @param toProfileIds The list of profile ids to send the message to.
+		 * @param messageText The message text you are sending
+		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void sendMessageSimple(const std::vector<std::string>& in_toProfileIds, const std::string& in_messageText, IServerCallback* in_callback = NULL);
+		void sendMessageSimple(const std::vector<std::string> &in_toProfileIds, const std::string &in_messageText, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Marks list of user messages as read on the server.
@@ -118,14 +119,14 @@ namespace BrainCloud
 		 * Service Name - Messaging
 		 * Service Operation - MarkMessagesRead
 		 *
-		 * @param msgbox
-		 * @param msgIds
-		 * @param callback The method to be invoked when the server response is received
+		 * @param msgbox The message box to mark as read.
+		 * @param msgIds Arrays of message ids to mark as read.
+		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void markMessagesRead(const std::string& in_msgbox, const std::vector<std::string>& in_msgIds, IServerCallback* in_callback = NULL);
+		void markMessagesRead(const std::string &in_msgbox, const std::vector<std::string> &in_msgIds, IServerCallback *in_callback = NULL);
 
 	private:
-		BrainCloudClient* m_client;
+		BrainCloudClient *m_client;
 	};
 };
 

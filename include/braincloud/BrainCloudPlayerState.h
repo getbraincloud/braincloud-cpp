@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include <vector>
 #include "braincloud/BrainCloudTypes.h"
@@ -19,7 +18,7 @@ namespace BrainCloud
     class BrainCloudPlayerState
     {
     public:
-        BrainCloudPlayerState(BrainCloudClient* in_client);
+        BrainCloudPlayerState(BrainCloudClient *in_client);
 
         /**
          * Read the state of the currently logged in user.
@@ -70,17 +69,17 @@ namespace BrainCloud
          *
          * @param in_callback The method to be invoked when the server response is received
          */
-        void logout(IServerCallback * in_callback = NULL);
+        void logout(IServerCallback *in_callback = NULL);
 
         /**
-        * Sets the user's name.
-        *
-        * Service Name - playerState
-        * Service Operation - UPDATE_NAME
-        *
-        * @param in_userName The name of the user
-        * @param in_callback The method to be invoked when the server response is received
-        */
+         * Sets the user's name.
+         *
+         * Service Name - playerState
+         * Service Operation - UPDATE_NAME
+         *
+         * @param in_userName The name of the user
+         * @param in_callback The method to be invoked when the server response is received
+         */
         void updateUserName(const char *in_name, IServerCallback *in_callback = NULL);
 
         /**
@@ -103,62 +102,62 @@ namespace BrainCloud
          * }
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void updateSummaryFriendData(const char * in_jsonSummaryData, IServerCallback * in_callback = NULL);
+        void updateSummaryFriendData(const char *in_jsonSummaryData, IServerCallback *in_callback = NULL);
 
         /**
-        * Retrieve the user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - GetAttributes
-        *
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void getAttributes(IServerCallback * in_callback = NULL);
+         * Retrieve the user's attributes.
+         *
+         * Service Name - PlayerState
+         * Service Operation - GetAttributes
+         *
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void getAttributes(IServerCallback *in_callback = NULL);
 
         /**
-        * Update user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - UpdateAttributes
-        *
-        * @param in_jsonAttributes Single layer json string that is a set of key-value pairs
-        * @param in_wipeExisting Whether to wipe existing attributes prior to update.
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void updateAttributes(const std::string& in_jsonAttributes, bool in_wipeExisting, IServerCallback * in_callback = NULL);
+         * Update user's attributes.
+         *
+         * Service Name - PlayerState
+         * Service Operation - UpdateAttributes
+         *
+         * @param in_jsonAttributes Single layer json string that is a set of key-value pairs
+         * @param in_wipeExisting Whether to wipe existing attributes prior to update.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void updateAttributes(const std::string &in_jsonAttributes, bool in_wipeExisting, IServerCallback *in_callback = NULL);
 
         /**
-        * Remove user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - RemoveAttributes
-        *
-        * @param in_attributeNames Collection of attribute names.
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void removeAttributes(const std::vector<std::string> & in_attributeNames, IServerCallback * in_callback = NULL);
+         * Remove user's attributes.
+         *
+         * Service Name - PlayerState
+         * Service Operation - RemoveAttributes
+         *
+         * @param in_attributeNames Collection of attribute names.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void removeAttributes(const std::vector<std::string> &in_attributeNames, IServerCallback *in_callback = NULL);
 
         /**
-        * Remove user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - RemoveAttributes
-        *
-        * @param in_attributeNames Collection of attribute names.
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void updateTimeZoneOffset(int32_t in_timeZoneOffset, IServerCallback * in_callback = NULL);
+         * Remove user's attributes.
+         *
+         * Service Name - PlayerState
+         * Service Operation - RemoveAttributes
+         *
+         * @param in_attributeNames Collection of attribute names.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void updateTimeZoneOffset(int32_t in_timeZoneOffset, IServerCallback *in_callback = NULL);
 
-                /**
-        * Remove user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - RemoveAttribute
-        *
-        * @param in_attributeNames Collection of attribute names.
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void updateLanguageCode(const std::string& in_languageCode, IServerCallback * in_callback = NULL);
+        /**
+         * Remove user's attributes.
+         *
+         * Service Name - PlayerState
+         * Service Operation - RemoveAttribute
+         *
+         * @param in_attributeNames Collection of attribute names.
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void updateLanguageCode(const std::string &in_languageCode, IServerCallback *in_callback = NULL);
 
         /**
          * Update User picture URL.
@@ -181,8 +180,7 @@ namespace BrainCloud
          * @param in_contactEmail Updated email
          * @param in_callback The method to be invoked when the server response is received
          */
-        void updateContactEmail(const char * in_contactEmail, IServerCallback * in_callback = NULL);
-
+        void updateContactEmail(const char *in_contactEmail, IServerCallback *in_callback = NULL);
 
         /**
          * Delete's the specified status
@@ -193,7 +191,7 @@ namespace BrainCloud
          * @param in_statusName Updated email
          * @param in_callback The method to be invoked when the server response is received
          */
-        void clearUserStatus(const char * in_statusName, IServerCallback * in_callback = NULL);
+        void clearUserStatus(const char *in_statusName, IServerCallback *in_callback = NULL);
 
         /**
          * Stack user's statuses
@@ -206,8 +204,8 @@ namespace BrainCloud
          * @param details
          * @param in_callback The method to be invoked when the server response is received
          */
-        void extendUserStatus(const char * in_statusName, int32_t in_additionalSecs, const std::string& in_details, IServerCallback * in_callback = NULL);
-         
+        void extendUserStatus(const char *in_statusName, int32_t in_additionalSecs, const std::string &in_details, IServerCallback *in_callback = NULL);
+
         /**
          * Get user status
          *
@@ -217,8 +215,8 @@ namespace BrainCloud
          * @param in_statusName Updated email
          * @param in_callback The method to be invoked when the server response is received
          */
-        void getUserStatus(const char * in_statusName, IServerCallback * in_callback = NULL);
-   
+        void getUserStatus(const char *in_statusName, IServerCallback *in_callback = NULL);
+
         /**
          * Set timed status for a user
          *
@@ -230,10 +228,10 @@ namespace BrainCloud
          * @param in_details
          * @param in_callback The method to be invoked when the server response is received
          */
-        void setUserStatus(const char * in_statusName, int32_t in_durationSecs, const std::string& in_details, IServerCallback * in_callback = NULL);
-   
+        void setUserStatus(const char *in_statusName, int32_t in_durationSecs, const std::string &in_details, IServerCallback *in_callback = NULL);
+
     private:
-        BrainCloudClient * m_client;
+        BrainCloudClient *m_client;
     };
 }
 #if defined(__clang__)

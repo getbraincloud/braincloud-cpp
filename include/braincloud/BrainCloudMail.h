@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include <vector>
 
@@ -20,7 +19,7 @@ namespace BrainCloud
 	class BrainCloudMail
 	{
 	public:
-		BrainCloudMail(BrainCloudClient* in_client);
+		BrainCloudMail(BrainCloudClient *in_client);
 
 		/**
 		 * Sends a simple text email to the specified player
@@ -33,7 +32,7 @@ namespace BrainCloud
 		 * @param in_body The email body
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void sendBasicEmail(const char * in_profileId, const char * in_subject, const char * in_body, IServerCallback * in_callback = NULL);
+		void sendBasicEmail(const char *in_profileId, const char *in_subject, const char *in_body, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Sends an advanced email to the specified player
@@ -46,7 +45,7 @@ namespace BrainCloud
 		 *	a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void sendAdvancedEmail(const char * in_profileId, const std::string & in_jsonServiceParams, IServerCallback * in_callback = NULL);
+		void sendAdvancedEmail(const char *in_profileId, const std::string &in_jsonServiceParams, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Sends an advanced email to the specified email address
@@ -59,7 +58,7 @@ namespace BrainCloud
 		 *	a full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void sendAdvancedEmailByAddress(const char * in_emailAddress, const std::string & in_jsonServiceParams, IServerCallback * in_callback = NULL);
+		void sendAdvancedEmailByAddress(const char *in_emailAddress, const std::string &in_jsonServiceParams, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Sends an advanced email to the specified email addresses.
@@ -74,7 +73,7 @@ namespace BrainCloud
 		void sendAdvancedEmailByAddresses(const std::vector<std::string> &in_emailAddresses, const std::string &in_serviceParams, IServerCallback *in_callback = NULL);
 
 	private:
-		BrainCloudClient * m_client;
+		BrainCloudClient *m_client;
 	};
 }
 #if defined(__clang__)

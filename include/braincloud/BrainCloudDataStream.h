@@ -6,11 +6,11 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <stddef.h>
 #include <string>
 
-namespace BrainCloud {
+namespace BrainCloud
+{
 
     class IServerCallback;
     class BrainCloudClient;
@@ -18,31 +18,34 @@ namespace BrainCloud {
     class BrainCloudDataStream
     {
     public:
-        BrainCloudDataStream(BrainCloudClient* in_client);
+        BrainCloudDataStream(BrainCloudClient *in_client);
 
         /**
          * Creates custom data stream page event
          *
          * @param eventName Name of event
          * @param eventProperties Properties of event
+         * @param in_callback The method to be invoked when the server response is received
          */
-        void customPageEvent(const char * in_eventName, const char * in_jsonEventProperties, IServerCallback * in_callback = NULL);
+        void customPageEvent(const char *in_eventName, const char *in_jsonEventProperties, IServerCallback *in_callback = NULL);
 
         /**
          * Creates custom data stream screen event
          *
          * @param eventName Name of event
          * @param eventProperties Properties of event
+         * @param in_callback The method to be invoked when the server response is received
          */
-        void customScreenEvent(const char * in_eventName, const char * in_jsonEventProperties, IServerCallback * in_callback = NULL);
+        void customScreenEvent(const char *in_eventName, const char *in_jsonEventProperties, IServerCallback *in_callback = NULL);
 
         /**
          * Creates custom data stream track event
          *
          * @param eventName Name of event
          * @param eventProperties Properties of event
+         * @param in_callback The method to be invoked when the server response is received
          */
-        void customTrackEvent(const char * in_eventName, const char * in_jsonEventProperties, IServerCallback * in_callback = NULL);
+        void customTrackEvent(const char *in_eventName, const char *in_jsonEventProperties, IServerCallback *in_callback = NULL);
 
         /**
          * Send crash report
@@ -55,11 +58,12 @@ namespace BrainCloud {
          * @param userEmail
          * @param userNotes
          * @param userSubmitted
+         * @param in_callback The method to be invoked when the server response is received
          */
-        void submitCrashReport(const char * in_crashType, const char * in_errorMsg, const std::string&  in_crashJson, const char * in_crashLog, const char * in_username, const char * in_userEmail, const char * in_userNotes, bool in_userSubmitted, IServerCallback * in_callback = NULL);
+        void submitCrashReport(const char *in_crashType, const char *in_errorMsg, const std::string &in_crashJson, const char *in_crashLog, const char *in_username, const char *in_userEmail, const char *in_userNotes, bool in_userSubmitted, IServerCallback *in_callback = NULL);
 
     private:
-        BrainCloudClient * m_client;
+        BrainCloudClient *m_client;
     };
 }
 #if defined(__clang__)

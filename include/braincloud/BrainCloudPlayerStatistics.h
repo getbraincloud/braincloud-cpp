@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include <vector>
 #include "braincloud/BrainCloudTypes.h"
@@ -25,7 +24,7 @@ namespace BrainCloud
     class BrainCloudPlayerStatistics
     {
     public:
-        BrainCloudPlayerStatistics(BrainCloudClient* in_client);
+        BrainCloudPlayerStatistics(BrainCloudClient *in_client);
 
         /**
          * Read all available user statistics.
@@ -105,7 +104,7 @@ namespace BrainCloud
          *
          * @param in_callback The method to be invoked when the server response is received
          */
-        void getNextExperienceLevel(IServerCallback* in_callback);
+        void getNextExperienceLevel(IServerCallback *in_callback);
 
         /**
          * Increments the user's experience. If the user goes up a level,
@@ -117,7 +116,7 @@ namespace BrainCloud
          * @param in_xpValue The amount to increase the user's experience by
          * @param in_callback The method to be invoked when the server response is received
          */
-        void incrementExperiencePoints(int in_xpValue, IServerCallback* in_callback);
+        void incrementExperiencePoints(int in_xpValue, IServerCallback *in_callback);
 
         /**
          * Sets the user's experience to an absolute value. Note that this
@@ -130,28 +129,28 @@ namespace BrainCloud
          * @param in_xpValue The amount to set the the user's experience to
          * @param in_callback The method to be invoked when the server response is received
          */
-        void setExperiencePoints(int xpValue, IServerCallback* in_callback);
+        void setExperiencePoints(int xpValue, IServerCallback *in_callback);
 
-		/**
-		* Apply statistics grammar to a partial set of statistics.
-		*
-		* Service Name - PlayerStatistics
-		* Service Operation - PROCESS_STATISTICS
-		*
-		* @param in_jsonData The JSON format is as follows:
-		* {
-		*     "DEAD_CATS": "RESET",
-		*     "LIVES_LEFT": "SET#9",
-		*     "MICE_KILLED": "INC#2",
-		*     "DOG_SCARE_BONUS_POINTS": "INC#10",
-		*     "TREES_CLIMBED": 1
-		* }
-		* @param in_callback Method to be invoked when the server response is received.
-		*/
-		void processStatistics(const std::string& in_jsonData, IServerCallback * in_callback = NULL);
+        /**
+         * Apply statistics grammar to a partial set of statistics.
+         *
+         * Service Name - PlayerStatistics
+         * Service Operation - PROCESS_STATISTICS
+         *
+         * @param in_jsonData The JSON format is as follows:
+         * {
+         *     "DEAD_CATS": "RESET",
+         *     "LIVES_LEFT": "SET#9",
+         *     "MICE_KILLED": "INC#2",
+         *     "DOG_SCARE_BONUS_POINTS": "INC#10",
+         *     "TREES_CLIMBED": 1
+         * }
+         * @param in_callback Method to be invoked when the server response is received.
+         */
+        void processStatistics(const std::string &in_jsonData, IServerCallback *in_callback = NULL);
 
     private:
-        BrainCloudClient * m_client;
+        BrainCloudClient *m_client;
     };
 }
 #if defined(__clang__)

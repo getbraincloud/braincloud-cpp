@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include <vector>
 #include "braincloud/BrainCloudTypes.h"
@@ -19,7 +18,7 @@ namespace BrainCloud
 	class BrainCloudEvent
 	{
 	public:
-		BrainCloudEvent(BrainCloudClient* in_client);
+		BrainCloudEvent(BrainCloudClient *in_client);
 
 		/**
 		 * Sends an event to the designated user id with the attached json data.
@@ -39,7 +38,7 @@ namespace BrainCloud
 		 * @param in_jsonEventData The user-defined data for this event encoded in JSON.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void sendEvent(const char * in_toProfileId, const char * in_eventType, const std::string& in_jsonEventData, IServerCallback * in_callback = NULL);
+		void sendEvent(const char *in_toProfileId, const char *in_eventType, const std::string &in_jsonEventData, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Sends an event to multiple users with the attached json data.
@@ -64,7 +63,7 @@ namespace BrainCloud
 		 * @param in_jsonEventData The user-defined data for this event encoded in JSON.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void updateIncomingEventData(const char * in_evId, const std::string& in_jsonEventData, IServerCallback * in_callback = NULL);
+		void updateIncomingEventData(const char *in_evId, const std::string &in_jsonEventData, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Updates an event in the user's incoming event mailbox.
@@ -77,7 +76,7 @@ namespace BrainCloud
 		 * @param in_jsonEventData The user-defined data for this event encoded in JSON.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void updateIncomingEventDataIfExists(const char * in_evId, const std::string& in_jsonEventData, IServerCallback * in_callback = NULL);
+		void updateIncomingEventDataIfExists(const char *in_evId, const std::string &in_jsonEventData, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Delete an event out of the user's incoming mailbox.
@@ -88,7 +87,7 @@ namespace BrainCloud
 		 * @param in_evId The event id
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void deleteIncomingEvent(const char * in_evId, IServerCallback * in_callback = NULL);
+		void deleteIncomingEvent(const char *in_evId, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Delete a list of events out of the user's incoming mailbox.
@@ -99,7 +98,7 @@ namespace BrainCloud
 		 * @param in_eventIds Collection of event ids
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void deleteIncomingEvents(const std::vector<std::string> & in_eventIds, IServerCallback * in_callback = NULL);
+		void deleteIncomingEvents(const std::vector<std::string> &in_eventIds, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Delete any events older than the given date out of the user's incoming mailbox.
@@ -110,7 +109,7 @@ namespace BrainCloud
 		 * @param in_dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void deleteIncomingEventsOlderThan(int64_t in_dateMillis, IServerCallback * in_callback = NULL);
+		void deleteIncomingEventsOlderThan(int64_t in_dateMillis, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Delete any events of the given type older than the given date out of the user's incoming mailbox.
@@ -122,7 +121,7 @@ namespace BrainCloud
 		 * @param in_dateMillis createdAt cut-off time whereby older events will be deleted (In UTC since Epoch)
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void deleteIncomingEventsByTypeOlderThan(const std::string & in_eventType, int64_t in_dateMillis, IServerCallback * in_callback = NULL);
+		void deleteIncomingEventsByTypeOlderThan(const std::string &in_eventType, int64_t in_dateMillis, IServerCallback *in_callback = NULL);
 
 		/**
 		 * Get the events currently queued for the user.
@@ -132,10 +131,10 @@ namespace BrainCloud
 		 *
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
-		void getEvents(IServerCallback * in_callback = NULL);
+		void getEvents(IServerCallback *in_callback = NULL);
 
 	private:
-		BrainCloudClient * m_client;
+		BrainCloudClient *m_client;
 	};
 }
 #if defined(__clang__)

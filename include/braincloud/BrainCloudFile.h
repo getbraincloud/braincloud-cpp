@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include "braincloud/BrainCloudTypes.h"
 
@@ -18,7 +17,7 @@ namespace BrainCloud
     class BrainCloudFile
     {
     public:
-        BrainCloudFile(BrainCloudClient* in_client);
+        BrainCloudFile(BrainCloudClient *in_client);
 
         /**
          * Prepares a user file upload. On success the file will begin uploading
@@ -37,19 +36,19 @@ namespace BrainCloud
          * 40429 - File maximum file size exceeded
          * 40430 - File exists, replaceIfExists not set
          */
-        bool uploadFile(const char * in_cloudPath,
-            const char * in_cloudFilename,
-            bool in_shareable,
-            bool in_replaceIfExists,
-            const char * in_localPath,
-            IServerCallback * in_callback = NULL);
+        bool uploadFile(const char *in_cloudPath,
+                        const char *in_cloudFilename,
+                        bool in_shareable,
+                        bool in_replaceIfExists,
+                        const char *in_localPath,
+                        IServerCallback *in_callback = NULL);
 
         /**
          * List all user files
          *
          * @param in_callback The method to be invoked when the server response is received
          */
-        void listUserFiles(IServerCallback * in_callback = NULL);
+        void listUserFiles(IServerCallback *in_callback = NULL);
 
         /**
          * List user files from the given cloud path
@@ -58,7 +57,7 @@ namespace BrainCloud
          * @param in_recurse Whether to recurse into sub-directories
          * @param in_callback The method to be invoked when the server response is received
          */
-        void listUserFiles(const char * in_cloudPath, bool in_recurse, IServerCallback * in_callback = NULL);
+        void listUserFiles(const char *in_cloudPath, bool in_recurse, IServerCallback *in_callback = NULL);
 
         /**
          * Deletes a single user file.
@@ -73,7 +72,7 @@ namespace BrainCloud
          * 40432 - File does not exist
          *
          */
-        void deleteUserFile(const char * in_cloudPath, const char * in_cloudFilename, IServerCallback * in_callback = NULL);
+        void deleteUserFile(const char *in_cloudPath, const char *in_cloudFilename, IServerCallback *in_callback = NULL);
 
         /**
          * Delete multiple user files
@@ -82,16 +81,16 @@ namespace BrainCloud
          * @param in_recurse Whether to recurse into sub-directories
          * @param in_callback The method to be invoked when the server response is received
          */
-        void deleteUserFiles(const char * in_cloudPath, bool in_recurse, IServerCallback * in_callback = NULL);
+        void deleteUserFiles(const char *in_cloudPath, bool in_recurse, IServerCallback *in_callback = NULL);
 
-		/**
-		* Returns the CDN url for a file object
-		*
-		* @param in_cloudPath File path
-		* @param in_cloudFileName File name
-		* @param in_callback The method to be invoked when the server response is received
-		*/
-		void getCDNUrl(const char * in_cloudPath, const char * in_cloudFileName, IServerCallback * in_callback = NULL);
+        /**
+         * Returns the CDN url for a file object
+         *
+         * @param in_cloudPath File path
+         * @param in_cloudFileName File name
+         * @param in_callback The method to be invoked when the server response is received
+         */
+        void getCDNUrl(const char *in_cloudPath, const char *in_cloudFileName, IServerCallback *in_callback = NULL);
 
         /**
          * Method cancels an upload. If an IFileUploadCallback has been registered with the BrainCloudClient class,
@@ -99,7 +98,7 @@ namespace BrainCloud
          *
          * @param in_uploadId The id of the upload
          */
-        void cancelUpload(const char * in_uploadId);
+        void cancelUpload(const char *in_uploadId);
 
         /**
          * Returns the progress of the given upload from 0.0 to 1.0
@@ -108,7 +107,7 @@ namespace BrainCloud
          * @param in_uploadId The id of the upload
          * @return A progress from 0.0 to 1.0 or -1 if upload not found.
          */
-        double getUploadProgress(const char * in_uploadId);
+        double getUploadProgress(const char *in_uploadId);
 
         /**
          * Returns the number of bytes uploaded or -1 if upload not found.
@@ -116,7 +115,7 @@ namespace BrainCloud
          * @param in_uploadId The id of the upload
          * @return The number of bytes uploaded or -1 if upload not found.
          */
-        int64_t getUploadBytesTransferred(const char * in_uploadId);
+        int64_t getUploadBytesTransferred(const char *in_uploadId);
 
         /**
          * Returns the total number of bytes that will be uploaded or -1 if upload not found.
@@ -124,10 +123,10 @@ namespace BrainCloud
          * @param in_uploadId The id of the upload
          * @return The total number of bytes that will be uploaded or -1 if upload not found.
          */
-        int64_t getUploadTotalBytesToTransfer(const char * in_uploadId);
+        int64_t getUploadTotalBytesToTransfer(const char *in_uploadId);
 
     private:
-        BrainCloudClient * m_client;
+        BrainCloudClient *m_client;
     };
 }
 #if defined(__clang__)

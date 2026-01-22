@@ -6,20 +6,21 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include <vector>
 #include "braincloud/BrainCloudTypes.h"
 
-namespace BrainCloud {
+namespace BrainCloud
+{
 
     class BrainCloudClient;
     class IServerCallback;
 
-    class BrainCloudGamification {
+    class BrainCloudGamification
+    {
 
     public:
-        BrainCloudGamification(BrainCloudClient* in_client);
+        BrainCloudGamification(BrainCloudClient *in_client);
 
         /**
          * Method retrieves all gamification data for the player.
@@ -29,7 +30,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readAllGamification(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readAllGamification(bool in_includeMetaData = false, IServerCallback *in_callback = NULL);
 
         /**
          * Method retrieves all milestones defined for the game.
@@ -39,7 +40,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readMilestones(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readMilestones(bool in_includeMetaData = false, IServerCallback *in_callback = NULL);
 
         /**
          * Read all of the achievements defined for the game.
@@ -49,7 +50,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readAchievements(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readAchievements(bool in_includeMetaData = false, IServerCallback *in_callback = NULL);
 
         /**
          * Method returns all defined xp levels and any rewards associated
@@ -60,17 +61,17 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readXpLevelsMetaData(IServerCallback * in_callback = NULL);
+        void readXpLevelsMetaData(IServerCallback *in_callback = NULL);
 
         /**
-        * Method retrives the list of achieved achievements.
-        *
-        * Service Name - Gamification
-        * Service Operation - ReadAchievedAchievements
-        *
-        * @param in_callback Method to be invoked when the server response is received.
-        */
-        void readAchievedAchievements(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+         * Method retrives the list of achieved achievements.
+         *
+         * Service Name - Gamification
+         * Service Operation - ReadAchievedAchievements
+         *
+         * @param in_callback Method to be invoked when the server response is received.
+         */
+        void readAchievedAchievements(bool in_includeMetaData = false, IServerCallback *in_callback = NULL);
 
         /**
          * Method retrieves the list of completed milestones.
@@ -80,7 +81,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readCompletedMilestones(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readCompletedMilestones(bool in_includeMetaData = false, IServerCallback *in_callback = NULL);
 
         /**
          * Method retrieves the list of in progress milestones
@@ -90,29 +91,29 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readInProgressMilestones(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readInProgressMilestones(bool in_includeMetaData = false, IServerCallback *in_callback = NULL);
 
         /**
-        * Method retrieves milestones of the given category.
-        *
-        * Service Name - Gamification
-        * Service Operation - ReadMilestonesByCategory
-        *
-        * @param in_category The milestone category
-        * @param in_callback Method to be invoked when the server response is received.
-        */
-        void readMilestonesByCategory(const char * in_category, bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+         * Method retrieves milestones of the given category.
+         *
+         * Service Name - Gamification
+         * Service Operation - ReadMilestonesByCategory
+         *
+         * @param in_category The milestone category
+         * @param in_callback Method to be invoked when the server response is received.
+         */
+        void readMilestonesByCategory(const char *in_category, bool in_includeMetaData = false, IServerCallback *in_callback = NULL);
 
         /**
-        * Method will award the achievements specified.
-        *
-        * Service Name - Gamification
-        * Service Operation - AwardAchievements
-        *
-        * @param in_achievementIds Collection of achievement ids to award
-        * @param in_callback Method to be invoked when the server response is received.
-        */
-        void awardAchievements(const std::vector<std::string> & in_achievements, IServerCallback * in_callback = NULL);
+         * Method will award the achievements specified.
+         *
+         * Service Name - Gamification
+         * Service Operation - AwardAchievements
+         *
+         * @param in_achievementIds Collection of achievement ids to award
+         * @param in_callback Method to be invoked when the server response is received.
+         */
+        void awardAchievements(const std::vector<std::string> &in_achievements, IServerCallback *in_callback = NULL);
 
         /**
          * Method retrieves all of the quests defined for the game.
@@ -122,7 +123,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readQuests(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuests(bool in_includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns all completed quests.
@@ -132,7 +133,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readCompletedQuests(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readCompletedQuests(bool in_includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests that are in progress.
@@ -142,7 +143,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readInProgressQuests(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readInProgressQuests(bool in_includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests that have not been started.
@@ -152,7 +153,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readNotStartedQuests(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readNotStartedQuests(bool in_includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests with a status.
@@ -162,7 +163,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readQuestsWithStatus(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuestsWithStatus(bool in_includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests with a basic percentage.
@@ -172,7 +173,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readQuestsWithBasicPercentage(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuestsWithBasicPercentage(bool in_includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests with a complex percentage.
@@ -182,7 +183,7 @@ namespace BrainCloud {
          *
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readQuestsWithComplexPercentage(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuestsWithComplexPercentage(bool in_includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          * Method returns quests for the given category.
@@ -193,10 +194,10 @@ namespace BrainCloud {
          * @param in_category The quest category
          * @param in_callback Method to be invoked when the server response is received.
          */
-        void readQuestsByCategory(const char * category, bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuestsByCategory(const char *category, bool in_includeMetaData = false, IServerCallback *callback = NULL);
 
     private:
-        BrainCloudClient * m_client;
+        BrainCloudClient *m_client;
     };
 }
 #if defined(__clang__)
