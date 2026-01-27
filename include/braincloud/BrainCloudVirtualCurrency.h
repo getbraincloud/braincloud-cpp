@@ -40,8 +40,8 @@ namespace BrainCloud
         /**
          * Retrieve the user's currency account. Optional parameter: `vcId` (if retrieving a specific currency).
          *
-         * Service Name - VirtualCurrency
-         * Service Operation - GetCurrency
+         * Service Name - virtualCurrency
+         * Service Operation - GET_PLAYER_VC
          *
          * @param vcId Optional currency id to retrieve (pass NULL to get all currencies)
          * @param callback The method to be invoked when the server response is received
@@ -51,8 +51,8 @@ namespace BrainCloud
         /**
          * Retrieve the parent user's currency account. Optional parameter: `vcId` (if retrieving a specific currency).
          *
-         * Service Name - VirtualCurrency
-         * Service Operation - GetParentCurrency
+         * Service Name - virtualCurrency
+         * Service Operation - GET_PARENT_VC
          *
          * @param vcId Optional currency id to retrieve (pass NULL to get all currencies)
          * @param levelName The parent level name
@@ -63,8 +63,8 @@ namespace BrainCloud
         /**
          * Retrieve the peer user's currency account. Optional parameter: `vcId` (if retrieving a specific currency).
          *
-         * Service Name - VirtualCurrency
-         * Service Operation - GetPeerCurrency
+         * Service Name - virtualCurrency
+         * Service Operation - GET_PEER_VC
          *
          * @param vcId Optional currency id to retrieve (pass NULL to get all currencies)
          * @param peerCode The peer code identifying the other user
@@ -75,8 +75,8 @@ namespace BrainCloud
         /**
          * Reset player's currency to zero
          *
-         * Service Name - VirtualCurrency
-         * Service Operation - ResetCurrency
+         * Service Name - virtualCurrency
+         * Service Operation - RESET_PLAYER_VC
          *
          * @param callback The method to be invoked when the server response is received
          */

@@ -24,8 +24,8 @@ namespace BrainCloud
 		/**
 		 * Deletes specified user messages on the server.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - DeleteMessages
+		 * Service Name - messaging
+		 * Service Operation - DELETE_MESSAGES
 		 *
 		 * @param msgbox The message box to delete from.
 		 * @param msgIds Arrays of message ids to delete.
@@ -36,8 +36,8 @@ namespace BrainCloud
 		/**
 		 * Retrieve user's message boxes, including 'inbox', 'sent', etc.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - GetMessageboxes
+		 * Service Name - messaging
+		 * Service Operation - GET_MESSAGE_BOXES
 		 *
 		 * @param callback The method to be invoked when the server response is received
 		 */
@@ -46,8 +46,8 @@ namespace BrainCloud
 		/**
 		 * Retrieve user's message boxes, including 'inbox', 'sent', etc.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - GetMessageCounts
+		 * Service Name - messaging
+		 * Service Operation - GET_MESSAGE_COUNTS
 		 *
 		 * @param callback The method to be invoked when the server response is received
 		 */
@@ -56,8 +56,8 @@ namespace BrainCloud
 		/**
 		 * Retrieves list of specified messages.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - GetMessages
+		 * Service Name - messaging
+		 * Service Operation - GET_MESSAGES
 		 *
 		 * @param msgbox The message box to get messages from.
 		 * @param msgIds Arrays of message ids to get.
@@ -69,8 +69,8 @@ namespace BrainCloud
 		/**
 		 * Retrieves a page of messages.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - GetMessagesPage
+		 * Service Name - messaging
+		 * Service Operation - GET_MESSAGES_PAGE
 		 *
 		 * @param context The context for the page of messages.
 		 * @param callback The method to be invoked when the server response is received
@@ -80,8 +80,8 @@ namespace BrainCloud
 		/**
 		 * Gets the page of messages from the server based on the encoded context and specified page offset.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - GetMessagesPageOffset
+		 * Service Name - messaging
+		 * Service Operation - GET_MESSAGES_PAGE_OFFSET
 		 *
 		 * @param context The context for the page of messages.
 		 * @param pageOffset The page offset.
@@ -92,8 +92,8 @@ namespace BrainCloud
 		/**
 		 * Sends a message with specified 'subject' and 'text' to list of users.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - SendMessage
+		 * Service Name - messaging
+		 * Service Operation - SEND_MESSAGE
 		 *
 		 * @param toProfileIds The list of profile ids to send the message to.
 		 * @param contentJson The message you are sending
@@ -104,8 +104,8 @@ namespace BrainCloud
 		/**
 		 * Sends a simple message to specified list of users.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - SendMessageSimple
+		 * Service Name - messaging
+		 * Service Operation - SEND_MESSAGE_SIMPLE
 		 *
 		 * @param toProfileIds The list of profile ids to send the message to.
 		 * @param messageText The message text you are sending
@@ -116,8 +116,8 @@ namespace BrainCloud
 		/**
 		 * Marks list of user messages as read on the server.
 		 *
-		 * Service Name - Messaging
-		 * Service Operation - MarkMessagesRead
+		 * Service Name - messaging
+		 * Service Operation - MARK_MESSAGES_READ
 		 *
 		 * @param msgbox The message box to mark as read.
 		 * @param msgIds Arrays of message ids to mark as read.

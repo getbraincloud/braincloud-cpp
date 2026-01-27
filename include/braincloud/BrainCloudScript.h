@@ -24,8 +24,8 @@ namespace BrainCloud
 		/**
 		 * Executes a script on the server.
 		 *
-		 * Service Name - Script
-		 * Service Operation - Run
+		 * Service Name - script
+		 * Service Operation - RUN
 		 *
 		 * @param scriptName The name of the script to be run
 		 * @param jsonScriptData Data to be sent to the script in json format
@@ -36,8 +36,8 @@ namespace BrainCloud
 		/**
 		 * Allows cloud script executions to be scheduled - UTC time
 		 *
-		 * Service Name - Script
-		 * Service Operation - ScheduleCloudScript
+		 * Service Name - script
+		 * Service Operation - SCHEDULE_CLOUD_SCRIPT
 		 *
 		 * @param scriptName The name of the script to be run
 		 * @param jsonScriptData Data to be sent to the script in json format
@@ -49,8 +49,8 @@ namespace BrainCloud
 		/**
 		 * Allows cloud script executions to be scheduled
 		 *
-		 * Service Name - Script
-		 * Service Operation - ScheduleCloudScript
+		 * Service Name - script
+		 * Service Operation - SCHEDULE_CLOUD_SCRIPT
 		 *
 		 * @param scriptName The name of the script to be run
 		 * @param jsonScriptData Data to be sent to the script in json format
@@ -62,7 +62,7 @@ namespace BrainCloud
 		/**
 		 * Run a cloud script in a parent app
 		 *
-		 * Service Name - Script
+		 * Service Name - script
 		 * Service Operation - RUN_PARENT_SCRIPT
 		 *
 		 * @param scriptName The name of the script to be run
@@ -75,7 +75,7 @@ namespace BrainCloud
 		/**
 		 * Cancels a scheduled cloud code script
 		 *
-		 * Service Name - Script
+		 * Service Name - script
 		 * Service Operation - CANCEL_SCHEDULED_SCRIPT
 		 *
 		 * @param jobId ID of script job to cancel
@@ -86,7 +86,7 @@ namespace BrainCloud
 		/**
 		 * Cancels a scheduled cloud code script
 		 *
-		 * Service Name - Script
+		 * Service Name - script
 		 * Service Operation - CANCEL_SCHEDULED_SCRIPT
 		 *
 		 * @param callback The method to be invoked when the server response is received
@@ -96,7 +96,7 @@ namespace BrainCloud
 		/**
 		 * Cancels a scheduled cloud code script
 		 *
-		 * Service Name - Script
+		 * Service Name - script
 		 * Service Operation - CANCEL_SCHEDULED_SCRIPT
 		 *
 		 * @param jobId ID of script job to cancel
@@ -107,7 +107,7 @@ namespace BrainCloud
 		/**
 		 * Runs a script from the context of a peer
 		 *
-		 * Service Name - Script
+		 * Service Name - script
 		 * Service Operation - RUN_PEER_SCRIPT
 		 *
 		 * @param scriptName The name of the script to be run
@@ -120,7 +120,7 @@ namespace BrainCloud
 		 * Runs a script asynchronously from the context of a peer
 		 * This method does not wait for the script to complete before returning
 		 *
-		 * Service Name - Script
+		 * Service Name - script
 		 * Service Operation - RUN_PEER_SCRIPT_ASYNC
 		 *
 		 * @param scriptName The name of the script to be run

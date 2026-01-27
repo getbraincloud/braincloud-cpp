@@ -23,8 +23,8 @@ namespace BrainCloud
         /**
          * Read game's global properties
          *
-         * Service Name - GlobalApp
-         * Service Operation - ReadProperties
+         * Service Name - globalApp
+         * Service Operation - READ_PROPERTIES
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -34,7 +34,7 @@ namespace BrainCloud
          * Returns a list of properties, identified by the property names provided.
          * If a property from the list isn't found, it just isn't returned (no error).
          *
-         * Service Name - GlobalApp
+         * Service Name - globalApp
          * Service Operation - READ_SELECTED_PROPERTIES
          *
          * @param propertyNames Specifies which properties to return
@@ -46,7 +46,7 @@ namespace BrainCloud
          * Returns a list of properties, identified by the categories provided.
          * If a category from the list isn't found, it just isn't returned (no error).
          *
-         * Service Name - GlobalApp
+         * Service Name - globalApp
          * Service Operation - READ_PROPERTIES_CATEGORIES
          *
          * @param categories Specifies which category to return

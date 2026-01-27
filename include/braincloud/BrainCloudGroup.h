@@ -278,7 +278,7 @@ namespace BrainCloud
 		 * Join an open group or request to join a closed group.
 		 *
 		 * Service Name - group
-		 * Service Operation - JOGROUP
+		 * Service Operation - JOIN_GROUP
 		 *
 		 * @param groupId ID of the group.
 		 * @param callback The method to be invoked when the server response is received
@@ -449,7 +449,7 @@ namespace BrainCloud
 		/**
 		 * Update the acl settings for a group entity, enforcing ownership.
 		 *
-		 * Service Name - Group
+		 * Service Name - group
 		 * Service Operation - UPDATE_GROUP_ENTITY_ACL
 		 *
 		 * @param groupId The id of the group
@@ -514,7 +514,7 @@ namespace BrainCloud
 		/**
 		 * Set a group's access conditions.
 		 *
-		 * Service Name - Group
+		 * Service Name - group
 		 * Service Operation - UPDATE_GROUP_ACL
 		 *
 		 * @param groupId ID of the group
