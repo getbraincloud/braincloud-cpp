@@ -14,37 +14,37 @@
 
 namespace BrainCloud
 {
-    BrainCloudRedemptionCode::BrainCloudRedemptionCode(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudRedemptionCode::BrainCloudRedemptionCode(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudRedemptionCode::redeemCode(const char* in_scanCode, const char* in_codeType, const char* in_jsonCustomRedemptionInfo, IServerCallback * in_callback)
+    void BrainCloudRedemptionCode::redeemCode(const char *scanCode, const char *codeType, const char *jsonCustomRedemptionInfo, IServerCallback *callback)
     {
         Json::Value message;
 
-        message[OperationParam::RedemptionCodeServiceScanCode.getValue()] = in_scanCode;
-        message[OperationParam::RedemptionCodeServiceCodeType.getValue()] = in_codeType;
+        message[OperationParam::RedemptionCodeServiceScanCode.getValue()] = scanCode;
+        message[OperationParam::RedemptionCodeServiceCodeType.getValue()] = codeType;
 
-        if (StringUtil::IsOptionalParameterValid(in_jsonCustomRedemptionInfo))
+        if (StringUtil::IsOptionalParameterValid(jsonCustomRedemptionInfo))
         {
             Json::Reader reader;
             Json::Value parsedInfo;
-            reader.parse(in_jsonCustomRedemptionInfo, parsedInfo);
+            reader.parse(jsonCustomRedemptionInfo, parsedInfo);
             message[OperationParam::RedemptionCodeServiceCustomRedemptionInfo.getValue()] = parsedInfo;
         }
 
-        ServerCall * sc = new ServerCall(ServiceName::RedemptionCode, ServiceOperation::RedeemCode, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::RedemptionCode, ServiceOperation::RedeemCode, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudRedemptionCode::getRedeemedCodes(const char* in_codeType, IServerCallback * in_callback)
+    void BrainCloudRedemptionCode::getRedeemedCodes(const char *codeType, IServerCallback *callback)
     {
         Json::Value message;
 
-        if (StringUtil::IsOptionalParameterValid(in_codeType))
+        if (StringUtil::IsOptionalParameterValid(codeType))
         {
-            message[OperationParam::RedemptionCodeServiceCodeType.getValue()] = in_codeType;
+            message[OperationParam::RedemptionCodeServiceCodeType.getValue()] = codeType;
         }
 
-        ServerCall * sc = new ServerCall(ServiceName::RedemptionCode, ServiceOperation::GetRedeemedCodes, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::RedemptionCode, ServiceOperation::GetRedeemedCodes, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 }

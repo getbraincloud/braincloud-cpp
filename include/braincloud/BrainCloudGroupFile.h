@@ -23,7 +23,7 @@ namespace BrainCloud
         /**
          * Initializes the brainCloudService
          */
-        BrainCloudGroupFile(BrainCloudClient *in_client);
+        BrainCloudGroupFile(BrainCloudClient *client);
 
         /**
          * Check if filename exists for provided path and name
@@ -34,9 +34,9 @@ namespace BrainCloud
          * @param groupId ID of the group.
          * @param folderPath The path of the file
          * @param filename The filename of the file
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void checkFilenameExists(std::string groupId, std::string folderPath, std::string fileName, IServerCallback *in_callback = NULL);
+        void checkFilenameExists(std::string groupId, std::string folderPath, std::string fileName, IServerCallback *callback = NULL);
 
         /**
          * Check if filename exists for provided full path name
@@ -46,9 +46,9 @@ namespace BrainCloud
          *
          * @param groupId ID of the group.
          * @param fullPathFilename The full path of the file
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void checkFullpathFilenameExists(std::string groupId, std::string fullPathFilename, IServerCallback *in_callback = NULL);
+        void checkFullpathFilenameExists(std::string groupId, std::string fullPathFilename, IServerCallback *callback = NULL);
 
         /**
          *  Copy a file.
@@ -56,15 +56,16 @@ namespace BrainCloud
          * Service Name GroupFile
          * Service Operation CopyFile
          *
-         * @param groupId the groupId
-         * @param fileId the fileId
-         * @param version the version
-         * @param newTreeId thenewTreeId
-         * @param treeVersion the treeVersion
-         * @param newFilename the newFilename
-         * @param in_callback The method to be invoked when the server response is received
+         * @param groupId ID of the group
+         * @param fileId ID of the file
+         * @param version Target version of the file
+         * @param newTreeId ID of the destination folder
+         * @param treeVersion Target version of the folder tree
+         * @param newFilename Optional new file name
+         * @param overwriteIfPresent Whether to allow overwrite of an existing file if present
+         * @param callback The method to be invoked when the server response is received
          */
-        void copyFile(std::string groupId, std::string fileId, int version, std::string newTreeId, int treeVersion, std::string newFilename, bool overwriteIfPresent, IServerCallback *in_callback = NULL);
+        void copyFile(std::string groupId, std::string fileId, int version, std::string newTreeId, int treeVersion, std::string newFilename, bool overwriteIfPresent, IServerCallback *callback = NULL);
 
         /**
          * Delete a file.
@@ -76,10 +77,10 @@ namespace BrainCloud
          * @param fileId the fileId
          * @param version the version
          * @param newFilename the newFilename
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
 
          */
-        void deleteFile(std::string groupId, std::string fileId, int version, std::string filename, IServerCallback *in_callback = NULL);
+        void deleteFile(std::string groupId, std::string fileId, int version, std::string filename, IServerCallback *callback = NULL);
 
         /**
          * Return CDN url for file for clients that cannot handle redirect.
@@ -89,10 +90,10 @@ namespace BrainCloud
          *
          * @param groupId the groupId
          * @param fileId the fileId
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
 
          */
-        void getCDNUrl(std::string groupId, std::string fileId, IServerCallback *in_callback = NULL);
+        void getCDNUrl(std::string groupId, std::string fileId, IServerCallback *callback = NULL);
 
         /**
          * Returns information on a file using fileId.
@@ -102,9 +103,9 @@ namespace BrainCloud
          *
          * @param groupId the groupId
          * @param fileId the fileId
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void getFileInfo(std::string groupId, std::string fileId, IServerCallback *in_callback = NULL);
+        void getFileInfo(std::string groupId, std::string fileId, IServerCallback *callback = NULL);
 
         /**
          * Returns information on a file using path and name.
@@ -115,9 +116,9 @@ namespace BrainCloud
          * @param groupId the groupId
          * @param folderPath the folderPath
          * @param fileName the fileName
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void getFileInfoSimple(std::string groupId, std::string folderPath, std::string filename, IServerCallback *in_callback = NULL);
+        void getFileInfoSimple(std::string groupId, std::string folderPath, std::string filename, IServerCallback *callback = NULL);
 
         /**
          * Returns a list of files.
@@ -128,9 +129,9 @@ namespace BrainCloud
          * @param groupId the groupId
          * @param folderPath the folderPath
          * @param recurse true to recurse
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void getFileList(std::string groupId, std::string folderPath, bool recurse, IServerCallback *in_callback = NULL);
+        void getFileList(std::string groupId, std::string folderPath, bool recurse, IServerCallback *callback = NULL);
 
         /**
          *  Move a file.
@@ -143,9 +144,9 @@ namespace BrainCloud
          * @param version the version
          * @param newTreeId the newTreeId
          * @param newFilename the newFilename
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void moveFile(std::string groupId, std::string fileId, int version, std::string newTreeId, int treeVersion, std::string newFilename, bool overwriteIfPresent, IServerCallback *in_callback = NULL);
+        void moveFile(std::string groupId, std::string fileId, int version, std::string newTreeId, int treeVersion, std::string newFilename, bool overwriteIfPresent, IServerCallback *callback = NULL);
 
         /**
          * Move a file from user space to group space.
@@ -153,31 +154,31 @@ namespace BrainCloud
          * Service Name GroupFile
          * Service Operation MoveUserToGroupFile
          *
-         * @param userCloudPath the userCloudPath
-         * @param userCloudFilename the userCloudFilename
-         * @param groupId the groupId
-         * @param groupTreeId the groupTreeId
-         * @param groupFilename the groupFilename
-         * @param groupFileAcl the groupFileAcl
-         * @param overwriteIfPresent the overwriteIfPresent
-         * @param in_callback The method to be invoked when the server response is received
+         * @param userCloudPath User file folder
+         * @param userCloudFilename User file name
+         * @param groupId ID of the group
+         * @param groupTreeId ID of the destination folder
+         * @param groupFileName Group file name
+         * @param groupFileAcl Acl of the new group file
+         * @param overwriteIfPresent Whether to allow overwrite of an existing file if present
+         * @param callback The method to be invoked when the server response is received @param callback The method to be invoked when the server response is received
          */
-        void moveUserToGroupFile(std::string userCloudPath, std::string userCloudFilename, std::string groupId, std::string groupTreeId, std::string groupFilename, const std::string &groupFileAcl, bool overwriteIfPresent, IServerCallback *in_callback = NULL);
+        void moveUserToGroupFile(std::string userCloudPath, std::string userCloudFilename, std::string groupId, std::string groupTreeId, std::string groupFilename, const std::string &groupFileAcl, bool overwriteIfPresent, IServerCallback *callback = NULL);
 
         /**
-         * updates information on a file given fileId.
+         * Rename or edit permissions of an uploaded file. Does not change the contents of the file.
          *
          * Service Name GroupFile
          * Service Operation UpdateFileInfo
          *
-         * @param groupId the groupId
-         * @param fileId the fileId
-         * @param version the version
-         * @param newFilename the newFilename
-         * @param newAcl the newAcl
-         * @param in_callback The method to be invoked when the server response is received
-         */
-        void updateFileInfo(std::string groupId, std::string fileId, int version, std::string newFilename, const std::string &newACL, IServerCallback *in_callback = NULL);
+         * @param groupId ID of the group
+         * @param fileId ID of the file
+         * @param version Target version of the file
+         * @param newFilename Optional new file name
+         * @param newACL Optional new acl
+         * @param callback The method to be invoked when the server response is received
+         * */
+        void updateFileInfo(std::string groupId, std::string fileId, int version, std::string newFilename, const std::string &newACL, IServerCallback *callback = NULL);
 
     private:
         BrainCloudClient *m_client;

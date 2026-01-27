@@ -16,36 +16,41 @@ namespace BrainCloud
     class FriendPlatform
     {
     public:
-        static const FriendPlatform & All;
-        static const FriendPlatform & BrainCloud;
-        static const FriendPlatform & Facebook;
-        static const FriendPlatform & Unknown;
+        static const FriendPlatform &All;
+        static const FriendPlatform &BrainCloud;
+        static const FriendPlatform &Facebook;
+        static const FriendPlatform &Unknown;
 
-        const std::string & toString() const;
-        static const FriendPlatform & fromString(const std::string & in_friendPlatform);
+        const std::string &toString() const;
+        static const FriendPlatform &fromString(const std::string &friendPlatform);
 
     private:
-        FriendPlatform(const std::string & in_friendPlatform);
+        FriendPlatform(const std::string &friendPlatform);
         std::string m_value;
     };
 
-    inline bool operator== (const FriendPlatform& a, const FriendPlatform& b) {
+    inline bool operator==(const FriendPlatform &a, const FriendPlatform &b)
+    {
         return a.toString() == b.toString();
     }
 
-    inline bool operator== (const FriendPlatform& a, const std::string& s) {
+    inline bool operator==(const FriendPlatform &a, const std::string &s)
+    {
         return a.toString() == s;
     }
 
-    inline bool operator== (const std::string& s, const FriendPlatform& a) {
+    inline bool operator==(const std::string &s, const FriendPlatform &a)
+    {
         return a.toString() == s;
     }
 
-    inline bool operator== (const FriendPlatform& a, const char * s) {
+    inline bool operator==(const FriendPlatform &a, const char *s)
+    {
         return a.toString() == s;
     }
 
-    inline bool operator== (const char * s, const FriendPlatform& a) {
+    inline bool operator==(const char *s, const FriendPlatform &a)
+    {
         return a.toString() == s;
     }
 }

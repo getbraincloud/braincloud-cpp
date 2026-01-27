@@ -18,7 +18,7 @@ namespace BrainCloud
     class BrainCloudAppStore
     {
     public:
-        BrainCloudAppStore(BrainCloudClient *in_client);
+        BrainCloudAppStore(BrainCloudClient *client);
 
         /**
          * Verifies that purchase was properly made at the store.
@@ -26,7 +26,7 @@ namespace BrainCloud
          * Service Name - AppStore
          * Service Operation - VerifyPurchase
          *
-         * @param in_storeId The store platform. Valid stores are:
+         * @param storeId The store platform. Valid stores are:
          * - itunes
          * - facebook
          * - appworld
@@ -34,10 +34,10 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
-         * @param in_jsonReceiptData The specific store data required
-         * @param in_callback The method to be invoked when the server response is received
+         * @param jsonReceiptData The specific store data required
+         * @param callback The method to be invoked when the server response is received
          */
-        void verifyPurchase(const std::string &in_storeId, const std::string &in_jsonReceiptData, IServerCallback *in_callback = NULL);
+        void verifyPurchase(const std::string &storeId, const std::string &jsonReceiptData, IServerCallback *callback = NULL);
 
         /**
          * Returns the eligible promotions for the player.
@@ -45,9 +45,9 @@ namespace BrainCloud
          * Service Name - AppStore
          * Service Operation - EligiblePromotions
          *
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void getEligiblePromotions(IServerCallback *in_callback = NULL);
+        void getEligiblePromotions(IServerCallback *callback = NULL);
 
         /**
          * Method gets the active sales inventory for the passed-in
@@ -56,7 +56,7 @@ namespace BrainCloud
          * Service Name - AppStore
          * Service Operation - GetInventory
          *
-         * @param in_storeId The store platform. Valid stores are:
+         * @param storeId The store platform. Valid stores are:
          * - itunes
          * - facebook
          * - appworld
@@ -64,10 +64,10 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
-         * @param in_userCurrency The currency type to retrieve the sales inventory for.
-         * @param in_callback The method to be invoked when the server response is received
+         * @param userCurrency The currency type to retrieve the sales inventory for.
+         * @param callback The method to be invoked when the server response is received
          */
-        void getSalesInventory(const std::string &in_storeId, const std::string &in_userCurrency, IServerCallback *in_callback = NULL);
+        void getSalesInventory(const std::string &storeId, const std::string &userCurrency, IServerCallback *callback = NULL);
 
         /**
          * Method gets the active sales inventory for the passed-in
@@ -76,7 +76,7 @@ namespace BrainCloud
          * Service Name - AppStore
          * Service Operation - GetInventory
          *
-         * @param in_storeId The store platform. Valid stores are:
+         * @param storeId The store platform. Valid stores are:
          * - itunes
          * - facebook
          * - appworld
@@ -84,11 +84,11 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
-         * @param in_userCurrency The currency type to retrieve the sales inventory for.
-         * @param in_category The product category
-         * @param in_callback The method to be invoked when the server response is received
+         * @param userCurrency The currency type to retrieve the sales inventory for.
+         * @param category The product category
+         * @param callback The method to be invoked when the server response is received
          */
-        void getSalesInventoryByCategory(const std::string &in_storeId, const std::string &in_userCurrency, const std::string &in_category, IServerCallback *in_callback = NULL);
+        void getSalesInventoryByCategory(const std::string &storeId, const std::string &userCurrency, const std::string &category, IServerCallback *callback = NULL);
 
         /**
          * Start A Two Staged Purchase Transaction
@@ -96,7 +96,7 @@ namespace BrainCloud
          * Service Name - AppStore
          * Service Operation - StartPurchase
          *
-         * @param in_storeId The store platform. Valid stores are:
+         * @param storeId The store platform. Valid stores are:
          * - itunes
          * - facebook
          * - appworld
@@ -104,10 +104,10 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
-         * @param in_jsonPurchaseData Specific data for starting a two-stage purchase
-         * @param in_callback The method to be invoked when the server response is received
+         * @param jsonPurchaseData Specific data for starting a two-stage purchase
+         * @param callback The method to be invoked when the server response is received
          */
-        void startPurchase(const std::string &in_storeId, const std::string &in_jsonPurchaseData, IServerCallback *in_callback = NULL);
+        void startPurchase(const std::string &storeId, const std::string &jsonPurchaseData, IServerCallback *callback = NULL);
 
         /**
          * Finalize A Two Staged Purchase Transaction
@@ -115,7 +115,7 @@ namespace BrainCloud
          * Service Name - AppStore
          * Service Operation - FinalizePurchase
          *
-         * @param in_storeId The store platform. Valid stores are:
+         * @param storeId The store platform. Valid stores are:
          * - itunes
          * - facebook
          * - appworld
@@ -123,22 +123,22 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
-         * @param in_transactionId The transaction id returned from startPurchase
-         * @param in_jsonTransactionData Specific transaction data for finalizing purchase
-         * @param in_callback The method to be invoked when the server response is received
+         * @param transactionId The transaction id returned from startPurchase
+         * @param jsonTransactionData Specific transaction data for finalizing purchase
+         * @param callback The method to be invoked when the server response is received
          */
-        void finalizePurchase(const std::string &in_storeId, const std::string &in_transactionId, const std::string &in_jsonTransactionData, IServerCallback *in_callback = NULL);
+        void finalizePurchase(const std::string &storeId, const std::string &transactionId, const std::string &jsonTransactionData, IServerCallback *callback = NULL);
 
         /**
          * Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing.
          *
          * Service Name - AppStore
          * Service Operation - RefreshPromotions
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void refreshPromotions(IServerCallback *in_callback = NULL);
+        void refreshPromotions(IServerCallback *callback = NULL);
 
-        /*
+        /**
          * Before making a purchase with the IAP store, you will need to store the purchase
          * payload context on brainCloud so that the purchase can be verified for the proper IAP product.
          * This payload will be used during the VerifyPurchase method to ensure the
@@ -147,7 +147,7 @@ namespace BrainCloud
          * Service Name - AppStore
          * Service Operation - CachePurchasePayloadContext
          *
-         * @param in_storeId The store platform. Valid stores are:
+         * @param storeId The store platform. Valid stores are:
          * - itunes
          * - facebook
          * - appworld
@@ -155,11 +155,11 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
-         * @param in_iapId The IAP product id as configured on brainCloud
-         * @param in_payload The payload retrieved for the IAP product
-         * @param in_callback The method to be invoked when the server response is received
+         * @param iapId The IAP product id as configured on brainCloud
+         * @param payload The payload retrieved for the IAP product
+         * @param callback The method to be invoked when the server response is received
          */
-        void cachePurchasePayloadContext(const std::string &in_storeId, const std::string &in_iapId, const std::string &in_payload, IServerCallback *in_callback = NULL);
+        void cachePurchasePayloadContext(const std::string &storeId, const std::string &iapId, const std::string &payload, IServerCallback *callback = NULL);
 
     private:
         BrainCloudClient *m_client;

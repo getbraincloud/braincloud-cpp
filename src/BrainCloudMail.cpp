@@ -16,53 +16,53 @@
 
 namespace BrainCloud
 {
-	BrainCloudMail::BrainCloudMail(BrainCloudClient* in_client) : m_client(in_client) { }
+	BrainCloudMail::BrainCloudMail(BrainCloudClient *client) : m_client(client) {}
 
-	void BrainCloudMail::sendBasicEmail(const char * in_profileId, const char * in_subject, const char * in_body, IServerCallback * in_callback)
+	void BrainCloudMail::sendBasicEmail(const char *profileId, const char *subject, const char *body, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileId.getValue()] = in_profileId;
-		message[OperationParam::Subject.getValue()] = in_subject;
-		message[OperationParam::Body.getValue()] = in_body;
+		message[OperationParam::ProfileId.getValue()] = profileId;
+		message[OperationParam::Subject.getValue()] = subject;
+		message[OperationParam::Body.getValue()] = body;
 
-		ServerCall * sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendBasicEmail, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendBasicEmail, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudMail::sendAdvancedEmail(const char * in_profileId, const std::string & in_jsonServiceParams, IServerCallback * in_callback)
+	void BrainCloudMail::sendAdvancedEmail(const char *profileId, const std::string &jsonServiceParams, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileId.getValue()] = in_profileId;
+		message[OperationParam::ProfileId.getValue()] = profileId;
 
-		Json::Value jsonData = JsonUtil::jsonStringToValue(in_jsonServiceParams);
+		Json::Value jsonData = JsonUtil::jsonStringToValue(jsonServiceParams);
 		message[OperationParam::ServiceParams.getValue()] = jsonData;
 
-		ServerCall * sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendAdvancedEmail, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendAdvancedEmail, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudMail::sendAdvancedEmailByAddress(const char * in_emailAddress, const std::string & in_jsonServiceParams, IServerCallback * in_callback)
+	void BrainCloudMail::sendAdvancedEmailByAddress(const char *emailAddress, const std::string &jsonServiceParams, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::EmailAddress.getValue()] = in_emailAddress;
+		message[OperationParam::EmailAddress.getValue()] = emailAddress;
 
-		Json::Value jsonData = JsonUtil::jsonStringToValue(in_jsonServiceParams);
+		Json::Value jsonData = JsonUtil::jsonStringToValue(jsonServiceParams);
 		message[OperationParam::ServiceParams.getValue()] = jsonData;
 
-		ServerCall * sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendAdvancedEmailByAddress, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendAdvancedEmailByAddress, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudMail::sendAdvancedEmailByAddresses(const std::vector<std::string> &in_emailAddresses, const std::string &in_serviceParams, IServerCallback *in_callback)
+	void BrainCloudMail::sendAdvancedEmailByAddresses(const std::vector<std::string> &emailAddresses, const std::string &serviceParams, IServerCallback *callback)
 	{
 		Json::Value message;
-		Json::Value emailAddresses = JsonUtil::stringVectorToJson(in_emailAddresses);
+		Json::Value emailAddresses = JsonUtil::stringVectorToJson(emailAddresses);
 		message[OperationParam::EmailAddresses.getValue()] = emailAddresses;
 
-		Json::Value jsonData = JsonUtil::jsonStringToValue(in_serviceParams);
+		Json::Value jsonData = JsonUtil::jsonStringToValue(serviceParams);
 		message[OperationParam::ServiceParams.getValue()] = jsonData;
 
-		ServerCall *sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendAdvancedEmailByAddresses, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Mail, ServiceOperation::SendAdvancedEmailByAddresses, message, callback);
 		m_client->sendRequest(sc);
 	}
 }

@@ -19,13 +19,13 @@ namespace BrainCloud
     class BrainCloudBlockchain
     {
     public:
-        BrainCloudBlockchain(BrainCloudClient *in_client);
+        BrainCloudBlockchain(BrainCloudClient *client);
 
         /**
          * Retrieves the blockchain items owned by the caller.
          *
          * Service Name - Blockchain
-         * Service Operation - GET_BLOCKCHAIN_ITEMS
+         * Service Operation - GET_BLOCKCHAITEMS
          *
          * @param integrationID  The blockchain integration id.
          *                          Currently only 'default' is supported.

@@ -16,7 +16,7 @@ namespace BrainCloud
     class BrainCloudTime
     {
     public:
-        BrainCloudTime(BrainCloudClient *in_client);
+        BrainCloudTime(BrainCloudClient *client);
 
         /**
          * Method returns the server time in UTC. This is in UNIX millis time format.
@@ -25,10 +25,10 @@ namespace BrainCloud
          * Service Name - Time
          * Service Operation - Read
          *
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          * @see Server API reference: ServiceName.Time, ServiceOperation.Read
          */
-        void readServerTime(IServerCallback *in_callback = NULL);
+        void readServerTime(IServerCallback *callback = NULL);
 
     private:
         BrainCloudClient *m_client;

@@ -18,9 +18,9 @@
 
 #include "braincloud/internal/URLLoader.h"
 
-#if defined (__OBJC__)
+#if defined(__OBJC__)
 #import <Foundation/Foundation.h>
-@interface URLSessionDelegate : NSObject<NSURLSessionDataDelegate>
+@interface URLSessionDelegate : NSObject <NSURLSessionDataDelegate>
 @end
 #else
 class URLSessionDelegate;
@@ -35,12 +35,16 @@ namespace BrainCloud
         virtual ~nsURLLoader();
 
         // Override the pure virtual methods.
-        virtual void    close();
-        virtual void    load(URLRequest const &);
-        virtual void    load(URLRequest const * r) { if (r != NULL) load(*r); }
-        virtual bool    isDone();
+        virtual void close();
+        virtual void load(URLRequest const &);
+        virtual void load(URLRequest const *r)
+        {
+            if (r != NULL)
+                load(*r);
+        }
+        virtual bool isDone();
 
-        /*
+        /**
          Time in milliseconds that you allow the libcurl transfer operation to take.
          Normally, name lookups can take a considerable time and limiting operations to less than a few minutes
          risk aborting perfectly normal operations. This option will cause curl to use the SIGALRM to enable time-outing
@@ -51,8 +55,8 @@ namespace BrainCloud
          allowed of one second. (Added in 7.16.2)
          */
         virtual void setTimeout(int milliseconds) { _timeoutInterval = milliseconds; }
-        virtual int  getTimeout() { return static_cast<int>(_timeoutInterval); }
-        //FIXME: Maybe this should be obfuscated.
+        virtual int getTimeout() { return static_cast<int>(_timeoutInterval); }
+        // FIXME: Maybe this should be obfuscated.
         void setThreadRunning(bool running) { _threadRunning = running; }
 
     protected:
@@ -62,15 +66,13 @@ namespace BrainCloud
         nsURLLoader();
 
     private:
+        URLSessionDelegate *_sessionDelegate;
 
-        URLSessionDelegate * _sessionDelegate;
+        static bool _initialized;
+        static long _timeoutInterval;
 
-        static bool     _initialized;
-        static long     _timeoutInterval;
-
-        bool            _threadRunning;
+        bool _threadRunning;
     };
 }
-
 
 #endif /* _NSURLLOADER_H_ */

@@ -18,7 +18,7 @@ namespace BrainCloud
 	class BrainCloudUserItems
 	{
 	public:
-		BrainCloudUserItems(BrainCloudClient *in_client);
+		BrainCloudUserItems(BrainCloudClient *client);
 
 		/**
 		 * Awards item(s) to a user without collecting the purchase amount.
@@ -28,12 +28,12 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - AWARD_USER_ITEM
 		 *
-		 * @param in_defId       The unique id of the item definition to award.
-		 * @param in_quantity    The quantity of the item to award.
-		 * @param in_includeDef  If true, include associated item definition in the response.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param defId       The unique id of the item definition to award.
+		 * @param quantity    The quantity of the item to award.
+		 * @param includeDef  If true, include associated item definition in the response.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void awardUserItem(const std::string &in_defId, int32_t in_quantity, bool in_includeDef, IServerCallback *in_callback = nullptr);
+		void awardUserItem(const std::string &defId, int32_t quantity, bool includeDef, IServerCallback *callback = nullptr);
 
 		/**
 		 * Awards item(s) to a user with additional options.
@@ -41,13 +41,13 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - AWARD_USER_ITEM
 		 *
-		 * @param in_defId       The unique id of the item definition to award.
-		 * @param in_quantity    The quantity of the item to award.
-		 * @param in_includeDef  If true, include associated item definition in the response.
-		 * @param in_optionsJson JSON string specifying additional options (e.g., blockIfExceedItemMaxStackable).
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param defId       The unique id of the item definition to award.
+		 * @param quantity    The quantity of the item to award.
+		 * @param includeDef  If true, include associated item definition in the response.
+		 * @param optionsJson JSON string specifying additional options (e.g., blockIfExceedItemMaxStackable).
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void awardUserItemWithOptions(const std::string &in_defId, int32_t in_quantity, bool in_includeDef, const std::string &in_optionsJson, IServerCallback *in_callback = nullptr);
+		void awardUserItemWithOptions(const std::string &defId, int32_t quantity, bool includeDef, const std::string &optionsJson, IServerCallback *callback = nullptr);
 
 		/**
 		 * Drops a quantity of a specified user item without recovering the purchase cost.
@@ -56,12 +56,12 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - DROP_USER_ITEM
 		 *
-		 * @param in_defId       The unique id of the item definition to drop.
-		 * @param in_quantity    The quantity of the item to drop.
-		 * @param in_includeDef  If true, include associated item definition in the response.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param defId       The unique id of the item definition to drop.
+		 * @param quantity    The quantity of the item to drop.
+		 * @param includeDef  If true, include associated item definition in the response.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void dropUserItem(const std::string &in_defId, int32_t in_quantity, bool in_includeDef, IServerCallback *in_callback = nullptr);
+		void dropUserItem(const std::string &defId, int32_t quantity, bool includeDef, IServerCallback *callback = nullptr);
 
 		/**
 		 * Retrieves a page of the user's inventory.
@@ -69,11 +69,11 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - GET_USER_INVENTORY_PAGE
 		 *
-		 * @param in_context     Context string used to filter inventory.
-		 * @param in_includeDef  If true, include associated item definitions in the response.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param context     Context string used to filter inventory.
+		 * @param includeDef  If true, include associated item definitions in the response.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getUserItemsPage(const std::string &in_context, bool in_includeDef, IServerCallback *in_callback = nullptr);
+		void getUserItemsPage(const std::string &context, bool includeDef, IServerCallback *callback = nullptr);
 
 		/**
 		 * Retrieves a page of the user's inventory with an offset.
@@ -81,12 +81,12 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - GET_USER_INVENTORY_PAGE_OFFSET
 		 *
-		 * @param in_context     Context string used to filter inventory.
-		 * @param in_pageOffset  Page offset to retrieve.
-		 * @param in_includeDef  If true, include associated item definitions in the response.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param context     Context string used to filter inventory.
+		 * @param pageOffset  Page offset to retrieve.
+		 * @param includeDef  If true, include associated item definitions in the response.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getUserItemsPageOffset(const std::string &in_context, int32_t in_pageOffset, bool in_includeDef, IServerCallback *in_callback = nullptr);
+		void getUserItemsPageOffset(const std::string &context, int32_t pageOffset, bool includeDef, IServerCallback *callback = nullptr);
 
 		/**
 		 * Retrieves a specific user item.
@@ -94,11 +94,11 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - GET_USER_ITEM
 		 *
-		 * @param in_itemId      ID of the user item to retrieve.
-		 * @param in_includeDef  If true, include associated item definition in the response.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param itemId      ID of the user item to retrieve.
+		 * @param includeDef  If true, include associated item definition in the response.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getUserItem(const std::string &in_itemId, bool in_includeDef, IServerCallback *in_callback = nullptr);
+		void getUserItem(const std::string &itemId, bool includeDef, IServerCallback *callback = nullptr);
 
 		/**
 		 * Gifts an item to another user.
@@ -106,14 +106,14 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - GIVE_USER_ITEM_TO
 		 *
-		 * @param in_profileId   Profile ID of the recipient.
-		 * @param in_itemId      ID of the item to gift.
-		 * @param in_version     Version of the item being gifted.
-		 * @param in_quantity    Quantity of the item to gift.
-		 * @param in_immediate   If true, the gift is delivered immediately.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param profileId   Profile ID of the recipient.
+		 * @param itemId      ID of the item to gift.
+		 * @param version     Version of the item being gifted.
+		 * @param quantity    Quantity of the item to gift.
+		 * @param immediate   If true, the gift is delivered immediately.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void giveUserItemTo(const std::string &in_profileId, const std::string &in_itemId, int32_t in_version, int32_t in_quantity, bool in_immediate, IServerCallback *in_callback = nullptr);
+		void giveUserItemTo(const std::string &profileId, const std::string &itemId, int32_t version, int32_t quantity, bool immediate, IServerCallback *callback = nullptr);
 
 		/**
 		 * Purchases a user item from a store.
@@ -121,13 +121,13 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - PURCHASE_USER_ITEM
 		 *
-		 * @param in_defId       The unique id of the item definition to purchase.
-		 * @param in_quantity    Quantity of the item to purchase.
-		 * @param in_shopId      Store ID for the purchase.
-		 * @param in_includeDef  If true, include associated item definition in the response.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param defId       The unique id of the item definition to purchase.
+		 * @param quantity    Quantity of the item to purchase.
+		 * @param shopId      Store ID for the purchase.
+		 * @param includeDef  If true, include associated item definition in the response.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void purchaseUserItem(const std::string &in_defId, int32_t in_quantity, const std::string &in_shopId, bool in_includeDef, IServerCallback *in_callback = nullptr);
+		void purchaseUserItem(const std::string &defId, int32_t quantity, const std::string &shopId, bool includeDef, IServerCallback *callback = nullptr);
 
 		/**
 		 * Purchases a user item with options.
@@ -135,14 +135,14 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - PURCHASE_USER_ITEM
 		 *
-		 * @param in_defId       The unique id of the item definition to purchase.
-		 * @param in_quantity    Quantity of the item to purchase.
-		 * @param in_shopId      Store ID for the purchase.
-		 * @param in_includeDef  If true, include associated item definition in the response.
-		 * @param in_optionsJson JSON string specifying additional options.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param defId       The unique id of the item definition to purchase.
+		 * @param quantity    Quantity of the item to purchase.
+		 * @param shopId      Store ID for the purchase.
+		 * @param includeDef  If true, include associated item definition in the response.
+		 * @param optionsJson JSON string specifying additional options.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void purchaseUserItemsWithOptions(const std::string &in_defId, int32_t in_quantity, const std::string &in_shopId, bool in_includeDef, const std::string &in_optionsJson, IServerCallback *in_callback = nullptr);
+		void purchaseUserItemsWithOptions(const std::string &defId, int32_t quantity, const std::string &shopId, bool includeDef, const std::string &optionsJson, IServerCallback *callback = nullptr);
 
 		/**
 		 * Retrieves and transfers a gift item from another user.
@@ -150,11 +150,11 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - RECEIVE_USER_ITEM_FROM
 		 *
-		 * @param in_profileId   Profile ID of the sender.
-		 * @param in_itemId      ID of the item being received.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param profileId   Profile ID of the sender.
+		 * @param itemId      ID of the item being received.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void receiveUserItemFrom(const std::string &in_profileId, const std::string &in_itemId, IServerCallback *in_callback = nullptr);
+		void receiveUserItemFrom(const std::string &profileId, const std::string &itemId, IServerCallback *callback = nullptr);
 
 		/**
 		 * Sells a user item back to the store.
@@ -162,14 +162,14 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - SELL_USER_ITEM
 		 *
-		 * @param in_itemId      ID of the user item to sell.
-		 * @param in_version     Version of the item being sold.
-		 * @param in_quantity    Quantity of the item to sell.
-		 * @param in_shopId      Store ID for the sale.
-		 * @param in_includeDef  If true, include associated item definition in the response.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param itemId      ID of the user item to sell.
+		 * @param version     Version of the item being sold.
+		 * @param quantity    Quantity of the item to sell.
+		 * @param shopId      Store ID for the sale.
+		 * @param includeDef  If true, include associated item definition in the response.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void sellUserItem(const std::string &in_itemId, int32_t in_version, int32_t in_quantity, const std::string &in_shopId, bool in_includeDef, IServerCallback *in_callback = nullptr);
+		void sellUserItem(const std::string &itemId, int32_t version, int32_t quantity, const std::string &shopId, bool includeDef, IServerCallback *callback = nullptr);
 
 		/**
 		 * Updates the data of a specific user item.
@@ -177,12 +177,12 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - UPDATE_USER_ITEM_DATA
 		 *
-		 * @param in_itemId      ID of the user item to update.
-		 * @param in_version     Version of the item being updated.
-		 * @param in_newItemData JSON string with updated item data.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param itemId      ID of the user item to update.
+		 * @param version     Version of the item being updated.
+		 * @param newItemData JSON string with updated item data.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateUserItemData(const std::string &in_itemId, int32_t in_version, const std::string &in_newItemData, IServerCallback *in_callback = nullptr);
+		void updateUserItemData(const std::string &itemId, int32_t version, const std::string &newItemData, IServerCallback *callback = nullptr);
 
 		/**
 		 * Uses a user item, potentially consuming it.
@@ -190,13 +190,13 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - USE_USER_ITEM
 		 *
-		 * @param in_itemId      ID of the user item to use.
-		 * @param in_version     Version of the user item (pass -1 for any version).
-		 * @param in_newItemData Optional JSON string to update item fields.
-		 * @param in_includeDef  If true, include associated item definition in the response.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param itemId      ID of the user item to use.
+		 * @param version     Version of the user item (pass -1 for any version).
+		 * @param newItemData Optional JSON string to update item fields.
+		 * @param includeDef  If true, include associated item definition in the response.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void useUserItem(const std::string &in_itemId, int32_t in_version, const std::string &in_newItemData, bool in_includeDef, IServerCallback *in_callback = nullptr);
+		void useUserItem(const std::string &itemId, int32_t version, const std::string &newItemData, bool includeDef, IServerCallback *callback = nullptr);
 
 		/**
 		 * Publishes a user item to the blockchain.
@@ -204,21 +204,21 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - PUBLISH_USER_ITEM_TO_BLOCKCHAIN
 		 *
-		 * @param in_itemId      ID of the user item to publish.
-		 * @param in_version     Version of the item to publish.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param itemId      ID of the user item to publish.
+		 * @param version     Version of the item to publish.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void publishUserItemToBlockchain(const std::string &in_itemId, int32_t in_version, IServerCallback *in_callback = nullptr);
+		void publishUserItemToBlockchain(const std::string &itemId, int32_t version, IServerCallback *callback = nullptr);
 
 		/**
 		 * Refreshes blockchain user items.
 		 *
 		 * Service Name - userItems
-		 * Service Operation - REFRESH_BLOCKCHAIN_USER_ITEMS
+		 * Service Operation - REFRESH_BLOCKCHAUSER_ITEMS
 		 *
-		 * @param in_callback Callback invoked when the server response is received.
+		 * @param callback Callback invoked when the server response is received.
 		 */
-		void refreshBlockchainUserItems(IServerCallback *in_callback = nullptr);
+		void refreshBlockchainUserItems(IServerCallback *callback = nullptr);
 
 		/**
 		 * Removes a user item from the blockchain.
@@ -226,11 +226,11 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - REMOVE_USER_ITEM_FROM_BLOCKCHAIN
 		 *
-		 * @param in_itemId   ID of the user item to remove.
-		 * @param in_version  Version of the user item to remove.
-		 * @param in_callback Callback invoked when the server response is received.
+		 * @param itemId   ID of the user item to remove.
+		 * @param version  Version of the user item to remove.
+		 * @param callback Callback invoked when the server response is received.
 		 */
-		void removeUserItemFromBlockchain(const std::string &in_itemId, int32_t in_version, IServerCallback *in_callback = nullptr);
+		void removeUserItemFromBlockchain(const std::string &itemId, int32_t version, IServerCallback *callback = nullptr);
 
 		/**
 		 * Returns a list of promotional details for a specified item.
@@ -238,13 +238,13 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - GET_ITEM_PROMOTION_DETAILS
 		 *
-		 * @param in_defId                    Item definition ID.
-		 * @param in_shopId                   Store ID.
-		 * @param in_includeDef               Include associated item definition if true.
-		 * @param in_includePromotionDetails  Include promotion details if true.
-		 * @param in_callback                 Callback invoked when the server response is received.
+		 * @param defId                    Item definition ID.
+		 * @param shopId                   Store ID.
+		 * @param includeDef               Include associated item definition if true.
+		 * @param includePromotionDetails  Include promotion details if true.
+		 * @param callback                 Callback invoked when the server response is received.
 		 */
-		void getItemPromotionDetails(const std::string &in_defId, const std::string &in_shopId, bool in_includeDef, bool in_includePromotionDetails, IServerCallback *in_callback = nullptr);
+		void getItemPromotionDetails(const std::string &defId, const std::string &shopId, bool includeDef, bool includePromotionDetails, IServerCallback *callback = nullptr);
 
 		/**
 		 * Returns a list of items on promotion available to the current user.
@@ -252,13 +252,13 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - GET_ITEMS_ON_PROMOTION
 		 *
-		 * @param in_shopId                  Store ID.
-		 * @param in_includeDef              Include associated item definition if true.
-		 * @param in_includePromotionDetails Include promotion details if true.
-		 * @param in_optionsJson             JSON string specifying additional options (e.g., category).
-		 * @param in_callback                Callback invoked when the server response is received.
+		 * @param shopId                  Store ID.
+		 * @param includeDef              Include associated item definition if true.
+		 * @param includePromotionDetails Include promotion details if true.
+		 * @param optionsJson             JSON string specifying additional options (e.g., category).
+		 * @param callback                Callback invoked when the server response is received.
 		 */
-		void getItemsOnPromotion(const std::string &in_shopId, bool in_includeDef, bool in_includePromotionDetails, const std::string &in_optionsJson, IServerCallback *in_callback = nullptr);
+		void getItemsOnPromotion(const std::string &shopId, bool includeDef, bool includePromotionDetails, const std::string &optionsJson, IServerCallback *callback = nullptr);
 
 		/**
 		 * Opens a quantity of a bundle user item.
@@ -267,14 +267,14 @@ namespace BrainCloud
 		 * Service Name - userItems
 		 * Service Operation - OPEN_BUNDLE
 		 *
-		 * @param in_itemId      ID of the bundle item to open.
-		 * @param in_version     Version of the bundle item (pass -1 for any version).
-		 * @param in_quantity    Quantity of the item to open.
-		 * @param in_includeDef  Include associated item definitions if true.
-		 * @param in_optionsJson JSON string specifying additional options.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param itemId      ID of the bundle item to open.
+		 * @param version     Version of the bundle item (pass -1 for any version).
+		 * @param quantity    Quantity of the item to open.
+		 * @param includeDef  Include associated item definitions if true.
+		 * @param optionsJson JSON string specifying additional options.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void openBundle(const std::string &in_itemId, int32_t in_version, int32_t in_quantity, bool in_includeDef, const std::string &in_optionsJson, IServerCallback *in_callback = nullptr);
+		void openBundle(const std::string &itemId, int32_t version, int32_t quantity, bool includeDef, const std::string &optionsJson, IServerCallback *callback = nullptr);
 
 	private:
 		BrainCloudClient *m_client;

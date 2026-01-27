@@ -12,33 +12,33 @@
 
 namespace BrainCloud
 {
-    BrainCloudOneWayMatch::BrainCloudOneWayMatch(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudOneWayMatch::BrainCloudOneWayMatch(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudOneWayMatch::startMatch(const char * in_otherPlayerId, int32_t in_rangeDelta, IServerCallback * in_callback)
+    void BrainCloudOneWayMatch::startMatch(const char *otherPlayerId, int32_t rangeDelta, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::OneWayMatchServicePlayerId.getValue()] = in_otherPlayerId;
-        message[OperationParam::OneWayMatchServiceRangeDelta.getValue()] = in_rangeDelta;
+        message[OperationParam::OneWayMatchServicePlayerId.getValue()] = otherPlayerId;
+        message[OperationParam::OneWayMatchServiceRangeDelta.getValue()] = rangeDelta;
 
-        ServerCall * sc = new ServerCall(ServiceName::OneWayMatch, ServiceOperation::StartMatch, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::OneWayMatch, ServiceOperation::StartMatch, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudOneWayMatch::cancelMatch(const char * in_playbackStreamId, IServerCallback * in_callback)
+    void BrainCloudOneWayMatch::cancelMatch(const char *playbackStreamId, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::OneWayMatchServicePlaybackStreamId.getValue()] = in_playbackStreamId;
+        message[OperationParam::OneWayMatchServicePlaybackStreamId.getValue()] = playbackStreamId;
 
-        ServerCall * sc = new ServerCall(ServiceName::OneWayMatch, ServiceOperation::CancelMatch, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::OneWayMatch, ServiceOperation::CancelMatch, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudOneWayMatch::completeMatch(const char * in_playbackStreamId, IServerCallback * in_callback)
+    void BrainCloudOneWayMatch::completeMatch(const char *playbackStreamId, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::OneWayMatchServicePlaybackStreamId.getValue()] = in_playbackStreamId;
+        message[OperationParam::OneWayMatchServicePlaybackStreamId.getValue()] = playbackStreamId;
 
-        ServerCall * sc = new ServerCall(ServiceName::OneWayMatch, ServiceOperation::CompleteMatch, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::OneWayMatch, ServiceOperation::CompleteMatch, message, callback);
         m_client->sendRequest(sc);
     }
 }

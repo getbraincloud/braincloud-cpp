@@ -14,48 +14,48 @@
 
 namespace BrainCloud
 {
-    BrainCloudGlobalStatistics::BrainCloudGlobalStatistics(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudGlobalStatistics::BrainCloudGlobalStatistics(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudGlobalStatistics::readAllGlobalStats(IServerCallback * in_callback)
+    void BrainCloudGlobalStatistics::readAllGlobalStats(IServerCallback *callback)
     {
         Json::Value message;
-        ServerCall * sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::Read, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::Read, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudGlobalStatistics::readGlobalStatsSubset(const std::vector<std::string> & in_statistics, IServerCallback * in_callback)
+    void BrainCloudGlobalStatistics::readGlobalStatsSubset(const std::vector<std::string> &statistics, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlayerStatisticsServiceStats.getValue()] = JsonUtil::stringVectorToJson(in_statistics);
+        message[OperationParam::PlayerStatisticsServiceStats.getValue()] = JsonUtil::stringVectorToJson(statistics);
 
-        ServerCall * sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::ReadSubset, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::ReadSubset, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudGlobalStatistics::readGlobalStatsForCategory(const char * in_category, IServerCallback * in_callback)
+    void BrainCloudGlobalStatistics::readGlobalStatsForCategory(const char *category, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::GamificationServiceCategory.getValue()] = in_category;
+        message[OperationParam::GamificationServiceCategory.getValue()] = category;
 
-        ServerCall * sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::ReadForCategory, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::ReadForCategory, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudGlobalStatistics::incrementGlobalGameStat(const std::string& in_jsonData, IServerCallback * in_callback)
+    void BrainCloudGlobalStatistics::incrementGlobalGameStat(const std::string &jsonData, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlayerStatisticsServiceStats.getValue()] = JsonUtil::jsonStringToValue(in_jsonData);
+        message[OperationParam::PlayerStatisticsServiceStats.getValue()] = JsonUtil::jsonStringToValue(jsonData);
 
-        ServerCall * sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::UpdateIncrement, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::UpdateIncrement, message, callback);
         m_client->sendRequest(sc);
     }
 
-	void BrainCloudGlobalStatistics::processStatistics(const std::string & in_jsonData, IServerCallback * in_callback)
-	{
-		Json::Value message;
-		message[OperationParam::PlayerStatisticsServiceStats.getValue()] = JsonUtil::jsonStringToValue(in_jsonData);
+    void BrainCloudGlobalStatistics::processStatistics(const std::string &jsonData, IServerCallback *callback)
+    {
+        Json::Value message;
+        message[OperationParam::PlayerStatisticsServiceStats.getValue()] = JsonUtil::jsonStringToValue(jsonData);
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::ProcessStatistics, message, in_callback);
-		m_client->sendRequest(sc);
-	}
+        ServerCall *sc = new ServerCall(ServiceName::GlobalGameStatistics, ServiceOperation::ProcessStatistics, message, callback);
+        m_client->sendRequest(sc);
+    }
 }

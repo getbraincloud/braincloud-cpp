@@ -39,7 +39,7 @@ namespace BrainCloud
 	class BrainCloudGroup
 	{
 	public:
-		BrainCloudGroup(BrainCloudClient *in_client);
+		BrainCloudGroup(BrainCloudClient *client);
 
 		/**
 		 * Accept an outstanding invitation to join the group.
@@ -47,10 +47,10 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - ACCEPT_GROUP_INVITATION
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void acceptGroupInvitation(const char *in_groupId, IServerCallback *in_callback = NULL);
+		void acceptGroupInvitation(const char *groupId, IServerCallback *callback = NULL);
 
 		/**
 		 * Add a member to the group.
@@ -58,52 +58,52 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - ADD_GROUP_MEMBER
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_profileId Profile ID of the member being added.
-		 * @param in_role Role of the member being added.
-		 * @param in_jsonAttributes Attributes of the member being added.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param profileId Profile ID of the member being added.
+		 * @param role Role of the member being added.
+		 * @param jsonAttributes Attributes of the member being added.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void addGroupMember(const char *in_groupId, const char *in_profileId, eGroupMember::Role role, const std::string &in_jsonAttributes, IServerCallback *in_callback = NULL);
+		void addGroupMember(const char *groupId, const char *profileId, eGroupMember::Role role, const std::string &jsonAttributes, IServerCallback *callback = NULL);
 
 		/**
 		 * Approve an outstanding request to join the group.
 		 *
 		 * Service Name - group
-		 * Service Operation - APPROVE_GROUP_JOIN_REQUEST
+		 * Service Operation - APPROVE_GROUP_JOREQUEST
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_profileId Profile ID of the invitation being deleted.
-		 * @param in_role Role of the member being invited.
-		 * @param in_jsonAttributes Attributes of the member being invited.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param profileId Profile ID of the invitation being deleted.
+		 * @param role Role of the member being invited.
+		 * @param jsonAttributes Attributes of the member being invited.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void approveGroupJoinRequest(const char *in_groupId, const char *in_profileId, eGroupMember::Role role, const std::string &in_jsonAttributes, IServerCallback *in_callback = NULL);
+		void approveGroupJoinRequest(const char *groupId, const char *profileId, eGroupMember::Role role, const std::string &jsonAttributes, IServerCallback *callback = NULL);
 
 		/**
 		 * Automatically join an open group that matches the search criteria and has space available.
 		 *
 		 * Service Name - group
-		 * Service Operation - AUTO_JOIN_GROUP
+		 * Service Operation - AUTO_JOGROUP
 		 *
-		 * @param in_groupType Name of the associated group type.
-		 * @param in_autoJoinStrategy Selection strategy to employ when there are multiple matches
-		 * @param in_dataQueryJson Query parameters (optional)
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupType Name of the associated group type.
+		 * @param autoJoinStrategy Selection strategy to employ when there are multiple matches
+		 * @param dataQueryJson Query parameters (optional)
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void autoJoinGroup(const char *in_groupType, eAutoJoinStrategy::Strategy in_autoJoinStrategy, std::string in_dataQueryJson, IServerCallback *in_callback = NULL);
+		void autoJoinGroup(const char *groupType, eAutoJoinStrategy::Strategy autoJoinStrategy, std::string dataQueryJson, IServerCallback *callback = NULL);
 
 		/**
 		 * Find and join an open group in the pool of groups in multiple group types provided as input arguments.		*
 		 * Service Name - group
-		 * Service Operation - AUTO_JOIN_GROUP_MULTI
+		 * Service Operation - AUTO_JOGROUP_MULTI
 		 *
-		 * @param in_groupTypes Name of the associated group type.
-		 * @param in_autoJoinStrategy Selection strategy to employ when there are multiple matches
-		 * @param in_where Query parameters (optional)
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupTypes Name of the associated group type.
+		 * @param autoJoinStrategy Selection strategy to employ when there are multiple matches
+		 * @param where Query parameters (optional)
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void autoJoinGroupMulti(const std::vector<std::string> &in_groupTypes, eAutoJoinStrategy::Strategy in_autoJoinStrategy, std::string in_where, IServerCallback *in_callback = NULL);
+		void autoJoinGroupMulti(const std::vector<std::string> &groupTypes, eAutoJoinStrategy::Strategy autoJoinStrategy, std::string where, IServerCallback *callback = NULL);
 
 		/**
 		 * Cancel an outstanding invitation to the group.
@@ -111,11 +111,11 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - CANCEL_GROUP_INVITATION
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_profileId Profile ID of the invitation being deleted.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param profileId Profile ID of the invitation being deleted.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void cancelGroupInvitation(const char *in_groupId, const char *in_profileId, IServerCallback *in_callback = NULL);
+		void cancelGroupInvitation(const char *groupId, const char *profileId, IServerCallback *callback = NULL);
 
 		/**
 		 * Create a group.
@@ -123,24 +123,24 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - CREATE_GROUP
 		 *
-		 * @param in_name Name of the group.
-		 * @param in_groupType Name of the type of group.
-		 * @param in_isOpenGroup true if group is open; false if closed.
-		 * @param in_acl The group's access control list. A null ACL implies default.
-		 * @param in_jsonOwnerAttributes Attributes for the group owner (current user).
-		 * @param in_jsonDefaultMemberAttributes Default attributes for group members.
-		 * @param in_jsonData Custom application data.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param name Name of the group.
+		 * @param groupType Name of the type of group.
+		 * @param isOpenGroup true if group is open; false if closed.
+		 * @param acl The group's access control list. A null ACL implies default.
+		 * @param jsonOwnerAttributes Attributes for the group owner (current user).
+		 * @param jsonDefaultMemberAttributes Default attributes for group members.
+		 * @param jsonData Custom application data.
+		 * @param callback The method to be invoked when the server response is received
 		 */
 		void createGroup(
-			const char *in_name,
-			const char *in_groupType,
-			bool in_isOpenGroup,
-			const std::string &in_acl,
-			const std::string &in_jsonData,
-			const std::string &in_jsonOwnerAttributes,
-			const std::string &in_jsonDefaultMemberAttributes,
-			IServerCallback *in_callback = NULL);
+			const char *name,
+			const char *groupType,
+			bool isOpenGroup,
+			const std::string &acl,
+			const std::string &jsonData,
+			const std::string &jsonOwnerAttributes,
+			const std::string &jsonDefaultMemberAttributes,
+			IServerCallback *callback = NULL);
 
 		/**
 		 * Create a group with Summary Data.
@@ -148,26 +148,26 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - CREATE_GROUP
 		 *
-		 * @param in_name Name of the group.
-		 * @param in_groupType Name of the type of group.
-		 * @param in_isOpenGroup true if group is open; false if closed.
-		 * @param in_acl The group's access control list. A null ACL implies default.
-		 * @param in_jsonOwnerAttributes Attributes for the group owner (current user).
-		 * @param in_jsonDefaultMemberAttributes Default attributes for group members.
-		 * @param in_jsonSummaryData the summary.
-		 * @param in_jsonData Custom application data.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param name Name of the group.
+		 * @param groupType Name of the type of group.
+		 * @param isOpenGroup true if group is open; false if closed.
+		 * @param acl The group's access control list. A null ACL implies default.
+		 * @param jsonOwnerAttributes Attributes for the group owner (current user).
+		 * @param jsonDefaultMemberAttributes Default attributes for group members.
+		 * @param jsonSummaryData the summary.
+		 * @param jsonData Custom application data.
+		 * @param callback The method to be invoked when the server response is received
 		 */
 		void createGroupWithSummaryData(
-			const char *in_name,
-			const char *in_groupType,
-			bool in_isOpenGroup,
-			const std::string &in_acl,
-			const std::string &in_jsonData,
-			const std::string &in_jsonOwnerAttributes,
-			const std::string &in_jsonDefaultMemberAttributes,
-			const std::string &in_jsonSummaryData,
-			IServerCallback *in_callback = NULL);
+			const char *name,
+			const char *groupType,
+			bool isOpenGroup,
+			const std::string &acl,
+			const std::string &jsonData,
+			const std::string &jsonOwnerAttributes,
+			const std::string &jsonDefaultMemberAttributes,
+			const std::string &jsonSummaryData,
+			IServerCallback *callback = NULL);
 
 		/**
 		 * Create a group entity.
@@ -175,20 +175,20 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - CREATE_GROUP_ENTITY
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_isOwnedByGroupMember true if entity is owned by a member; false if owned by the entire group.
-		 * @param in_entityType Type of the group entity.
-		 * @param in_acl Access control list for the group entity.
-		 * @param in_jsonData Custom application data.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param isOwnedByGroupMember true if entity is owned by a member; false if owned by the entire group.
+		 * @param entityType Type of the group entity.
+		 * @param acl Access control list for the group entity.
+		 * @param jsonData Custom application data.
+		 * @param callback The method to be invoked when the server response is received
 		 */
 		void createGroupEntity(
-			const char *in_groupId,
-			const char *in_entityType,
+			const char *groupId,
+			const char *entityType,
 			bool isOwnedByGroupMember,
-			const std::string &in_acl,
-			const std::string &in_jsonData,
-			IServerCallback *in_callback = NULL);
+			const std::string &acl,
+			const std::string &jsonData,
+			IServerCallback *callback = NULL);
 
 		/**
 		 * Delete a group.
@@ -196,11 +196,11 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - DELETE_GROUP
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_version Current version of the group
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param version Current version of the group
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void deleteGroup(const char *in_groupId, int32_t in_version, IServerCallback *in_callback = NULL);
+		void deleteGroup(const char *groupId, int32_t version, IServerCallback *callback = NULL);
 
 		/**
 		 * Delete a group entity.
@@ -208,32 +208,32 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - DELETE_GROUP_ENTITY
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_entityId ID of the entity.
-		 * @param in_version The current version of the group entity (for concurrency checking).
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param entityId ID of the entity.
+		 * @param version The current version of the group entity (for concurrency checking).
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void deleteGroupEntity(const char *in_groupId, const char *in_entityId, int32_t in_version, IServerCallback *in_callback = NULL);
+		void deleteGroupEntity(const char *groupId, const char *entityId, int32_t version, IServerCallback *callback = NULL);
 
 		/**
 		 * Delete an outstanding request to join the group.
 		 *
 		 * Service Name - group
-		 * Service Operation - DELETE_GROUP_JOIN_REQUEST
+		 * Service Operation - DELETE_GROUP_JOREQUEST
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void deleteGroupJoinRequest(const char *in_groupId, IServerCallback *in_callback = NULL);
+		void deleteGroupJoinRequest(const char *groupId, IServerCallback *callback = NULL);
 
 		/**
 		 * Read information on groups to which the current user belongs.
 		 *
 		 * Service Name - group
 		 * Service Operation - GET_MY_GROUPS
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getMyGroups(IServerCallback *in_callback = NULL);
+		void getMyGroups(IServerCallback *callback = NULL);
 
 		/**
 		 * Increment elements for the group's data field.
@@ -241,11 +241,11 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - INCREMENT_GROUP_DATA
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_jsonData Partial data map with incremental values.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param jsonData Partial data map with incremental values.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void incrementGroupData(const char *in_groupId, const std::string &in_jsonData, IServerCallback *in_callback = NULL);
+		void incrementGroupData(const char *groupId, const std::string &jsonData, IServerCallback *callback = NULL);
 
 		/**
 		 * Increment elements for the group entity's data field.
@@ -253,12 +253,12 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - INCREMENT_GROUP_ENTITY_DATA
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_entityId ID of the entity.
-		 * @param in_jsonData Partial data map with incremental values.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param entityId ID of the entity.
+		 * @param jsonData Partial data map with incremental values.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void incrementGroupEntityData(const char *in_groupId, const char *in_entityId, const std::string &in_jsonData, IServerCallback *in_callback = NULL);
+		void incrementGroupEntityData(const char *groupId, const char *entityId, const std::string &jsonData, IServerCallback *callback = NULL);
 
 		/**
 		 * Invite a member to the group.
@@ -266,24 +266,24 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - INVITE_GROUP_MEMBER
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_profileId Profile ID of the member being invited.
-		 * @param in_role Role of the member being invited.
-		 * @param in_jsonAttributes Attributes of the member being invited.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param profileId Profile ID of the member being invited.
+		 * @param role Role of the member being invited.
+		 * @param jsonAttributes Attributes of the member being invited.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void inviteGroupMember(const char *in_groupId, const char *in_profileId, eGroupMember::Role role, const std::string &in_jsonAttributes, IServerCallback *in_callback = NULL);
+		void inviteGroupMember(const char *groupId, const char *profileId, eGroupMember::Role role, const std::string &jsonAttributes, IServerCallback *callback = NULL);
 
 		/**
 		 * Join an open group or request to join a closed group.
 		 *
 		 * Service Name - group
-		 * Service Operation - JOIN_GROUP
+		 * Service Operation - JOGROUP
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void joinGroup(const char *in_groupId, IServerCallback *in_callback = NULL);
+		void joinGroup(const char *groupId, IServerCallback *callback = NULL);
 
 		/**
 		 * Leave a group in which the user is a member.
@@ -291,10 +291,10 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - LEAVE_GROUP
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void leaveGroup(const char *in_groupId, IServerCallback *in_callback = NULL);
+		void leaveGroup(const char *groupId, IServerCallback *callback = NULL);
 
 		/**
 		 * Read a page of group information.
@@ -302,10 +302,10 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - LIST_GROUPS_PAGE
 		 *
-		 * @param in_context Query context.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param context Query context.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void listGroupsPage(const std::string &in_jsonContext, IServerCallback *in_callback = NULL);
+		void listGroupsPage(const std::string &jsonContext, IServerCallback *callback = NULL);
 
 		/**
 		 * Read a page of group information.
@@ -313,11 +313,11 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - LIST_GROUPS_PAGE_BY_OFFSET
 		 *
-		 * @param in_encodedContext Encoded reference query context.
-		 * @param in_offset Number of pages by which to offset the query.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param encodedContext Encoded reference query context.
+		 * @param offset Number of pages by which to offset the query.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void listGroupsPageByOffset(const char *in_encodedContext, int32_t in_pageOffset, IServerCallback *in_callback = NULL);
+		void listGroupsPageByOffset(const char *encodedContext, int32_t pageOffset, IServerCallback *callback = NULL);
 
 		/**
 		 * Read information on groups to which the specified user belongs.  Access is subject to restrictions.
@@ -325,10 +325,10 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - LIST_GROUPS_WITH_MEMBER
 		 *
-		 * @param in_profileId
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param profileId
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void listGroupsWithMember(const char *in_profileId, IServerCallback *in_callback = NULL);
+		void listGroupsWithMember(const char *profileId, IServerCallback *callback = NULL);
 
 		/**
 		 * Read the specified group.
@@ -336,10 +336,10 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - READ_GROUP
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void readGroup(const char *in_groupId, IServerCallback *in_callback = NULL);
+		void readGroup(const char *groupId, IServerCallback *callback = NULL);
 
 		/**
 		 * Read the specified group's data.
@@ -347,10 +347,10 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - READ_GROUP_DATA
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void readGroupData(const char *in_groupId, IServerCallback *in_callback = NULL);
+		void readGroupData(const char *groupId, IServerCallback *callback = NULL);
 
 		/**
 		 * Read a page of group entity information.
@@ -358,10 +358,10 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - READ_GROUP_ENTITIES_PAGE
 		 *
-		 * @param in_context Query context.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param context Query context.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void readGroupEntitiesPage(const std::string &in_jsonContext, IServerCallback *in_callback = NULL);
+		void readGroupEntitiesPage(const std::string &jsonContext, IServerCallback *callback = NULL);
 
 		/**
 		 * Read a page of group entity information.
@@ -369,11 +369,11 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - READ_GROUP_ENTITIES_PAGE_BY_OFFSET
 		 *
-		 * @param in_encodedContext Encoded reference query context.
-		 * @param in_offset Number of pages by which to offset the query.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param encodedContext Encoded reference query context.
+		 * @param offset Number of pages by which to offset the query.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void readGroupEntitiesPageByOffset(const char *in_encodedContext, int32_t in_pageOffset, IServerCallback *in_callback = NULL);
+		void readGroupEntitiesPageByOffset(const char *encodedContext, int32_t pageOffset, IServerCallback *callback = NULL);
 
 		/**
 		 * Read the specified group entity.
@@ -381,11 +381,11 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - READ_GROUP_ENTITY
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_entityId ID of the entity.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param entityId ID of the entity.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void readGroupEntity(const char *in_groupId, const char *in_entityId, IServerCallback *in_callback = NULL);
+		void readGroupEntity(const char *groupId, const char *entityId, IServerCallback *callback = NULL);
 
 		/**
 		 * Read the members of the group.
@@ -393,10 +393,10 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - READ_MEMBERS_OF_GROUP
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void readGroupMembers(const char *in_groupId, IServerCallback *in_callback = NULL);
+		void readGroupMembers(const char *groupId, IServerCallback *callback = NULL);
 
 		/**
 		 * Reject an outstanding invitation to join the group.
@@ -404,22 +404,22 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - REJECT_GROUP_INVITATION
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void rejectGroupInvitation(const char *in_groupId, IServerCallback *in_callback = NULL);
+		void rejectGroupInvitation(const char *groupId, IServerCallback *callback = NULL);
 
 		/**
 		 * Reject an outstanding request to join the group.
 		 *
 		 * Service Name - group
-		 * Service Operation - REJECT_GROUP_JOIN_REQUEST
+		 * Service Operation - REJECT_GROUP_JOREQUEST
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_profileId Profile ID of the invitation being deleted.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param profileId Profile ID of the invitation being deleted.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void rejectGroupJoinRequest(const char *in_groupId, const char *in_profileId, IServerCallback *in_callback = NULL);
+		void rejectGroupJoinRequest(const char *groupId, const char *profileId, IServerCallback *callback = NULL);
 
 		/**
 		 * Remove a member from the group.
@@ -427,11 +427,11 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - REMOVE_GROUP_MEMBER
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_profileId Profile ID of the member being deleted.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param profileId Profile ID of the member being deleted.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void removeGroupMember(const char *in_groupId, const char *in_profileId, IServerCallback *in_callback = NULL);
+		void removeGroupMember(const char *groupId, const char *profileId, IServerCallback *callback = NULL);
 
 		/**
 		 * Updates a group's data.
@@ -439,12 +439,12 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - UPDATE_GROUP_DATA
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_version Version to verify.
-		 * @param in_jsonData Data to apply.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param version Version to verify.
+		 * @param jsonData Data to apply.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateGroupData(const char *in_groupId, int32_t in_version, const std::string &in_jsonData, IServerCallback *in_callback = NULL);
+		void updateGroupData(const char *groupId, int32_t version, const std::string &jsonData, IServerCallback *callback = NULL);
 
 		/**
 		 * Update the acl settings for a group entity, enforcing ownership.
@@ -452,12 +452,12 @@ namespace BrainCloud
 		 * Service Name - Group
 		 * Service Operation - UPDATE_GROUP_ENTITY_ACL
 		 *
-		 * @param in_groupId The id of the group
-		 * @param in_entityId The id of the entity to update
-		 * @param in_acl Access control list for the group entity
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId The id of the group
+		 * @param entityId The id of the entity to update
+		 * @param acl Access control list for the group entity
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateGroupEntityAcl(const char *in_groupId, const char *in_entityId, const std::string &in_acl, IServerCallback *in_callback = NULL);
+		void updateGroupEntityAcl(const char *groupId, const char *entityId, const std::string &acl, IServerCallback *callback = NULL);
 
 		/**
 		 * Update a group entity.
@@ -465,13 +465,13 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - UPDATE_GROUP_ENTITY_DATA
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_entityId ID of the entity.
-		 * @param in_version The current version of the group entity (for concurrency checking).
-		 * @param in_jsonData Custom application data.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param entityId ID of the entity.
+		 * @param version The current version of the group entity (for concurrency checking).
+		 * @param jsonData Custom application data.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateGroupEntityData(const char *in_groupId, const char *in_entityId, int32_t in_version, const std::string &in_jsonData, IServerCallback *in_callback = NULL);
+		void updateGroupEntityData(const char *groupId, const char *entityId, int32_t version, const std::string &jsonData, IServerCallback *callback = NULL);
 
 		/**
 		 * Update a member of the group.
@@ -479,13 +479,13 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - UPDATE_GROUP_MEMBER
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_profileId Profile ID of the member being updated.
-		 * @param in_role Role of the member being updated (optional).
-		 * @param in_jsonAttributes Attributes of the member being updated (optional).
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param profileId Profile ID of the member being updated.
+		 * @param role Role of the member being updated (optional).
+		 * @param jsonAttributes Attributes of the member being updated (optional).
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateGroupMember(const char *in_groupId, const char *in_profileId, eGroupMember::Role role, const std::string &in_jsonAttributes, IServerCallback *in_callback = NULL);
+		void updateGroupMember(const char *groupId, const char *profileId, eGroupMember::Role role, const std::string &jsonAttributes, IServerCallback *callback = NULL);
 
 		/**
 		 * Updates a group's name.
@@ -493,11 +493,11 @@ namespace BrainCloud
 		 * Service Name - group
 		 * Service Operation - UPDATE_GROUP_NAME
 		 *
-		 * @param in_groupId ID of the group.
-		 * @param in_name Name to apply.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param groupId ID of the group.
+		 * @param name Name to apply.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateGroupName(const char *in_groupId, const char *in_name, IServerCallback *in_callback = NULL);
+		void updateGroupName(const char *groupId, const char *name, IServerCallback *callback = NULL);
 
 		/**
 		 * Set whether a group is open true or false
@@ -509,7 +509,7 @@ namespace BrainCloud
 		 * @param isOpenGroup whether its open or not
 		 * @param callback The method to be invoked when the server response is received
 		 */
-		void setGroupOpen(const char *in_groupId, bool in_isOpenGroup, IServerCallback *callback = nullptr);
+		void setGroupOpen(const char *groupId, bool isOpenGroup, IServerCallback *callback = nullptr);
 
 		/**
 		 * Set a group's access conditions.
@@ -521,7 +521,7 @@ namespace BrainCloud
 		 * @param acl The group's access control list. A null ACL implies default
 		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateGroupAcl(const char *in_groupId, const std::string &in_acl, IServerCallback *in_callback = NULL);
+		void updateGroupAcl(const char *groupId, const std::string &acl, IServerCallback *callback = NULL);
 
 		/**
 		 * Update a group's summary data
@@ -534,7 +534,7 @@ namespace BrainCloud
 		 * @param jsonSummaryData custom application data
 		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateGroupSummaryData(const char *in_groupId, int in_version, const std::string &in_jsonSummaryData, IServerCallback *callback = nullptr);
+		void updateGroupSummaryData(const char *groupId, int version, const std::string &jsonSummaryData, IServerCallback *callback = nullptr);
 
 		/**
 		 * Gets a list of up to maxReturn randomly selected groups from the server based on the where condition.
@@ -546,7 +546,7 @@ namespace BrainCloud
 		 * @param maxReturn # of groups to search
 		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getRandomGroupsMatching(std::string in_jsonWhere, int in_maxReturn, IServerCallback *callback = nullptr);
+		void getRandomGroupsMatching(std::string jsonWhere, int maxReturn, IServerCallback *callback = nullptr);
 
 	private:
 		BrainCloudClient *m_client;

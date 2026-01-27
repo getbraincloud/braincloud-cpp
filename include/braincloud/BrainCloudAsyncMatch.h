@@ -18,7 +18,7 @@ namespace BrainCloud
     class BrainCloudAsyncMatch
     {
     public:
-        BrainCloudAsyncMatch(BrainCloudClient *in_client);
+        BrainCloudAsyncMatch(BrainCloudClient *client);
 
         /**
          * Creates an instance of an asynchronous match.
@@ -26,7 +26,7 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - Create
          *
-         * @param in_jsonOpponentIds  JSON string identifying the opponent platform and id for this match.
+         * @param jsonOpponentIds  JSON string identifying the opponent platform and id for this match.
          *
          * Platforms are identified as:
          * BC - a brainCloud profile id
@@ -44,14 +44,14 @@ namespace BrainCloud
          *     }
          * ]
          *
-         * @param in_pushNotificationMessage Optional push notification message to send to the other party.
+         * @param pushNotificationMessage Optional push notification message to send to the other party.
          *  Refer to the Push Notification functions for the syntax required.
-         * @param in_callback Optional instance of IServerCallback to call when the server response is received.
+         * @param callback Optional instance of IServerCallback to call when the server response is received.
          */
         void createMatch(
-            const char *in_jsonOpponentIds,
-            const char *in_pushNotificationMessage = NULL,
-            IServerCallback *in_callback = NULL);
+            const char *jsonOpponentIds,
+            const char *pushNotificationMessage = NULL,
+            IServerCallback *callback = NULL);
 
         /**
          * Creates an instance of an asynchronous match with an initial turn.
@@ -59,7 +59,7 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - Create
          *
-         * @param in_jsonOpponentIds  JSON string identifying the opponent platform and id for this match.
+         * @param jsonOpponentIds  JSON string identifying the opponent platform and id for this match.
          *
          * Platforms are identified as:
          * BC - a brainCloud profile id
@@ -77,20 +77,20 @@ namespace BrainCloud
          *     }
          * ]
          *
-         * @param in_jsonMatchState    JSON string blob provided by the caller
-         * @param in_pushNotificationMessage Optional push notification message to send to the other party.
+         * @param jsonMatchState    JSON string blob provided by the caller
+         * @param pushNotificationMessage Optional push notification message to send to the other party.
          *      Refer to the Push Notification functions for the syntax required.
-         * @param in_nextPlayer Optionally, force the next player player to be a specific player
-         * @param in_jsonSummary Optional JSON string defining what the other player will see as a summary of the game when listing their games
-         * @param in_callback Optional instance of IServerCallback to call when the server response is received.
+         * @param nextPlayer Optionally, force the next player player to be a specific player
+         * @param jsonSummary Optional JSON string defining what the other player will see as a summary of the game when listing their games
+         * @param callback Optional instance of IServerCallback to call when the server response is received.
          */
         void createMatchWithInitialTurn(
-            const char *in_jsonOpponentIds,
-            const char *in_jsonMatchState,
-            const char *in_pushNotificationMessage = NULL,
-            const char *in_nextPlayer = NULL,
-            const char *in_jsonSummary = NULL,
-            IServerCallback *in_callback = NULL);
+            const char *jsonOpponentIds,
+            const char *jsonMatchState,
+            const char *pushNotificationMessage = NULL,
+            const char *nextPlayer = NULL,
+            const char *jsonSummary = NULL,
+            IServerCallback *callback = NULL);
 
         /**
          * Submits a turn for the given match.
@@ -98,27 +98,27 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - SubmitTurn
          *
-         * @param in_ownerId Match owner identfier
-         * @param in_matchId Match identifier
-         * @param in_version Game state version to ensure turns are submitted once and in order
-         * @param in_jsonMatchState JSON string provided by the caller
-         * @param in_pushNotificationMessage Optional push notification message to send to the other party.
+         * @param ownerId Match owner identfier
+         * @param matchId Match identifier
+         * @param version Game state version to ensure turns are submitted once and in order
+         * @param jsonMatchState JSON string provided by the caller
+         * @param pushNotificationMessage Optional push notification message to send to the other party.
          *          Refer to the Push Notification functions for the syntax required.
-         * @param in_nextPlayer Optionally, force the next player player to be a specific player
-         * @param in_jsonSummary Optional JSON string that other players will see as a summary of the game when listing their games
-         * @param in_jsonStatistics Optional JSON string blob provided by the caller
-         * @param in_callback Optional instance of IServerCallback to call when the server response is received.
+         * @param nextPlayer Optionally, force the next player player to be a specific player
+         * @param jsonSummary Optional JSON string that other players will see as a summary of the game when listing their games
+         * @param jsonStatistics Optional JSON string blob provided by the caller
+         * @param callback Optional instance of IServerCallback to call when the server response is received.
          */
         void submitTurn(
-            const char *in_ownerId,
-            const char *in_matchId,
-            uint64_t in_version,
-            const char *in_jsonMatchState,
-            const char *in_pushNotificationMessage = NULL,
-            const char *in_nextPlayer = NULL,
-            const char *in_jsonSummary = NULL,
-            const char *in_jsonStatistics = NULL,
-            IServerCallback *in_callback = NULL);
+            const char *ownerId,
+            const char *matchId,
+            uint64_t version,
+            const char *jsonMatchState,
+            const char *pushNotificationMessage = NULL,
+            const char *nextPlayer = NULL,
+            const char *jsonSummary = NULL,
+            const char *jsonStatistics = NULL,
+            IServerCallback *callback = NULL);
 
         /**
          * Allows the current player in the game to overwrite the matchState and
@@ -127,14 +127,14 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - UpdateMatchStateCurrentTurn
          *
-         * @param in_ownerId   Match owner identifier
-         * @param in_matchId   Match identifier
-         * @param in_version Game state version being updated, to ensure data integrity
-         * @param in_jsonMatchState JSON string provided by the caller Required.
-         * @param in_jsonStatistics Optional JSON string provided by the caller.
-         * @param in_callback Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId   Match owner identifier
+         * @param matchId   Match identifier
+         * @param version Game state version being updated, to ensure data integrity
+         * @param jsonMatchState JSON string provided by the caller Required.
+         * @param jsonStatistics Optional JSON string provided by the caller.
+         * @param callback Optional instance of IServerCallback to call when the server response is received.
          */
-        void updateMatchStateCurrentTurn(const char *in_ownerId, const char *in_matchId, uint64_t in_version, const char *in_jsonMatchState, const char *in_jsonStatistics, IServerCallback *in_callback = NULL);
+        void updateMatchStateCurrentTurn(const char *ownerId, const char *matchId, uint64_t version, const char *jsonMatchState, const char *jsonStatistics, IServerCallback *callback = NULL);
 
         /**
          * Allows the current player (only) to update Summary data without having to submit a whole turn.
@@ -142,18 +142,18 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - UpdateMatchSummary
          *
-         * @param in_ownerId Match owner identfier
-         * @param in_matchId Match identifier
-         * @param in_version Game state version to ensure turns are submitted once and in order
-         * @param in_jsonSummary JSON string that other players will see as a summary of the game when listing their games
-         * @param in_callback Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId Match owner identfier
+         * @param matchId Match identifier
+         * @param version Game state version to ensure turns are submitted once and in order
+         * @param jsonSummary JSON string that other players will see as a summary of the game when listing their games
+         * @param callback Optional instance of IServerCallback to call when the server response is received.
          */
         void updateMatchSummaryData(
-            const char *in_ownerId,
-            const char *in_matchId,
-            uint64_t in_version,
-            const char *in_jsonSummary,
-            IServerCallback *in_callback = NULL);
+            const char *ownerId,
+            const char *matchId,
+            uint64_t version,
+            const char *jsonSummary,
+            IServerCallback *callback = NULL);
 
         /**
          * Marks the given match as complete.
@@ -161,11 +161,11 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - Complete
          *
-         * @param in_ownerId Match owner identifier
-         * @param in_matchId Match identifier
-         * @param in_callback Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId Match owner identifier
+         * @param matchId Match identifier
+         * @param callback Optional instance of IServerCallback to call when the server response is received.
          */
-        void completeMatch(const char *in_ownerId, const char *in_matchId, IServerCallback *in_callback = NULL);
+        void completeMatch(const char *ownerId, const char *matchId, IServerCallback *callback = NULL);
 
         /**
          * Returns the current state of the given match.
@@ -173,11 +173,11 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - ReadMatch
          *
-         * @param in_ownerId   Match owner identifier
-         * @param in_matchId   Match identifier
-         * @param in_callback  Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId   Match owner identifier
+         * @param matchId   Match identifier
+         * @param callback  Optional instance of IServerCallback to call when the server response is received.
          */
-        void readMatch(const char *in_ownerId, const char *in_matchId, IServerCallback *in_callback = NULL);
+        void readMatch(const char *ownerId, const char *matchId, IServerCallback *callback = NULL);
 
         /**
          * Returns the match history of the given match.
@@ -185,11 +185,11 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - ReadMatchHistory
          *
-         * @param in_ownerId   Match owner identifier
-         * @param in_matchId   Match identifier
-         * @param in_callback  Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId   Match owner identifier
+         * @param matchId   Match identifier
+         * @param callback  Optional instance of IServerCallback to call when the server response is received.
          */
-        void readMatchHistory(const char *in_ownerId, const char *in_matchId, IServerCallback *in_callback = NULL);
+        void readMatchHistory(const char *ownerId, const char *matchId, IServerCallback *callback = NULL);
 
         /**
          * Returns all matches that are NOT in a COMPLETE state for which the player is involved.
@@ -197,9 +197,9 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - FindMatches
          *
-         * @param in_callback  Optional instance of IServerCallback to call when the server response is received.
+         * @param callback  Optional instance of IServerCallback to call when the server response is received.
          */
-        void findMatches(IServerCallback *in_callback);
+        void findMatches(IServerCallback *callback);
 
         /**
          * Returns all matches that are in a COMPLETE state for which the player is involved.
@@ -207,9 +207,9 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - FindMatchesCompleted
          *
-         * @param in_callback  Optional instance of IServerCallback to call when the server response is received.
+         * @param callback  Optional instance of IServerCallback to call when the server response is received.
          */
-        void findCompleteMatches(IServerCallback *in_callback = NULL);
+        void findCompleteMatches(IServerCallback *callback = NULL);
 
         /**
          * Marks the given match as abandoned.
@@ -217,11 +217,11 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - Abandon
          *
-         * @param in_ownerId   Match owner identifier
-         * @param in_matchId   Match identifier
-         * @param in_callback  Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId   Match owner identifier
+         * @param matchId   Match identifier
+         * @param callback  Optional instance of IServerCallback to call when the server response is received.
          */
-        void abandonMatch(const char *in_ownerId, const char *in_matchId, IServerCallback *in_callback = NULL);
+        void abandonMatch(const char *ownerId, const char *matchId, IServerCallback *callback = NULL);
 
         /**
          * Removes the match and match history from the server. DEBUG ONLY, in production it is recommended
@@ -230,11 +230,11 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - Delete
          *
-         * @param in_ownerId   Match owner identifier
-         * @param in_matchId   Match identifier
-         * @param in_callback  Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId   Match owner identifier
+         * @param matchId   Match identifier
+         * @param callback  Optional instance of IServerCallback to call when the server response is received.
          */
-        void deleteMatch(const char *in_ownerId, const char *in_matchId, IServerCallback *in_callback = NULL);
+        void deleteMatch(const char *ownerId, const char *matchId, IServerCallback *callback = NULL);
 
         /**
          * Marks the given match as complete. This call can send a notification message.
@@ -242,13 +242,13 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - CompleteMatchWithSumamryData
          *
-         * @param in_ownerId   Match owner identifier
-         * @param in_matchId   Match identifier
-         * @param in_pushContent Optional push notification message to send to the other party when completing the match.
-         * @param in_summary Optional JSON string summary that other players will see when listing their games
-         * @param in_callback  Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId   Match owner identifier
+         * @param matchId   Match identifier
+         * @param pushContent Optional push notification message to send to the other party when completing the match.
+         * @param summary Optional JSON string summary that other players will see when listing their games
+         * @param callback  Optional instance of IServerCallback to call when the server response is received.
          */
-        void completeMatchWithSummaryData(const char *in_ownerId, const char *in_matchId, const char *in_pushContent, const std::string &in_summary, IServerCallback *in_callback = NULL);
+        void completeMatchWithSummaryData(const char *ownerId, const char *matchId, const char *pushContent, const std::string &summary, IServerCallback *callback = NULL);
 
         /**
          * Marks the given match as abandoned. This call can send a notification message.
@@ -256,23 +256,23 @@ namespace BrainCloud
          * Service Name - AsyncMatch
          * Service Operation - AbandonMatchWithSumamryData
          *
-         * @param in_ownerId   Match owner identifier
-         * @param in_matchId   Match identifier
-         * @param in_pushContent Optional push notification message to send to the other party when abandoning the match.
-         * @param in_summary Optional JSON string summary that other players will see when listing their games
-         * @param in_callback  Optional instance of IServerCallback to call when the server response is received.
+         * @param ownerId   Match owner identifier
+         * @param matchId   Match identifier
+         * @param pushContent Optional push notification message to send to the other party when abandoning the match.
+         * @param summary Optional JSON string summary that other players will see when listing their games
+         * @param callback  Optional instance of IServerCallback to call when the server response is received.
          */
-        void abandonMatchWithSummaryData(const char *in_ownerId, const char *in_matchId, const char *in_pushContent, const std::string &in_summary, IServerCallback *in_callback = NULL);
+        void abandonMatchWithSummaryData(const char *ownerId, const char *matchId, const char *pushContent, const std::string &summary, IServerCallback *callback = NULL);
 
     private:
         void createMatchInternal(
-            const char *in_jsonOpponentIds,
-            const char *in_jsonMatchState,
-            const char *in_pushNotificationMessage,
-            const char *in_matchId,
-            const char *in_nextPlayer,
-            const char *in_jsonSummary,
-            IServerCallback *in_callback);
+            const char *jsonOpponentIds,
+            const char *jsonMatchState,
+            const char *pushNotificationMessage,
+            const char *matchId,
+            const char *nextPlayer,
+            const char *jsonSummary,
+            IServerCallback *callback);
 
         BrainCloudClient *m_client;
     };

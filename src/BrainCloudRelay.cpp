@@ -7,15 +7,14 @@
 
 namespace BrainCloud
 {
-	BrainCloudRelay::BrainCloudRelay(RelayComms* in_commsLayer, BrainCloudClient* in_client)
-		: m_commsLayer(in_commsLayer)
-        , m_client(in_client)
-	{
-	}
-
-    void BrainCloudRelay::connect(eRelayConnectionType in_connectionType, const std::string& host, int port, const std::string& passcode, const std::string& lobbyId, IRelayConnectCallback* in_callback)
+    BrainCloudRelay::BrainCloudRelay(RelayComms *commsLayer, BrainCloudClient *client)
+        : m_commsLayer(commsLayer), m_client(client)
     {
-        m_commsLayer->connect(in_connectionType, host, port, passcode, lobbyId, in_callback);
+    }
+
+    void BrainCloudRelay::connect(eRelayConnectionType connectionType, const std::string &host, int port, const std::string &passcode, const std::string &lobbyId, IRelayConnectCallback *callback)
+    {
+        m_commsLayer->connect(connectionType, host, port, passcode, lobbyId, callback);
     }
 
     void BrainCloudRelay::disconnect()
@@ -23,7 +22,7 @@ namespace BrainCloud
         m_commsLayer->disconnect();
     }
 
-    void BrainCloudRelay::endMatch(const std::string& jsonPayload)
+    void BrainCloudRelay::endMatch(const std::string &jsonPayload)
     {
         m_commsLayer->endMatch(JsonUtil::jsonStringToValue(jsonPayload));
     }
@@ -38,44 +37,44 @@ namespace BrainCloud
         return m_commsLayer->getPing();
     }
 
-    void BrainCloudRelay::setPingInterval(int in_intervalSeconds)
+    void BrainCloudRelay::setPingInterval(int intervalSeconds)
     {
-        m_commsLayer->setPingInterval(in_intervalSeconds);
+        m_commsLayer->setPingInterval(intervalSeconds);
     }
 
-    const std::string& BrainCloudRelay::getOwnerProfileId() const
+    const std::string &BrainCloudRelay::getOwnerProfileId() const
     {
         return m_commsLayer->getOwnerProfileId();
     }
 
-    const std::string& BrainCloudRelay::getOwnerCxId() const
+    const std::string &BrainCloudRelay::getOwnerCxId() const
     {
         return m_commsLayer->getOwnerCxId();
     }
 
-    const std::string& BrainCloudRelay::getProfileIdForNetId(int in_netId) const
+    const std::string &BrainCloudRelay::getProfileIdForNetId(int netId) const
     {
-        return m_commsLayer->getProfileIdForNetId(in_netId);
+        return m_commsLayer->getProfileIdForNetId(netId);
     }
 
-    int BrainCloudRelay::getNetIdForProfileId(const std::string& in_profileId) const
+    int BrainCloudRelay::getNetIdForProfileId(const std::string &profileId) const
     {
-        return m_commsLayer->getNetIdForProfileId(in_profileId);
+        return m_commsLayer->getNetIdForProfileId(profileId);
     }
 
-    const std::string& BrainCloudRelay::getCxIdForNetId(int in_netId) const
+    const std::string &BrainCloudRelay::getCxIdForNetId(int netId) const
     {
-        return m_commsLayer->getCxIdForNetId(in_netId);
+        return m_commsLayer->getCxIdForNetId(netId);
     }
 
-    int BrainCloudRelay::getNetIdForCxId(const std::string& in_cxId) const
+    int BrainCloudRelay::getNetIdForCxId(const std::string &cxId) const
     {
-        return m_commsLayer->getNetIdForCxId(in_cxId);
+        return m_commsLayer->getNetIdForCxId(cxId);
     }
 
-    void BrainCloudRelay::registerRelayCallback(IRelayCallback* in_callback)
+    void BrainCloudRelay::registerRelayCallback(IRelayCallback *callback)
     {
-        m_commsLayer->registerRelayCallback(in_callback);
+        m_commsLayer->registerRelayCallback(callback);
     }
 
     void BrainCloudRelay::deregisterRelayCallback()
@@ -83,9 +82,9 @@ namespace BrainCloud
         m_commsLayer->deregisterRelayCallback();
     }
 
-    void BrainCloudRelay::registerSystemCallback(IRelaySystemCallback* in_callback)
+    void BrainCloudRelay::registerSystemCallback(IRelaySystemCallback *callback)
     {
-        m_commsLayer->registerSystemCallback(in_callback);
+        m_commsLayer->registerSystemCallback(callback);
     }
 
     void BrainCloudRelay::deregisterSystemCallback()
@@ -93,32 +92,32 @@ namespace BrainCloud
         m_commsLayer->deregisterSystemCallback();
     }
 
-    void BrainCloudRelay::send(const uint8_t* in_data, int in_size, uint64_t toNetId, bool in_reliable, bool in_ordered, eRelayChannel in_channel)
+    void BrainCloudRelay::send(const uint8_t *data, int size, uint64_t toNetId, bool reliable, bool ordered, eRelayChannel channel)
     {
         if (toNetId == TO_ALL_PLAYERS)
         {
-            sendToAll(in_data, in_size, in_reliable, in_ordered, in_channel);
+            sendToAll(data, size, reliable, ordered, channel);
         }
         else
         {
             uint64_t playerMask = (uint64_t)1 << (uint64_t)toNetId;
-            m_commsLayer->send(in_data, in_size, playerMask, in_reliable, in_ordered, in_channel);
+            m_commsLayer->send(data, size, playerMask, reliable, ordered, channel);
         }
     }
 
-    void BrainCloudRelay::sendToPlayers(const uint8_t* in_data, int in_size, uint64_t in_playerMask, bool in_reliable, bool in_ordered, eRelayChannel in_channel)
+    void BrainCloudRelay::sendToPlayers(const uint8_t *data, int size, uint64_t playerMask, bool reliable, bool ordered, eRelayChannel channel)
     {
-        m_commsLayer->send(in_data, in_size, in_playerMask, in_reliable, in_ordered, in_channel);
+        m_commsLayer->send(data, size, playerMask, reliable, ordered, channel);
     }
 
-    void BrainCloudRelay::sendToAll(const uint8_t* in_data, int in_size, bool in_reliable, bool in_ordered, eRelayChannel in_channel)
+    void BrainCloudRelay::sendToAll(const uint8_t *data, int size, bool reliable, bool ordered, eRelayChannel channel)
     {
-        const auto& myProfileId = m_client->getAuthenticationService()->getProfileId();
+        const auto &myProfileId = m_client->getAuthenticationService()->getProfileId();
         auto myNetId = m_commsLayer->getNetIdForProfileId(myProfileId);
 
         uint64_t myBit = (uint64_t)1 << (uint64_t)myNetId;
         uint64_t myInvertedBits = ~myBit;
         uint64_t playerMask = TO_ALL_PLAYERS & myInvertedBits;
-        m_commsLayer->send(in_data, in_size, playerMask, in_reliable, in_ordered, in_channel);
+        m_commsLayer->send(data, size, playerMask, reliable, ordered, channel);
     }
 };

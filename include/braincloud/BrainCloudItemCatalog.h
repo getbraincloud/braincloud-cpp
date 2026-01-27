@@ -18,7 +18,7 @@ namespace BrainCloud
 	class BrainCloudItemCatalog
 	{
 	public:
-		BrainCloudItemCatalog(BrainCloudClient *in_client);
+		BrainCloudItemCatalog(BrainCloudClient *client);
 
 		/**
 		 * Reads an existing item definition from the server, with language fields
@@ -27,10 +27,10 @@ namespace BrainCloud
 		 * Service Name - ItemCatalog
 		 * Service Operation - GET_CATALOG_ITEM_DEFINITION
 		 *
-		 * @param in_defId The identifier of the catalog item definition to retrieve
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param defId The identifier of the catalog item definition to retrieve
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getCatalogItemDefinition(const std::string &in_defId, IServerCallback *in_callback = NULL);
+		void getCatalogItemDefinition(const std::string &defId, IServerCallback *callback = NULL);
 
 		/**
 		 * Retrieve a page of catalog items from the server, with language fields
@@ -39,10 +39,10 @@ namespace BrainCloud
 		 * Service Name - ItemCatalog
 		 * Service Operation - GET_CATALOG_ITEMS_PAGE
 		 *
-		 * @param in_context The pagination context returned from a previous catalog page request
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param context The pagination context returned from a previous catalog page request
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getCatalogItemsPage(const std::string &in_context, IServerCallback *in_callback = NULL);
+		void getCatalogItemsPage(const std::string &context, IServerCallback *callback = NULL);
 
 		/**
 		 * Gets a page of catalog items from the server based on the encoded
@@ -52,11 +52,11 @@ namespace BrainCloud
 		 * Service Name - ItemCatalog
 		 * Service Operation - GET_CATALOG_ITEMS_PAGE_OFFSET
 		 *
-		 * @param in_context The pagination context returned from a previous catalog page request
-		 * @param in_pageOffset The page offset relative to the current context
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param context The pagination context returned from a previous catalog page request
+		 * @param pageOffset The page offset relative to the current context
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getCatalogItemsPageOffset(const std::string &in_context, int32_t in_pageOffset, IServerCallback *in_callback = NULL);
+		void getCatalogItemsPageOffset(const std::string &context, int32_t pageOffset, IServerCallback *callback = NULL);
 
 	private:
 		BrainCloudClient *m_client;

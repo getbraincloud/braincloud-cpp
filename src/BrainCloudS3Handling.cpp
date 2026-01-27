@@ -14,43 +14,45 @@
 
 namespace BrainCloud
 {
-    BrainCloudS3Handling::BrainCloudS3Handling(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudS3Handling::BrainCloudS3Handling(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudS3Handling::getUpdatedFiles(const char * in_category, const char * in_fileDetails, IServerCallback * in_callback)
+    void BrainCloudS3Handling::getUpdatedFiles(const char *category, const char *fileDetails, IServerCallback *callback)
     {
         Json::Value message;
         Json::Reader reader;
 
-        if (StringUtil::IsOptionalParameterValid(in_category)) {
-            message[OperationParam::S3HandlingServiceCategory.getValue()] = in_category;
+        if (StringUtil::IsOptionalParameterValid(category))
+        {
+            message[OperationParam::S3HandlingServiceCategory.getValue()] = category;
         }
 
         Json::Value parsedDetails;
-        reader.parse(in_fileDetails, parsedDetails);
+        reader.parse(fileDetails, parsedDetails);
 
         message[OperationParam::S3HandlingServiceFileDetails.getValue()] = parsedDetails;
-        ServerCall * sc = new ServerCall(ServiceName::S3Handling, ServiceOperation::GetUpdatedFiles, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::S3Handling, ServiceOperation::GetUpdatedFiles, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudS3Handling::getFileList(const char * in_category, IServerCallback * in_callback)
+    void BrainCloudS3Handling::getFileList(const char *category, IServerCallback *callback)
     {
         Json::Value message;
 
-        if (StringUtil::IsOptionalParameterValid(in_category)) {
-            message[OperationParam::S3HandlingServiceCategory.getValue()] = in_category;
+        if (StringUtil::IsOptionalParameterValid(category))
+        {
+            message[OperationParam::S3HandlingServiceCategory.getValue()] = category;
         }
 
-        ServerCall * sc = new ServerCall(ServiceName::S3Handling, ServiceOperation::GetFileList, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::S3Handling, ServiceOperation::GetFileList, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-	void BrainCloudS3Handling::getCDNUrl(const char * in_fileId, IServerCallback * in_callback)
-	{
-		Json::Value message;
-		message[OperationParam::S3HandlingServiceFileId.getValue()] = in_fileId;
+    void BrainCloudS3Handling::getCDNUrl(const char *fileId, IServerCallback *callback)
+    {
+        Json::Value message;
+        message[OperationParam::S3HandlingServiceFileId.getValue()] = fileId;
 
-		ServerCall * sc = new ServerCall(ServiceName::S3Handling, ServiceOperation::GetCdnUrl, message, in_callback);
-		m_client->getBrainCloudComms()->addToQueue(sc);
-	}
+        ServerCall *sc = new ServerCall(ServiceName::S3Handling, ServiceOperation::GetCdnUrl, message, callback);
+        m_client->getBrainCloudComms()->addToQueue(sc);
+    }
 }

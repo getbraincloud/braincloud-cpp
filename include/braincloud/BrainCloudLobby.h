@@ -26,7 +26,7 @@ namespace BrainCloud
 	class BrainCloudLobby
 	{
 	public:
-		BrainCloudLobby(BrainCloudClient *in_client);
+		BrainCloudLobby(BrainCloudClient *client);
 
 		/**
 		 * Enables or disables logging of ping requests to standard output.
@@ -42,19 +42,19 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - GetRegionsForLobbies
 		 *
-		 * @param in_roomTypes Ids of the lobby types
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param roomTypes Ids of the lobby types
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getRegionsForLobbies(const std::vector<std::string> &in_roomTypes, IServerCallback *in_callback = NULL);
+		void getRegionsForLobbies(const std::vector<std::string> &roomTypes, IServerCallback *callback = NULL);
 
 		/**
 		 * Retrieves associated ping data averages to be used with all
 		 * Lobby APIs that support ping data.
 		 * Must be called after getRegionsForLobbies completes successfully.
 		 *
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void pingRegions(IServerCallback *in_callback);
+		void pingRegions(IServerCallback *callback);
 
 		/**
 		 * Returns the ping data collected after calling pingRegions.
@@ -69,16 +69,16 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - CreateLobby
 		 *
-		 * @param in_lobbyType The type of lobby to create
-		 * @param in_rating The skill rating used for matchmaking
-		 * @param in_otherUserCxIds Other users to add to the lobby
-		 * @param in_isReady Initial ready state of this user
-		 * @param in_extraJson Initial extra data for this user
-		 * @param in_teamCode Preferred team code, or empty for auto assignment
-		 * @param in_jsonSettings Configuration data for the lobby
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The type of lobby to create
+		 * @param rating The skill rating used for matchmaking
+		 * @param otherUserCxIds Other users to add to the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param jsonSettings Configuration data for the lobby
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void createLobby(const std::string &in_lobbyType, int in_rating, const std::vector<std::string> &in_otherUserCxIds, bool in_isReady, const std::string &in_extraJson, const std::string &in_teamCode, const std::string &in_jsonSettings, IServerCallback *in_callback = NULL);
+		void createLobby(const std::string &lobbyType, int rating, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, const std::string &jsonSettings, IServerCallback *callback = NULL);
 
 		/**
 		 * Creates a new lobby using collected ping data to select the best region.
@@ -86,16 +86,16 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - CreateLobbyWithPingData
 		 *
-		 * @param in_lobbyType The type of lobby to create
-		 * @param in_rating The skill rating used for matchmaking
-		 * @param in_otherUserCxIds Other users to add to the lobby
-		 * @param in_isReady Initial ready state of this user
-		 * @param in_extraJson Initial extra data for this user
-		 * @param in_teamCode Preferred team code, or empty for auto assignment
-		 * @param in_jsonSettings Configuration data for the lobby
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The type of lobby to create
+		 * @param rating The skill rating used for matchmaking
+		 * @param otherUserCxIds Other users to add to the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param jsonSettings Configuration data for the lobby
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void createLobbyWithPingData(const std::string &in_lobbyType, int in_rating, const std::vector<std::string> &in_otherUserCxIds, bool in_isReady, const std::string &in_extraJson, const std::string &in_teamCode, const std::string &in_jsonSettings, IServerCallback *in_callback = NULL);
+		void createLobbyWithPingData(const std::string &lobbyType, int rating, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, const std::string &jsonSettings, IServerCallback *callback = NULL);
 
 		/**
 		 * Begins matchmaking to find a lobby matching the given parameters.
@@ -103,18 +103,18 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - FindLobby
 		 *
-		 * @param in_lobbyType The type of lobby to search for
-		 * @param in_rating The skill rating used for matchmaking
-		 * @param in_maxSteps Maximum number of matchmaking steps
-		 * @param in_jsonAlgo Matchmaking algorithm configuration
-		 * @param in_jsonFilter Matchmaking filter criteria
-		 * @param in_otherUserCxIds Other users to include in the lobby
-		 * @param in_isReady Initial ready state of this user
-		 * @param in_extraJson Initial extra data for this user
-		 * @param in_teamCode Preferred team code, or empty for auto assignment
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The type of lobby to search for
+		 * @param rating The skill rating used for matchmaking
+		 * @param maxSteps Maximum number of matchmaking steps
+		 * @param jsonAlgo Matchmaking algorithm configuration
+		 * @param jsonFilter Matchmaking filter criteria
+		 * @param otherUserCxIds Other users to include in the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void findLobby(const std::string &in_lobbyType, int in_rating, int in_maxSteps, const std::string &in_jsonAlgo, const std::string &in_jsonFilter, const std::vector<std::string> &in_otherUserCxIds, bool in_isReady, const std::string &in_extraJson, const std::string &in_teamCode, IServerCallback *in_callback = NULL);
+		void findLobby(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback = NULL);
 
 		/**
 		 * Begins matchmaking using ping data to select the best region.
@@ -122,18 +122,18 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - FindLobbyWithPingData
 		 *
-		 * @param in_lobbyType The type of lobby to search for
-		 * @param in_rating The skill rating used for matchmaking
-		 * @param in_maxSteps Maximum number of matchmaking steps
-		 * @param in_jsonAlgo Matchmaking algorithm configuration
-		 * @param in_jsonFilter Matchmaking filter criteria
-		 * @param in_otherUserCxIds Other users to include in the lobby
-		 * @param in_isReady Initial ready state of this user
-		 * @param in_extraJson Initial extra data for this user
-		 * @param in_teamCode Preferred team code, or empty for auto assignment
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The type of lobby to search for
+		 * @param rating The skill rating used for matchmaking
+		 * @param maxSteps Maximum number of matchmaking steps
+		 * @param jsonAlgo Matchmaking algorithm configuration
+		 * @param jsonFilter Matchmaking filter criteria
+		 * @param otherUserCxIds Other users to include in the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void findLobbyWithPingData(const std::string &in_lobbyType, int in_rating, int in_maxSteps, const std::string &in_jsonAlgo, const std::string &in_jsonFilter, const std::vector<std::string> &in_otherUserCxIds, bool in_isReady, const std::string &in_extraJson, const std::string &in_teamCode, IServerCallback *in_callback = NULL);
+		void findLobbyWithPingData(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback = NULL);
 
 		/**
 		 * Finds or creates a lobby if none are available.
@@ -141,19 +141,19 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - FindOrCreateLobby
 		 *
-		 * @param in_lobbyType The type of lobby
-		 * @param in_rating The skill rating used for matchmaking
-		 * @param in_maxSteps Maximum number of matchmaking steps
-		 * @param in_jsonAlgo Matchmaking algorithm configuration
-		 * @param in_jsonFilter Matchmaking filter criteria
-		 * @param in_otherUserCxIds Other users to include in the lobby
-		 * @param in_jsonSettings Configuration data for the lobby
-		 * @param in_isReady Initial ready state of this user
-		 * @param in_extraJson Initial extra data for this user
-		 * @param in_teamCode Preferred team code, or empty for auto assignment
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The type of lobby
+		 * @param rating The skill rating used for matchmaking
+		 * @param maxSteps Maximum number of matchmaking steps
+		 * @param jsonAlgo Matchmaking algorithm configuration
+		 * @param jsonFilter Matchmaking filter criteria
+		 * @param otherUserCxIds Other users to include in the lobby
+		 * @param jsonSettings Configuration data for the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void findOrCreateLobby(const std::string &in_lobbyType, int in_rating, int in_maxSteps, const std::string &in_jsonAlgo, const std::string &in_jsonFilter, const std::vector<std::string> &in_otherUserCxIds, const std::string &in_jsonSettings, bool in_isReady, const std::string &in_extraJson, const std::string &in_teamCode, IServerCallback *in_callback = NULL);
+		void findOrCreateLobby(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, const std::string &jsonSettings, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback = NULL);
 
 		/**
 		 * Finds or creates a lobby using ping data.
@@ -161,19 +161,19 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - FindOrCreateLobbyWithPingData
 		 *
-		 * @param in_lobbyType The type of lobby
-		 * @param in_rating The skill rating used for matchmaking
-		 * @param in_maxSteps Maximum number of matchmaking steps
-		 * @param in_jsonAlgo Matchmaking algorithm configuration
-		 * @param in_jsonFilter Matchmaking filter criteria
-		 * @param in_otherUserCxIds Other users to include in the lobby
-		 * @param in_jsonSettings Configuration data for the lobby
-		 * @param in_isReady Initial ready state of this user
-		 * @param in_extraJson Initial extra data for this user
-		 * @param in_teamCode Preferred team code, or empty for auto assignment
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The type of lobby
+		 * @param rating The skill rating used for matchmaking
+		 * @param maxSteps Maximum number of matchmaking steps
+		 * @param jsonAlgo Matchmaking algorithm configuration
+		 * @param jsonFilter Matchmaking filter criteria
+		 * @param otherUserCxIds Other users to include in the lobby
+		 * @param jsonSettings Configuration data for the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void findOrCreateLobbyWithPingData(const std::string &in_lobbyType, int in_rating, int in_maxSteps, const std::string &in_jsonAlgo, const std::string &in_jsonFilter, const std::vector<std::string> &in_otherUserCxIds, const std::string &in_jsonSettings, bool in_isReady, const std::string &in_extraJson, const std::string &in_teamCode, IServerCallback *in_callback = NULL);
+		void findOrCreateLobbyWithPingData(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, const std::string &jsonSettings, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback = NULL);
 
 		/**
 		 * Retrieves full lobby data for the specified lobby.
@@ -181,10 +181,10 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - GetLobbyData
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getLobbyData(const std::string &in_lobbyId, IServerCallback *in_callback = NULL);
+		void getLobbyData(const std::string &lobbyId, IServerCallback *callback = NULL);
 
 		/**
 		 * Leaves the specified lobby.
@@ -192,10 +192,10 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - LeaveLobby
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void leaveLobby(const std::string &in_lobbyId, IServerCallback *in_callback = NULL);
+		void leaveLobby(const std::string &lobbyId, IServerCallback *callback = NULL);
 
 		/**
 		 * Removes a member from the lobby. Caller must be the lobby owner.
@@ -203,11 +203,11 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - RemoveMember
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_cxId The cxId of the member to remove
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param cxId The cxId of the member to remove
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void removeMember(const std::string &in_lobbyId, const std::string &in_cxId, IServerCallback *in_callback = NULL);
+		void removeMember(const std::string &lobbyId, const std::string &cxId, IServerCallback *callback = NULL);
 
 		/**
 		 * Sends a signal to all lobby members.
@@ -215,11 +215,11 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - SendSignal
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_jsonSignalData Signal payload to send
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param jsonSignalData Signal payload to send
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void sendSignal(const std::string &in_lobbyId, const std::string &in_jsonSignalData, IServerCallback *in_callback = NULL);
+		void sendSignal(const std::string &lobbyId, const std::string &jsonSignalData, IServerCallback *callback = NULL);
 
 		/**
 		 * Switches the caller to a different team within the lobby.
@@ -227,11 +227,11 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - SwitchTeam
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_toTeamCode Target team code
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param toTeamCode Target team code
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void switchTeam(const std::string &in_lobbyId, const std::string &in_toTeamCode, IServerCallback *in_callback = NULL);
+		void switchTeam(const std::string &lobbyId, const std::string &toTeamCode, IServerCallback *callback = NULL);
 
 		/**
 		 * Updates the ready state and extra data for the caller.
@@ -239,12 +239,12 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - UpdateReady
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_isReady Updated ready state
-		 * @param in_extraJson Updated extra data
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param isReady Updated ready state
+		 * @param extraJson Updated extra data
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateReady(const std::string &in_lobbyId, bool in_isReady, const std::string &in_extraJson, IServerCallback *in_callback = NULL);
+		void updateReady(const std::string &lobbyId, bool isReady, const std::string &extraJson, IServerCallback *callback = NULL);
 
 		/**
 		 * Updates the lobby settings.
@@ -252,11 +252,11 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - UpdateSettings
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_jsonSettings Updated lobby settings
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param jsonSettings Updated lobby settings
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateSettings(const std::string &in_lobbyId, const std::string &in_jsonSettings, IServerCallback *in_callback = NULL);
+		void updateSettings(const std::string &lobbyId, const std::string &jsonSettings, IServerCallback *callback = NULL);
 
 		/**
 		 * Joins the specified lobby.
@@ -264,14 +264,14 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - JoinLobby
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_isReady Initial ready state
-		 * @param in_extraJson Initial extra data
-		 * @param in_teamCode Preferred team code
-		 * @param in_otherUserCxIds Other users to include
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param isReady Initial ready state
+		 * @param extraJson Initial extra data
+		 * @param teamCode Preferred team code
+		 * @param otherUserCxIds Other users to include
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void joinLobby(const std::string in_lobbyId, bool in_isReady, const std::string &in_extraJson, std::string in_teamCode, const std::vector<std::string> &in_otherUserCxIds, IServerCallback *in_callback);
+		void joinLobby(const std::string lobbyId, bool isReady, const std::string &extraJson, std::string teamCode, const std::vector<std::string> &otherUserCxIds, IServerCallback *callback);
 
 		/**
 		 * Joins the specified lobby using ping data.
@@ -279,23 +279,23 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - JoinLobbyWithPingData
 		 *
-		 * @param in_lobbyId The lobby identifier
-		 * @param in_isReady Initial ready state
-		 * @param in_extraJson Initial extra data
-		 * @param in_teamCode Preferred team code
-		 * @param in_otherUserCxIds Other users to include
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyId The lobby identifier
+		 * @param isReady Initial ready state
+		 * @param extraJson Initial extra data
+		 * @param teamCode Preferred team code
+		 * @param otherUserCxIds Other users to include
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void joinLobbyWithPingData(const std::string in_lobbyId, bool in_isReady, const std::string &in_extraJson, std::string in_teamCode, const std::vector<std::string> &in_otherUserCxIds, IServerCallback *in_callback);
+		void joinLobbyWithPingData(const std::string lobbyId, bool isReady, const std::string &extraJson, std::string teamCode, const std::vector<std::string> &otherUserCxIds, IServerCallback *callback);
 
 		/**
 		 * Cancels an active find, join, or search request for lobbies.
 		 *
-		 * @param in_lobbyType The lobby type associated with the request
-		 * @param in_entryId The entry identifier returned from matchmaking
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The lobby type associated with the request
+		 * @param entryId The entry identifier returned from matchmaking
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void cancelFindRequest(const std::string &in_lobbyType, std::string in_entryId, IServerCallback *in_callback);
+		void cancelFindRequest(const std::string &lobbyType, std::string entryId, IServerCallback *callback);
 
 		/**
 		 * Executes pending ping callbacks.
@@ -309,11 +309,11 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - GET_LOBBY_INSTANCES
 		 *
-		 * @param in_lobbyType The type of lobby
-		 * @param in_criteriaJson JSON filter criteria
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The type of lobby
+		 * @param criteriaJson JSON filter criteria
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getLobbyInstances(const std::string &in_lobbyType, const std::string &in_criteriaJson, IServerCallback *in_callback);
+		void getLobbyInstances(const std::string &lobbyType, const std::string &criteriaJson, IServerCallback *callback);
 
 		/**
 		 * Retrieves visible lobby instances matching the given criteria using ping data.
@@ -321,18 +321,18 @@ namespace BrainCloud
 		 * Service Name - Lobby
 		 * Service Operation - GET_LOBBY_INSTANCES_WITH_PING_DATA
 		 *
-		 * @param in_lobbyType The type of lobby
-		 * @param in_criteriaJson JSON filter criteria
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param lobbyType The type of lobby
+		 * @param criteriaJson JSON filter criteria
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getLobbyInstancesWithPingData(const std::string &in_lobbyType, const std::string &in_criteriaJson, IServerCallback *in_callback);
+		void getLobbyInstancesWithPingData(const std::string &lobbyType, const std::string &criteriaJson, IServerCallback *callback);
 
 	private:
 		class GetRegionsForLobbiesCallback final : public IServerCallback
 		{
 		public:
 			GetRegionsForLobbiesCallback(BrainCloudLobby *pBrainCloudLobby);
-			void setExternalCallback(IServerCallback *in_callback);
+			void setExternalCallback(IServerCallback *callback);
 
 		private:
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const &jsonData) override;

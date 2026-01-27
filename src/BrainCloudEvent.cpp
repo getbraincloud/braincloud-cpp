@@ -14,95 +14,95 @@
 
 namespace BrainCloud
 {
-	BrainCloudEvent::BrainCloudEvent(BrainCloudClient* in_client) : m_client(in_client) { }
+	BrainCloudEvent::BrainCloudEvent(BrainCloudClient *client) : m_client(client) {}
 
-	void BrainCloudEvent::sendEvent(const char * in_toProfileId, const char * in_eventType, const std::string& in_jsonEventData, IServerCallback * in_callback)
+	void BrainCloudEvent::sendEvent(const char *toProfileId, const char *eventType, const std::string &jsonEventData, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::EventServiceSendToId.getValue()] = in_toProfileId;
-		message[OperationParam::EventServiceSendEventType.getValue()] = in_eventType;
-		message[OperationParam::EventServiceSendEventData.getValue()] = JsonUtil::jsonStringToValue(in_jsonEventData);
+		message[OperationParam::EventServiceSendToId.getValue()] = toProfileId;
+		message[OperationParam::EventServiceSendEventType.getValue()] = eventType;
+		message[OperationParam::EventServiceSendEventData.getValue()] = JsonUtil::jsonStringToValue(jsonEventData);
 
-		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::Send, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::Send, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudEvent::updateIncomingEventData(const char * in_evId, const std::string& in_jsonEventData, IServerCallback * in_callback)
+	void BrainCloudEvent::updateIncomingEventData(const char *evId, const std::string &jsonEventData, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::EvId.getValue()] = in_evId;
-		message[OperationParam::EventServiceUpdateEventDataData.getValue()] = JsonUtil::jsonStringToValue(in_jsonEventData);
+		message[OperationParam::EvId.getValue()] = evId;
+		message[OperationParam::EventServiceUpdateEventDataData.getValue()] = JsonUtil::jsonStringToValue(jsonEventData);
 
-		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::UpdateEventData, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::UpdateEventData, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudEvent::updateIncomingEventDataIfExists(const char * in_evId, const std::string& in_jsonEventData, IServerCallback * in_callback)
+	void BrainCloudEvent::updateIncomingEventDataIfExists(const char *evId, const std::string &jsonEventData, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::EvId.getValue()] = in_evId;
-		message[OperationParam::EventServiceUpdateEventDataData.getValue()] = JsonUtil::jsonStringToValue(in_jsonEventData);
+		message[OperationParam::EvId.getValue()] = evId;
+		message[OperationParam::EventServiceUpdateEventDataData.getValue()] = JsonUtil::jsonStringToValue(jsonEventData);
 
-		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::UpdateEventDataIfExists, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::UpdateEventDataIfExists, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudEvent::deleteIncomingEvent(const char * in_evId, IServerCallback * in_callback)
+	void BrainCloudEvent::deleteIncomingEvent(const char *evId, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::EvId.getValue()] = in_evId;
+		message[OperationParam::EvId.getValue()] = evId;
 
-		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncoming, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncoming, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudEvent::deleteIncomingEvents(const std::vector<std::string> & in_eventIds, IServerCallback * in_callback)
+	void BrainCloudEvent::deleteIncomingEvents(const std::vector<std::string> &eventIds, IServerCallback *callback)
 	{
 		Json::Value message;
 
-		message[OperationParam::EventServiceEvIds.getValue()] = JsonUtil::stringVectorToJson(in_eventIds);
+		message[OperationParam::EventServiceEvIds.getValue()] = JsonUtil::stringVectorToJson(eventIds);
 
-		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEvents, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEvents, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudEvent::deleteIncomingEventsOlderThan(int64_t in_dateMillis, IServerCallback * in_callback)
+	void BrainCloudEvent::deleteIncomingEventsOlderThan(int64_t dateMillis, IServerCallback *callback)
 	{
 		Json::Value message;
 
-		message[OperationParam::EventServiceDateMillis.getValue()] = (Json::UInt64)in_dateMillis;
+		message[OperationParam::EventServiceDateMillis.getValue()] = (Json::UInt64)dateMillis;
 
-		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEventsOlderThan, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEventsOlderThan, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudEvent::deleteIncomingEventsByTypeOlderThan(const std::string & in_eventType, int64_t in_dateMillis, IServerCallback * in_callback)
+	void BrainCloudEvent::deleteIncomingEventsByTypeOlderThan(const std::string &eventType, int64_t dateMillis, IServerCallback *callback)
 	{
 		Json::Value message;
-		
-		message[OperationParam::EventServiceEventType.getValue()] = in_eventType;
-		message[OperationParam::EventServiceDateMillis.getValue()] = (Json::UInt64)in_dateMillis;
 
-		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEventsByTypeOlderThan, message, in_callback);
+		message[OperationParam::EventServiceEventType.getValue()] = eventType;
+		message[OperationParam::EventServiceDateMillis.getValue()] = (Json::UInt64)dateMillis;
+
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::DeleteIncomingEventsByTypeOlderThan, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudEvent::getEvents(IServerCallback * in_callback)
+	void BrainCloudEvent::getEvents(IServerCallback *callback)
 	{
 		Json::Value message;
-		ServerCall * sc = new ServerCall(ServiceName::Event, ServiceOperation::GetEvents, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::GetEvents, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
-	
-	void BrainCloudEvent::sendEventToProfiles(const std::vector<std::string> &in_toIds, const char *in_eventType, const std::string &in_eventData, IServerCallback *in_callback)
+
+	void BrainCloudEvent::sendEventToProfiles(const std::vector<std::string> &toIds, const char *eventType, const std::string &eventData, IServerCallback *callback)
 	{
 		Json::Value data;
-		Json::Value toIds = JsonUtil::stringVectorToJson(in_toIds);
+		Json::Value toIds = JsonUtil::stringVectorToJson(toIds);
 		data[OperationParam::EventServiceToIds.getValue()] = toIds;
-		data[OperationParam::EventServiceSendEventType.getValue()] = in_eventType;
-		data[OperationParam::EventServiceSendEventData.getValue()] = JsonUtil::jsonStringToValue(in_eventData);
+		data[OperationParam::EventServiceSendEventType.getValue()] = eventType;
+		data[OperationParam::EventServiceSendEventData.getValue()] = JsonUtil::jsonStringToValue(eventData);
 
-		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::SendEventToProfiles, data, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Event, ServiceOperation::SendEventToProfiles, data, callback);
 
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}

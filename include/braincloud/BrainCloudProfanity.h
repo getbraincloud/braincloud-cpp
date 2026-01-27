@@ -16,7 +16,7 @@ namespace BrainCloud
     class BrainCloudProfanity
     {
     public:
-        BrainCloudProfanity(BrainCloudClient *in_client);
+        BrainCloudProfanity(BrainCloudClient *client);
 
         /**
          * Checks supplied text for profanity.
@@ -24,12 +24,12 @@ namespace BrainCloud
          * Service Name - Profanity
          * Service Operation - ProfanityCheck
          *
-         * @param in_text The text to check
-         * @param in_languages Optional comma delimited list of two character language codes
-         * @param in_flagEmail Optional processing of email addresses
-         * @param in_flagPhone Optional processing of phone numbers
-         * @param in_flagUrls Optional processing of urls
-         * @param in_callback The method to be invoked when the server response is received
+         * @param text The text to check
+         * @param languages Optional comma delimited list of two character language codes
+         * @param flagEmail Optional processing of email addresses
+         * @param flagPhone Optional processing of phone numbers
+         * @param flagUrls Optional processing of urls
+         * @param callback The method to be invoked when the server response is received
          *
          * Significant error codes:
          *
@@ -38,12 +38,12 @@ namespace BrainCloud
          * 40423 - WebPurify returned an error (Http status != 200)
          * 40424 - WebPurify not enabled
          */
-        void profanityCheck(const char *in_text,
-                            const char *in_languages,
-                            bool in_flagEmail,
-                            bool in_flagPhone,
-                            bool in_flagUrls,
-                            IServerCallback *in_callback = NULL);
+        void profanityCheck(const char *text,
+                            const char *languages,
+                            bool flagEmail,
+                            bool flagPhone,
+                            bool flagUrls,
+                            IServerCallback *callback = NULL);
 
         /**
          * Replaces the characters of profanity text with a passed character(s).
@@ -51,13 +51,13 @@ namespace BrainCloud
          * Service Name - Profanity
          * Service Operation - ProfanityReplaceText
          *
-         * @param in_text The text to check
-         * @param in_replaceSymbol The text to replace individual characters of profanity text with
-         * @param in_languages Optional comma delimited list of two character language codes
-         * @param in_flagEmail Optional processing of email addresses
-         * @param in_flagPhone Optional processing of phone numbers
-         * @param in_flagUrls Optional processing of urls
-         * @param in_callback The method to be invoked when the server response is received
+         * @param text The text to check
+         * @param replaceSymbol The text to replace individual characters of profanity text with
+         * @param languages Optional comma delimited list of two character language codes
+         * @param flagEmail Optional processing of email addresses
+         * @param flagPhone Optional processing of phone numbers
+         * @param flagUrls Optional processing of urls
+         * @param callback The method to be invoked when the server response is received
          *
          * Significant error codes:
          *
@@ -66,13 +66,13 @@ namespace BrainCloud
          * 40423 - WebPurify returned an error (Http status != 200)
          * 40424 - WebPurify not enabled
          */
-        void profanityReplaceText(const char *in_text,
-                                  const char *in_replaceSymbol,
-                                  const char *in_languages,
-                                  bool in_flagEmail,
-                                  bool in_flagPhone,
-                                  bool in_flagUrls,
-                                  IServerCallback *in_callback = NULL);
+        void profanityReplaceText(const char *text,
+                                  const char *replaceSymbol,
+                                  const char *languages,
+                                  bool flagEmail,
+                                  bool flagPhone,
+                                  bool flagUrls,
+                                  IServerCallback *callback = NULL);
 
         /**
          * Checks supplied text for profanity and returns a list of bad wors.
@@ -80,12 +80,12 @@ namespace BrainCloud
          * Service Name - Profanity
          * Service Operation - ProfanityIdentifyBadWords
          *
-         * @param in_text The text to check
-         * @param in_languages Optional comma delimited list of two character language codes
-         * @param in_flagEmail Optional processing of email addresses
-         * @param in_flagPhone Optional processing of phone numbers
-         * @param in_flagUrls Optional processing of urls
-         * @param in_callback The method to be invoked when the server response is received
+         * @param text The text to check
+         * @param languages Optional comma delimited list of two character language codes
+         * @param flagEmail Optional processing of email addresses
+         * @param flagPhone Optional processing of phone numbers
+         * @param flagUrls Optional processing of urls
+         * @param callback The method to be invoked when the server response is received
          *
          * Significant error codes:
          *
@@ -94,12 +94,12 @@ namespace BrainCloud
          * 40423 - WebPurify returned an error (Http status != 200)
          * 40424 - WebPurify not enabled
          */
-        void profanityIdentifyBadWords(const char *in_text,
-                                       const char *in_languages,
-                                       bool in_flagEmail,
-                                       bool in_flagPhone,
-                                       bool in_flagUrls,
-                                       IServerCallback *in_callback = NULL);
+        void profanityIdentifyBadWords(const char *text,
+                                       const char *languages,
+                                       bool flagEmail,
+                                       bool flagPhone,
+                                       bool flagUrls,
+                                       IServerCallback *callback = NULL);
 
     private:
         BrainCloudClient *m_client;

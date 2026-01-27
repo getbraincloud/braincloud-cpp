@@ -14,83 +14,83 @@
 
 namespace BrainCloud
 {
-    BrainCloudPlaybackStream::BrainCloudPlaybackStream(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudPlaybackStream::BrainCloudPlaybackStream(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudPlaybackStream::startStream(const char * in_targetPlayerId, bool in_includeSharedData, IServerCallback * in_callback)
+    void BrainCloudPlaybackStream::startStream(const char *targetPlayerId, bool includeSharedData, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlaybackStreamServiceTargetPlayerId.getValue()] = in_targetPlayerId;
-        message[OperationParam::PlaybackStreamServiceIncludeSharedData.getValue()] = in_includeSharedData;
+        message[OperationParam::PlaybackStreamServiceTargetPlayerId.getValue()] = targetPlayerId;
+        message[OperationParam::PlaybackStreamServiceIncludeSharedData.getValue()] = includeSharedData;
 
-        ServerCall * sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::StartStream, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::StartStream, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudPlaybackStream::readStream(const char * in_playbackStreamId, IServerCallback * in_callback)
+    void BrainCloudPlaybackStream::readStream(const char *playbackStreamId, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = in_playbackStreamId;
+        message[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = playbackStreamId;
 
-        ServerCall * sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::ReadStream, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::ReadStream, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudPlaybackStream::endStream(const char * in_playbackStreamId, IServerCallback * in_callback)
+    void BrainCloudPlaybackStream::endStream(const char *playbackStreamId, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = in_playbackStreamId;
+        message[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = playbackStreamId;
 
-        ServerCall * sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::EndStream, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::EndStream, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudPlaybackStream::deleteStream(const char * in_playbackStreamId, IServerCallback * in_callback)
+    void BrainCloudPlaybackStream::deleteStream(const char *playbackStreamId, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = in_playbackStreamId;
+        message[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = playbackStreamId;
 
-        ServerCall * sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::DeleteStream, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::DeleteStream, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudPlaybackStream::addEvent(const char * in_playbackStreamId, const char * in_jsonEventData, const char * in_jsonSummary, IServerCallback * in_callback)
+    void BrainCloudPlaybackStream::addEvent(const char *playbackStreamId, const char *jsonEventData, const char *jsonSummary, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = in_playbackStreamId;
-        message[OperationParam::PlaybackStreamServiceEventData.getValue()] = JsonUtil::jsonStringToValue(in_jsonEventData);
-        message[OperationParam::PlaybackStreamServiceSummary.getValue()] = JsonUtil::jsonStringToValue(in_jsonSummary);
+        message[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = playbackStreamId;
+        message[OperationParam::PlaybackStreamServiceEventData.getValue()] = JsonUtil::jsonStringToValue(jsonEventData);
+        message[OperationParam::PlaybackStreamServiceSummary.getValue()] = JsonUtil::jsonStringToValue(jsonSummary);
 
-        ServerCall * sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::AddEvent, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::AddEvent, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudPlaybackStream::getRecentStreamsForInitiatingPlayer(const char * in_initiatingPlayerId, int in_maxNumStreams, IServerCallback * in_callback)
+    void BrainCloudPlaybackStream::getRecentStreamsForInitiatingPlayer(const char *initiatingPlayerId, int maxNumStreams, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlaybackStreamServiceInitiatingPlayerId.getValue()] = in_initiatingPlayerId;
-        message[OperationParam::PlaybackMaxNumberOfStreams.getValue()] = in_maxNumStreams;
+        message[OperationParam::PlaybackStreamServiceInitiatingPlayerId.getValue()] = initiatingPlayerId;
+        message[OperationParam::PlaybackMaxNumberOfStreams.getValue()] = maxNumStreams;
 
-        ServerCall * sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::GetRecentStreamsForInitiatingPlayer, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::GetRecentStreamsForInitiatingPlayer, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudPlaybackStream::getRecentStreamsForTargetPlayer(const char * in_targetPlayerId, int in_maxNumStreams, IServerCallback * in_callback)
+    void BrainCloudPlaybackStream::getRecentStreamsForTargetPlayer(const char *targetPlayerId, int maxNumStreams, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::PlaybackStreamServiceTargetPlayerId.getValue()] = in_targetPlayerId;
-        message[OperationParam::PlaybackMaxNumberOfStreams.getValue()] = in_maxNumStreams;
+        message[OperationParam::PlaybackStreamServiceTargetPlayerId.getValue()] = targetPlayerId;
+        message[OperationParam::PlaybackMaxNumberOfStreams.getValue()] = maxNumStreams;
 
-        ServerCall * sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::GetRecentStreamsForTargetPlayer, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::GetRecentStreamsForTargetPlayer, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudPlaybackStream::protectStreamUntil(const char *in_playbackStreamId, int in_numDays, IServerCallback *in_callback)
+    void BrainCloudPlaybackStream::protectStreamUntil(const char *playbackStreamId, int numDays, IServerCallback *callback)
     {
         Json::Value data;
-        data[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = in_playbackStreamId;
-        data[OperationParam::PlaybackStreamServiceNumDays.getValue()] = in_numDays;
+        data[OperationParam::PlaybackStreamServicePlaybackStreamId.getValue()] = playbackStreamId;
+        data[OperationParam::PlaybackStreamServiceNumDays.getValue()] = numDays;
 
-        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::ProtectStreamUntil, data, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlaybackStream, ServiceOperation::ProtectStreamUntil, data, callback);
         m_client->sendRequest(sc);
     }
 }

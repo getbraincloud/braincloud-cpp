@@ -14,28 +14,28 @@
 
 namespace BrainCloud
 {
-    BrainCloudPlayerStatisticsEvent::BrainCloudPlayerStatisticsEvent(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudPlayerStatisticsEvent::BrainCloudPlayerStatisticsEvent(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudPlayerStatisticsEvent::triggerStatsEvent(const char *in_eventName, int32_t in_eventMultiplier,
-                                                            IServerCallback *in_callback)
+    void BrainCloudPlayerStatisticsEvent::triggerStatsEvent(const char *eventName, int32_t eventMultiplier,
+                                                            IServerCallback *callback)
     {
         Json::Value message;
 
-        message[OperationParam::PlayerStatisticEventServiceEventName.getValue()] = in_eventName;
-        message[OperationParam::PlayerStatisticEventServiceEventMultiplier.getValue()] = in_eventMultiplier;
+        message[OperationParam::PlayerStatisticEventServiceEventName.getValue()] = eventName;
+        message[OperationParam::PlayerStatisticEventServiceEventMultiplier.getValue()] = eventMultiplier;
 
-        ServerCall * sc = new ServerCall(ServiceName::PlayerStatisticsEvent, ServiceOperation::Trigger, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlayerStatisticsEvent, ServiceOperation::Trigger, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudPlayerStatisticsEvent::triggerStatsEvents(const std::string &in_jsonData,
-                                                             IServerCallback *in_callback)
+    void BrainCloudPlayerStatisticsEvent::triggerStatsEvents(const std::string &jsonData,
+                                                             IServerCallback *callback)
     {
         Json::Value message;
 
-        message[OperationParam::PlayerStatisticEventServiceEvents.getValue()] = JsonUtil::jsonStringToValue(in_jsonData);
+        message[OperationParam::PlayerStatisticEventServiceEvents.getValue()] = JsonUtil::jsonStringToValue(jsonData);
 
-        ServerCall * sc = new ServerCall(ServiceName::PlayerStatisticsEvent, ServiceOperation::TriggerMultiple, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::PlayerStatisticsEvent, ServiceOperation::TriggerMultiple, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 }

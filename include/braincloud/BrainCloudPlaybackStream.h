@@ -17,7 +17,7 @@ namespace BrainCloud
     class BrainCloudPlaybackStream
     {
     public:
-        BrainCloudPlaybackStream(BrainCloudClient *in_client);
+        BrainCloudPlaybackStream(BrainCloudClient *client);
 
         /**
          * Starts a stream
@@ -25,11 +25,11 @@ namespace BrainCloud
          * Service Name - PlaybackStream
          * Service Operation - StartStream
          *
-         * @param in_targetPlayerId The player to start a stream with
-         * @param in_includeSharedData Whether to include shared data in the stream
-         * @param in_callback The method to be invoked when the server response is received
+         * @param targetPlayerId The player to start a stream with
+         * @param includeSharedData Whether to include shared data in the stream
+         * @param callback The method to be invoked when the server response is received
          */
-        void startStream(const char *in_targetPlayerId, bool in_includeSharedData, IServerCallback *in_callback = NULL);
+        void startStream(const char *targetPlayerId, bool includeSharedData, IServerCallback *callback = NULL);
 
         /**
          * Reads a stream
@@ -37,10 +37,10 @@ namespace BrainCloud
          * Service Name - PlaybackStream
          * Service Operation - ReadStream
          *
-         * @param in_playbackStreamId Identifies the stream to read
-         * @param in_callback The method to be invoked when the server response is received
+         * @param playbackStreamId Identifies the stream to read
+         * @param callback The method to be invoked when the server response is received
          */
-        void readStream(const char *in_playbackStreamId, IServerCallback *in_callback = NULL);
+        void readStream(const char *playbackStreamId, IServerCallback *callback = NULL);
 
         /**
          * Ends a stream
@@ -48,10 +48,10 @@ namespace BrainCloud
          * Service Name - PlaybackStream
          * Service Operation - EndStream
          *
-         * @param in_playbackStreamId Identifies the stream to read
-         * @param in_callback The method to be invoked when the server response is received
+         * @param playbackStreamId Identifies the stream to read
+         * @param callback The method to be invoked when the server response is received
          */
-        void endStream(const char *in_playbackStreamId, IServerCallback *in_callback = NULL);
+        void endStream(const char *playbackStreamId, IServerCallback *callback = NULL);
 
         /**
          * Deletes a stream
@@ -59,10 +59,10 @@ namespace BrainCloud
          * Service Name - PlaybackStream
          * Service Operation - DeleteStream
          *
-         * @param in_playbackStreamId Identifies the stream to read
-         * @param in_callback The method to be invoked when the server response is received
+         * @param playbackStreamId Identifies the stream to read
+         * @param callback The method to be invoked when the server response is received
          */
-        void deleteStream(const char *in_playbackStreamId, IServerCallback *in_callback = NULL);
+        void deleteStream(const char *playbackStreamId, IServerCallback *callback = NULL);
 
         /**
          * Adds a stream event
@@ -70,12 +70,12 @@ namespace BrainCloud
          * Service Name - PlaybackStream
          * Service Operation - AddEvent
          *
-         * @param in_playbackStreamId Identifies the stream to read
-         * @param in_jsonEventData Describes the event
-         * @param in_jsonSummary Current summary data as of this event
-         * @param in_callback The method to be invoked when the server response is received
+         * @param playbackStreamId Identifies the stream to read
+         * @param jsonEventData Describes the event
+         * @param jsonSummary Current summary data as of this event
+         * @param callback The method to be invoked when the server response is received
          */
-        void addEvent(const char *in_playbackStreamId, const char *in_jsonEventData, const char *in_jsonSummary, IServerCallback *in_callback = NULL);
+        void addEvent(const char *playbackStreamId, const char *jsonEventData, const char *jsonSummary, IServerCallback *callback = NULL);
 
         /**
          * Gets recent stream summaries for initiating player
@@ -87,7 +87,7 @@ namespace BrainCloud
          * @param maxNumStreams The max number of streams to query
          * @param callback The callback.
          */
-        void getRecentStreamsForInitiatingPlayer(const char *in_initiatingPlayerId, int in_maxNumStreams, IServerCallback *in_callback = NULL);
+        void getRecentStreamsForInitiatingPlayer(const char *initiatingPlayerId, int maxNumStreams, IServerCallback *callback = NULL);
 
         /**
          * Gets recent stream summaries for target player
@@ -99,7 +99,7 @@ namespace BrainCloud
          * @param maxNumStreams The max number of streams to query
          * @param callback The callback.
          */
-        void getRecentStreamsForTargetPlayer(const char *in_targetPlayerId, int in_maxNumStreams, IServerCallback *in_callback = NULL);
+        void getRecentStreamsForTargetPlayer(const char *targetPlayerId, int maxNumStreams, IServerCallback *callback = NULL);
 
         /**
          * Protects a playback stream from being purged (but not deleted) for the given number of days (from now).
@@ -109,11 +109,11 @@ namespace BrainCloud
          * Service Name - PlaybackStream
          * Service Operation - PROTECT_STREAM_UNTIL
          *
-         * @param in_playbackStreamId Identifies the stream to protect
-         * @param in_numDays The number of days the stream is to be protected (from now)
-         * @param in_callback The method to be invoked when the server response is received
+         * @param playbackStreamId Identifies the stream to protect
+         * @param numDays The number of days the stream is to be protected (from now)
+         * @param callback The method to be invoked when the server response is received
          */
-        void protectStreamUntil(const char *in_playbackStreamId, int in_numDays, IServerCallback *in_callback = NULL);
+        void protectStreamUntil(const char *playbackStreamId, int numDays, IServerCallback *callback = NULL);
 
     private:
         BrainCloudClient *m_client;

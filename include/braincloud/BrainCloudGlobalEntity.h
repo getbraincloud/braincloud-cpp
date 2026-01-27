@@ -17,7 +17,7 @@ namespace BrainCloud
 	class BrainCloudGlobalEntity
 	{
 	public:
-		BrainCloudGlobalEntity(BrainCloudClient *in_client);
+		BrainCloudGlobalEntity(BrainCloudClient *client);
 
 		/**
 		 * Method creates a new entity on the server.
@@ -25,14 +25,14 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - Create
 		 *
-		 * @param in_entityType The entity type as defined by the user
-		 * @param in_timeToLive Sets expiry time for entity in milliseconds if > 0
-		 * @param in_jsonEntityAcl The entity's access control list as json. A null acl implies default
-		 * @param in_jsonEntityData  The entity's data as a json string
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityType The entity type as defined by the user
+		 * @param timeToLive Sets expiry time for entity in milliseconds if > 0
+		 * @param jsonEntityAcl The entity's access control list as json. A null acl implies default
+		 * @param jsonEntityData  The entity's data as a json string
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void createEntity(const std::string &in_entityType, int64_t in_timeToLive, const std::string &in_jsonEntityAcl,
-						  const std::string &in_jsonEntityData, IServerCallback *in_callback = NULL);
+		void createEntity(const std::string &entityType, int64_t timeToLive, const std::string &jsonEntityAcl,
+						  const std::string &jsonEntityData, IServerCallback *callback = NULL);
 
 		/**
 		 * Method creates a new entity on the server with an indexed id.
@@ -40,15 +40,15 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - CreateWithIndexedId
 		 *
-		 * @param in_entityType The entity type as defined by the user
-		 * @param in_indexedId A secondary ID that will be indexed
-		 * @param in_timeToLive Sets expiry time for entity in milliseconds if > 0
-		 * @param in_jsonEntityAcl The entity's access control list as json. A null acl implies default
-		 * @param in_jsonEntityData  The entity's data as a json string
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityType The entity type as defined by the user
+		 * @param indexedId A secondary ID that will be indexed
+		 * @param timeToLive Sets expiry time for entity in milliseconds if > 0
+		 * @param jsonEntityAcl The entity's access control list as json. A null acl implies default
+		 * @param jsonEntityData  The entity's data as a json string
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void createEntityWithIndexedId(const std::string &in_entityType, const std::string &in_indexedId, int64_t in_timeToLive,
-									   const std::string &in_jsonEntityAcl, const std::string &in_jsonEntityData, IServerCallback *in_callback = NULL);
+		void createEntityWithIndexedId(const std::string &entityType, const std::string &indexedId, int64_t timeToLive,
+									   const std::string &jsonEntityAcl, const std::string &jsonEntityData, IServerCallback *callback = NULL);
 
 		/**
 		 * Method updates an existing entity on the server.
@@ -56,12 +56,12 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - Update
 		 *
-		 * @param in_entityId The entity ID
-		 * @param in_version The version of the entity to update
-		 * @param in_jsonEntityData  The entity's data as a json string
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The entity ID
+		 * @param version The version of the entity to update
+		 * @param jsonEntityData  The entity's data as a json string
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateEntity(const std::string &in_entityId, int64_t in_version, const std::string &in_jsonEntityData, IServerCallback *in_callback = NULL);
+		void updateEntity(const std::string &entityId, int64_t version, const std::string &jsonEntityData, IServerCallback *callback = NULL);
 
 		/**
 		 * Method updates an existing entity's Acl on the server.
@@ -69,12 +69,12 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - UpdateAcl
 		 *
-		 * @param in_entityId The entity ID
-		 * @param in_version The version of the entity to update
-		 * @param in_jsonEntityAcl The entity's access control list as json.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The entity ID
+		 * @param version The version of the entity to update
+		 * @param jsonEntityAcl The entity's access control list as json.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateEntityAcl(const std::string &in_entityId, int64_t in_version, const std::string &in_jsonEntityAcl, IServerCallback *in_callback = NULL);
+		void updateEntityAcl(const std::string &entityId, int64_t version, const std::string &jsonEntityAcl, IServerCallback *callback = NULL);
 
 		/**
 		 * Method updates an existing entity's time to live on the server.
@@ -82,12 +82,12 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - UpdateTimeToLive
 		 *
-		 * @param in_entityId The entity ID
-		 * @param in_version The version of the entity to update
-		 * @param in_timeToLive Sets expiry time for entity in milliseconds if > 0
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The entity ID
+		 * @param version The version of the entity to update
+		 * @param timeToLive Sets expiry time for entity in milliseconds if > 0
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateEntityTimeToLive(const std::string &in_entityId, int64_t in_version, int64_t in_timeToLive, IServerCallback *in_callback = NULL);
+		void updateEntityTimeToLive(const std::string &entityId, int64_t version, int64_t timeToLive, IServerCallback *callback = NULL);
 
 		/**
 		 * Method deletes an existing entity on the server.
@@ -95,11 +95,11 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - Delete
 		 *
-		 * @param in_entityId The entity ID
-		 * @param in_version The version of the entity to delete
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The entity ID
+		 * @param version The version of the entity to delete
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void deleteEntity(const std::string &in_entityId, int64_t in_version, IServerCallback *in_callback = NULL);
+		void deleteEntity(const std::string &entityId, int64_t version, IServerCallback *callback = NULL);
 
 		/**
 		 * Method reads an existing entity from the server.
@@ -107,10 +107,10 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - Read
 		 *
-		 * @param in_entityId The entity ID
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The entity ID
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void readEntity(const std::string &in_entityId, IServerCallback *in_callback = NULL);
+		void readEntity(const std::string &entityId, IServerCallback *callback = NULL);
 
 		/**
 		 * Method gets list of entities from the server base on type and/or where clause
@@ -118,12 +118,12 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - GetList
 		 *
-		 * @param in_where Mongo style query string
-		 * @param in_orderBy Sort order
-		 * @param in_maxReturn The maximum number of entities to return
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param where Mongo style query string
+		 * @param orderBy Sort order
+		 * @param maxReturn The maximum number of entities to return
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getList(const std::string &in_where, const std::string &in_orderBy, int64_t in_maxReturn, IServerCallback *in_callback = NULL);
+		void getList(const std::string &where, const std::string &orderBy, int64_t maxReturn, IServerCallback *callback = NULL);
 
 		/**
 		 * Method gets list of entities from the server base on indexed id
@@ -131,11 +131,11 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - GetListByIndexedId
 		 *
-		 * @param in_entityIndexedId The entity indexed Id
-		 * @param in_maxReturn The maximum number of entities to return
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityIndexedId The entity indexed Id
+		 * @param maxReturn The maximum number of entities to return
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getListByIndexedId(const std::string &in_entityIndexedId, int64_t in_maxReturn, IServerCallback *in_callback = NULL);
+		void getListByIndexedId(const std::string &entityIndexedId, int64_t maxReturn, IServerCallback *callback = NULL);
 
 		/**
 		 * Method gets a count of entities based on the where clause
@@ -143,10 +143,10 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - GetListCount
 		 *
-		 * @param in_where Mongo style query string
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param where Mongo style query string
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getListCount(const std::string &in_where, IServerCallback *in_callback = NULL);
+		void getListCount(const std::string &where, IServerCallback *callback = NULL);
 
 		/**
 		 * Method uses a paging system to iterate through Global Entities
@@ -156,11 +156,11 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - GetPage
 		 *
-		 * @param in_context The json context for the page request.
+		 * @param context The json context for the page request.
 		 *                   See the portal appendix documentation for format.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getPage(const char *in_context, IServerCallback *in_callback = NULL);
+		void getPage(const char *context, IServerCallback *callback = NULL);
 
 		/**
 		 * Method to retrieve previous or next pages after having called the GetPage method.
@@ -168,13 +168,13 @@ namespace BrainCloud
 		 * Service Name - GlobalEntity
 		 * Service Operation - GetPageOffset
 		 *
-		 * @param in_context The context string returned from the server from a
+		 * @param context The context string returned from the server from a
 		 *      previous call to GetPage or GetPageOffset
-		 * @param in_pageOffset The positive or negative page offset to fetch. Uses the last page
+		 * @param pageOffset The positive or negative page offset to fetch. Uses the last page
 		 *      retrieved using the context string to determine a starting point.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getPageOffset(const char *in_context, int in_pageOffset, IServerCallback *in_callback = NULL);
+		void getPageOffset(const char *context, int pageOffset, IServerCallback *callback = NULL);
 
 		/**
 		 * Partial increment of global entity data field items. Partial set of items incremented as specified.
@@ -182,11 +182,11 @@ namespace BrainCloud
 		 * Service Name - globalEntity
 		 * Service Operation - INCREMENT_GLOBAL_ENTITY_DATA
 		 *
-		 * @param in_entityId The id of the entity to update
-		 * @param in_jsonData The entity's data object
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The id of the entity to update
+		 * @param jsonData The entity's data object
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void incrementGlobalEntityData(const char *in_entityId, std::string in_jsonData, IServerCallback *in_callback = NULL);
+		void incrementGlobalEntityData(const char *entityId, std::string jsonData, IServerCallback *callback = NULL);
 
 		/**
 		 * Gets a list of up to randomCount randomly selected entities from the server based on the where condition and specified maximum return count.
@@ -194,11 +194,11 @@ namespace BrainCloud
 		 * Service Name - globalEntity
 		 * Service Operation - GET_RANDOM_ENTITIES_MATCHING
 		 *
-		 * @param in_where Mongo style query string
-		 * @param in_maxReturn The maximum number of entities to return
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param where Mongo style query string
+		 * @param maxReturn The maximum number of entities to return
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getRandomEntitiesMatching(const std::string &in_where, int64_t in_maxReturn, IServerCallback *in_callback);
+		void getRandomEntitiesMatching(const std::string &where, int64_t maxReturn, IServerCallback *callback);
 
 		/**
 		 * Method updates an existing entity's Indexed Id
@@ -206,12 +206,12 @@ namespace BrainCloud
 		 * Service Name - globalEntity
 		 * Service Operation - UPDATE_ENTITY_OWNER_AND_ACL
 		 *
-		 * @param in_entityId The entity ID
-		 * @param in_version The version of the entity to update
-		 * @param in_entityIndexedId the id index of the entity
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The entity ID
+		 * @param version The version of the entity to update
+		 * @param entityIndexedId the id index of the entity
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateEntityIndexedId(const char *in_entityId, int64_t in_version, const char *in_entityIndexedId, IServerCallback *in_callback = NULL);
+		void updateEntityIndexedId(const char *entityId, int64_t version, const char *entityIndexedId, IServerCallback *callback = NULL);
 
 		/**
 		 * Method updates an existing entity's Owner and ACL on the server.
@@ -219,13 +219,13 @@ namespace BrainCloud
 		 * Service Name - globalEntity
 		 * Service Operation - UPDATE_ENTITY_OWNER_AND_ACL
 		 *
-		 * @param in_entityId The entity ID
-		 * @param in_version The version of the entity to update
-		 * @param in_ownerId The owner ID
-		 * @param in_jsonEntityAcl The entity's access control list as JSON.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The entity ID
+		 * @param version The version of the entity to update
+		 * @param ownerId The owner ID
+		 * @param jsonEntityAcl The entity's access control list as JSON.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateEntityOwnerAndAcl(const char *in_entityId, int64_t in_version, const char *in_ownerId, const std::string &in_jsonEntityAcl, IServerCallback *in_callback = NULL);
+		void updateEntityOwnerAndAcl(const char *entityId, int64_t version, const char *ownerId, const std::string &jsonEntityAcl, IServerCallback *callback = NULL);
 
 		/**
 		 * Method clears the owner id of an existing entity and sets the ACL on the server.
@@ -233,12 +233,12 @@ namespace BrainCloud
 		 * Service Name - globalEntity
 		 * Service Operation - MAKE_SYSTEM_ENTITY
 		 *
-		 * @param in_entityId The entity ID
-		 * @param in_version The version of the entity to update
-		 * @param in_jsonEntityAcl The entity's access control list as JSON.
-		 * @param in_callback The method to be invoked when the server response is received
+		 * @param entityId The entity ID
+		 * @param version The version of the entity to update
+		 * @param jsonEntityAcl The entity's access control list as JSON.
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void makeSystemEntity(const char *in_entityId, int64_t in_version, const std::string &in_jsonEntityAcl, IServerCallback *in_callback = NULL);
+		void makeSystemEntity(const char *entityId, int64_t version, const std::string &jsonEntityAcl, IServerCallback *callback = NULL);
 
 	private:
 		BrainCloudClient *m_client;
