@@ -45,19 +45,19 @@ namespace BrainCloud
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param jsonEntityData The entity's data as a json string
-		 * @param version
+		 * @param version Version of the custom entity being updated.
 		 * @param callback The method to be invoked when the server response is received
 		 */
 		void deleteEntity(const char *entityType, const char *entityId, const std::string &jsonEntityData, int32_t version, IServerCallback *callback = NULL);
 
 		/**
-		 * Deletes the specified custom entity on the server.
+		 * Counts the number of custom entities meeting the specified where clause, enforcing ownership/ACL permissions
 		 *
 		 * Service Name - CustomEntity
 		 * Service Operation - GetCount
 		 *
 		 * @param entityType The entity type as defined by the user
-		 * @param whereJson
+		 * @param whereJson Mongo style query string
 		 * @param callback The method to be invoked when the server response is received
 		 */
 		void getCount(const char *entityType, const std::string &whereJson, IServerCallback *callback = NULL);

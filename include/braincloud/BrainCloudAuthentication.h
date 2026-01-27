@@ -140,6 +140,7 @@ namespace BrainCloud
 
 		/**
 		 * Get server version.
+		 * @param callback The method to be invoked when the server response is received
 		 */
 		void getServerVersion(IServerCallback *callback = NULL);
 
@@ -210,7 +211,7 @@ namespace BrainCloud
 		void authenticateTwitter(const char *userId, const char *token, const char *secret, bool forceCreate, IServerCallback *callback = NULL);
 
 		/**
-		 * Authenticate the user using a Pase userid and authentication token
+		 * Authenticate the user using a Parse userid and authentication token
 		 *
 		 * Service Name - Authenticate
 		 * Service Operation - Authenticate
