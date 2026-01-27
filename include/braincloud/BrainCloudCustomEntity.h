@@ -78,13 +78,15 @@ namespace BrainCloud
 		void getEntityPage(const char *in_entityType, const char *in_context, IServerCallback *in_callback = NULL);
 
 		/**
+		 * Gets a list of up to maxReturn randomly selected custom entities from the
+		 * server based on the entity type and where condition.
 		 *
 		 * Service Name - CustomEntity
 		 * Service Operation - GetRandomEntitiesMatching
 		 *
 		 * @param in_entityType The entity type as defined by the user
-		 * @param in_whereJson
-		 * @param in_maxReturn
+		 * @param in_whereJson Mongo style query string
+		 * @param in_maxReturn Max number of returns
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void getRandomEntitiesMatching(const char *in_entityType, const std::string &in_whereJson, const int32_t in_maxReturn, IServerCallback *in_callback = NULL);
@@ -96,8 +98,11 @@ namespace BrainCloud
 		 * Service Operation - GetEntityPageOffset
 		 *
 		 * @param in_entityType The entity type as defined by the user
-		 * @param in_context
-		 * @param in_pageOffset
+		 * @param in_context The context string returned from the server from a previous
+		 *                   call to GetPage or GetPageOffset.
+		 * @param in_pageOffset The positive or negative page offset to fetch. Uses the
+		 *                   last page retrieved using the context string to determine a
+		 *                   starting point.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void getEntityPageOffset(const char *in_entityType, const std::string &in_context, int32_t in_pageOffset, IServerCallback *in_callback = NULL);
@@ -121,8 +126,8 @@ namespace BrainCloud
 		 * Service Operation - UpdateEntity
 		 *
 		 * @param in_entityType The entity type as defined by the user
-		 * @param in_entityId
-		 * @param in_version
+		 * @param in_entityId The id of custom entity being updated.
+		 * @param in_version Version of the custom entity being updated.
 		 * @param in_jsonEntityData The entity's data as a json string
 		 * @param in_jsonEntityAcl The entity's access control list as json. A null acl implies default
 		 * permissions which make the entity readable/writeable by only the user.
@@ -138,9 +143,9 @@ namespace BrainCloud
 		 * Service Operation - UpdateEntityFields
 		 *
 		 * @param in_entityType The entity type as defined by the user
-		 * @param in_entityId
-		 * @param in_version
-		 * @param in_fieldsJson
+		 * @param in_entityId The id of custom entity being updated.
+		 * @param in_version Version of the custom entity being updated.
+		 * @param in_fieldsJson Specific fields, as JSON, to set within entity's custom data.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void updateEntityFields(const char *in_entityType, const char *in_entityId, int32_t in_version, const std::string &in_fieldsJson, IServerCallback *in_callback = NULL);
@@ -152,9 +157,9 @@ namespace BrainCloud
 		 * Service Operation - UpdateEntityFieldsSharded
 		 *
 		 * @param in_entityType The entity type as defined by the user
-		 * @param in_entityId
-		 * @param in_version
-		 * @param in_fieldsJson
+		 * @param in_entityId The id of custom entity being updated.
+		 * @param in_version Version of the custom entity being updated.
+		 * @param in_fieldsJson Specific fields, as JSON, to set within entity's custom data.
 		 * @param in_shardKeyJson The shard key field(s) and value(s), as JSON, applicable to the entity being updated.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
@@ -180,7 +185,8 @@ namespace BrainCloud
 		 * Service Operation - DeleteSingleton
 		 *
 		 * @param in_entityType The entity type as defined by the user
-		 * @param in_version
+		 * @param in_version Version of the singleton being deleted.
+		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void deleteSingleton(const char *in_entityType, int32_t in_version, IServerCallback *in_callback = NULL);
 
@@ -193,10 +199,12 @@ namespace BrainCloud
 		 * Service Operation - UpdateSingleton
 		 *
 		 * @param in_entityType The entity type as defined by the user
-		 * @param in_version
-		 * @param in_dataJson
-		 * @param in_acl
-		 * @param in_timeToLive
+		 * @param in_version Version of the singleton being updated.
+		 * @param in_dataJson The full data for the singleton as a json string
+		 * @param in_acl The singleton entity's Access Control List as an object.
+		 * 				 A null ACL implies default permissions which make the entity readable by others.
+		 * @param in_timeToLive The duration of time, in milliseconds, the singleton custom entity should live
+		 * 				before being expired. Null indicates never expires. Value of -1 indicates no change for updates.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void updateSingleton(const char *in_entityType, int32_t in_version, const std::string &in_dataJson, const std::string &in_acl, int64_t in_timeToLive, IServerCallback *in_callback = NULL);
@@ -209,8 +217,8 @@ namespace BrainCloud
 		 * Service Operation - UpdateSingletonFields
 		 *
 		 * @param in_entityType The entity type as defined by the user
-		 * @param in_version
-		 * @param in_fieldsJson
+		 * @param in_version Version of the singleton being updated.
+		 * @param in_fieldsJson Specific fields, as JSON, within entity's custom data to be updated.
 		 * @param in_callback The method to be invoked when the server response is received
 		 */
 		void updateSingletonFields(const char *in_entityType, int32_t in_version, const std::string &in_fieldsJson, IServerCallback *in_callback = NULL);
