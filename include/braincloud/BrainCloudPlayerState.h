@@ -149,7 +149,7 @@ namespace BrainCloud
         void updateTimeZoneOffset(int32_t timeZoneOffset, IServerCallback *callback = NULL);
 
         /**
-         * Remove user's attributes.
+         * Update user's attributes.
          *
          * Service Name - PlayerState
          * Service Operation - RemoveAttribute
@@ -200,8 +200,8 @@ namespace BrainCloud
          * Service Operation - EXTEND_USER_STATUS
          *
          * @param statusName Updated email
-         * @param additionalSecs
-         * @param details
+         * @param additionalSecs Add time to existing expiry time.
+         * @param details Json String to add additional details.
          * @param callback The method to be invoked when the server response is received
          */
         void extendUserStatus(const char *statusName, int32_t additionalSecs, const std::string &details, IServerCallback *callback = NULL);
@@ -224,8 +224,8 @@ namespace BrainCloud
          * Service Operation - SET_USER_STATUS
          *
          * @param statusName Updated email
-         * @param durationSecs
-         * @param details
+         * @param durationSecs An active duration.
+         * @param details Json String to add additional details.
          * @param callback The method to be invoked when the server response is received
          */
         void setUserStatus(const char *statusName, int32_t durationSecs, const std::string &details, IServerCallback *callback = NULL);

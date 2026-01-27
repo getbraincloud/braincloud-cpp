@@ -119,7 +119,7 @@ namespace BrainCloud
 		void scheduleRawPushNotificationUTC(const char *profileId, std::string fcmContent, std::string iosContent, std::string facebookContent, int64_t startTimeUTC, IServerCallback *callback = NULL);
 
 		/**
-		 * Schedules a normalized push notification to a user
+		 * Schedules raw notifications based on user local time.
 		 *
 		 * @param profileId The profileId of the user to receive the notification
 		 * @param fcmContent Valid Fcm data content

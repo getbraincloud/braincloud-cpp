@@ -70,7 +70,7 @@ namespace BrainCloud
 		 * If joining requires a fee, it is possible to fail at joining the division
 		 *
 		 * Service Name - tournament
-		 * Service Operation - JODIVISION
+		 * Service Operation - JOIN_DIVISION
 		 *
 		 * @param divSetId The id for the division
 		 * @param tournamentCode Tournament to join
@@ -85,7 +85,7 @@ namespace BrainCloud
 		 * Any entry fees will be automatically collected.
 		 *
 		 * Service Name - tournament
-		 * Service Operation - JOTOURNAMENT
+		 * Service Operation - JOIN_TOURNAMENT
 		 *
 		 * @param leaderboardId The leaderboard for the tournament
 		 * @param tournamentCode Tournament to join

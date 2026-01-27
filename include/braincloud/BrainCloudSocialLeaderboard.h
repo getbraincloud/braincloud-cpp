@@ -265,7 +265,7 @@ namespace BrainCloud
 		 * data associated with the score.
 		 *
 		 * Service Name - SocialLeaderboard
-		 * Service Operation - GetGlobalLeaderboardView
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
 		 * @param sort Sort key Sort order of page.
@@ -299,7 +299,7 @@ namespace BrainCloud
 		 * See GetGlobalLeaderboardVersions method to retrieve the version id.
 		 *
 		 * Service Name - SocialLeaderboard
-		 * Service Operation - GetGlobalLeaderboardView
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_BY_VERSION
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
 		 * @param sort Sort key Sort order of page.
@@ -491,7 +491,7 @@ namespace BrainCloud
 		 * Retrieve the social leaderboard for a group by its version.
 		 *
 		 * Service Name - leaderboard
-		 * Service Operation - GET_GROUP_SOCIAL_LEADERBOARD
+		 * Service Operation - GET_PLAYERS_SOCIAL_LEADERBOARD_BY_VERSION
 		 *
 		 * @param leaderboardId The leaderboard to retrieve
 		 * @param groupId The ID of the group
@@ -699,7 +699,29 @@ namespace BrainCloud
 		 * @param leaderboard The leaderboard to post to
 		 * @param groupId The ID of the group
 		 * @param score A score to post
-		 * @param configJson Configuration for the leaderboard if it does not exist yet, specified as JSON object. The supporting configuration fields are listed in the following table of configJson fields.
+		 * @param configJson Configuration for the group leaderboard if it does not
+		 *                      exist yet, specified as JSON object.
+		 *                      Configuration fields supported are:
+		 *                          leaderboardType': Required. Type of leaderboard.
+		 *                              Valid values are:
+		 *                                  'LAST_VALUE',
+		 *                                  'HIGH_VALUE',
+		 *                                  'LOW_VALUE',
+		 *                                  'CUMULATIVE',
+		 *                                  'ARCADE_HIGH',
+		 *                                  'ARCADE_LOW';
+		 *                          'rotationType': Required. Type ofrotation.
+		 *                              Valid values are:
+		 *                                  'NEVER',
+		 *                                  'DAILY',
+		 *                                  'DAYS',
+		 *                                  'WEEKLY',
+		 *                                  'MONTHLY',
+		 *                                  'YEARLY';
+		 *                          'numDaysToRotate': Required if 'DAYS' rotation type, with valid values between 2 and 14; otherwise, null;
+		 *                          'resetAt': UTC timestamp, in milliseconds, at which to rotate the period. Always null if 'NEVER' rotation type;
+		 *                          'retainedCount': Required. Number of rotations (versions) of the leaderboard to retain;
+		 *                          'expireInMins': Optional. Duration, in minutes, before the leaderboard is to automatically expire.
 		 * @param callback The method to be invoked when the server response is received
 		 */
 		void postScoreToDynamicGroupLeaderboardUsingConfig(const char *leaderboardId, const char *groupId, int32_t score, const std::string &scoreData, const std::string &configJson, IServerCallback *callback);
@@ -718,7 +740,7 @@ namespace BrainCloud
 		void removeGroupScore(const char *leaderboardId, const char *groupId, int32_t versionId, IServerCallback *callback = NULL);
 
 		/**
-		 * Retrieve a view of the group leaderboardsurrounding the current group.
+		 * Retrieve a view of the group leaderboard surrounding the current group.
 		 *
 		 * Service Name - leaderboard
 		 * Service Operation - GET_GROUP_LEADERBOARD_VIEW
