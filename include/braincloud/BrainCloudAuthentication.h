@@ -158,7 +158,7 @@ namespace BrainCloud
 		void authenticateSteam(const char *userId, const char *sessionticket, bool forceCreate, IServerCallback *callback = NULL);
 
 		/**
-		 * Authenticate the user using a google userid(email address) and google authentication token.
+		 * Authenticate the user using a string of the apple accounts user Id OR email
 		 *
 		 * Service Name - authenticationV2
 		 * Service Operation - AUTHENTICATE

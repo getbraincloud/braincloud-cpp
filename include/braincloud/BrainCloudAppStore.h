@@ -34,6 +34,7 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
+         * - metaHorizon
          * @param jsonReceiptData The specific store data required
          * @param callback The method to be invoked when the server response is received
          */
@@ -64,6 +65,7 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
+         * - metaHorizon
          * @param userCurrency The currency type to retrieve the sales inventory for.
          * @param callback The method to be invoked when the server response is received
          */
@@ -84,6 +86,7 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
+         * - metaHorizon
          * @param userCurrency The currency type to retrieve the sales inventory for.
          * @param category The product category
          * @param callback The method to be invoked when the server response is received
@@ -104,6 +107,7 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
+         * - metaHorizon
          * @param jsonPurchaseData Specific data for starting a two-stage purchase
          * @param callback The method to be invoked when the server response is received
          */
@@ -123,6 +127,7 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
+         * - metaHorizon
          * @param transactionId The transaction id returned from startPurchase
          * @param jsonTransactionData Specific transaction data for finalizing purchase
          * @param callback The method to be invoked when the server response is received
@@ -155,6 +160,7 @@ namespace BrainCloud
          * - windows
          * - windowsPhone
          * - googlePlay
+         * - metaHorizon
          * @param iapId The IAP product id as configured on brainCloud
          * @param payload The payload retrieved for the IAP product
          * @param callback The method to be invoked when the server response is received

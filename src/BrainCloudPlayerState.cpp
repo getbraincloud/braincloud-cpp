@@ -56,12 +56,12 @@ namespace BrainCloud
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudPlayerState::updateUserName(const char *name, IServerCallback *callback)
+    void BrainCloudPlayerState::updateUserName(const char *userName, IServerCallback *callback)
     {
         Json::Value data = Json::nullValue;
-        if (name != NULL)
+        if (userName != NULL)
         {
-            data[OperationParam::PlayerStateServiceUpdateNameData.getValue()] = name;
+            data[OperationParam::PlayerStateServiceUpdateNameData.getValue()] = userName;
         }
 
         ServerCall *sc = new ServerCall(ServiceName::PlayerState, ServiceOperation::UpdateUserName, data, callback);
