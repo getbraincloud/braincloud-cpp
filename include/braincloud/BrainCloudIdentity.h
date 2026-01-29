@@ -856,7 +856,7 @@ namespace BrainCloud
 		 * Attaches the given block chain public key identity to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - ATTACH_BLOCKCHAIDENTITY
+		 * Service Operation - ATTACH_BLOCKCHAIN_IDENTITY
 		 *
 		 * @param blockchainConfig
 		 * @param publicKey
@@ -870,7 +870,7 @@ namespace BrainCloud
 		 * Detaches the blockchain identity to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - ATTACH_BLOCKCHAIDENTITY
+		 * Service Operation - ATTACH_BLOCKCHAIN_IDENTITY
 		 *
 		 * @param blockchainConfig
 		 * @param successCallback The success callback
