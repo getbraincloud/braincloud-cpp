@@ -6,197 +6,213 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include <vector>
 #include "braincloud/BrainCloudTypes.h"
 
-namespace BrainCloud {
+namespace BrainCloud
+{
 
     class BrainCloudClient;
     class IServerCallback;
 
-    class BrainCloudGamification {
+    class BrainCloudGamification
+    {
 
     public:
-        BrainCloudGamification(BrainCloudClient* in_client);
+        BrainCloudGamification(BrainCloudClient *client);
 
         /**
          * Method retrieves all gamification data for the player.
          *
-         * Service Name - Gamification
-         * Service Operation - Read
+         * Service Name - gamification
+         * Service Operation - READ
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readAllGamification(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readAllGamification(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          * Method retrieves all milestones defined for the game.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadMilestones
+         * Service Name - gamification
+         * Service Operation - READ_MILESTONES
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readMilestones(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readMilestones(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          * Read all of the achievements defined for the game.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadAchievements
+         * Service Name - gamification
+         * Service Operation - READ_ACHIEVEMENTS
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readAchievements(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readAchievements(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          * Method returns all defined xp levels and any rewards associated
          * with those xp levels.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadXpLevels
+         * Service Name - gamification
+         * Service Operation - READ_XP_LEVELS
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readXpLevelsMetaData(IServerCallback * in_callback = NULL);
+        void readXpLevelsMetaData(IServerCallback *callback = NULL);
 
         /**
-        * Method retrives the list of achieved achievements.
-        *
-        * Service Name - Gamification
-        * Service Operation - ReadAchievedAchievements
-        *
-        * @param in_callback Method to be invoked when the server response is received.
-        */
-        void readAchievedAchievements(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+         * Method retrives the list of achieved achievements.
+         *
+         * Service Name - gamification
+         * Service Operation - READ_ACHIEVED_ACHIEVEMENTS
+         *
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
+         */
+        void readAchievedAchievements(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          * Method retrieves the list of completed milestones.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadCompleteMilestones
+         * Service Name - gamification
+         * Service Operation - READ_COMPLETED_MILESTONES
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readCompletedMilestones(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readCompletedMilestones(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          * Method retrieves the list of in progress milestones
          *
-         * Service Name - Gamification
-         * Service Operation - ReadInProgressMilestones
+         * Service Name - gamification
+         * Service Operation - READ_IN_PROGRESS_MILESTONES
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readInProgressMilestones(bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+        void readInProgressMilestones(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
-        * Method retrieves milestones of the given category.
-        *
-        * Service Name - Gamification
-        * Service Operation - ReadMilestonesByCategory
-        *
-        * @param in_category The milestone category
-        * @param in_callback Method to be invoked when the server response is received.
-        */
-        void readMilestonesByCategory(const char * in_category, bool in_includeMetaData = false, IServerCallback * in_callback = NULL);
+         * Method retrieves milestones of the given category.
+         *
+         * Service Name - gamification
+         * Service Operation - READ_MILESTONES_BY_CATEGORY
+         *
+         * @param category The milestone category
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
+         */
+        void readMilestonesByCategory(const char *category, bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
-        * Method will award the achievements specified.
-        *
-        * Service Name - Gamification
-        * Service Operation - AwardAchievements
-        *
-        * @param in_achievementIds Collection of achievement ids to award
-        * @param in_callback Method to be invoked when the server response is received.
-        */
-        void awardAchievements(const std::vector<std::string> & in_achievements, IServerCallback * in_callback = NULL);
+         * Method will award the achievements specified.
+         *
+         * Service Name - gamification
+         * Service Operation - AWARD_ACHIEVEMENTS
+         *
+         * @param achievementIds Collection of achievement ids to award
+         * @param callback Method to be invoked when the server response is received.
+         */
+        void awardAchievements(const std::vector<std::string> &achievements, IServerCallback *callback = NULL);
 
         /**
          * Method retrieves all of the quests defined for the game.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadQuests
+         * Service Name - gamification
+         * Service Operation - READ_QUESTS
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readQuests(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuests(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns all completed quests.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadCompletedQuests
+         * Service Name - gamification
+         * Service Operation - READ_COMPLETED_QUESTS
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readCompletedQuests(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readCompletedQuests(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests that are in progress.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadInProgressQuests
+         * Service Name - gamification
+         * Service Operation - READ_IN_PROGRESS_QUESTS
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readInProgressQuests(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readInProgressQuests(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests that have not been started.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadNotStartedQuests
+         * Service Name - gamification
+         * Service Operation - READ_NOT_STARTED_QUESTS
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readNotStartedQuests(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readNotStartedQuests(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests with a status.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadQuestsWithStatus
+         * Service Name - gamification
+         * Service Operation - READ_QUESTS_WITH_STATUS
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readQuestsWithStatus(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuestsWithStatus(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests with a basic percentage.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadQuestsWithBasicPercentage
+         * Service Name - gamification
+         * Service Operation - READ_QUESTS_WITH_BASIC_PERCENTAGE
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readQuestsWithBasicPercentage(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuestsWithBasicPercentage(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          *  Method returns quests with a complex percentage.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadQuestsWithComplexPercentage
+         * Service Name - gamification
+         * Service Operation - READ_QUESTS_WITH_COMPLEX_PERCENTAGE
          *
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readQuestsWithComplexPercentage(bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuestsWithComplexPercentage(bool includeMetaData = false, IServerCallback *callback = NULL);
 
         /**
          * Method returns quests for the given category.
          *
-         * Service Name - Gamification
-         * Service Operation - ReadQuestsByCategory
+         * Service Name - gamification
+         * Service Operation - READ_QUESTS_BY_CATEGORY
          *
-         * @param in_category The quest category
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param category The quest category
+         * @param includeMetaData   Whether to return meta data as well
+         * @param callback Method to be invoked when the server response is received.
          */
-        void readQuestsByCategory(const char * category, bool in_includeMetaData = false, IServerCallback * callback = NULL);
+        void readQuestsByCategory(const char *category, bool includeMetaData = false, IServerCallback *callback = NULL);
 
     private:
-        BrainCloudClient * m_client;
+        BrainCloudClient *m_client;
     };
 }
 #if defined(__clang__)

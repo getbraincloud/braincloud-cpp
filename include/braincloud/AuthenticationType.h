@@ -17,49 +17,54 @@ namespace BrainCloud
     class AuthenticationType
     {
     public:
-        static const AuthenticationType & Anonymous;
-        static const AuthenticationType & Universal;
-        static const AuthenticationType & Email;
-        static const AuthenticationType & Facebook;
-        static const AuthenticationType & Oculus;
-        static const AuthenticationType & GameCenter;
-        static const AuthenticationType & Steam;
-        static const AuthenticationType & Apple;
-        static const AuthenticationType & Google;
-        static const AuthenticationType & GoogleOpenId;
-        static const AuthenticationType & Twitter;
-        static const AuthenticationType & Parse;
-        static const AuthenticationType & Handoff;
-        static const AuthenticationType & SettopHandoff;
-        static const AuthenticationType & External;
-        static const AuthenticationType & Ultra;
-        static const AuthenticationType & Unknown;
+        static const AuthenticationType &Anonymous;
+        static const AuthenticationType &Universal;
+        static const AuthenticationType &Email;
+        static const AuthenticationType &Facebook;
+        static const AuthenticationType &Oculus;
+        static const AuthenticationType &GameCenter;
+        static const AuthenticationType &Steam;
+        static const AuthenticationType &Apple;
+        static const AuthenticationType &Google;
+        static const AuthenticationType &GoogleOpenId;
+        static const AuthenticationType &Twitter;
+        static const AuthenticationType &Parse;
+        static const AuthenticationType &Handoff;
+        static const AuthenticationType &SettopHandoff;
+        static const AuthenticationType &External;
+        static const AuthenticationType &Ultra;
+        static const AuthenticationType &Unknown;
 
-        const std::string & toString() const;
-        static const AuthenticationType & fromString(const std::string & in_AuthenticationType);
+        const std::string &toString() const;
+        static const AuthenticationType &fromString(const std::string &authenticationType);
 
     private:
-        AuthenticationType(const std::string & in_AuthenticationType);
+        AuthenticationType(const std::string &authenticationType);
         std::string m_value;
     };
 
-    inline bool operator== (const AuthenticationType& a, const AuthenticationType& b) {
+    inline bool operator==(const AuthenticationType &a, const AuthenticationType &b)
+    {
         return a.toString() == b.toString();
     }
 
-    inline bool operator== (const AuthenticationType& a, const std::string& s) {
+    inline bool operator==(const AuthenticationType &a, const std::string &s)
+    {
         return a.toString() == s;
     }
 
-    inline bool operator== (const std::string& s, const AuthenticationType& a) {
+    inline bool operator==(const std::string &s, const AuthenticationType &a)
+    {
         return a.toString() == s;
     }
 
-    inline bool operator== (const AuthenticationType& a, const char * s) {
+    inline bool operator==(const AuthenticationType &a, const char *s)
+    {
         return a.toString() == s;
     }
 
-    inline bool operator== (const char * s, const AuthenticationType& a) {
+    inline bool operator==(const char *s, const AuthenticationType &a)
+    {
         return a.toString() == s;
     }
 }

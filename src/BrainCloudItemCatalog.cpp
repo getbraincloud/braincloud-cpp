@@ -15,33 +15,33 @@
 
 namespace BrainCloud
 {
-	BrainCloudItemCatalog::BrainCloudItemCatalog(BrainCloudClient* in_client) : m_client(in_client) { }
-	
-	void BrainCloudItemCatalog::getCatalogItemDefinition(const std::string& in_defId, IServerCallback * in_callback)
-    {
+	BrainCloudItemCatalog::BrainCloudItemCatalog(BrainCloudClient *client) : m_client(client) {}
+
+	void BrainCloudItemCatalog::getCatalogItemDefinition(const std::string &defId, IServerCallback *callback)
+	{
 		Json::Value message;
-		message[OperationParam::ItemCatalogServiceDefId.getValue()] = in_defId;
+		message[OperationParam::ItemCatalogServiceDefId.getValue()] = defId;
 
-		ServerCall* sc = new ServerCall(ServiceName::ItemCatalog, ServiceOperation::GetCatalogItemDefinition, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::ItemCatalog, ServiceOperation::GetCatalogItemDefinition, message, callback);
 		m_client->sendRequest(sc);
-    }
+	}
 
-    void BrainCloudItemCatalog::getCatalogItemsPage(const std::string& in_context, IServerCallback * in_callback)
-    {
+	void BrainCloudItemCatalog::getCatalogItemsPage(const std::string &context, IServerCallback *callback)
+	{
 		Json::Value message;
-		message[OperationParam::ItemCatalogServiceContext.getValue()] = JsonUtil::jsonStringToValue(in_context.c_str());
+		message[OperationParam::ItemCatalogServiceContext.getValue()] = JsonUtil::jsonStringToValue(context.c_str());
 
-		ServerCall* sc = new ServerCall(ServiceName::ItemCatalog, ServiceOperation::GetCatalogItemsPage, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::ItemCatalog, ServiceOperation::GetCatalogItemsPage, message, callback);
 		m_client->sendRequest(sc);
-    }
+	}
 
-    void BrainCloudItemCatalog::getCatalogItemsPageOffset(const std::string& in_context, int32_t in_pageOffset, IServerCallback * in_callback)
-    {
+	void BrainCloudItemCatalog::getCatalogItemsPageOffset(const std::string &context, int32_t pageOffset, IServerCallback *callback)
+	{
 		Json::Value message;
-		message[OperationParam::ItemCatalogServiceContext.getValue()] = in_context;
-		message[OperationParam::ItemCatalogServicePageOffset.getValue()] = in_pageOffset;
+		message[OperationParam::ItemCatalogServiceContext.getValue()] = context;
+		message[OperationParam::ItemCatalogServicePageOffset.getValue()] = pageOffset;
 
-		ServerCall* sc = new ServerCall(ServiceName::ItemCatalog, ServiceOperation::GetCatalogItemsPageOffset, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::ItemCatalog, ServiceOperation::GetCatalogItemsPageOffset, message, callback);
 		m_client->sendRequest(sc);
-    }
+	}
 }

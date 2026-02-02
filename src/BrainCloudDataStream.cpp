@@ -15,60 +15,63 @@
 
 namespace BrainCloud
 {
-    BrainCloudDataStream::BrainCloudDataStream(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudDataStream::BrainCloudDataStream(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudDataStream::customPageEvent(const char * in_eventName, const char * in_jsonEventProperties, IServerCallback * in_callback)
+    void BrainCloudDataStream::customPageEvent(const char *eventName, const char *jsonEventProperties, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::DataStreamEventName.getValue()] = in_eventName;
+        message[OperationParam::DataStreamEventName.getValue()] = eventName;
 
-        if (StringUtil::IsOptionalParameterValid(in_jsonEventProperties)) {
-            message[OperationParam::DataStreamEventProperties.getValue()] = JsonUtil::jsonStringToValue(in_jsonEventProperties);
+        if (StringUtil::IsOptionalParameterValid(jsonEventProperties))
+        {
+            message[OperationParam::DataStreamEventProperties.getValue()] = JsonUtil::jsonStringToValue(jsonEventProperties);
         }
 
-        ServerCall * sc = new ServerCall(ServiceName::DataStream, ServiceOperation::CustomPageEvent, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::DataStream, ServiceOperation::CustomPageEvent, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudDataStream::customScreenEvent(const char * in_eventName, const char * in_jsonEventProperties, IServerCallback * in_callback)
+    void BrainCloudDataStream::customScreenEvent(const char *eventName, const char *jsonEventProperties, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::DataStreamEventName.getValue()] = in_eventName;
+        message[OperationParam::DataStreamEventName.getValue()] = eventName;
 
-        if (StringUtil::IsOptionalParameterValid(in_jsonEventProperties)) {
-            message[OperationParam::DataStreamEventProperties.getValue()] = JsonUtil::jsonStringToValue(in_jsonEventProperties);
+        if (StringUtil::IsOptionalParameterValid(jsonEventProperties))
+        {
+            message[OperationParam::DataStreamEventProperties.getValue()] = JsonUtil::jsonStringToValue(jsonEventProperties);
         }
 
-        ServerCall * sc = new ServerCall(ServiceName::DataStream, ServiceOperation::CustomScreenEvent, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::DataStream, ServiceOperation::CustomScreenEvent, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudDataStream::customTrackEvent(const char * in_eventName, const char * in_jsonEventProperties, IServerCallback * in_callback)
+    void BrainCloudDataStream::customTrackEvent(const char *eventName, const char *jsonEventProperties, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::DataStreamEventName.getValue()] = in_eventName;
+        message[OperationParam::DataStreamEventName.getValue()] = eventName;
 
-        if (StringUtil::IsOptionalParameterValid(in_jsonEventProperties)) {
-            message[OperationParam::DataStreamEventProperties.getValue()] = JsonUtil::jsonStringToValue(in_jsonEventProperties);
+        if (StringUtil::IsOptionalParameterValid(jsonEventProperties))
+        {
+            message[OperationParam::DataStreamEventProperties.getValue()] = JsonUtil::jsonStringToValue(jsonEventProperties);
         }
 
-        ServerCall * sc = new ServerCall(ServiceName::DataStream, ServiceOperation::CustomTrackEvent, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::DataStream, ServiceOperation::CustomTrackEvent, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudDataStream::submitCrashReport(const char * in_crashType, const char * in_errorMsg, const std::string&  in_crashJson, const char * in_crashLog, const char * in_username, const char * in_userEmail, const char * in_userNotes, bool in_userSubmitted, IServerCallback * in_callback)
+    void BrainCloudDataStream::submitCrashReport(const char *crashType, const char *errorMsg, const std::string &crashJson, const char *crashLog, const char *username, const char *userEmail, const char *userNotes, bool userSubmitted, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::DataStreamCrashType.getValue()] = in_crashType;
-        message[OperationParam::DataStreamErrorMsg.getValue()] = in_errorMsg;
-        message[OperationParam::DataStreamCrashJson.getValue()] = JsonUtil::jsonStringToValue(in_crashJson);
-        message[OperationParam::DataStreamCrashLog.getValue()] = in_crashLog;
-        message[OperationParam::DataStreamUsername.getValue()] = in_username;
-        message[OperationParam::DataStreamUserEmail.getValue()] = in_userEmail;
-        message[OperationParam::DataStreamUserNotes.getValue()] = in_userNotes;
-        message[OperationParam::DataStreamUserSubmitted.getValue()] = in_userSubmitted;
+        message[OperationParam::DataStreamCrashType.getValue()] = crashType;
+        message[OperationParam::DataStreamErrorMsg.getValue()] = errorMsg;
+        message[OperationParam::DataStreamCrashJson.getValue()] = JsonUtil::jsonStringToValue(crashJson);
+        message[OperationParam::DataStreamCrashLog.getValue()] = crashLog;
+        message[OperationParam::DataStreamUsername.getValue()] = username;
+        message[OperationParam::DataStreamUserEmail.getValue()] = userEmail;
+        message[OperationParam::DataStreamUserNotes.getValue()] = userNotes;
+        message[OperationParam::DataStreamUserSubmitted.getValue()] = userSubmitted;
 
-        ServerCall * sc = new ServerCall(ServiceName::DataStream, ServiceOperation::SubmitCrashReport, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::DataStream, ServiceOperation::SubmitCrashReport, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 }

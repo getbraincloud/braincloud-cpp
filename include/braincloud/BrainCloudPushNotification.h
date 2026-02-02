@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include <vector>
 #include "braincloud/BrainCloudTypes.h"
@@ -15,223 +14,223 @@
 
 namespace BrainCloud
 {
-    class IServerCallback;
-    class BrainCloudClient;
+	class IServerCallback;
+	class BrainCloudClient;
 
-    class BrainCloudPushNotification
-    {
-    public:
-        BrainCloudPushNotification(BrainCloudClient* in_client);
-
-        /**
-         * Deregisters all device tokens currently registered to the user.
-         *
-         * @param in_callback The method to be invoked when the server response is received
-         */
-        void deregisterAllPushNotificationDeviceTokens(IServerCallback * in_callback = NULL);
-
-        /**
-         * Deregisters the given device token from the server to disable this device
-         * from receiving push notifications.
-         *
-         * @param in_device The device platform being deregistered.
-         * @param in_token The platform-dependent device token needed for push notifications.
-         * @param in_callback The method to be invoked when the server response is received
-         */
-        void deregisterPushNotificationDeviceToken(const Platform & in_platform, const char * in_token, IServerCallback * in_callback = NULL);
-
-        /**
-         * Registers the given device token with the server to enable this device
-         * to receive push notifications.
-         *
-         * @param in_platform The device platform
-         * @param in_deviceToken The platform-dependent device token needed for push notifications.
-         *  On IOS, this is obtained using the application:didRegisterForRemoteNotificationsWithDeviceToken callback
-         * @param in_callback The method to be invoked when the server response is received
-         */
-        void registerPushNotificationDeviceToken(const Platform & in_platform, const char * in_deviceToken, IServerCallback * in_callback = NULL);
-		
-        /**
-         * Sends a simple push notification based on the passed in message.
-         * NOTE: It is possible to send a push notification to oneself.
-         *
-         * @param in_toProfileId The braincloud profileId of the user to receive the notification
-         * @param in_message Text of the push notification
-         * @param in_callback The method to be invoked when the server response is received
-         */
-        void sendSimplePushNotification(const char * in_toProfileId, const char * in_message, IServerCallback * in_callback = NULL);
-
-        /**
-         * Sends a notification to a user based on a brainCloud portal configured notification template.
-         * NOTE: It is possible to send a push notification to oneself.
-         *
-         * @param in_toProfileId The braincloud profileId of the user to receive the notification
-         * @param in_notificationTemplateId Id of the notification template
-         * @param in_callback The method to be invoked when the server response is received
-         */
-        void sendRichPushNotification(const char * in_toProfileId, int32_t in_notificationTemplateId, IServerCallback * in_callback = NULL);
-
-        /**
-         * Sends a notification to a user based on a brainCloud portal configured notification template.
-         * Includes JSON defining the substitution params to use with the template.
-         * See the Portal documentation for more info.
-         * NOTE: It is possible to send a push notification to oneself.
-         *
-         * @param in_toProfileId The braincloud profileId of the user to receive the notification
-         * @param in_notificationTemplateId Id of the notification template
-         * @param in_substitutionJson JSON defining the substitution params to use with the template
-         * @param in_callback The method to be invoked when the server response is received
-         */
-        void sendRichPushNotificationWithParams(const char * in_toProfileId, int32_t in_notificationTemplateId, const char * in_substitutionJson, IServerCallback * in_callback = NULL);
-
-        /**
-        * Sends a notification to a "group" of user based on a brainCloud portal configured notification template.
-        * Includes JSON defining the substitution params to use with the template.
-        * See the Portal documentation for more info.
-        *
-        * @param in_groupId Target group
-        * @param in_notificationTemplateId Template to use
-        * @param in_substitutionsJson Map of substitution positions to strings
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void sendTemplatedPushNotificationToGroup(const char * in_groupId, int32_t in_notificationTemplateId, std::string in_substitutionsJson, IServerCallback * in_callback = NULL);
-
-        /**
-        * Sends a notification to a "group" of user consisting of alert content and custom data.
-        * See the Portal documentation for more info.
-        *
-        * @param in_groupId Target group
-        * @param in_alertContentJson Body and title of alert
-        * @param in_customDataJson Optional custom data
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void sendNormalizedPushNotificationToGroup(const char * in_groupId, std::string in_alertContentJson, std::string in_customDataJson, IServerCallback * in_callback = NULL);
+	class BrainCloudPushNotification
+	{
+	public:
+		BrainCloudPushNotification(BrainCloudClient *client);
 
 		/**
-     	* Schedules a normalized push notification to a user
-     	*
-     	* @param in_profileId The profileId of the user to receive the notification
-     	* @param in_fcmContent Valid Fcm data content
-     	* @param in_iosContent Valid ios data content
-     	* @param in_facebookContent Facebook template string
-     	* @param in_startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
-     	* @param in_callback The method to be invoked when the server response is received
-     	*/
-		void scheduleRawPushNotificationUTC(const char * in_profileId, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, int64_t in_startTimeUTC, IServerCallback * in_callback = NULL);
+		 * Deregisters all device tokens currently registered to the user.
+		 *
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void deregisterAllPushNotificationDeviceTokens(IServerCallback *callback = NULL);
 
 		/**
-     	* Schedules a normalized push notification to a user
-     	*
-     	* @param in_profileId The profileId of the user to receive the notification
-     	* @param in_fcmContent Valid Fcm data content
-     	* @param in_iosContent Valid ios data content
-     	* @param in_facebookContent Facebook template string
-     	* @param minutesFromNow Minutes from now to send the push notification
-		* @param callback The method to be invoked when the server response is received
-     	*/
-		void scheduleRawPushNotificationMinutes(const char * in_profileId, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, int32_t in_minutesFromNow, IServerCallback * in_callback = NULL);
+		 * Deregisters the given device token from the server to disable this device
+		 * from receiving push notifications.
+		 *
+		 * @param device The device platform being deregistered.
+		 * @param token The platform-dependent device token needed for push notifications.
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void deregisterPushNotificationDeviceToken(const Platform &platform, const char *token, IServerCallback *callback = NULL);
 
 		/**
-     	* Sends a raw push notification to a target user.
-     	*
-     	* @param toProfileId The profileId of the user to receive the notification
- 		* @param fcmContent Valid Fcm data content
- 		* @param iosContent Valid ios data content
- 		* @param facebookContent Facebook template string
- 		* @param callback The method to be invoked when the server response is received
-     	*/
-		void sendRawPushNotification(const char * in_profileId, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, IServerCallback * in_callback = NULL);
+		 * Registers the given device token with the server to enable this device
+		 * to receive push notifications.
+		 *
+		 * @param platform The device platform
+		 * @param deviceToken The platform-dependent device token needed for push notifications.
+		 *  On IOS, this is obtained using the application:didRegisterForRemoteNotificationsWithDeviceToken callback
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void registerPushNotificationDeviceToken(const Platform &platform, const char *deviceToken, IServerCallback *callback = NULL);
 
 		/**
-     	* Sends a raw push notification to a target list of users.
-     	*
-     	* @param in_profileIds Collection of profile IDs to send the notification to
-     	* @param in_fcmContent Valid Fcm data content
-     	* @param in_iosContent Valid ios data content
-     	* @param in_facebookContent Facebook template string
-     	* @param in_callback The method to be invoked when the server response is received
-     	*/
-		void sendRawPushNotificationBatch(std::vector<std::string> in_profileIds, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, IServerCallback * in_callback = NULL);
+		 * Sends a simple push notification based on the passed in message.
+		 * NOTE: It is possible to send a push notification to oneself.
+		 *
+		 * @param toProfileId The braincloud profileId of the user to receive the notification
+		 * @param message Text of the push notification
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendSimplePushNotification(const char *toProfileId, const char *message, IServerCallback *callback = NULL);
 
 		/**
-     	* Sends a raw push notification to a target group.
-     	*
-     	* @param in_groupId Target group
-     	* @param in_fcmContent Valid Fcm data content
-     	* @param in_iosContent Valid ios data content
-     	* @param in_facebookContent Facebook template stringn
-     	* @param in_callback The method to be invoked when the server response is received
-     	*/
-		void sendRawPushNotificationToGroup(const char * in_groupId, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, IServerCallback * in_callback = NULL);
+		 * Sends a notification to a user based on a brainCloud portal configured notification template.
+		 * NOTE: It is possible to send a push notification to oneself.
+		 *
+		 * @param toProfileId The braincloud profileId of the user to receive the notification
+		 * @param notificationTemplateId Id of the notification template
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendRichPushNotification(const char *toProfileId, int32_t notificationTemplateId, IServerCallback *callback = NULL);
 
 		/**
-		* Schedules a normalized push notification to a user
-	    *
-		* @param in_toProfileId The profileId of the user to receive the notification
-		* @param in_alertContentJson Body and title of alert
-		* @param in_customDataJson Optional custom data
-		* @param in_startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
-		* @param in_callback The method to be invoked when the server response is received
-		*/
-		void scheduleNormalizedPushNotificationUTC(const char * in_toProfileId, std::string in_alertContentJson, std::string in_customDataJson, int64_t in_startTimeUTC, IServerCallback * in_callback = NULL);
+		 * Sends a notification to a user based on a brainCloud portal configured notification template.
+		 * Includes JSON defining the substitution params to use with the template.
+		 * See the Portal documentation for more info.
+		 * NOTE: It is possible to send a push notification to oneself.
+		 *
+		 * @param toProfileId The braincloud profileId of the user to receive the notification
+		 * @param notificationTemplateId Id of the notification template
+		 * @param substitutionJson JSON defining the substitution params to use with the template
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendRichPushNotificationWithParams(const char *toProfileId, int32_t notificationTemplateId, const char *substitutionJson, IServerCallback *callback = NULL);
 
 		/**
-		* Schedules a normalized push notification to a user
-		*
-		* @param in_toProfileId The profileId of the user to receive the notification
-		* @param in_alertContentJson Body and title of alert
-		* @param in_customDataJson Optional custom data
-		* @param in_minutesFromNow Minutes from now to send the push notification
-		* @param in_callback The method to be invoked when the server response is received
-		*/
-		void scheduleNormalizedPushNotificationMinutes(const char * in_toProfileId, std::string in_alertContentJson, std::string in_customDataJson, int32_t in_minutesFromNow, IServerCallback * in_callback = NULL);
+		 * Sends a notification to a "group" of user based on a brainCloud portal configured notification template.
+		 * Includes JSON defining the substitution params to use with the template.
+		 * See the Portal documentation for more info.
+		 *
+		 * @param groupId Target group
+		 * @param notificationTemplateId Template to use
+		 * @param substitutionsJson Map of substitution positions to strings
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendTemplatedPushNotificationToGroup(const char *groupId, int32_t notificationTemplateId, std::string substitutionsJson, IServerCallback *callback = NULL);
 
 		/**
-		* Schedules a rich push notification to a user
-		*
-		* @param in_toProfileId The profileId of the user to receive the notification
-		* @param in_notificationTemplateId Body and title of alert
-		* @param in_substitutionsJson Map of substitution positions to strings
-		* @param in_startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
-		* @param in_callback The method to be invoked when the server response is received
-		*/
-		void scheduleRichPushNotificationUTC(const char * in_toProfileId, int32_t in_notificationTemplateId, std::string in_substitutionsJson, int64_t in_startTimeUTC, IServerCallback * in_callback = NULL);
+		 * Sends a notification to a "group" of user consisting of alert content and custom data.
+		 * See the Portal documentation for more info.
+		 *
+		 * @param groupId Target group
+		 * @param alertContentJson Body and title of alert
+		 * @param customDataJson Optional custom data
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendNormalizedPushNotificationToGroup(const char *groupId, std::string alertContentJson, std::string customDataJson, IServerCallback *callback = NULL);
 
 		/**
-		* Schedules a rich push notification to a user
-		*
-		* @param in_toProfileId The profileId of the user to receive the notification
-		* @param in_notificationTemplateId Body and title of alert
-		* @param in_substitutionsJson Map of substitution positions to strings
-		* @param in_minutesFromNow Minutes from now to send the push notification
-		* @param in_callback The method to be invoked when the server response is received
-		*/
-		void scheduleRichPushNotificationMinutes(const char * in_toProfileId, int32_t in_notificationTemplateId, std::string in_substitutionsJson, int32_t in_minutesFromNow, IServerCallback * in_callback = NULL);
+		 * Schedules a normalized push notification to a user
+		 *
+		 * @param profileId The profileId of the user to receive the notification
+		 * @param fcmContent Valid Fcm data content
+		 * @param iosContent Valid ios data content
+		 * @param facebookContent Facebook template string
+		 * @param startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void scheduleRawPushNotificationUTC(const char *profileId, std::string fcmContent, std::string iosContent, std::string facebookContent, int64_t startTimeUTC, IServerCallback *callback = NULL);
 
 		/**
-		* Sends a notification to a user consisting of alert content and custom data.
-		*
-		* @param in_toProfileId The profileId of the user to receive the notification
-		* @param in_alertContent Body and title of alert
-		* @param in_customData Optional custom data
-		* @param in_callback The method to be invoked when the server response is received
-		*/
-		void sendNormalizedPushNotification(const char * in_toProfileId, std::string in_alertContentJson, std::string in_customDataJson, IServerCallback * in_callback = NULL);
+		 * Schedules raw notifications based on user local time.
+		 *
+		 * @param profileId The profileId of the user to receive the notification
+		 * @param fcmContent Valid Fcm data content
+		 * @param iosContent Valid ios data content
+		 * @param facebookContent Facebook template string
+		 * @param minutesFromNow Minutes from now to send the push notification
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void scheduleRawPushNotificationMinutes(const char *profileId, std::string fcmContent, std::string iosContent, std::string facebookContent, int32_t minutesFromNow, IServerCallback *callback = NULL);
 
 		/**
-		* Sends a notification to multiple users consisting of alert content and custom data.
-		*
-		* @param in_profileIds Collection of profile IDs to send the notification to
-		* @param in_alertContent Body and title of alert
-		* @param in_customData Optional custom data
-		* @param in_callback The method to be invoked when the server response is received
-		*/
-		void sendNormalizedPushNotificationBatch(std::vector<std::string> in_profileIds, std::string in_alertContentJson, std::string in_customDataJson, IServerCallback * in_callback = NULL);
+		 * Sends a raw push notification to a target user.
+		 *
+		 * @param toProfileId The profileId of the user to receive the notification
+		 * @param fcmContent Valid Fcm data content
+		 * @param iosContent Valid ios data content
+		 * @param facebookContent Facebook template string
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendRawPushNotification(const char *profileId, std::string fcmContent, std::string iosContent, std::string facebookContent, IServerCallback *callback = NULL);
 
-    private:
-        BrainCloudClient * m_client;
-        void sendRichPushNotification(const char * in_toProifleId, int32_t in_notificationTemplateId, const char * in_substitutionJson, IServerCallback * in_callback = NULL);
-    };
+		/**
+		 * Sends a raw push notification to a target list of users.
+		 *
+		 * @param profileIds Collection of profile IDs to send the notification to
+		 * @param fcmContent Valid Fcm data content
+		 * @param iosContent Valid ios data content
+		 * @param facebookContent Facebook template string
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendRawPushNotificationBatch(std::vector<std::string> profileIds, std::string fcmContent, std::string iosContent, std::string facebookContent, IServerCallback *callback = NULL);
+
+		/**
+		 * Sends a raw push notification to a target group.
+		 *
+		 * @param groupId Target group
+		 * @param fcmContent Valid Fcm data content
+		 * @param iosContent Valid ios data content
+		 * @param facebookContent Facebook template stringn
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendRawPushNotificationToGroup(const char *groupId, std::string fcmContent, std::string iosContent, std::string facebookContent, IServerCallback *callback = NULL);
+
+		/**
+		 * Schedules a normalized push notification to a user
+		 *
+		 * @param toProfileId The profileId of the user to receive the notification
+		 * @param alertContentJson Body and title of alert
+		 * @param customDataJson Optional custom data
+		 * @param startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void scheduleNormalizedPushNotificationUTC(const char *toProfileId, std::string alertContentJson, std::string customDataJson, int64_t startTimeUTC, IServerCallback *callback = NULL);
+
+		/**
+		 * Schedules a normalized push notification to a user
+		 *
+		 * @param toProfileId The profileId of the user to receive the notification
+		 * @param alertContentJson Body and title of alert
+		 * @param customDataJson Optional custom data
+		 * @param minutesFromNow Minutes from now to send the push notification
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void scheduleNormalizedPushNotificationMinutes(const char *toProfileId, std::string alertContentJson, std::string customDataJson, int32_t minutesFromNow, IServerCallback *callback = NULL);
+
+		/**
+		 * Schedules a rich push notification to a user
+		 *
+		 * @param toProfileId The profileId of the user to receive the notification
+		 * @param notificationTemplateId Body and title of alert
+		 * @param substitutionsJson Map of substitution positions to strings
+		 * @param startTimeUTC Start time of sending the push notification in milliseconds, use UTC time in milliseconds since epoch
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void scheduleRichPushNotificationUTC(const char *toProfileId, int32_t notificationTemplateId, std::string substitutionsJson, int64_t startTimeUTC, IServerCallback *callback = NULL);
+
+		/**
+		 * Schedules a rich push notification to a user
+		 *
+		 * @param toProfileId The profileId of the user to receive the notification
+		 * @param notificationTemplateId Body and title of alert
+		 * @param substitutionsJson Map of substitution positions to strings
+		 * @param minutesFromNow Minutes from now to send the push notification
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void scheduleRichPushNotificationMinutes(const char *toProfileId, int32_t notificationTemplateId, std::string substitutionsJson, int32_t minutesFromNow, IServerCallback *callback = NULL);
+
+		/**
+		 * Sends a notification to a user consisting of alert content and custom data.
+		 *
+		 * @param toProfileId The profileId of the user to receive the notification
+		 * @param alertContent Body and title of alert
+		 * @param customData Optional custom data
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendNormalizedPushNotification(const char *toProfileId, std::string alertContentJson, std::string customDataJson, IServerCallback *callback = NULL);
+
+		/**
+		 * Sends a notification to multiple users consisting of alert content and custom data.
+		 *
+		 * @param profileIds Collection of profile IDs to send the notification to
+		 * @param alertContent Body and title of alert
+		 * @param customData Optional custom data
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void sendNormalizedPushNotificationBatch(std::vector<std::string> profileIds, std::string alertContentJson, std::string customDataJson, IServerCallback *callback = NULL);
+
+	private:
+		BrainCloudClient *m_client;
+		void sendRichPushNotification(const char *toProifleId, int32_t notificationTemplateId, const char *substitutionJson, IServerCallback *callback = NULL);
+	};
 }
 #if defined(__clang__)
 #pragma clang diagnostic pop

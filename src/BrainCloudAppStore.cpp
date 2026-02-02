@@ -15,89 +15,89 @@
 
 namespace BrainCloud
 {
-    BrainCloudAppStore::BrainCloudAppStore(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudAppStore::BrainCloudAppStore(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudAppStore::verifyPurchase(const std::string& in_storeId, const std::string& in_jsonReceiptData, IServerCallback* in_callback )
+    void BrainCloudAppStore::verifyPurchase(const std::string &storeId, const std::string &jsonReceiptData, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::AppStoreStoreId.getValue()] = in_storeId;
-        message[OperationParam::AppStoreReceiptData.getValue()] = JsonUtil::jsonStringToValue(in_jsonReceiptData.c_str());
+        message[OperationParam::AppStoreStoreId.getValue()] = storeId;
+        message[OperationParam::AppStoreReceiptData.getValue()] = JsonUtil::jsonStringToValue(jsonReceiptData.c_str());
 
-        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreVerifyPurchase, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreVerifyPurchase, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudAppStore::getEligiblePromotions(IServerCallback* in_callback)
+    void BrainCloudAppStore::getEligiblePromotions(IServerCallback *callback)
     {
         Json::Value message;
 
-        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreGetEligiblePromotions, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreGetEligiblePromotions, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudAppStore::getSalesInventory(const std::string& in_storeId, const std::string& in_userCurrency, IServerCallback* in_callback)
+    void BrainCloudAppStore::getSalesInventory(const std::string &storeId, const std::string &userCurrency, IServerCallback *callback)
     {
-        getSalesInventoryByCategory(in_storeId, in_userCurrency, "", in_callback);
+        getSalesInventoryByCategory(storeId, userCurrency, "", callback);
     }
 
-    void BrainCloudAppStore::getSalesInventoryByCategory(const std::string& in_storeId, const std::string& in_userCurrency, const std::string& in_category, IServerCallback* in_callback)
+    void BrainCloudAppStore::getSalesInventoryByCategory(const std::string &storeId, const std::string &userCurrency, const std::string &category, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::AppStoreStoreId.getValue()] = in_storeId;
-        if (!in_category.empty())
+        message[OperationParam::AppStoreStoreId.getValue()] = storeId;
+        if (!category.empty())
         {
-            message[OperationParam::AppStoreCategory.getValue()] = in_category;
+            message[OperationParam::AppStoreCategory.getValue()] = category;
         }
 
         Json::Value priceInfoCriteria;
-        if (!in_userCurrency.empty())
+        if (!userCurrency.empty())
         {
-            priceInfoCriteria[OperationParam::AppStoreUserCurrency.getValue()] = in_userCurrency;
+            priceInfoCriteria[OperationParam::AppStoreUserCurrency.getValue()] = userCurrency;
         }
         message[OperationParam::AppStorePriceInfoCriteria.getValue()] = priceInfoCriteria;
 
-        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreGetSalesInventory, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreGetSalesInventory, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudAppStore::startPurchase(const std::string& in_storeId, const std::string& in_jsonPurchaseData, IServerCallback* in_callback)
+    void BrainCloudAppStore::startPurchase(const std::string &storeId, const std::string &jsonPurchaseData, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::AppStoreStoreId.getValue()] = in_storeId;
-        message[OperationParam::AppStorePurchaseData.getValue()] = JsonUtil::jsonStringToValue(in_jsonPurchaseData.c_str());
+        message[OperationParam::AppStoreStoreId.getValue()] = storeId;
+        message[OperationParam::AppStorePurchaseData.getValue()] = JsonUtil::jsonStringToValue(jsonPurchaseData.c_str());
 
-        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreStartPurchase, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreStartPurchase, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudAppStore::finalizePurchase(const std::string& in_storeId, const std::string& in_transactionId, const std::string& in_jsonTransactionData, IServerCallback* in_callback)
+    void BrainCloudAppStore::finalizePurchase(const std::string &storeId, const std::string &transactionId, const std::string &jsonTransactionData, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::AppStoreStoreId.getValue()] = in_storeId;
-        message[OperationParam::AppStoreTransactionId.getValue()] = in_transactionId;
-        message[OperationParam::AppStoreTransactionData.getValue()] = JsonUtil::jsonStringToValue(in_jsonTransactionData.c_str());
+        message[OperationParam::AppStoreStoreId.getValue()] = storeId;
+        message[OperationParam::AppStoreTransactionId.getValue()] = transactionId;
+        message[OperationParam::AppStoreTransactionData.getValue()] = JsonUtil::jsonStringToValue(jsonTransactionData.c_str());
 
-        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreFinalizePurchase, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreFinalizePurchase, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudAppStore::refreshPromotions(IServerCallback* in_callback)
+    void BrainCloudAppStore::refreshPromotions(IServerCallback *callback)
     {
         Json::Value message;
 
-        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreRefreshPromotions, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreRefreshPromotions, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudAppStore::cachePurchasePayloadContext(const std::string& in_storeId, const std::string& in_iapId,
-        const std::string& in_payload, IServerCallback* in_callback)
+    void BrainCloudAppStore::cachePurchasePayloadContext(const std::string &storeId, const std::string &iapId,
+                                                         const std::string &payload, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::AppStoreStoreId.getValue()] = in_storeId;
-        message[OperationParam::AppStoreStoreIAPId.getValue()] = in_iapId;
-        message[OperationParam::AppStorePayload.getValue()] = in_payload;
-        
-        ServerCall* sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreCachePurchaseContext, message, in_callback);
+        message[OperationParam::AppStoreStoreId.getValue()] = storeId;
+        message[OperationParam::AppStoreStoreIAPId.getValue()] = iapId;
+        message[OperationParam::AppStorePayload.getValue()] = payload;
+
+        ServerCall *sc = new ServerCall(ServiceName::AppStore, ServiceOperation::AppStoreCachePurchaseContext, message, callback);
         m_client->sendRequest(sc);
     }
 }

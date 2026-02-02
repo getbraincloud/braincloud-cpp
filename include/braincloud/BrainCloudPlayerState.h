@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 #include <vector>
 #include "braincloud/BrainCloudTypes.h"
@@ -19,7 +18,7 @@ namespace BrainCloud
     class BrainCloudPlayerState
     {
     public:
-        BrainCloudPlayerState(BrainCloudClient* in_client);
+        BrainCloudPlayerState(BrainCloudClient *client);
 
         /**
          * Read the state of the currently logged in user.
@@ -28,12 +27,12 @@ namespace BrainCloud
          * Apps will typically call this method after authenticating to get an
          * up-to-date view of the user's data.
          *
-         * Service Name - PlayerState
-         * Service Operation - Read
+         * Service Name - playerState
+         * Service Operation - READ
          *
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void readUserState(IServerCallback *in_callback, const char *in_entityTypeFilter = NULL);
+        void readUserState(IServerCallback *callback, const char *entityTypeFilter = NULL);
 
         /**
          * Completely deletes the user record and all data fully owned
@@ -41,12 +40,12 @@ namespace BrainCloud
          * to re-authenticate and create a new profile.
          * This is mostly used for debugging/qa.
          *
-         * Service Name - PlayerState
-         * Service Operation - FullReset
+         * Service Name - playerState
+         * Service Operation - FULL_PLAYER_RESET
          *
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void deleteUser(IServerCallback *in_callback = NULL);
+        void deleteUser(IServerCallback *callback = NULL);
 
         /**
          * This method will delete *most* data for the currently logged in user.
@@ -55,33 +54,33 @@ namespace BrainCloud
          * the user record will continue to exist after the reset (so the user
          * does not need to re-authenticate).
          *
-         * Service Name - PlayerState
-         * Service Operation - DataReset
+         * Service Name - playerState
+         * Service Operation - GAME_DATA_RESET
          *
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void resetUserState(IServerCallback *in_callback = NULL);
+        void resetUserState(IServerCallback *callback = NULL);
 
         /**
          * Logs user out of server.
          *
-         * Service Name - PlayerState
-         * Service Operation - Logout
+         * Service Name - playerState
+         * Service Operation - LOGOUT
          *
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
          */
-        void logout(IServerCallback * in_callback = NULL);
+        void logout(IServerCallback *callback = NULL);
 
         /**
-        * Sets the user's name.
-        *
-        * Service Name - playerState
-        * Service Operation - UPDATE_NAME
-        *
-        * @param in_userName The name of the user
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void updateUserName(const char *in_name, IServerCallback *in_callback = NULL);
+         * Sets the user's name.
+         *
+         * Service Name - playerState
+         * Service Operation - UPDATE_NAME
+         *
+         * @param userName The name of the user
+         * @param callback The method to be invoked when the server response is received
+         */
+        void updateUserName(const char *userName, IServerCallback *callback = NULL);
 
         /**
          * Updates the "friend summary data" associated with the logged in user.
@@ -91,149 +90,148 @@ namespace BrainCloud
          * a quick overview of the player without requiring a separate API call
          * to read their public stats or entity data.
          *
-         * Service Name - PlayerState
-         * Service Operation - UpdateSummary
+         * Service Name - playerState
+         * Service Operation - UPDATE_SUMMARY
          *
-         * @param in_jsonSummaryData A JSON string defining the summary data.
+         * @param jsonSummaryData A JSON string defining the summary data.
          * For example:
          * {
          *   "xp":123,
          *   "level":12,
          *   "highScore":45123
          * }
-         * @param in_callback Method to be invoked when the server response is received.
+         * @param callback Method to be invoked when the server response is received.
          */
-        void updateSummaryFriendData(const char * in_jsonSummaryData, IServerCallback * in_callback = NULL);
+        void updateSummaryFriendData(const char *jsonSummaryData, IServerCallback *callback = NULL);
 
         /**
-        * Retrieve the user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - GetAttributes
-        *
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void getAttributes(IServerCallback * in_callback = NULL);
+         * Retrieve the user's attributes.
+         *
+         * Service Name - playerState
+         * Service Operation - GET_ATTRIBUTES
+         *
+         * @param callback The method to be invoked when the server response is received
+         */
+        void getAttributes(IServerCallback *callback = NULL);
 
         /**
-        * Update user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - UpdateAttributes
-        *
-        * @param in_jsonAttributes Single layer json string that is a set of key-value pairs
-        * @param in_wipeExisting Whether to wipe existing attributes prior to update.
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void updateAttributes(const std::string& in_jsonAttributes, bool in_wipeExisting, IServerCallback * in_callback = NULL);
+         * Update user's attributes.
+         *
+         * Service Name - playerState
+         * Service Operation - UPDATE_ATTRIBUTES
+         *
+         * @param jsonAttributes Single layer json string that is a set of key-value pairs
+         * @param wipeExisting Whether to wipe existing attributes prior to update.
+         * @param callback The method to be invoked when the server response is received
+         */
+        void updateAttributes(const std::string &jsonAttributes, bool wipeExisting, IServerCallback *callback = NULL);
 
         /**
-        * Remove user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - RemoveAttributes
-        *
-        * @param in_attributeNames Collection of attribute names.
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void removeAttributes(const std::vector<std::string> & in_attributeNames, IServerCallback * in_callback = NULL);
+         * Remove user's attributes.
+         *
+         * Service Name - playerState
+         * Service Operation - REMOVE_ATTRIBUTES
+         *
+         * @param attributeNames Collection of attribute names.
+         * @param callback The method to be invoked when the server response is received
+         */
+        void removeAttributes(const std::vector<std::string> &attributeNames, IServerCallback *callback = NULL);
 
         /**
-        * Remove user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - RemoveAttributes
-        *
-        * @param in_attributeNames Collection of attribute names.
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void updateTimeZoneOffset(int32_t in_timeZoneOffset, IServerCallback * in_callback = NULL);
+         * Sets the user's timezone offset.
+         *
+         * Service Name - playerState
+         * Service Operation - UPDATE_TIMEZONE_OFFSET
+         *
+         * @param timeZoneOffset The numeric timezone offset of the user
+         * @param callback The method to be invoked when the server response is received
+         */
+        void updateTimeZoneOffset(int32_t timeZoneOffset, IServerCallback *callback = NULL);
 
-                /**
-        * Remove user's attributes.
-        *
-        * Service Name - PlayerState
-        * Service Operation - RemoveAttribute
-        *
-        * @param in_attributeNames Collection of attribute names.
-        * @param in_callback The method to be invoked when the server response is received
-        */
-        void updateLanguageCode(const std::string& in_languageCode, IServerCallback * in_callback = NULL);
+        /**
+         * Update user's language code preference on their profile.
+         *
+         * Service Name - playerState
+         * Service Operation - UPDATE_LANGUAGE_CODE
+         *
+         * @param languageCode A string-based language code
+         * @param callback The method to be invoked when the server response is received
+         */
+        void updateLanguageCode(const std::string &languageCode, IServerCallback *callback = NULL);
 
         /**
          * Update User picture URL.
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - UPDATE_PICTURE_URL
          *
-         * @param in_pictureUrl URL to apply
-         * @param in_callback The method to be invoked when the server response is received
+         * @param pictureUrl URL to apply
+         * @param callback The method to be invoked when the server response is received
          */
-        void updateUserPictureUrl(const char *in_pictureUrl, IServerCallback *in_callback = NULL);
+        void updateUserPictureUrl(const char *pictureUrl, IServerCallback *callback = NULL);
 
         /**
          * Update the user's contact email.
          * Note this is unrelated to email authentication.
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - UPDATE_CONTACT_EMAIL
          *
-         * @param in_contactEmail Updated email
-         * @param in_callback The method to be invoked when the server response is received
+         * @param contactEmail Updated email
+         * @param callback The method to be invoked when the server response is received
          */
-        void updateContactEmail(const char * in_contactEmail, IServerCallback * in_callback = NULL);
-
+        void updateContactEmail(const char *contactEmail, IServerCallback *callback = NULL);
 
         /**
          * Delete's the specified status
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - CLEAR_USER_STATUS
          *
-         * @param in_statusName Updated email
-         * @param in_callback The method to be invoked when the server response is received
+         * @param statusName Updated email
+         * @param callback The method to be invoked when the server response is received
          */
-        void clearUserStatus(const char * in_statusName, IServerCallback * in_callback = NULL);
+        void clearUserStatus(const char *statusName, IServerCallback *callback = NULL);
 
         /**
          * Stack user's statuses
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - EXTEND_USER_STATUS
          *
-         * @param in_statusName Updated email
-         * @param additionalSecs
-         * @param details
-         * @param in_callback The method to be invoked when the server response is received
+         * @param statusName Updated email
+         * @param additionalSecs Add time to existing expiry time.
+         * @param details Json String to add additional details.
+         * @param callback The method to be invoked when the server response is received
          */
-        void extendUserStatus(const char * in_statusName, int32_t in_additionalSecs, const std::string& in_details, IServerCallback * in_callback = NULL);
-         
+        void extendUserStatus(const char *statusName, int32_t additionalSecs, const std::string &details, IServerCallback *callback = NULL);
+
         /**
          * Get user status
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - GET_USER_STATUS
          *
-         * @param in_statusName Updated email
-         * @param in_callback The method to be invoked when the server response is received
+         * @param statusName Updated email
+         * @param callback The method to be invoked when the server response is received
          */
-        void getUserStatus(const char * in_statusName, IServerCallback * in_callback = NULL);
-   
+        void getUserStatus(const char *statusName, IServerCallback *callback = NULL);
+
         /**
          * Set timed status for a user
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - SET_USER_STATUS
          *
-         * @param in_statusName Updated email
-         * @param in_durationSecs
-         * @param in_details
-         * @param in_callback The method to be invoked when the server response is received
+         * @param statusName Updated email
+         * @param durationSecs An active duration.
+         * @param details Json String to add additional details.
+         * @param callback The method to be invoked when the server response is received
          */
-        void setUserStatus(const char * in_statusName, int32_t in_durationSecs, const std::string& in_details, IServerCallback * in_callback = NULL);
-   
+        void setUserStatus(const char *statusName, int32_t durationSecs, const std::string &details, IServerCallback *callback = NULL);
+
     private:
-        BrainCloudClient * m_client;
+        BrainCloudClient *m_client;
     };
 }
 #if defined(__clang__)

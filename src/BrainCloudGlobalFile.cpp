@@ -12,43 +12,43 @@
 
 namespace BrainCloud
 {
-    BrainCloudGlobalFile::BrainCloudGlobalFile(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudGlobalFile::BrainCloudGlobalFile(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudGlobalFile::getFileInfo(const std::string& in_fileId, IServerCallback* in_callback)
+    void BrainCloudGlobalFile::getFileInfo(const std::string &fileId, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::GlobalFileV3ServiceFileId.getValue()] = in_fileId;
+        message[OperationParam::GlobalFileV3ServiceFileId.getValue()] = fileId;
 
-        ServerCall* sc = new ServerCall(ServiceName::GlobalFileV3, ServiceOperation::GetFileInfo, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalFileV3, ServiceOperation::GetFileInfo, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudGlobalFile::getFileInfoSimple(const std::string& in_folderPath, const std::string& in_filename, IServerCallback* in_callback)
+    void BrainCloudGlobalFile::getFileInfoSimple(const std::string &folderPath, const std::string &filename, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::GlobalFileV3ServiceFolderPath.getValue()] = in_folderPath;
-        message[OperationParam::GlobalFileV3ServiceFileName.getValue()] = in_filename;
+        message[OperationParam::GlobalFileV3ServiceFolderPath.getValue()] = folderPath;
+        message[OperationParam::GlobalFileV3ServiceFileName.getValue()] = filename;
 
-        ServerCall* sc = new ServerCall(ServiceName::GlobalFileV3, ServiceOperation::GetFileInfoSimple, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalFileV3, ServiceOperation::GetFileInfoSimple, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudGlobalFile::getGlobalCDNUrl(const std::string& in_fileId, IServerCallback* in_callback)
+    void BrainCloudGlobalFile::getGlobalCDNUrl(const std::string &fileId, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::GlobalFileV3ServiceFileId.getValue()] = in_fileId;
+        message[OperationParam::GlobalFileV3ServiceFileId.getValue()] = fileId;
 
-        ServerCall* sc = new ServerCall(ServiceName::GlobalFileV3, ServiceOperation::GetGlobalCDNUrl, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalFileV3, ServiceOperation::GetGlobalCDNUrl, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudGlobalFile::getGlobalFileList(const std::string& in_folderPath, bool in_recurse, IServerCallback* in_callback)
+    void BrainCloudGlobalFile::getGlobalFileList(const std::string &folderPath, bool recurse, IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::GlobalFileV3ServiceFolderPath.getValue()] = in_folderPath;
-        message[OperationParam::GlobalFileV3ServiceRecurse.getValue()] = in_recurse;
+        message[OperationParam::GlobalFileV3ServiceFolderPath.getValue()] = folderPath;
+        message[OperationParam::GlobalFileV3ServiceRecurse.getValue()] = recurse;
 
-        ServerCall* sc = new ServerCall(ServiceName::GlobalFileV3, ServiceOperation::GetGlobalFileList, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalFileV3, ServiceOperation::GetGlobalFileList, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 }

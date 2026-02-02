@@ -14,102 +14,102 @@
 
 namespace BrainCloud
 {
-	BrainCloudPresence::BrainCloudPresence(BrainCloudClient* in_client)
-		: m_client(in_client)
+	BrainCloudPresence::BrainCloudPresence(BrainCloudClient *client)
+		: m_client(client)
 	{
 	}
 
-	void BrainCloudPresence::forcePush(IServerCallback* in_callback)
+	void BrainCloudPresence::forcePush(IServerCallback *callback)
 	{
 		Json::Value message;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::ForcePush, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::ForcePush, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::getPresenceOfFriends(const std::string& in_platform, bool in_includeOffline, IServerCallback* in_callback)
+	void BrainCloudPresence::getPresenceOfFriends(const std::string &platform, bool includeOffline, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PresencePlatform.getValue()] = in_platform;
-		message[OperationParam::PresenceIncludeOffline.getValue()] = in_includeOffline;
+		message[OperationParam::PresencePlatform.getValue()] = platform;
+		message[OperationParam::PresenceIncludeOffline.getValue()] = includeOffline;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::GetPresenceOfFriends, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::GetPresenceOfFriends, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::getPresenceOfGroup(const std::string& in_groupId, bool in_includeOffline, IServerCallback* in_callback)
+	void BrainCloudPresence::getPresenceOfGroup(const std::string &groupId, bool includeOffline, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PresenceGroupId.getValue()] = in_groupId;
-		message[OperationParam::PresenceIncludeOffline.getValue()] = in_includeOffline;
+		message[OperationParam::PresenceGroupId.getValue()] = groupId;
+		message[OperationParam::PresenceIncludeOffline.getValue()] = includeOffline;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::GetPresenceOfGroup, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::GetPresenceOfGroup, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::getPresenceOfUsers(const std::vector<std::string>& in_profileIds, bool in_includeOffline, IServerCallback* in_callback)
+	void BrainCloudPresence::getPresenceOfUsers(const std::vector<std::string> &profileIds, bool includeOffline, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PresenceProfileIds.getValue()] = JsonUtil::stringVectorToJson(in_profileIds);
-		message[OperationParam::PresenceIncludeOffline.getValue()] = in_includeOffline;
+		message[OperationParam::PresenceProfileIds.getValue()] = JsonUtil::stringVectorToJson(profileIds);
+		message[OperationParam::PresenceIncludeOffline.getValue()] = includeOffline;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::GetPresenceOfUsers, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::GetPresenceOfUsers, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::registerListenersForFriends(const std::string& in_platform, bool in_bidirectional, IServerCallback* in_callback)
+	void BrainCloudPresence::registerListenersForFriends(const std::string &platform, bool bidirectional, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PresencePlatform.getValue()] = in_platform;
-		message[OperationParam::PresenceBidirectional.getValue()] = in_bidirectional;
+		message[OperationParam::PresencePlatform.getValue()] = platform;
+		message[OperationParam::PresenceBidirectional.getValue()] = bidirectional;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::RegisterListenersForFriends, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::RegisterListenersForFriends, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::registerListenersForGroup(const std::string& in_groupId, bool in_bidirectional, IServerCallback* in_callback)
+	void BrainCloudPresence::registerListenersForGroup(const std::string &groupId, bool bidirectional, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PresenceGroupId.getValue()] = in_groupId;
-		message[OperationParam::PresenceBidirectional.getValue()] = in_bidirectional;
+		message[OperationParam::PresenceGroupId.getValue()] = groupId;
+		message[OperationParam::PresenceBidirectional.getValue()] = bidirectional;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::RegisterListenersForGroup, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::RegisterListenersForGroup, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::registerListenersForProfiles(const std::vector<std::string>& in_profileIds, bool in_bidirectional, IServerCallback* in_callback)
+	void BrainCloudPresence::registerListenersForProfiles(const std::vector<std::string> &profileIds, bool bidirectional, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PresenceProfileIds.getValue()] = JsonUtil::stringVectorToJson(in_profileIds);
-		message[OperationParam::PresenceBidirectional.getValue()] = in_bidirectional;
+		message[OperationParam::PresenceProfileIds.getValue()] = JsonUtil::stringVectorToJson(profileIds);
+		message[OperationParam::PresenceBidirectional.getValue()] = bidirectional;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::RegisterListenersForProfiles, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::RegisterListenersForProfiles, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::setVisibility(bool in_visible, IServerCallback* in_callback)
+	void BrainCloudPresence::setVisibility(bool visible, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PresenceVisible.getValue()] = in_visible;
+		message[OperationParam::PresenceVisible.getValue()] = visible;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::SetVisibility, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::SetVisibility, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::stopListening(IServerCallback* in_callback)
+	void BrainCloudPresence::stopListening(IServerCallback *callback)
 	{
 		Json::Value message;
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::StopListening, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::StopListening, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudPresence::updateActivity(const std::string& in_jsonActivity, IServerCallback* in_callback)
+	void BrainCloudPresence::updateActivity(const std::string &jsonActivity, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PresenceActivity.getValue()] = JsonUtil::jsonStringToValue(in_jsonActivity.c_str());
+		message[OperationParam::PresenceActivity.getValue()] = JsonUtil::jsonStringToValue(jsonActivity.c_str());
 
-		ServerCall* sc = new ServerCall(ServiceName::Presence, ServiceOperation::UpdateActivity, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Presence, ServiceOperation::UpdateActivity, message, callback);
 		m_client->sendRequest(sc);
 	}
 };

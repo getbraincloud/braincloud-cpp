@@ -17,121 +17,127 @@
 
 namespace BrainCloud
 {
-	BrainCloudScript::BrainCloudScript(BrainCloudClient* in_client) : m_client(in_client) { }
+	BrainCloudScript::BrainCloudScript(BrainCloudClient *client) : m_client(client) {}
 
-	void BrainCloudScript::runScript(const char * in_scriptName, const std::string & in_jsonScriptData, IServerCallback * in_callback)
+	void BrainCloudScript::runScript(const char *scriptName, const std::string &jsonScriptData, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ScriptServiceRunScriptName.getValue()] = in_scriptName;
+		message[OperationParam::ScriptServiceRunScriptName.getValue()] = scriptName;
 
-		if (StringUtil::IsOptionalParameterValid(in_jsonScriptData)) {
-			Json::Value jsonData = JsonUtil::jsonStringToValue(in_jsonScriptData);
+		if (StringUtil::IsOptionalParameterValid(jsonScriptData))
+		{
+			Json::Value jsonData = JsonUtil::jsonStringToValue(jsonScriptData);
 			message[OperationParam::ScriptServiceRunScriptData.getValue()] = jsonData;
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::Run, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::Run, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudScript::scheduleRunScriptMillisUTC(const char * in_scriptName, const char * in_jsonScriptData, int64_t in_startDateInUTC, IServerCallback * in_callback)
+	void BrainCloudScript::scheduleRunScriptMillisUTC(const char *scriptName, const char *jsonScriptData, int64_t startDateInUTC, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ScriptServiceRunScriptName.getValue()] = in_scriptName;
+		message[OperationParam::ScriptServiceRunScriptName.getValue()] = scriptName;
 
-		if (StringUtil::IsOptionalParameterValid(in_jsonScriptData)) {
-			Json::Value jsonData = JsonUtil::jsonStringToValue(in_jsonScriptData);
+		if (StringUtil::IsOptionalParameterValid(jsonScriptData))
+		{
+			Json::Value jsonData = JsonUtil::jsonStringToValue(jsonScriptData);
 			message[OperationParam::ScriptServiceRunScriptData.getValue()] = jsonData;
 		}
 
-		message[OperationParam::ScriptServiceStartDateUTC.getValue()] = (Json::Int64) in_startDateInUTC;
+		message[OperationParam::ScriptServiceStartDateUTC.getValue()] = (Json::Int64)startDateInUTC;
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::ScheduleCloudScript, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::ScheduleCloudScript, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudScript::scheduleRunScriptMinutes(const char * in_scriptName, const char * in_jsonScriptData, int in_minutesFromNow, IServerCallback * in_callback)
+	void BrainCloudScript::scheduleRunScriptMinutes(const char *scriptName, const char *jsonScriptData, int minutesFromNow, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ScriptServiceRunScriptName.getValue()] = in_scriptName;
+		message[OperationParam::ScriptServiceRunScriptName.getValue()] = scriptName;
 
-		if (StringUtil::IsOptionalParameterValid(in_jsonScriptData)) {
-			Json::Value jsonData = JsonUtil::jsonStringToValue(in_jsonScriptData);
+		if (StringUtil::IsOptionalParameterValid(jsonScriptData))
+		{
+			Json::Value jsonData = JsonUtil::jsonStringToValue(jsonScriptData);
 			message[OperationParam::ScriptServiceRunScriptData.getValue()] = jsonData;
 		}
 
-		message[OperationParam::ScriptServiceStartMinutesFromNow.getValue()] = in_minutesFromNow;
+		message[OperationParam::ScriptServiceStartMinutesFromNow.getValue()] = minutesFromNow;
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::ScheduleCloudScript, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::ScheduleCloudScript, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudScript::runParentScript(const char * in_scriptName, const char * in_jsonScriptData, const char * in_parentLevel, IServerCallback * in_callback)
+	void BrainCloudScript::runParentScript(const char *scriptName, const char *jsonScriptData, const char *parentLevel, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ScriptServiceRunScriptName.getValue()] = in_scriptName;
+		message[OperationParam::ScriptServiceRunScriptName.getValue()] = scriptName;
 
-		if (StringUtil::IsOptionalParameterValid(in_jsonScriptData)) {
-			Json::Value jsonData = JsonUtil::jsonStringToValue(in_jsonScriptData);
+		if (StringUtil::IsOptionalParameterValid(jsonScriptData))
+		{
+			Json::Value jsonData = JsonUtil::jsonStringToValue(jsonScriptData);
 			message[OperationParam::ScriptServiceRunScriptData.getValue()] = jsonData;
 		}
 
-		message[OperationParam::ScriptServiceParentLevelName.getValue()] = in_parentLevel;
+		message[OperationParam::ScriptServiceParentLevelName.getValue()] = parentLevel;
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::RunParentScript, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::RunParentScript, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudScript::cancelScheduledScript(const char * in_jobId, IServerCallback * in_callback)
+	void BrainCloudScript::cancelScheduledScript(const char *jobId, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ScriptServiceJobId.getValue()] = in_jobId;
+		message[OperationParam::ScriptServiceJobId.getValue()] = jobId;
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::CancelScheduledScript, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::CancelScheduledScript, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-		void BrainCloudScript::getScheduledCloudScripts(const tm* in_startDateInUTC, IServerCallback * in_callback)
+	void BrainCloudScript::getScheduledCloudScripts(const tm *startDateInUTC, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ScriptServiceJobId.getValue()] = in_startDateInUTC;
+		message[OperationParam::ScriptServiceJobId.getValue()] = startDateInUTC;
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::GetScheduledCloudScripts, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::GetScheduledCloudScripts, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-		void BrainCloudScript::getRunningOrQueuedCloudScripts(IServerCallback * in_callback)
+	void BrainCloudScript::getRunningOrQueuedCloudScripts(IServerCallback *callback)
 	{
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::GetRunningOrQueuedCloudScripts, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::GetRunningOrQueuedCloudScripts, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudScript::runPeerScript(const char * in_scriptName, const std::string & in_jsonScriptData, const char * in_peer, IServerCallback * in_callback)
+	void BrainCloudScript::runPeerScript(const char *scriptName, const std::string &jsonScriptData, const char *peer, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ScriptServiceRunScriptName.getValue()] = in_scriptName;
-		message[OperationParam::Peer.getValue()] = in_peer;
+		message[OperationParam::ScriptServiceRunScriptName.getValue()] = scriptName;
+		message[OperationParam::Peer.getValue()] = peer;
 
-		if (StringUtil::IsOptionalParameterValid(in_jsonScriptData)) {
-			Json::Value jsonData = JsonUtil::jsonStringToValue(in_jsonScriptData);
+		if (StringUtil::IsOptionalParameterValid(jsonScriptData))
+		{
+			Json::Value jsonData = JsonUtil::jsonStringToValue(jsonScriptData);
 			message[OperationParam::ScriptServiceRunScriptData.getValue()] = jsonData;
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::RunPeerScript, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::RunPeerScript, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudScript::runPeerScriptAsync(const char * in_scriptName, const std::string & in_jsonScriptData, const char * in_peer, IServerCallback * in_callback)
+	void BrainCloudScript::runPeerScriptAsync(const char *scriptName, const std::string &jsonScriptData, const char *peer, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ScriptServiceRunScriptName.getValue()] = in_scriptName;
-		message[OperationParam::Peer.getValue()] = in_peer;
+		message[OperationParam::ScriptServiceRunScriptName.getValue()] = scriptName;
+		message[OperationParam::Peer.getValue()] = peer;
 
-		if (StringUtil::IsOptionalParameterValid(in_jsonScriptData)) {
-			Json::Value jsonData = JsonUtil::jsonStringToValue(in_jsonScriptData);
+		if (StringUtil::IsOptionalParameterValid(jsonScriptData))
+		{
+			Json::Value jsonData = JsonUtil::jsonStringToValue(jsonScriptData);
 			message[OperationParam::ScriptServiceRunScriptData.getValue()] = jsonData;
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::Script, ServiceOperation::RunPeerScriptAsync, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Script, ServiceOperation::RunPeerScriptAsync, message, callback);
 		m_client->sendRequest(sc);
 	}
 }

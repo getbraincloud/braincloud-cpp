@@ -15,32 +15,32 @@
 
 namespace BrainCloud
 {
-    BrainCloudGlobalApp::BrainCloudGlobalApp(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudGlobalApp::BrainCloudGlobalApp(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudGlobalApp::readProperties(IServerCallback * in_callback)
+    void BrainCloudGlobalApp::readProperties(IServerCallback *callback)
     {
         Json::Value message = Json::nullValue;
-        ServerCall * sc = new ServerCall(ServiceName::GlobalApp, ServiceOperation::ReadProperties, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalApp, ServiceOperation::ReadProperties, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudGlobalApp::readSelectedProperties(const std::vector<std::string> &propertyNames, IServerCallback * in_callback)
+    void BrainCloudGlobalApp::readSelectedProperties(const std::vector<std::string> &propertyNames, IServerCallback *callback)
     {
         Json::Value message = Json::nullValue;
 
-		message[OperationParam::GlobalAppPropertyNames.getValue()] = JsonUtil::stringVectorToJson(propertyNames);
+        message[OperationParam::GlobalAppPropertyNames.getValue()] = JsonUtil::stringVectorToJson(propertyNames);
 
-        ServerCall * sc = new ServerCall(ServiceName::GlobalApp, ServiceOperation::ReadSelectedProperties, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalApp, ServiceOperation::ReadSelectedProperties, message, callback);
         m_client->sendRequest(sc);
     }
 
-    void BrainCloudGlobalApp::readPropertiesInCategories(const std::vector<std::string> &categories, IServerCallback * in_callback )
+    void BrainCloudGlobalApp::readPropertiesInCategories(const std::vector<std::string> &categories, IServerCallback *callback)
     {
         Json::Value message = Json::nullValue;
 
-		message[OperationParam::GlobalAppCategories.getValue()] = JsonUtil::stringVectorToJson(categories);
+        message[OperationParam::GlobalAppCategories.getValue()] = JsonUtil::stringVectorToJson(categories);
 
-        ServerCall * sc = new ServerCall(ServiceName::GlobalApp, ServiceOperation::ReadPropertiesInCategories, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::GlobalApp, ServiceOperation::ReadPropertiesInCategories, message, callback);
         m_client->sendRequest(sc);
     }
 }

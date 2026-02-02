@@ -12,12 +12,12 @@
 
 namespace BrainCloud
 {
-    BrainCloudTime::BrainCloudTime(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudTime::BrainCloudTime(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudTime::readServerTime(IServerCallback * in_callback)
+    void BrainCloudTime::readServerTime(IServerCallback *callback)
     {
         Json::Value nullMsg = Json::nullValue;
-        ServerCall * sc = new ServerCall(ServiceName::ServerTime, ServiceOperation::Read, nullMsg, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::ServerTime, ServiceOperation::Read, nullMsg, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 }

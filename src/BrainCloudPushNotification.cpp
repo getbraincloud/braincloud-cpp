@@ -17,324 +17,346 @@
 
 namespace BrainCloud
 {
-	BrainCloudPushNotification::BrainCloudPushNotification(BrainCloudClient* in_client) : m_client(in_client) { }
+	BrainCloudPushNotification::BrainCloudPushNotification(BrainCloudClient *client) : m_client(client) {}
 
-	void BrainCloudPushNotification::deregisterAllPushNotificationDeviceTokens(IServerCallback * in_callback)
+	void BrainCloudPushNotification::deregisterAllPushNotificationDeviceTokens(IServerCallback *callback)
 	{
 		Json::Value message = Json::nullValue;
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::DeregisterAll, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::DeregisterAll, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::deregisterPushNotificationDeviceToken(const Platform & in_platform, const char * in_token, IServerCallback * in_callback)
+	void BrainCloudPushNotification::deregisterPushNotificationDeviceToken(const Platform &platform, const char *token, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PushNotificationRegisterParamDeviceType.getValue()] = in_platform.toString().c_str();
-		message[OperationParam::PushNotificationRegisterParamDeviceToken.getValue()] = in_token;
+		message[OperationParam::PushNotificationRegisterParamDeviceType.getValue()] = platform.toString().c_str();
+		message[OperationParam::PushNotificationRegisterParamDeviceToken.getValue()] = token;
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::Deregister, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::Deregister, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::registerPushNotificationDeviceToken(const Platform & in_platform, const char * in_token, IServerCallback * in_callback)
+	void BrainCloudPushNotification::registerPushNotificationDeviceToken(const Platform &platform, const char *token, IServerCallback *callback)
 	{
 		// Validate token
-    	if (in_token == nullptr || strlen(in_token) == 0)
-    	{
-    	    if (in_callback)
-        	{
-        	    int statusCode = 400; // Bad Request
-        	    int reasonCode = INVALID_DEVICE_TOKEN; // Invalid Device Token
-			
-        	    // Build error JSON
-        	    std::string errorJson = 
-        	        "{\"status\":" + std::to_string(statusCode) +
-        	        ",\"reason_code\":" + std::to_string(reasonCode) +
-        	        ",\"message\":\"Invalid device token: " + in_token + " \"}";
-			
-        	    in_callback->serverError(
-        	        ServiceName::PushNotification,
-        	        ServiceOperation::Register,
-        	        statusCode,
-        	        reasonCode,
-        	        errorJson
-        	    );
-        	}
-			//FL: ToDo would be better to have a check if logging is enabled to see if we want to print this message like other libs have 
-			std::cout << "BCC: Push notification token not registered - empty/null tokens are invalid" <<std::endl;
-			
-    	    return;
-    	}
+		if (token == nullptr || strlen(token) == 0)
+		{
+			if (callback)
+			{
+				int statusCode = 400;				   // Bad Request
+				int reasonCode = INVALID_DEVICE_TOKEN; // Invalid Device Token
+
+				// Build error JSON
+				std::string errorJson =
+					"{\"status\":" + std::to_string(statusCode) +
+					",\"reason_code\":" + std::to_string(reasonCode) +
+					",\"message\":\"Invalid device token: " + token + " \"}";
+
+				callback->serverError(
+					ServiceName::PushNotification,
+					ServiceOperation::Register,
+					statusCode,
+					reasonCode,
+					errorJson);
+			}
+			// FL: ToDo would be better to have a check if logging is enabled to see if we want to print this message like other libs have
+			std::cout << "BCC: Push notification token not registered - empty/null tokens are invalid" << std::endl;
+
+			return;
+		}
 
 		Json::Value message;
-		message[OperationParam::PushNotificationRegisterParamDeviceType.getValue()] = in_platform.toString().c_str();
-		message[OperationParam::PushNotificationRegisterParamDeviceToken.getValue()] = in_token;
+		message[OperationParam::PushNotificationRegisterParamDeviceType.getValue()] = platform.toString().c_str();
+		message[OperationParam::PushNotificationRegisterParamDeviceToken.getValue()] = token;
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::Register, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::Register, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::sendSimplePushNotification(const char * in_toProfileId, const char * in_message, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendSimplePushNotification(const char *toProfileId, const char *message, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PushNotificationSendParamToPlayerId.getValue()] = in_toProfileId;
-		message[OperationParam::PushNotificationSendParamMessage.getValue()] = in_message;
+		message[OperationParam::PushNotificationSendParamToPlayerId.getValue()] = toProfileId;
+		message[OperationParam::PushNotificationSendParamMessage.getValue()] = message;
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendSimple, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendSimple, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-
-	void BrainCloudPushNotification::sendRichPushNotification(const char * in_toProfileId, int32_t in_notificationTemplateId, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendRichPushNotification(const char *toProfileId, int32_t notificationTemplateId, IServerCallback *callback)
 	{
-		sendRichPushNotification(in_toProfileId, in_notificationTemplateId, NULL, in_callback);
+		sendRichPushNotification(toProfileId, notificationTemplateId, NULL, callback);
 	}
 
-	void BrainCloudPushNotification::sendRichPushNotificationWithParams(const char * in_toProfileId, int32_t in_notificationTemplateId, const char * in_substitutionJson, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendRichPushNotificationWithParams(const char *toProfileId, int32_t notificationTemplateId, const char *substitutionJson, IServerCallback *callback)
 	{
-		sendRichPushNotification(in_toProfileId, in_notificationTemplateId, in_substitutionJson, in_callback);
+		sendRichPushNotification(toProfileId, notificationTemplateId, substitutionJson, callback);
 	}
 
-	void BrainCloudPushNotification::sendTemplatedPushNotificationToGroup(const char * in_groupId, int32_t in_notificationTemplateId, std::string in_substitutionsJson, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendTemplatedPushNotificationToGroup(const char *groupId, int32_t notificationTemplateId, std::string substitutionsJson, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GroupId.getValue()] = in_groupId;
-		message[OperationParam::PushNotificationSendParamNotificationTemplateId.getValue()] = in_notificationTemplateId;
+		message[OperationParam::GroupId.getValue()] = groupId;
+		message[OperationParam::PushNotificationSendParamNotificationTemplateId.getValue()] = notificationTemplateId;
 
-		if (StringUtil::IsOptionalParameterValid(in_substitutionsJson)) {
-			message[OperationParam::PushNotificationSendParamSubstitution.getValue()] = JsonUtil::jsonStringToValue(in_substitutionsJson);
+		if (StringUtil::IsOptionalParameterValid(substitutionsJson))
+		{
+			message[OperationParam::PushNotificationSendParamSubstitution.getValue()] = JsonUtil::jsonStringToValue(substitutionsJson);
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendTemplatedToGroup, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendTemplatedToGroup, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::sendNormalizedPushNotificationToGroup(const char * in_groupId, std::string in_alertContentJson, std::string in_customDataJson, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendNormalizedPushNotificationToGroup(const char *groupId, std::string alertContentJson, std::string customDataJson, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GroupId.getValue()] = in_groupId;
-		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(in_alertContentJson);
+		message[OperationParam::GroupId.getValue()] = groupId;
+		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(alertContentJson);
 
-		if (StringUtil::IsOptionalParameterValid(in_customDataJson)) {
-			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(in_customDataJson);
+		if (StringUtil::IsOptionalParameterValid(customDataJson))
+		{
+			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(customDataJson);
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendNormalizedToGroup, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendNormalizedToGroup, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::scheduleRawPushNotificationUTC(const char * in_profileId, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, int64_t in_startTimeUTC, IServerCallback * in_callback)
+	void BrainCloudPushNotification::scheduleRawPushNotificationUTC(const char *profileId, std::string fcmContent, std::string iosContent, std::string facebookContent, int64_t startTimeUTC, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileId.getValue()] = in_profileId;
+		message[OperationParam::ProfileId.getValue()] = profileId;
 
-		if (StringUtil::IsOptionalParameterValid(in_fcmContent)) {
-			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(in_fcmContent);
+		if (StringUtil::IsOptionalParameterValid(fcmContent))
+		{
+			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(fcmContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_iosContent)) {
-			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(in_iosContent);
+		if (StringUtil::IsOptionalParameterValid(iosContent))
+		{
+			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(iosContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_facebookContent)) {
-			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(in_facebookContent);
+		if (StringUtil::IsOptionalParameterValid(facebookContent))
+		{
+			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(facebookContent);
 		}
 
-		message[OperationParam::StartDateUTC.getValue()] = (Json::Int64)in_startTimeUTC;
+		message[OperationParam::StartDateUTC.getValue()] = (Json::Int64)startTimeUTC;
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleRawNotification, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleRawNotification, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::scheduleRawPushNotificationMinutes(const char * in_profileId, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, int32_t in_minutesFromNow, IServerCallback * in_callback)
+	void BrainCloudPushNotification::scheduleRawPushNotificationMinutes(const char *profileId, std::string fcmContent, std::string iosContent, std::string facebookContent, int32_t minutesFromNow, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileId.getValue()] = in_profileId;
+		message[OperationParam::ProfileId.getValue()] = profileId;
 
-		if (StringUtil::IsOptionalParameterValid(in_fcmContent)) {
-			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(in_fcmContent);
+		if (StringUtil::IsOptionalParameterValid(fcmContent))
+		{
+			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(fcmContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_iosContent)) {
-			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(in_iosContent);
+		if (StringUtil::IsOptionalParameterValid(iosContent))
+		{
+			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(iosContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_facebookContent)) {
-			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(in_facebookContent);
+		if (StringUtil::IsOptionalParameterValid(facebookContent))
+		{
+			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(facebookContent);
 		}
 
-		message[OperationParam::MinutesFromNow.getValue()] = in_minutesFromNow;
+		message[OperationParam::MinutesFromNow.getValue()] = minutesFromNow;
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleRawNotification, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleRawNotification, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::sendRawPushNotification(const char * in_profileId, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendRawPushNotification(const char *profileId, std::string fcmContent, std::string iosContent, std::string facebookContent, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PushNotificationSendParamToPlayerId.getValue()] = in_profileId;
+		message[OperationParam::PushNotificationSendParamToPlayerId.getValue()] = profileId;
 
-		if (StringUtil::IsOptionalParameterValid(in_fcmContent)) {
-			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(in_fcmContent);
+		if (StringUtil::IsOptionalParameterValid(fcmContent))
+		{
+			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(fcmContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_iosContent)) {
-			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(in_iosContent);
+		if (StringUtil::IsOptionalParameterValid(iosContent))
+		{
+			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(iosContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_facebookContent)) {
-			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(in_facebookContent);
+		if (StringUtil::IsOptionalParameterValid(facebookContent))
+		{
+			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(facebookContent);
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendRaw, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendRaw, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::sendRawPushNotificationBatch(std::vector<std::string> in_profileIds, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendRawPushNotificationBatch(std::vector<std::string> profileIds, std::string fcmContent, std::string iosContent, std::string facebookContent, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileIds.getValue()] = JsonUtil::stringVectorToJson(in_profileIds);
+		message[OperationParam::ProfileIds.getValue()] = JsonUtil::stringVectorToJson(profileIds);
 
-		if (StringUtil::IsOptionalParameterValid(in_fcmContent)) {
-			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(in_fcmContent);
+		if (StringUtil::IsOptionalParameterValid(fcmContent))
+		{
+			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(fcmContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_iosContent)) {
-			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(in_iosContent);
+		if (StringUtil::IsOptionalParameterValid(iosContent))
+		{
+			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(iosContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_facebookContent)) {
-			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(in_facebookContent);
+		if (StringUtil::IsOptionalParameterValid(facebookContent))
+		{
+			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(facebookContent);
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendRawBatch, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendRawBatch, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::sendRawPushNotificationToGroup(const char * in_groupId, std::string in_fcmContent, std::string in_iosContent, std::string in_facebookContent, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendRawPushNotificationToGroup(const char *groupId, std::string fcmContent, std::string iosContent, std::string facebookContent, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GroupId.getValue()] = in_groupId;
+		message[OperationParam::GroupId.getValue()] = groupId;
 
-		if (StringUtil::IsOptionalParameterValid(in_fcmContent)) {
-			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(in_fcmContent);
+		if (StringUtil::IsOptionalParameterValid(fcmContent))
+		{
+			message[OperationParam::FcmContent.getValue()] = JsonUtil::jsonStringToValue(fcmContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_iosContent)) {
-			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(in_iosContent);
+		if (StringUtil::IsOptionalParameterValid(iosContent))
+		{
+			message[OperationParam::IosContent.getValue()] = JsonUtil::jsonStringToValue(iosContent);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_facebookContent)) {
-			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(in_facebookContent);
+		if (StringUtil::IsOptionalParameterValid(facebookContent))
+		{
+			message[OperationParam::FacebookContent.getValue()] = JsonUtil::jsonStringToValue(facebookContent);
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendRawToGroup, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendRawToGroup, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::scheduleNormalizedPushNotificationUTC(const char * in_toProfileId, std::string in_alertContentJson, std::string in_customDataJson, int64_t in_startTimeUTC, IServerCallback * in_callback)
+	void BrainCloudPushNotification::scheduleNormalizedPushNotificationUTC(const char *toProfileId, std::string alertContentJson, std::string customDataJson, int64_t startTimeUTC, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileId.getValue()] = in_toProfileId;
-		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(in_alertContentJson);
+		message[OperationParam::ProfileId.getValue()] = toProfileId;
+		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(alertContentJson);
 
-		if (StringUtil::IsOptionalParameterValid(in_customDataJson)) {
-			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(in_customDataJson);
+		if (StringUtil::IsOptionalParameterValid(customDataJson))
+		{
+			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(customDataJson);
 		}
 
-		message[OperationParam::StartDateUTC.getValue()] = (Json::Int64)in_startTimeUTC;
+		message[OperationParam::StartDateUTC.getValue()] = (Json::Int64)startTimeUTC;
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleNormalizedNotification, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleNormalizedNotification, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-    void BrainCloudPushNotification::scheduleNormalizedPushNotificationMinutes(const char * in_toProfileId, std::string in_alertContentJson, std::string in_customDataJson, int32_t in_minutesFromNow, IServerCallback * in_callback)
-    {
-        Json::Value message;
-        message[OperationParam::ProfileId.getValue()] = in_toProfileId;
-        message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(in_alertContentJson);
-
-        if (StringUtil::IsOptionalParameterValid(in_customDataJson)) {
-            message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(in_customDataJson);
-        }
-
-        message[OperationParam::MinutesFromNow.getValue()] = in_minutesFromNow;
-
-        ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleNormalizedNotification, message, in_callback);
-        m_client->getBrainCloudComms()->addToQueue(sc);
-    }
-
-	void BrainCloudPushNotification::scheduleRichPushNotificationUTC(const char * in_toProfileId, int32_t in_notificationTemplateId, std::string in_substitutionsJson, int64_t in_startTimeUTC, IServerCallback * in_callback)
+	void BrainCloudPushNotification::scheduleNormalizedPushNotificationMinutes(const char *toProfileId, std::string alertContentJson, std::string customDataJson, int32_t minutesFromNow, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileId.getValue()] = in_toProfileId;
-		message[OperationParam::PushNotificationSendParamNotificationTemplateId.getValue()] = in_notificationTemplateId;
+		message[OperationParam::ProfileId.getValue()] = toProfileId;
+		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(alertContentJson);
 
-		if (StringUtil::IsOptionalParameterValid(in_substitutionsJson)) {
-			message[OperationParam::PushNotificationSendParamSubstitution.getValue()] = JsonUtil::jsonStringToValue(in_substitutionsJson);
+		if (StringUtil::IsOptionalParameterValid(customDataJson))
+		{
+			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(customDataJson);
 		}
 
-		message[OperationParam::StartDateUTC.getValue()] = (Json::Int64)in_startTimeUTC;
+		message[OperationParam::MinutesFromNow.getValue()] = minutesFromNow;
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleRichNotification, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleNormalizedNotification, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-    void BrainCloudPushNotification::scheduleRichPushNotificationMinutes(const char * in_toProfileId, int32_t in_notificationTemplateId, std::string in_substitutionsJson, int32_t in_minutesFromNow, IServerCallback * in_callback)
+	void BrainCloudPushNotification::scheduleRichPushNotificationUTC(const char *toProfileId, int32_t notificationTemplateId, std::string substitutionsJson, int64_t startTimeUTC, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileId.getValue()] = in_toProfileId;
-		message[OperationParam::PushNotificationSendParamNotificationTemplateId.getValue()] = in_notificationTemplateId;
+		message[OperationParam::ProfileId.getValue()] = toProfileId;
+		message[OperationParam::PushNotificationSendParamNotificationTemplateId.getValue()] = notificationTemplateId;
 
-		if (StringUtil::IsOptionalParameterValid(in_substitutionsJson)) {
-			message[OperationParam::PushNotificationSendParamSubstitution.getValue()] = JsonUtil::jsonStringToValue(in_substitutionsJson);
+		if (StringUtil::IsOptionalParameterValid(substitutionsJson))
+		{
+			message[OperationParam::PushNotificationSendParamSubstitution.getValue()] = JsonUtil::jsonStringToValue(substitutionsJson);
 		}
 
-		message[OperationParam::MinutesFromNow.getValue()] = in_minutesFromNow;
+		message[OperationParam::StartDateUTC.getValue()] = (Json::Int64)startTimeUTC;
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleRichNotification, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleRichNotification, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::sendNormalizedPushNotification(const char * in_toProfileId, std::string in_alertContentJson, std::string in_customDataJson, IServerCallback * in_callback)
+	void BrainCloudPushNotification::scheduleRichPushNotificationMinutes(const char *toProfileId, int32_t notificationTemplateId, std::string substitutionsJson, int32_t minutesFromNow, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PushNotificationSendParamToPlayerId.getValue()] = in_toProfileId;
-		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(in_alertContentJson);
+		message[OperationParam::ProfileId.getValue()] = toProfileId;
+		message[OperationParam::PushNotificationSendParamNotificationTemplateId.getValue()] = notificationTemplateId;
 
-		if (StringUtil::IsOptionalParameterValid(in_customDataJson)) {
-			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(in_customDataJson);
+		if (StringUtil::IsOptionalParameterValid(substitutionsJson))
+		{
+			message[OperationParam::PushNotificationSendParamSubstitution.getValue()] = JsonUtil::jsonStringToValue(substitutionsJson);
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendNormalized, message, in_callback);
+		message[OperationParam::MinutesFromNow.getValue()] = minutesFromNow;
+
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::ScheduleRichNotification, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::sendNormalizedPushNotificationBatch(std::vector<std::string> in_profileIds, std::string in_alertContentJson, std::string in_customDataJson, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendNormalizedPushNotification(const char *toProfileId, std::string alertContentJson, std::string customDataJson, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::ProfileIds.getValue()] = JsonUtil::stringVectorToJson(in_profileIds);
-		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(in_alertContentJson);
+		message[OperationParam::PushNotificationSendParamToPlayerId.getValue()] = toProfileId;
+		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(alertContentJson);
 
-		if (StringUtil::IsOptionalParameterValid(in_customDataJson)) {
-			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(in_customDataJson);
+		if (StringUtil::IsOptionalParameterValid(customDataJson))
+		{
+			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(customDataJson);
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendNormalizedBatch, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendNormalized, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudPushNotification::sendRichPushNotification(const char * in_toProfileId, int32_t in_notificationTemplateId, const char * in_substitutionJson, IServerCallback * in_callback)
+	void BrainCloudPushNotification::sendNormalizedPushNotificationBatch(std::vector<std::string> profileIds, std::string alertContentJson, std::string customDataJson, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::PushNotificationSendParamToPlayerId.getValue()] = in_toProfileId;
-		message[OperationParam::PushNotificationSendParamNotificationTemplateId.getValue()] = in_notificationTemplateId;
+		message[OperationParam::ProfileIds.getValue()] = JsonUtil::stringVectorToJson(profileIds);
+		message[OperationParam::AlertContent.getValue()] = JsonUtil::jsonStringToValue(alertContentJson);
 
-		if (StringUtil::IsOptionalParameterValid(in_substitutionJson)) {
-			message[OperationParam::PushNotificationSendParamSubstitution.getValue()] = JsonUtil::jsonStringToValue(in_substitutionJson);
+		if (StringUtil::IsOptionalParameterValid(customDataJson))
+		{
+			message[OperationParam::CustomData.getValue()] = JsonUtil::jsonStringToValue(customDataJson);
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendRich, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendNormalizedBatch, message, callback);
+		m_client->getBrainCloudComms()->addToQueue(sc);
+	}
+
+	void BrainCloudPushNotification::sendRichPushNotification(const char *toProfileId, int32_t notificationTemplateId, const char *substitutionJson, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::PushNotificationSendParamToPlayerId.getValue()] = toProfileId;
+		message[OperationParam::PushNotificationSendParamNotificationTemplateId.getValue()] = notificationTemplateId;
+
+		if (StringUtil::IsOptionalParameterValid(substitutionJson))
+		{
+			message[OperationParam::PushNotificationSendParamSubstitution.getValue()] = JsonUtil::jsonStringToValue(substitutionJson);
+		}
+
+		ServerCall *sc = new ServerCall(ServiceName::PushNotification, ServiceOperation::SendRich, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 }

@@ -15,26 +15,27 @@
 
 namespace BrainCloud
 {
-BrainCloudBlockchain::BrainCloudBlockchain(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudBlockchain::BrainCloudBlockchain(BrainCloudClient *client) : m_client(client) {}
 
-void BrainCloudBlockchain::GetBlockchainItems(const std::string& in_integrationID, const std::string& in_contextJson,
-    IServerCallback* in_callback)
-{
-    Json::Value message;
-    message[OperationParam::BlockChainIntegrationId.getValue()] = in_integrationID;
-    message[OperationParam::BlockChainContext.getValue()] = JsonUtil::jsonStringToValue(in_contextJson);
-    
-    ServerCall *sc = new ServerCall(ServiceName::Blockchain, ServiceOperation::GetBlockchainItems, message, in_callback);
-    m_client->sendRequest(sc);
-}
+    void BrainCloudBlockchain::GetBlockchainItems(const std::string &integrationID, const std::string &contextJson,
+                                                  IServerCallback *callback)
+    {
+        Json::Value message;
+        message[OperationParam::BlockChainIntegrationId.getValue()] = integrationID;
+        message[OperationParam::BlockChainContext.getValue()] = JsonUtil::jsonStringToValue(contextJson);
 
-void BrainCloudBlockchain::GetUniqs(const std::string& in_integrationID, const std::string& in_contextJson, IServerCallback* in_callback)
-{
-    
-    Json::Value message;
-    message[OperationParam::BlockChainIntegrationId.getValue()] = in_integrationID;
-    message[OperationParam::BlockChainContext.getValue()] = JsonUtil::jsonStringToValue(in_contextJson);
-    
-    ServerCall *sc = new ServerCall(ServiceName::Blockchain, ServiceOperation::GetUniqs, message, in_callback);
-    m_client->sendRequest(sc);
-}};
+        ServerCall *sc = new ServerCall(ServiceName::Blockchain, ServiceOperation::GetBlockchainItems, message, callback);
+        m_client->sendRequest(sc);
+    }
+
+    void BrainCloudBlockchain::GetUniqs(const std::string &integrationID, const std::string &contextJson, IServerCallback *callback)
+    {
+
+        Json::Value message;
+        message[OperationParam::BlockChainIntegrationId.getValue()] = integrationID;
+        message[OperationParam::BlockChainContext.getValue()] = JsonUtil::jsonStringToValue(contextJson);
+
+        ServerCall *sc = new ServerCall(ServiceName::Blockchain, ServiceOperation::GetUniqs, message, callback);
+        m_client->sendRequest(sc);
+    }
+};

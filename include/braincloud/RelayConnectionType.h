@@ -6,14 +6,13 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 namespace BrainCloud
 {
-    /*
+    /**
      * Connection protocol to use when connected to a relay server.
      *
      * UDP - For real time games where speed is crutial
-     * TCP - When latency is not crutial, but everything needs to be guaranteed and 
+     * TCP - When latency is not crutial, but everything needs to be guaranteed and
      *       in order like a chat app, monitoring system, turn based games, etc.
      * WS  - Perfect for web based games. The slowest option, but the only one for browers.
      * WSS - Won't connect with current servers (4.4.1)
@@ -26,7 +25,7 @@ namespace BrainCloud
     {
         UDP = 0, /* User Datagram Protocol */
         TCP = 1, /* Transmission Control Protocol */
-        WS  = 2, /* WebSocket */
+        WS = 2,  /* WebSocket */
         WSS = 3  /* WebSocket Secure */
     };
 };
@@ -34,4 +33,3 @@ namespace BrainCloud
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
-

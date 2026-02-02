@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include <string>
 
 namespace BrainCloud
@@ -17,23 +16,22 @@ namespace BrainCloud
     class BrainCloudTime
     {
     public:
-        BrainCloudTime(BrainCloudClient* in_client);
+        BrainCloudTime(BrainCloudClient *client);
 
         /**
          * Method returns the server time in UTC. This is in UNIX millis time format.
          * For instance 1396378241893 represents 2014-04-01 2:50:41.893 in GMT-4.
          *
-         * Service Name - Time
-         * Service Operation - Read
+         * Service Name - time
+         * Service Operation - READ
          *
-         * Server API reference: ServiceName.Time, ServiceOperation.Read
-         *
-         * @param in_callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received
+         * @see Server API reference: ServiceName.Time, ServiceOperation.Read
          */
-        void readServerTime( IServerCallback * in_callback = NULL);
+        void readServerTime(IServerCallback *callback = NULL);
 
     private:
-        BrainCloudClient * m_client;
+        BrainCloudClient *m_client;
     };
 }
 #if defined(__clang__)

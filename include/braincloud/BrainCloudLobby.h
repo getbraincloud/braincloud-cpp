@@ -6,7 +6,6 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 
-
 #include "braincloud/BrainCloudTypes.h"
 #include "braincloud/IServerCallback.h"
 #include "braincloud/ServiceName.h"
@@ -27,311 +26,335 @@ namespace BrainCloud
 	class BrainCloudLobby
 	{
 	public:
-		BrainCloudLobby(BrainCloudClient* in_client);
+		BrainCloudLobby(BrainCloudClient *client);
 
 		/**
-		 * Set to true to enable logging ping requests to std::out
+		 * Enables or disables logging of ping requests to standard output.
+		 *
+		 * @param shouldEnable Set true to enable logging, false to disable
 		 */
 		void enableLogging(bool shouldEnable);
 
-		/* Retrieves the region settings for each of the given lobby types. Upon success or afterwards, call pingRegions to start retrieving appropriate data.
+		/**
+		 * Retrieves the region settings for each of the given lobby types.
+		 * Upon success, pingRegions should be called to collect ping data.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - GetRegionsForLobbies
+		 * Service Name - lobby
+		 * Service Operation - GET_REGIONS_FOR_LOBBIES
 		 *
-		 * @param roomTypes Ids of the lobby types.
+		 * @param roomTypes Ids of the lobby types
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getRegionsForLobbies(const std::vector<std::string> &in_roomTypes, IServerCallback *in_callback = NULL);
+		void getRegionsForLobbies(const std::vector<std::string> &roomTypes, IServerCallback *callback = NULL);
 
-		/* Retrieves associated Ping Data averages to be used with all associated <>WithPingData APIs.
-		 * Call anytime after GetRegionsForLobbies before proceeding.
-		 * Once that completes, the associated region Ping Data is retrievable via getPingData and all associated <>WithPingData APIs are useable
+		/**
+		 * Retrieves associated ping data averages to be used with all
+		 * Lobby APIs that support ping data.
+		 * Must be called after getRegionsForLobbies completes successfully.
+		 *
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void pingRegions(IServerCallback* in_callback);
+		void pingRegions(IServerCallback *callback);
 
-		/* Returns the Ping Data collected after calling pingRegions
+		/**
+		 * Returns the ping data collected after calling pingRegions.
+		 *
+		 * @return A map keyed by region containing average ping values
 		 */
-		const std::map<std::string, int>& getPingData() const;
+		const std::map<std::string, int> &getPingData() const;
 
 		/**
 		 * Creates a new lobby.
-		 * 
-		 * Sends LOBBY_JOIN_SUCCESS message to the user, with full copy of lobby data Sends LOBBY_MEMBER_JOINED to all lobby members, with copy of member data
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - CreateLobby
+		 * Service Name - lobby
+		 * Service Operation - CREATE_LOBBY
 		 *
-		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
-		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
-		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
-		 * @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
-		 * @param settings Configuration data for the room.
+		 * @param lobbyType The type of lobby to create
+		 * @param rating The skill rating used for matchmaking
+		 * @param otherUserCxIds Other users to add to the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param jsonSettings Configuration data for the lobby
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void createLobby(const std::string& in_lobbyType, int in_rating, const std::vector<std::string>& in_otherUserCxIds, bool in_isReady, const std::string& in_extraJson, const std::string& in_teamCode, const std::string& in_jsonSettings, IServerCallback* in_callback = NULL);
+		void createLobby(const std::string &lobbyType, int rating, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, const std::string &jsonSettings, IServerCallback *callback = NULL);
 
 		/**
-		 * Creates a new lobby. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
-		 * 
-		 * Sends LOBBY_JOIN_SUCCESS message to the user, with full copy of lobby data Sends LOBBY_MEMBER_JOINED to all lobby members, with copy of member data
+		 * Creates a new lobby using collected ping data to select the best region.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - CreateLobbyWithPingData
+		 * Service Name - lobby
+		 * Service Operation - CREATE_LOBBY_WITH_PING_DATA
 		 *
-		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
-		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
-		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
-		 * @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
-		 * @param settings Configuration data for the room.
+		 * @param lobbyType The type of lobby to create
+		 * @param rating The skill rating used for matchmaking
+		 * @param otherUserCxIds Other users to add to the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param jsonSettings Configuration data for the lobby
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void createLobbyWithPingData(const std::string& in_lobbyType, int in_rating, const std::vector<std::string>& in_otherUserCxIds, bool in_isReady, const std::string& in_extraJson, const std::string& in_teamCode, const std::string& in_jsonSettings, IServerCallback* in_callback = NULL);
+		void createLobbyWithPingData(const std::string &lobbyType, int rating, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, const std::string &jsonSettings, IServerCallback *callback = NULL);
 
 		/**
-		 * Finds a lobby matching the specified parameters. Asynchronous - returns 200 to indicate that matchmaking has started.
+		 * Begins matchmaking to find a lobby matching the given parameters.
 		 *
-		 * Service Name - Lobby
+		 * Service Name - lobby
 		 * Service Operation - FindLobby
 		 *
-		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
-		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
-		 * @param maxSteps The maximum number of steps to wait when looking for an applicable lobby. Each step is ~5 seconds.
-		 * @param algo The algorithm to use for increasing the search scope.
-		 * @param filterJson Used to help filter the list of rooms to consider. Passed to the matchmaking filter, if configured.
-		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
-		 * @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment
+		 * @param lobbyType The type of lobby to search for
+		 * @param rating The skill rating used for matchmaking
+		 * @param maxSteps Maximum number of matchmaking steps
+		 * @param jsonAlgo Matchmaking algorithm configuration
+		 * @param jsonFilter Matchmaking filter criteria
+		 * @param otherUserCxIds Other users to include in the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void findLobby(const std::string& in_lobbyType, int in_rating, int in_maxSteps, const std::string& in_jsonAlgo, const std::string& in_jsonFilter, const std::vector<std::string>& in_otherUserCxIds, bool in_isReady, const std::string& in_extraJson, const std::string& in_teamCode, IServerCallback* in_callback = NULL);
+		void findLobby(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback = NULL);
 
 		/**
-		 * Finds a lobby matching the specified parameters. Asynchronous - returns 200 to indicate that matchmaking has started. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
+		 * Begins matchmaking using ping data to select the best region.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - FindLobbyWithPingData
+		 * Service Name - lobby
+		 * Service Operation - FIND_LOBBY_WITH_PING_DATA
 		 *
-		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
-		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
-		 * @param maxSteps The maximum number of steps to wait when looking for an applicable lobby. Each step is ~5 seconds.
-		 * @param algo The algorithm to use for increasing the search scope.
-		 * @param filterJson Used to help filter the list of rooms to consider. Passed to the matchmaking filter, if configured.
-		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
-		 * @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment
+		 * @param lobbyType The type of lobby to search for
+		 * @param rating The skill rating used for matchmaking
+		 * @param maxSteps Maximum number of matchmaking steps
+		 * @param jsonAlgo Matchmaking algorithm configuration
+		 * @param jsonFilter Matchmaking filter criteria
+		 * @param otherUserCxIds Other users to include in the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void findLobbyWithPingData(const std::string& in_lobbyType, int in_rating, int in_maxSteps, const std::string& in_jsonAlgo, const std::string& in_jsonFilter, const std::vector<std::string>& in_otherUserCxIds, bool in_isReady, const std::string& in_extraJson, const std::string& in_teamCode, IServerCallback* in_callback = NULL);
+		void findLobbyWithPingData(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback = NULL);
 
 		/**
-		 * Adds the caller to the lobby entry queue and will create a lobby if none are found.
+		 * Finds or creates a lobby if none are available.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - FindOrCreateLobby
+		 * Service Name - lobby
+		 * Service Operation - FIND_OR_CREATE_LOBBY
 		 *
-		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
-		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
-		 * @param maxSteps The maximum number of steps to wait when looking for an applicable lobby. Each step is ~5 seconds.
-		 * @param algo The algorithm to use for increasing the search scope.
-		 * @param filterJson Used to help filter the list of rooms to consider. Passed to the matchmaking filter, if configured.
-		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
-		 * @param settings Configuration data for the room.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
-		 * @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+		 * @param lobbyType The type of lobby
+		 * @param rating The skill rating used for matchmaking
+		 * @param maxSteps Maximum number of matchmaking steps
+		 * @param jsonAlgo Matchmaking algorithm configuration
+		 * @param jsonFilter Matchmaking filter criteria
+		 * @param otherUserCxIds Other users to include in the lobby
+		 * @param jsonSettings Configuration data for the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void findOrCreateLobby(const std::string& in_lobbyType, int in_rating, int in_maxSteps, const std::string& in_jsonAlgo, const std::string& in_jsonFilter, const std::vector<std::string>& in_otherUserCxIds, const std::string& in_jsonSettings, bool in_isReady, const std::string& in_extraJson, const std::string& in_teamCode, IServerCallback* in_callback = NULL);
+		void findOrCreateLobby(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, const std::string &jsonSettings, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback = NULL);
 
 		/**
-		 * Adds the caller to the lobby entry queue and will create a lobby if none are found. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
+		 * Finds or creates a lobby using ping data.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - FindOrCreateLobbyWithPingData
+		 * Service Name - lobby
+		 * Service Operation - FIND_OR_CREATE_LOBBY_WITH_PING_DATA
 		 *
-		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
-		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
-		 * @param maxSteps The maximum number of steps to wait when looking for an applicable lobby. Each step is ~5 seconds.
-		 * @param algo The algorithm to use for increasing the search scope.
-		 * @param filterJson Used to help filter the list of rooms to consider. Passed to the matchmaking filter, if configured.
-		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
-		 * @param settings Configuration data for the room.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
-		 * @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+		 * @param lobbyType The type of lobby
+		 * @param rating The skill rating used for matchmaking
+		 * @param maxSteps Maximum number of matchmaking steps
+		 * @param jsonAlgo Matchmaking algorithm configuration
+		 * @param jsonFilter Matchmaking filter criteria
+		 * @param otherUserCxIds Other users to include in the lobby
+		 * @param jsonSettings Configuration data for the lobby
+		 * @param isReady Initial ready state of this user
+		 * @param extraJson Initial extra data for this user
+		 * @param teamCode Preferred team code, or empty for auto assignment
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void findOrCreateLobbyWithPingData(const std::string& in_lobbyType, int in_rating, int in_maxSteps, const std::string& in_jsonAlgo, const std::string& in_jsonFilter, const std::vector<std::string>& in_otherUserCxIds, const std::string& in_jsonSettings, bool in_isReady, const std::string& in_extraJson, const std::string& in_teamCode, IServerCallback* in_callback = NULL);
+		void findOrCreateLobbyWithPingData(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, const std::string &jsonSettings, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback = NULL);
 
 		/**
-		 * Returns the data for the specified lobby, including member data.
+		 * Retrieves full lobby data for the specified lobby.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - GetLobbyData
+		 * Service Name - lobby
+		 * Service Operation - GET_LOBBY_DATA
 		 *
-		 * @param lobbyId Id of chosen lobby.
+		 * @param lobbyId The lobby identifier
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getLobbyData(const std::string& in_lobbyId, IServerCallback* in_callback = NULL);
+		void getLobbyData(const std::string &lobbyId, IServerCallback *callback = NULL);
 
 		/**
-		 * Causes the caller to leave the specified lobby. If the user was the owner, a new owner will be chosen. If user was the last member, the lobby will be deleted.
+		 * Leaves the specified lobby.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - LeaveLobby
+		 * Service Name - lobby
+		 * Service Operation - LEAVE_LOBBY
 		 *
-		 * @param lobbyId Id of chosen lobby.
+		 * @param lobbyId The lobby identifier
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void leaveLobby(const std::string& in_lobbyId, IServerCallback* in_callback = NULL);
+		void leaveLobby(const std::string &lobbyId, IServerCallback *callback = NULL);
 
 		/**
-		 * Evicts the specified user from the specified lobby. The caller must be the owner of the lobby.
+		 * Removes a member from the lobby. Caller must be the lobby owner.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - RemoveMember
+		 * Service Name - lobby
+		 * Service Operation - REMOVE_MEMBER
 		 *
-		 * @param lobbyId Id of chosen lobby.
-		 * @param cxId Specified member to be removed from the lobby.
+		 * @param lobbyId The lobby identifier
+		 * @param cxId The cxId of the member to remove
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void removeMember(const std::string& in_lobbyId, const std::string& in_cxId, IServerCallback* in_callback = NULL);
+		void removeMember(const std::string &lobbyId, const std::string &cxId, IServerCallback *callback = NULL);
 
 		/**
-		 * Sends LOBBY_SIGNAL_DATA message to all lobby members.
+		 * Sends a signal to all lobby members.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - SendSignal
+		 * Service Name - lobby
+		 * Service Operation - SEND_SIGNAL
 		 *
-		 * @param lobbyId Id of chosen lobby.
-		 * @param signalData Signal data to be sent.
+		 * @param lobbyId The lobby identifier
+		 * @param jsonSignalData Signal payload to send
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void sendSignal(const std::string& in_lobbyId, const std::string& in_jsonSignalData, IServerCallback* in_callback = NULL);
+		void sendSignal(const std::string &lobbyId, const std::string &jsonSignalData, IServerCallback *callback = NULL);
 
 		/**
-		 * Switches to the specified team (if allowed.)
-		 * 
-		 * Sends LOBBY_MEMBER_UPDATED to all lobby members, with copy of member data
+		 * Switches the caller to a different team within the lobby.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - SwitchTeam
+		 * Service Name - lobby
+		 * Service Operation - SWITCH_TEAM
 		 *
-		 * @param lobbyId Id of chosen lobby.
-		 * @param toTeamCode Specified team code.
+		 * @param lobbyId The lobby identifier
+		 * @param toTeamCode Target team code
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void switchTeam(const std::string& in_lobbyId, const std::string& in_toTeamCode, IServerCallback* in_callback = NULL);
+		void switchTeam(const std::string &lobbyId, const std::string &toTeamCode, IServerCallback *callback = NULL);
 
 		/**
-		 * Updates the ready status and extra json for the given lobby member.
+		 * Updates the ready state and extra data for the caller.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - UpdateReady
+		 * Service Name - lobby
+		 * Service Operation - UPDATE_READY
 		 *
-		 * @param lobbyId The type of lobby to look for. Lobby types are defined in the portal.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
+		 * @param lobbyId The lobby identifier
+		 * @param isReady Updated ready state
+		 * @param extraJson Updated extra data
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateReady(const std::string& in_lobbyId, bool in_isReady, const std::string& in_extraJson, IServerCallback* in_callback = NULL);
+		void updateReady(const std::string &lobbyId, bool isReady, const std::string &extraJson, IServerCallback *callback = NULL);
 
 		/**
-		 * Updates the ready status and extra json for the given lobby member.
+		 * Updates the lobby settings.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - UpdateSettings
+		 * Service Name - lobby
+		 * Service Operation - UPDATE_SETTINGS
 		 *
-		 * @param lobbyId Id of the specfified lobby.
-		 * @param settings Configuration data for the room.
+		 * @param lobbyId The lobby identifier
+		 * @param jsonSettings Updated lobby settings
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void updateSettings(const std::string& in_lobbyId, const std::string& in_jsonSettings, IServerCallback* in_callback = NULL);
-				
+		void updateSettings(const std::string &lobbyId, const std::string &jsonSettings, IServerCallback *callback = NULL);
+
 		/**
-		 * Join specified lobby
+		 * Joins the specified lobby.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - JoinLobby
+		 * Service Name - lobby
+		 * Service Operation - JOIN_LOBBY
 		 *
-		 * @param lobbyId Id of the specfified lobby.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
-		 * @param toTeamCode Specified team code.
-		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
-
+		 * @param lobbyId The lobby identifier
+		 * @param isReady Initial ready state
+		 * @param extraJson Initial extra data
+		 * @param teamCode Preferred team code
+		 * @param otherUserCxIds Other users to include
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void joinLobby(const std::string in_lobbyId, bool in_isReady, const std::string& in_extraJson, std::string in_teamCode, const std::vector<std::string>& in_otherUserCxIds, IServerCallback* in_callback);
-				
+		void joinLobby(const std::string lobbyId, bool isReady, const std::string &extraJson, std::string teamCode, const std::vector<std::string> &otherUserCxIds, IServerCallback *callback);
+
 		/**
-		 * Join specified lobby. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
+		 * Joins the specified lobby using ping data.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - JoinLobbyWithPingData
+		 * Service Name - lobby
+		 * Service Operation - JOIN_LOBBY_WITH_PING_DATA
 		 *
-		 * @param lobbyId Id of the specfified lobby.
-		 * @param isReady Initial ready-status of this user.
-		 * @param extraJson Initial extra-data about this user.
-		 * @param toTeamCode Specified team code.
-		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well. Will constrain things so that only lobbies with room for all players will be considered.
-
+		 * @param lobbyId The lobby identifier
+		 * @param isReady Initial ready state
+		 * @param extraJson Initial extra data
+		 * @param teamCode Preferred team code
+		 * @param otherUserCxIds Other users to include
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void joinLobbyWithPingData(const std::string in_lobbyId, bool in_isReady, const std::string& in_extraJson, std::string in_teamCode, const std::vector<std::string>& in_otherUserCxIds, IServerCallback* in_callback);
+		void joinLobbyWithPingData(const std::string lobbyId, bool isReady, const std::string &extraJson, std::string teamCode, const std::vector<std::string> &otherUserCxIds, IServerCallback *callback);
 
-		/// <summary>
-		/// Cancel this members Find, Join and Searching of Lobbies
-		/// </summary>
-		void cancelFindRequest(const std::string& in_lobbyType, std::string in_entryId, IServerCallback* in_callback);
+		/**
+		 * Cancels an active find, join, or search request for lobbies.
+		 *
+		 * @param lobbyType The lobby type associated with the request
+		 * @param entryId The entry identifier returned from matchmaking
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void cancelFindRequest(const std::string &lobbyType, std::string entryId, IServerCallback *callback);
 
-		/* Runs ping callbacks if pingRegions was called.
-		 * Note: This is already called by BrainCloudClient::runCallbacks
+		/**
+		 * Executes pending ping callbacks.
+		 * Called automatically by BrainCloudClient::runCallbacks.
 		 */
 		void runPingCallbacks();
 
 		/**
-		 * Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
+		 * Retrieves visible lobby instances matching the given criteria.
 		 *
-		 * Service Name - Lobby
+		 * Service Name - lobby
 		 * Service Operation - GET_LOBBY_INSTANCES
 		 *
-		 * @param lobbyType The type of lobby to look for.
-		 * @param criteriaJson A JSON string used to describe filter criteria.
+		 * @param lobbyType The type of lobby
+		 * @param criteriaJson JSON filter criteria
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getLobbyInstances(const std::string &in_lobbyType, const std::string &in_criteriaJson, IServerCallback* in_callback);
+		void getLobbyInstances(const std::string &lobbyType, const std::string &criteriaJson, IServerCallback *callback);
 
 		/**
-		 * Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
-		 * Only lobby instances in the regions that satisfy the ping portion of the criteriaJson (based on the values provided in pingData) will be returned.
+		 * Retrieves visible lobby instances matching the given criteria using ping data.
 		 *
-		 * Service Name - Lobby
+		 * Service Name - lobby
 		 * Service Operation - GET_LOBBY_INSTANCES_WITH_PING_DATA
 		 *
-		 * @param lobbyType The type of lobby to look for.
-		 * @param criteriaJson A JSON string used to describe filter criteria.
+		 * @param lobbyType The type of lobby
+		 * @param criteriaJson JSON filter criteria
+		 * @param callback The method to be invoked when the server response is received
 		 */
-		void getLobbyInstancesWithPingData(const std::string &in_lobbyType, const std::string &in_criteriaJson, IServerCallback* in_callback);
+		void getLobbyInstancesWithPingData(const std::string &lobbyType, const std::string &criteriaJson, IServerCallback *callback);
 
 	private:
 		class GetRegionsForLobbiesCallback final : public IServerCallback
 		{
 		public:
-			GetRegionsForLobbiesCallback(BrainCloudLobby* pBrainCloudLobby);
-			void setExternalCallback(IServerCallback* in_callback);
+			GetRegionsForLobbiesCallback(BrainCloudLobby *pBrainCloudLobby);
+			void setExternalCallback(IServerCallback *callback);
 
 		private:
-			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const& jsonData) override;
-			void serverError(ServiceName serviceName, ServiceOperation serviceOperation, int statusCode, int reasonCode, const std::string& jsonError) override;
+			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const &jsonData) override;
+			void serverError(ServiceName serviceName, ServiceOperation serviceOperation, int statusCode, int reasonCode, const std::string &jsonError) override;
 
-			BrainCloudLobby* m_pBrainCloudLobby;
-			IServerCallback* m_pExternalCallback;
+			BrainCloudLobby *m_pBrainCloudLobby;
+			IServerCallback *m_pExternalCallback;
 		};
 
 		class PingRegionsThread final
 		{
 		public:
-			PingRegionsThread(BrainCloudLobby* pBrainCloudLobby);
+			PingRegionsThread(BrainCloudLobby *pBrainCloudLobby);
 			~PingRegionsThread();
 
 			bool isRunning() const;
 			void stop();
-			void start(const std::map<std::string, std::string>& pingRegions);
+			void start(const std::map<std::string, std::string> &pingRegions);
 
 		private:
 			std::atomic<bool> m_isRunning;
-			BrainCloudLobby* m_pBrainCloudLobby;
+			BrainCloudLobby *m_pBrainCloudLobby;
 			std::thread m_thread;
 			std::mutex m_mutex;
 			std::condition_variable m_condition;
@@ -339,7 +362,7 @@ namespace BrainCloud
 
 		struct ErrorCallbackEvent
 		{
-			IServerCallback* callback;
+			IServerCallback *callback;
 			ServiceName serviceName;
 			ServiceOperation serviceOperation;
 			int statusCode;
@@ -350,15 +373,15 @@ namespace BrainCloud
 		friend class GetRegionsForLobbiesCallback;
 		friend class PingRegionsThread;
 
-		void attachPingDataAndSend(ServiceName serviceName, ServiceOperation serviceOperation, Json::Value& data, IServerCallback* callback);
+		void attachPingDataAndSend(ServiceName serviceName, ServiceOperation serviceOperation, Json::Value &data, IServerCallback *callback);
 
 		std::atomic<bool> _loggingEnabled;
-		BrainCloudClient* m_client;
+		BrainCloudClient *m_client;
 		GetRegionsForLobbiesCallback m_getRegionsForLobbiesCallback;
 		PingRegionsThread m_pingRegionsThread;
 		std::map<std::string, int> m_pingData;
 		std::map<std::string, std::string> m_pingRegions;
-		IServerCallback* m_pingCallback;
+		IServerCallback *m_pingCallback;
 		std::vector<ErrorCallbackEvent> m_errorCallbackQueue;
 	};
 };

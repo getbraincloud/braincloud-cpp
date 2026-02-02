@@ -15,209 +15,212 @@
 
 namespace BrainCloud
 {
-	BrainCloudGlobalEntity::BrainCloudGlobalEntity(BrainCloudClient* in_client) : m_client(in_client) { }
+	BrainCloudGlobalEntity::BrainCloudGlobalEntity(BrainCloudClient *client) : m_client(client) {}
 
-	void BrainCloudGlobalEntity::createEntity(const std::string& in_entityType, int64_t in_timeToLive, const std::string& in_jsonEntityAcl,
-		const std::string& in_jsonEntityData, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::createEntity(const std::string &entityType, int64_t timeToLive, const std::string &jsonEntityAcl,
+											  const std::string &jsonEntityData, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityType.getValue()] = in_entityType;
-		message[OperationParam::GlobalEntityServiceTimeToLive.getValue()] = (Json::Int64) in_timeToLive;
-		message[OperationParam::GlobalEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(in_jsonEntityData);
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(in_jsonEntityAcl);
+		message[OperationParam::GlobalEntityServiceEntityType.getValue()] = entityType;
+		message[OperationParam::GlobalEntityServiceTimeToLive.getValue()] = (Json::Int64)timeToLive;
+		message[OperationParam::GlobalEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
+		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Create, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Create, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::createEntityWithIndexedId(const std::string& in_entityType, const std::string& in_indexedId, int64_t in_timeToLive,
-		const std::string& in_jsonEntityAcl, const std::string& in_jsonEntityData, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::createEntityWithIndexedId(const std::string &entityType, const std::string &indexedId, int64_t timeToLive,
+														   const std::string &jsonEntityAcl, const std::string &jsonEntityData, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityType.getValue()] = in_entityType;
-		message[OperationParam::GlobalEntityServiceIndexedId.getValue()] = in_indexedId;
-		message[OperationParam::GlobalEntityServiceTimeToLive.getValue()] = (Json::Int64) in_timeToLive;
-		message[OperationParam::GlobalEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(in_jsonEntityData);
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(in_jsonEntityAcl);
+		message[OperationParam::GlobalEntityServiceEntityType.getValue()] = entityType;
+		message[OperationParam::GlobalEntityServiceIndexedId.getValue()] = indexedId;
+		message[OperationParam::GlobalEntityServiceTimeToLive.getValue()] = (Json::Int64)timeToLive;
+		message[OperationParam::GlobalEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
+		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::CreateWithIndexedId, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::CreateWithIndexedId, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::updateEntity(const std::string& in_entityId, int64_t in_version, const std::string& in_jsonEntityData, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::updateEntity(const std::string &entityId, int64_t version, const std::string &jsonEntityData, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
-		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) in_version;
-		message[OperationParam::GlobalEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(in_jsonEntityData);
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
+		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64)version;
+		message[OperationParam::GlobalEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Update, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Update, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::updateEntityAcl(const std::string& in_entityId, int64_t in_version, const std::string& in_jsonEntityAcl, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::updateEntityAcl(const std::string &entityId, int64_t version, const std::string &jsonEntityAcl, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
-		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) in_version;
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(in_jsonEntityAcl);
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
+		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64)version;
+		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateAcl, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateAcl, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::updateEntityTimeToLive(const std::string& in_entityId, int64_t in_version, int64_t in_timeToLive, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::updateEntityTimeToLive(const std::string &entityId, int64_t version, int64_t timeToLive, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
-		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) in_version;
-		message[OperationParam::GlobalEntityServiceTimeToLive.getValue()] = (Json::Int64) in_timeToLive;
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
+		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64)version;
+		message[OperationParam::GlobalEntityServiceTimeToLive.getValue()] = (Json::Int64)timeToLive;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateTimeToLive, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateTimeToLive, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::deleteEntity(const std::string& in_entityId, int64_t in_version, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::deleteEntity(const std::string &entityId, int64_t version, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
-		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) in_version;
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
+		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64)version;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Delete, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Delete, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::readEntity(const std::string& in_entityId, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::readEntity(const std::string &entityId, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Read, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Read, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::getList(const std::string& in_where, const std::string& in_orderBy, int64_t in_maxReturn, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::getList(const std::string &where, const std::string &orderBy, int64_t maxReturn, IServerCallback *callback)
 	{
 		Json::Value message;
 
-		if (StringUtil::IsOptionalParameterValid(in_where)) {
-			message[OperationParam::GlobalEntityServiceWhere.getValue()] = JsonUtil::jsonStringToValue(in_where);
+		if (StringUtil::IsOptionalParameterValid(where))
+		{
+			message[OperationParam::GlobalEntityServiceWhere.getValue()] = JsonUtil::jsonStringToValue(where);
 		}
 
-		if (StringUtil::IsOptionalParameterValid(in_orderBy)) {
-			message[OperationParam::GlobalEntityServiceOrderBy.getValue()] = JsonUtil::jsonStringToValue(in_orderBy);
+		if (StringUtil::IsOptionalParameterValid(orderBy))
+		{
+			message[OperationParam::GlobalEntityServiceOrderBy.getValue()] = JsonUtil::jsonStringToValue(orderBy);
 		}
 
-		message[OperationParam::GlobalEntityServiceMaxReturn.getValue()] = (Json::Int64) in_maxReturn;
+		message[OperationParam::GlobalEntityServiceMaxReturn.getValue()] = (Json::Int64)maxReturn;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetList, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetList, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::getListByIndexedId(const std::string& in_entityIndexedId, int64_t in_maxReturn, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::getListByIndexedId(const std::string &entityIndexedId, int64_t maxReturn, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceIndexedId.getValue()] = in_entityIndexedId;
-		message[OperationParam::GlobalEntityServiceMaxReturn.getValue()] = (Json::Int64) in_maxReturn;
+		message[OperationParam::GlobalEntityServiceIndexedId.getValue()] = entityIndexedId;
+		message[OperationParam::GlobalEntityServiceMaxReturn.getValue()] = (Json::Int64)maxReturn;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetListByIndexedId, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetListByIndexedId, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::getListCount(const std::string& in_where, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::getListCount(const std::string &where, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceWhere.getValue()] = JsonUtil::jsonStringToValue(in_where);
+		message[OperationParam::GlobalEntityServiceWhere.getValue()] = JsonUtil::jsonStringToValue(where);
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetListCount, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetListCount, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::getPage(const char * in_context, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::getPage(const char *context, IServerCallback *callback)
 	{
 		Json::Value message;
 		Json::Reader reader;
 
 		Json::Value parsedContext;
-		reader.parse(in_context, parsedContext);
+		reader.parse(context, parsedContext);
 		message[OperationParam::GlobalEntityServiceContext.getValue()] = parsedContext;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetPage, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetPage, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::getPageOffset(const char * in_context, int in_pageOffset, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::getPageOffset(const char *context, int pageOffset, IServerCallback *callback)
 	{
 		Json::Value message;
 		Json::Reader reader;
 
-		message[OperationParam::GlobalEntityServiceContext.getValue()] = in_context;
-		message[OperationParam::GlobalEntityServicePageOffset.getValue()] = in_pageOffset;
+		message[OperationParam::GlobalEntityServiceContext.getValue()] = context;
+		message[OperationParam::GlobalEntityServicePageOffset.getValue()] = pageOffset;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetPageOffset, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetPageOffset, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::incrementGlobalEntityData(const char * in_entityId, std::string in_jsonData, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::incrementGlobalEntityData(const char *entityId, std::string jsonData, IServerCallback *callback)
 	{
 		Json::Value message;
 		Json::Reader reader;
 
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
 
 		Json::Value parsedData;
-		reader.parse(in_jsonData, parsedData);
+		reader.parse(jsonData, parsedData);
 		message[OperationParam::GlobalEntityServiceData.getValue()] = parsedData;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::IncrementGlobalEntityData, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::IncrementGlobalEntityData, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::getRandomEntitiesMatching(const std::string& in_where, int64_t in_maxReturn, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::getRandomEntitiesMatching(const std::string &where, int64_t maxReturn, IServerCallback *callback)
 	{
 		Json::Value message;
 
-		if (StringUtil::IsOptionalParameterValid(in_where)) {
-			message[OperationParam::GlobalEntityServiceWhere.getValue()] = JsonUtil::jsonStringToValue(in_where);
+		if (StringUtil::IsOptionalParameterValid(where))
+		{
+			message[OperationParam::GlobalEntityServiceWhere.getValue()] = JsonUtil::jsonStringToValue(where);
 		}
 
-		message[OperationParam::GlobalEntityServiceMaxReturn.getValue()] = (Json::Int64) in_maxReturn;
+		message[OperationParam::GlobalEntityServiceMaxReturn.getValue()] = (Json::Int64)maxReturn;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetRandomEntitiesMatching, message, in_callback);
-		m_client->sendRequest(sc);
-	}
-	
-	void BrainCloudGlobalEntity::updateEntityIndexedId(const char * in_entityId, int64_t in_version, const char * in_entityIndexedId, IServerCallback * in_callback)
-	{
-		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
-		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) in_version;
-		message[OperationParam::GlobalEntityServiceIndexedId.getValue()] = in_entityIndexedId;
-
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateEntityIndexedId, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::GetRandomEntitiesMatching, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::updateEntityOwnerAndAcl(const char * in_entityId, int64_t in_version, const char * in_ownerId, const std::string & in_jsonEntityAcl, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::updateEntityIndexedId(const char *entityId, int64_t version, const char *entityIndexedId, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
-		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) in_version;
-		message[OperationParam::OwnerId.getValue()] = in_ownerId;
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(in_jsonEntityAcl);
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
+		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64)version;
+		message[OperationParam::GlobalEntityServiceIndexedId.getValue()] = entityIndexedId;
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateEntityOwnerAndAcl, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateEntityIndexedId, message, callback);
 		m_client->sendRequest(sc);
 	}
 
-	void BrainCloudGlobalEntity::makeSystemEntity(const char * in_entityId, int64_t in_version, const std::string & in_jsonEntityAcl, IServerCallback * in_callback)
+	void BrainCloudGlobalEntity::updateEntityOwnerAndAcl(const char *entityId, int64_t version, const char *ownerId, const std::string &jsonEntityAcl, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = in_entityId;
-		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) in_version;
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(in_jsonEntityAcl);
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
+		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64)version;
+		message[OperationParam::OwnerId.getValue()] = ownerId;
+		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
 
-		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::MakeSystemEntity, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateEntityOwnerAndAcl, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudGlobalEntity::makeSystemEntity(const char *entityId, int64_t version, const std::string &jsonEntityAcl, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
+		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64)version;
+		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+
+		ServerCall *sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::MakeSystemEntity, message, callback);
 		m_client->sendRequest(sc);
 	}
 }

@@ -17,198 +17,196 @@
 
 namespace BrainCloud
 {
-	BrainCloudFriend::BrainCloudFriend(BrainCloudClient* in_client) : m_client(in_client) { }
+	BrainCloudFriend::BrainCloudFriend(BrainCloudClient *client) : m_client(client) {}
 
-	void BrainCloudFriend::findUserByExactUniversalId(const char * in_searchText, IServerCallback * in_callback)
+	void BrainCloudFriend::findUserByExactUniversalId(const char *searchText, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceSearchText.getValue()] = in_searchText;
+		message[OperationParam::FriendServiceSearchText.getValue()] = searchText;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUserByExactUniversalId, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUserByExactUniversalId, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-
-	void BrainCloudFriend::findUsersByNameStartingWith(const char * in_searchText, int32_t in_maxResults, IServerCallback * in_callback)
+	void BrainCloudFriend::findUsersByNameStartingWith(const char *searchText, int32_t maxResults, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceSearchText.getValue()] = in_searchText;
-		message[OperationParam::FriendServiceMaxResults.getValue()] = in_maxResults;
+		message[OperationParam::FriendServiceSearchText.getValue()] = searchText;
+		message[OperationParam::FriendServiceMaxResults.getValue()] = maxResults;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUsersByUniversalIdStartingWith, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUsersByUniversalIdStartingWith, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-
-	void BrainCloudFriend::findUsersByUniversalIdStartingWith(const char * in_searchText, int32_t in_maxResults, IServerCallback * in_callback)
+	void BrainCloudFriend::findUsersByUniversalIdStartingWith(const char *searchText, int32_t maxResults, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceSearchText.getValue()] = in_searchText;
-		message[OperationParam::FriendServiceMaxResults.getValue()] = in_maxResults;
+		message[OperationParam::FriendServiceSearchText.getValue()] = searchText;
+		message[OperationParam::FriendServiceMaxResults.getValue()] = maxResults;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUsersByNameStartingWith, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUsersByNameStartingWith, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::getProfileInfoForCredential(const char * in_externalId, AuthenticationType in_authenticationType, IServerCallback * in_callback)
+	void BrainCloudFriend::getProfileInfoForCredential(const char *externalId, AuthenticationType authenticationType, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceExternalId.getValue()] = in_externalId;
-		message[OperationParam::FriendServiceAuthenticationType.getValue()] = in_authenticationType.toString();
+		message[OperationParam::FriendServiceExternalId.getValue()] = externalId;
+		message[OperationParam::FriendServiceAuthenticationType.getValue()] = authenticationType.toString();
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForCredential, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForCredential, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::getProfileInfoForCredentialIfExists(const char *in_externalId, AuthenticationType in_authenticationType, IServerCallback *in_callback)
+	void BrainCloudFriend::getProfileInfoForCredentialIfExists(const char *externalId, AuthenticationType authenticationType, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceExternalId.getValue()] = in_externalId;
-		message[OperationParam::FriendServiceAuthenticationType.getValue()] = in_authenticationType.toString();
+		message[OperationParam::FriendServiceExternalId.getValue()] = externalId;
+		message[OperationParam::FriendServiceAuthenticationType.getValue()] = authenticationType.toString();
 
-		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForCredentialIfExists, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForCredentialIfExists, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::getProfileInfoForExternalAuthId(const char *in_externalId, const char *in_externalAuthType, IServerCallback *in_callback)
+	void BrainCloudFriend::getProfileInfoForExternalAuthId(const char *externalId, const char *externalAuthType, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceExternalId.getValue()] = in_externalId;
-		message[OperationParam::ExternalAuthType.getValue()] = in_externalAuthType;
+		message[OperationParam::FriendServiceExternalId.getValue()] = externalId;
+		message[OperationParam::ExternalAuthType.getValue()] = externalAuthType;
 
-		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForExternalAuthId, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForExternalAuthId, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::getProfileInfoForExternalAuthIdIfExists(const char * in_externalId, const char * in_externalAuthType, IServerCallback * in_callback)
+	void BrainCloudFriend::getProfileInfoForExternalAuthIdIfExists(const char *externalId, const char *externalAuthType, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceExternalId.getValue()] = in_externalId;
-		message[OperationParam::ExternalAuthType.getValue()] = in_externalAuthType;
+		message[OperationParam::FriendServiceExternalId.getValue()] = externalId;
+		message[OperationParam::ExternalAuthType.getValue()] = externalAuthType;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForExternalAuthIdIfExists, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetProfileInfoForExternalAuthIdIfExists, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::getExternalIdForProfileId(const char * in_profileId, const char * in_authenticationType, IServerCallback * in_callback)
+	void BrainCloudFriend::getExternalIdForProfileId(const char *profileId, const char *authenticationType, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceProfileId.getValue()] = in_profileId;
-		message[OperationParam::FriendServiceAuthenticationType.getValue()] = in_authenticationType;
+		message[OperationParam::FriendServiceProfileId.getValue()] = profileId;
+		message[OperationParam::FriendServiceAuthenticationType.getValue()] = authenticationType;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetExternalIdForProfileId, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetExternalIdForProfileId, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::readFriendEntity(const char* in_entityId, const char*  in_friendId, IServerCallback * in_callback)
+	void BrainCloudFriend::readFriendEntity(const char *entityId, const char *friendId, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceEntityId.getValue()] = in_entityId;
-		message[OperationParam::FriendServiceFriendId.getValue()] = in_friendId;
+		message[OperationParam::FriendServiceEntityId.getValue()] = entityId;
+		message[OperationParam::FriendServiceFriendId.getValue()] = friendId;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::ReadFriendEntity, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::ReadFriendEntity, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::readFriendsEntities(const char* in_entityType, IServerCallback * in_callback)
+	void BrainCloudFriend::readFriendsEntities(const char *entityType, IServerCallback *callback)
 	{
 		Json::Value message;
-		if (StringUtil::IsOptionalParameterValid(in_entityType))
+		if (StringUtil::IsOptionalParameterValid(entityType))
 		{
-			message[OperationParam::FriendServiceEntityType.getValue()] = in_entityType;
+			message[OperationParam::FriendServiceEntityType.getValue()] = entityType;
 		}
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::ReadFriendsEntities, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::ReadFriendsEntities, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::readFriendUserState(const char * in_friendId, IServerCallback * in_callback)
+	void BrainCloudFriend::readFriendUserState(const char *friendId, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceReadPlayerStateFriendId.getValue()] = in_friendId;
+		message[OperationParam::FriendServiceReadPlayerStateFriendId.getValue()] = friendId;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::ReadFriendsPlayerState, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::ReadFriendsPlayerState, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::getSummaryDataForProfileId(const char * in_profileId, IServerCallback * in_callback)
+	void BrainCloudFriend::getSummaryDataForProfileId(const char *profileId, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceProfileId.getValue()] = in_profileId;
+		message[OperationParam::FriendServiceProfileId.getValue()] = profileId;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetSummaryDataForProfileId, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetSummaryDataForProfileId, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::findUsersByExactName(const char * in_searchText, int32_t in_maxResults, IServerCallback * in_callback)
+	void BrainCloudFriend::findUsersByExactName(const char *searchText, int32_t maxResults, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceSearchText.getValue()] = in_searchText;
-		message[OperationParam::FriendServiceMaxResults.getValue()] = in_maxResults;
+		message[OperationParam::FriendServiceSearchText.getValue()] = searchText;
+		message[OperationParam::FriendServiceMaxResults.getValue()] = maxResults;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUsersByExactName, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUsersByExactName, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::findUsersBySubstrName(const char * in_searchText, int32_t in_maxResults, IServerCallback * in_callback)
+	void BrainCloudFriend::findUsersBySubstrName(const char *searchText, int32_t maxResults, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceSearchText.getValue()] = in_searchText;
-		message[OperationParam::FriendServiceMaxResults.getValue()] = in_maxResults;
+		message[OperationParam::FriendServiceSearchText.getValue()] = searchText;
+		message[OperationParam::FriendServiceMaxResults.getValue()] = maxResults;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUsersBySubstrName, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::FindUsersBySubstrName, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::listFriends(const FriendPlatform& in_friendPlatform, bool in_includeSummaryData, IServerCallback * in_callback)
+	void BrainCloudFriend::listFriends(const FriendPlatform &friendPlatform, bool includeSummaryData, IServerCallback *callback)
 	{
 		Json::Value message;
-		message[OperationParam::FriendServiceFriendPlatform.getValue()] = in_friendPlatform.toString();
-		message[OperationParam::FriendServiceIncludeSummaryData.getValue()] = in_includeSummaryData;
+		message[OperationParam::FriendServiceFriendPlatform.getValue()] = friendPlatform.toString();
+		message[OperationParam::FriendServiceIncludeSummaryData.getValue()] = includeSummaryData;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::ListFriends, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::ListFriends, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::addFriends(const std::vector<std::string>& in_profileIds, IServerCallback * in_callback)
+	void BrainCloudFriend::addFriends(const std::vector<std::string> &profileIds, IServerCallback *callback)
 	{
 		Json::Value message;
-		Json::Value profileArray = JsonUtil::stringVectorToJson(in_profileIds);
+		Json::Value profileArray = JsonUtil::stringVectorToJson(profileIds);
 		message[OperationParam::FriendServiceProfileIds.getValue()] = profileArray;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::AddFriends, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::AddFriends, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::addFriendsFromPlatform(const FriendPlatform &in_friendPlatform, const std::string &in_mode, const std::vector<std::string> &in_externalIds, IServerCallback *in_callback)
+	void BrainCloudFriend::addFriendsFromPlatform(const FriendPlatform &friendPlatform, const std::string &mode, const std::vector<std::string> &externalIds, IServerCallback *callback)
 	{
 		Json::Value message;
 
-		message[OperationParam::FriendServiceFriendPlatform.getValue()] = in_friendPlatform.toString();
-		message[OperationParam::FriendServiceMode.getValue()] = in_mode;
-		message[OperationParam::FriendServiceExternalIds.getValue()] = JsonUtil::stringVectorToJson(in_externalIds);
+		message[OperationParam::FriendServiceFriendPlatform.getValue()] = friendPlatform.toString();
+		message[OperationParam::FriendServiceMode.getValue()] = mode;
+		message[OperationParam::FriendServiceExternalIds.getValue()] = JsonUtil::stringVectorToJson(externalIds);
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::AddFriendsFromPlatform, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::AddFriendsFromPlatform, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::removeFriends(const std::vector<std::string>& in_profileIds, IServerCallback * in_callback)
+	void BrainCloudFriend::removeFriends(const std::vector<std::string> &profileIds, IServerCallback *callback)
 	{
 		Json::Value message;
-		Json::Value profileArray = JsonUtil::stringVectorToJson(in_profileIds);
+		Json::Value profileArray = JsonUtil::stringVectorToJson(profileIds);
 		message[OperationParam::FriendServiceProfileIds.getValue()] = profileArray;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::RemoveFriends, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::RemoveFriends, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 
-	void BrainCloudFriend::getUsersOnlineStatus(const std::vector<std::string>& in_profileIds, IServerCallback * in_callback)
+	void BrainCloudFriend::getUsersOnlineStatus(const std::vector<std::string> &profileIds, IServerCallback *callback)
 	{
 		Json::Value message;
-		Json::Value profileArray = JsonUtil::stringVectorToJson(in_profileIds);
+		Json::Value profileArray = JsonUtil::stringVectorToJson(profileIds);
 		message[OperationParam::FriendServiceProfileIds.getValue()] = profileArray;
 
-		ServerCall * sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetUsersOnlineStatus, message, in_callback);
+		ServerCall *sc = new ServerCall(ServiceName::Friend, ServiceOperation::GetUsersOnlineStatus, message, callback);
 		m_client->getBrainCloudComms()->addToQueue(sc);
 	}
 }

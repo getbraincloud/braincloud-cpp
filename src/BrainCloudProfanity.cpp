@@ -14,70 +14,70 @@
 
 namespace BrainCloud
 {
-    BrainCloudProfanity::BrainCloudProfanity(BrainCloudClient* in_client) : m_client(in_client) { }
+    BrainCloudProfanity::BrainCloudProfanity(BrainCloudClient *client) : m_client(client) {}
 
-    void BrainCloudProfanity::profanityCheck(const char * in_text,
-        const char * in_languages,
-        bool in_flagEmail,
-        bool in_flagPhone,
-        bool in_flagUrls,
-        IServerCallback * in_callback)
+    void BrainCloudProfanity::profanityCheck(const char *text,
+                                             const char *languages,
+                                             bool flagEmail,
+                                             bool flagPhone,
+                                             bool flagUrls,
+                                             IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::ProfanityText.getValue()] = in_text;
-        if (in_languages != NULL)
+        message[OperationParam::ProfanityText.getValue()] = text;
+        if (languages != NULL)
         {
-            message[OperationParam::ProfanityLanguages.getValue()] = in_languages;
+            message[OperationParam::ProfanityLanguages.getValue()] = languages;
         }
-        message[OperationParam::ProfanityFlagEmail.getValue()] = in_flagEmail;
-        message[OperationParam::ProfanityFlagPhone.getValue()] = in_flagPhone;
-        message[OperationParam::ProfanityFlagUrls.getValue()] = in_flagUrls;
+        message[OperationParam::ProfanityFlagEmail.getValue()] = flagEmail;
+        message[OperationParam::ProfanityFlagPhone.getValue()] = flagPhone;
+        message[OperationParam::ProfanityFlagUrls.getValue()] = flagUrls;
 
-        ServerCall * sc = new ServerCall(ServiceName::Profanity, ServiceOperation::ProfanityCheck, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::Profanity, ServiceOperation::ProfanityCheck, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudProfanity::profanityReplaceText(const char * in_text,
-        const char * in_replaceSymbol,
-        const char * in_languages,
-        bool in_flagEmail,
-        bool in_flagPhone,
-        bool in_flagUrls,
-        IServerCallback * in_callback)
+    void BrainCloudProfanity::profanityReplaceText(const char *text,
+                                                   const char *replaceSymbol,
+                                                   const char *languages,
+                                                   bool flagEmail,
+                                                   bool flagPhone,
+                                                   bool flagUrls,
+                                                   IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::ProfanityText.getValue()] = in_text;
-        message[OperationParam::ProfanityReplaceSymbol.getValue()] = in_replaceSymbol;
-        if (in_languages != NULL)
+        message[OperationParam::ProfanityText.getValue()] = text;
+        message[OperationParam::ProfanityReplaceSymbol.getValue()] = replaceSymbol;
+        if (languages != NULL)
         {
-            message[OperationParam::ProfanityLanguages.getValue()] = in_languages;
+            message[OperationParam::ProfanityLanguages.getValue()] = languages;
         }
-        message[OperationParam::ProfanityFlagEmail.getValue()] = in_flagEmail;
-        message[OperationParam::ProfanityFlagPhone.getValue()] = in_flagPhone;
-        message[OperationParam::ProfanityFlagUrls.getValue()] = in_flagUrls;
+        message[OperationParam::ProfanityFlagEmail.getValue()] = flagEmail;
+        message[OperationParam::ProfanityFlagPhone.getValue()] = flagPhone;
+        message[OperationParam::ProfanityFlagUrls.getValue()] = flagUrls;
 
-        ServerCall * sc = new ServerCall(ServiceName::Profanity, ServiceOperation::ProfanityReplaceText, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::Profanity, ServiceOperation::ProfanityReplaceText, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 
-    void BrainCloudProfanity::profanityIdentifyBadWords(const char * in_text,
-        const char * in_languages,
-        bool in_flagEmail,
-        bool in_flagPhone,
-        bool in_flagUrls,
-        IServerCallback * in_callback)
+    void BrainCloudProfanity::profanityIdentifyBadWords(const char *text,
+                                                        const char *languages,
+                                                        bool flagEmail,
+                                                        bool flagPhone,
+                                                        bool flagUrls,
+                                                        IServerCallback *callback)
     {
         Json::Value message;
-        message[OperationParam::ProfanityText.getValue()] = in_text;
-        if (in_languages != NULL)
+        message[OperationParam::ProfanityText.getValue()] = text;
+        if (languages != NULL)
         {
-            message[OperationParam::ProfanityLanguages.getValue()] = in_languages;
+            message[OperationParam::ProfanityLanguages.getValue()] = languages;
         }
-        message[OperationParam::ProfanityFlagEmail.getValue()] = in_flagEmail;
-        message[OperationParam::ProfanityFlagPhone.getValue()] = in_flagPhone;
-        message[OperationParam::ProfanityFlagUrls.getValue()] = in_flagUrls;
+        message[OperationParam::ProfanityFlagEmail.getValue()] = flagEmail;
+        message[OperationParam::ProfanityFlagPhone.getValue()] = flagPhone;
+        message[OperationParam::ProfanityFlagUrls.getValue()] = flagUrls;
 
-        ServerCall * sc = new ServerCall(ServiceName::Profanity, ServiceOperation::ProfanityIdenitfyBadWords, message, in_callback);
+        ServerCall *sc = new ServerCall(ServiceName::Profanity, ServiceOperation::ProfanityIdenitfyBadWords, message, callback);
         m_client->getBrainCloudComms()->addToQueue(sc);
     }
 };
