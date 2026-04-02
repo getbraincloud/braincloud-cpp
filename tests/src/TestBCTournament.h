@@ -15,11 +15,15 @@ protected:
 	const char* _divSetId;
 	const char* _leaderboardId;
 	const char* _tournamentCode;
+	const char* _groupLeaderboardId;
+	std::string _groupId;
 
 	int32_t JoinTournament();
 	void LeaveTournament();
 	void JoinDivision();
 	void LeaveDivisionInstance();
+	bool CreateGroup();
+	void DeleteGroup();
 
 public:
 	TestBCTournament()
@@ -27,6 +31,8 @@ public:
 		_divSetId = "testDivSetId";
 		_leaderboardId = "testTournamentLeaderboard";
 		_tournamentCode = "testTournament";
+		_groupLeaderboardId = "groupTournament";
+		_groupId = "";
 	}
 };
 

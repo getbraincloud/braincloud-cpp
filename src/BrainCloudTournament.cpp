@@ -163,4 +163,115 @@ namespace BrainCloud
 		ServerCall * sc = new ServerCall(ServiceName::Tournament, ServiceOperation::ViewReward, message, callback);
 		m_client->sendRequest(sc);
 	}
+
+	void BrainCloudTournament::getGroupDivisionInfo(const std::string &divSetId, const std::string &groupId, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::DivSetID.getValue()] = divSetId;
+		message[OperationParam::GroupId.getValue()] = groupId;
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::GetGroupDivisionInfo, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudTournament::getGroupDivisions(const std::string &groupId, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::GroupId.getValue()] = groupId;
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::GetGroupDivisions, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudTournament::getGroupTournamentStatus(const char *leaderboardId, const std::string &groupId, int32_t versionId, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::LeaderboardId.getValue()] = leaderboardId;
+		message[OperationParam::GroupId.getValue()] = groupId;
+
+		if (versionId > 0)
+			message[OperationParam::VersionId.getValue()] = versionId;
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::GetGroupTournamentStatus, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudTournament::joinGroupDivision(const std::string &divSetId, const std::string &tournamentCode, const std::string &groupId, int64_t initialScore, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::DivSetID.getValue()] = divSetId;
+		message[OperationParam::TournamentCode.getValue()] = tournamentCode;
+		message[OperationParam::GroupId.getValue()] = groupId;
+		message[OperationParam::InitialScore.getValue()] = (Json::Int64)initialScore;
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::JoinGroupDivision, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudTournament::joinGroupTournament(const char *leaderboardId, const std::string &tournamentCode, const std::string &groupId, int64_t initialScore, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::LeaderboardId.getValue()] = leaderboardId;
+		message[OperationParam::TournamentCode.getValue()] = tournamentCode;
+		message[OperationParam::GroupId.getValue()] = groupId;
+		message[OperationParam::InitialScore.getValue()] = (Json::Int64)initialScore;
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::JoinGroupTournament, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudTournament::leaveGroupDivisionInstance(const std::string &leaderboardId, const std::string &groupId, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::LeaderboardId.getValue()] = leaderboardId;
+		message[OperationParam::GroupId.getValue()] = groupId;
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::LeaveGroupDivisionInstance, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudTournament::leaveGroupTournament(const char *leaderboardId, const std::string &groupId, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::LeaderboardId.getValue()] = leaderboardId;
+		message[OperationParam::GroupId.getValue()] = groupId;
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::LeaveGroupTournament, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudTournament::postGroupTournamentScore(const char *leaderboardId, const std::string &groupId, int64_t score, const std::string &jsonData, int64_t roundStartedTimeUTC, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::LeaderboardId.getValue()] = leaderboardId;
+		message[OperationParam::GroupId.getValue()] = groupId;
+		message[OperationParam::Score.getValue()] = (Json::Int64)score;
+		message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64)roundStartedTimeUTC;
+
+		if (StringUtil::IsOptionalParameterValid(jsonData))
+			message[OperationParam::Data.getValue()] = JsonUtil::jsonStringToValue(jsonData);
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::PostGroupTournamentScore, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudTournament::postGroupTournamentScoreWithResults(const char *leaderboardId, const std::string &groupId, int64_t score, const std::string &jsonData, int64_t roundStartedTimeUTC, SortOrder sort, int32_t beforeCount, int32_t afterCount, int64_t initialScore, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::LeaderboardId.getValue()] = leaderboardId;
+		message[OperationParam::GroupId.getValue()] = groupId;
+		message[OperationParam::Score.getValue()] = (Json::Int64)score;
+		message[OperationParam::RoundStartedEpoch.getValue()] = (Json::Int64)roundStartedTimeUTC;
+		message[OperationParam::InitialScore.getValue()] = (Json::Int64)initialScore;
+
+		if (StringUtil::IsOptionalParameterValid(jsonData))
+			message[OperationParam::Data.getValue()] = JsonUtil::jsonStringToValue(jsonData);
+
+		message[OperationParam::SocialLeaderboardServiceSortOrder.getValue()] = BrainCloudSocialLeaderboard::sortOrderToString(sort);
+		message[OperationParam::SocialLeaderboardServiceBeforeCount.getValue()] = beforeCount;
+		message[OperationParam::SocialLeaderboardServiceAfterCount.getValue()] = afterCount;
+
+		ServerCall *sc = new ServerCall(ServiceName::Tournament, ServiceOperation::PostGroupTournamentScoreWithResults, message, callback);
+		m_client->sendRequest(sc);
+	}
 }

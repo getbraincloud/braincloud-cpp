@@ -184,6 +184,131 @@ namespace BrainCloud
 		 */
 		void viewReward(const char* leaderboardId, int32_t versionId, IServerCallback * callback = NULL);
 
+		/**
+		 * Get the status of a group division
+		 *
+		 * Service Name - tournament
+		 * Service Operation - GET_GROUP_DIVISION_INFO
+		 *
+		 * @param divSetId The id for the division
+		 * @param groupId The id of the group
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void getGroupDivisionInfo(const std::string &divSetId, const std::string &groupId, IServerCallback *callback = NULL);
+
+		/**
+		 * Returns list of group's recently active divisions
+		 *
+		 * Service Name - tournament
+		 * Service Operation - GET_GROUP_DIVISIONS
+		 *
+		 * @param groupId The id of the group
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void getGroupDivisions(const std::string &groupId, IServerCallback *callback = NULL);
+
+		/**
+		 * Get tournament status associated with a group leaderboard
+		 *
+		 * Service Name - tournament
+		 * Service Operation - GET_GROUP_TOURNAMENT_STATUS
+		 *
+		 * @param leaderboardId The leaderboard for the tournament
+		 * @param groupId The id of the group
+		 * @param versionId Version of the tournament. Use -1 for the latest version.
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void getGroupTournamentStatus(const char *leaderboardId, const std::string &groupId, int32_t versionId, IServerCallback *callback = NULL);
+
+		/**
+		 * Join the specified group division.
+		 *
+		 * Service Name - tournament
+		 * Service Operation - JOIN_GROUP_DIVISION
+		 *
+		 * @param divSetId The id for the division
+		 * @param tournamentCode Tournament to join
+		 * @param groupId The id of the group
+		 * @param initialScore The initial score for players first joining a tournament
+		 *                     Usually 0, unless leaderboard is LOW_VALUE
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void joinGroupDivision(const std::string &divSetId, const std::string &tournamentCode, const std::string &groupId, int64_t initialScore, IServerCallback *callback = NULL);
+
+		/**
+		 * Join the specified group tournament.
+		 *
+		 * Service Name - tournament
+		 * Service Operation - JOIN_GROUP_TOURNAMENT
+		 *
+		 * @param leaderboardId The leaderboard for the tournament
+		 * @param tournamentCode Tournament to join
+		 * @param groupId The id of the group
+		 * @param initialScore The initial score for players first joining a tournament
+		 *                     Usually 0, unless leaderboard is LOW_VALUE
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void joinGroupTournament(const char *leaderboardId, const std::string &tournamentCode, const std::string &groupId, int64_t initialScore, IServerCallback *callback = NULL);
+
+		/**
+		 * Removes group from division instance
+		 *
+		 * Service Name - tournament
+		 * Service Operation - LEAVE_GROUP_DIVISION_INSTANCE
+		 *
+		 * @param leaderboardId The leaderboard for the tournament
+		 * @param groupId The id of the group
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void leaveGroupDivisionInstance(const std::string &leaderboardId, const std::string &groupId, IServerCallback *callback = NULL);
+
+		/**
+		 * Removes group from tournament leaderboard
+		 *
+		 * Service Name - tournament
+		 * Service Operation - LEAVE_GROUP_TOURNAMENT
+		 *
+		 * @param leaderboardId The leaderboard for the tournament
+		 * @param groupId The id of the group
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void leaveGroupTournament(const char *leaderboardId, const std::string &groupId, IServerCallback *callback = NULL);
+
+		/**
+		 * Post the group's score to the tournament leaderboard
+		 *
+		 * Service Name - tournament
+		 * Service Operation - POST_GROUP_TOURNAMENT_SCORE
+		 *
+		 * @param leaderboardId The leaderboard for the tournament
+		 * @param groupId The id of the group
+		 * @param score The score to post
+		 * @param jsonData Optional data attached to the leaderboard entry
+		 * @param roundStartedTimeUTC Time the round started in UTC milliseconds since epoch
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void postGroupTournamentScore(const char *leaderboardId, const std::string &groupId, int64_t score, const std::string &jsonData, int64_t roundStartedTimeUTC, IServerCallback *callback = NULL);
+
+		/**
+		 * Post the group's score to the tournament leaderboard and return results
+		 *
+		 * Service Name - tournament
+		 * Service Operation - POST_GROUP_TOURNAMENT_SCORE_WITH_RESULTS
+		 *
+		 * @param leaderboardId The leaderboard for the tournament
+		 * @param groupId The id of the group
+		 * @param score The score to post
+		 * @param jsonData Optional data attached to the leaderboard entry
+		 * @param roundStartedTimeUTC Time the round started in UTC milliseconds since epoch
+		 * @param sort Sort order of page
+		 * @param beforeCount The count of number of players before the current player to include
+		 * @param afterCount The count of number of players after the current player to include
+		 * @param initialScore The initial score for players first joining a tournament
+		 *                     Usually 0, unless leaderboard is LOW_VALUE
+		 * @param callback The method to be invoked when the server response is received
+		 */
+		void postGroupTournamentScoreWithResults(const char *leaderboardId, const std::string &groupId, int64_t score, const std::string &jsonData, int64_t roundStartedTimeUTC, SortOrder sort, int32_t beforeCount, int32_t afterCount, int64_t initialScore, IServerCallback *callback = NULL);
+
 	private:
 		BrainCloudClient * m_client;
 	};
