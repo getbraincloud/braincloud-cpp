@@ -229,7 +229,7 @@ void TestBCTournament::LeaveTournament()
 bool TestBCTournament::CreateGroup()
 {
 	TestResult tr;
-	m_bc->getGroupService()->createGroup("CppTestGroup", "csharpTest", true, nullptr, "{}", "{\"testInc\": 123}", "{\"test\": \"test\"}", &tr);
+	m_bc->getGroupService()->createGroup("CppTestGroup", "csharpTest", true, "{ \"other\": 2, \"member\": 2 }", "{ \"test\": 123 }", "{\"testInc\": 123}", "{\"test\": \"test\"}", &tr);
 	tr.run(m_bc);
 
 	if (!tr.m_result)

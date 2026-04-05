@@ -372,7 +372,7 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::GetDivisionInfo = ServiceOperation("GET_DIVISION_INFO");
 	const ServiceOperation ServiceOperation::GetGroupDivisionInfo = ServiceOperation("GET_GROUP_DIVISION_INFO");
 	const ServiceOperation ServiceOperation::GetGroupDivisions = ServiceOperation("GET_GROUP_DIVISIONS");
-	const ServiceOperation ServiceOperation::GetGroupTournamentStatus = ServiceOperation("GET_GROUP_TOURNAMENTSTATUS");
+	const ServiceOperation ServiceOperation::GetGroupTournamentStatus = ServiceOperation("GET_GROUP_TOURNAMENT_STATUS");
 	const ServiceOperation ServiceOperation::GetMyDivisions = ServiceOperation("GET_MY_DIVISIONS");
 	const ServiceOperation ServiceOperation::JoinDivision = ServiceOperation("JOIN_DIVISION");
 	const ServiceOperation ServiceOperation::JoinGroupDivision = ServiceOperation("JOIN_GROUP_DIVISION");
