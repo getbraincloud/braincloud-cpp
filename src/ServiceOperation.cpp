@@ -370,11 +370,20 @@ namespace BrainCloud
 	// tournament
 	const ServiceOperation ServiceOperation::GetTournamentStatus = ServiceOperation("GET_TOURNAMENT_STATUS");
 	const ServiceOperation ServiceOperation::GetDivisionInfo = ServiceOperation("GET_DIVISION_INFO");
+	const ServiceOperation ServiceOperation::GetGroupDivisionInfo = ServiceOperation("GET_GROUP_DIVISION_INFO");
+	const ServiceOperation ServiceOperation::GetGroupDivisions = ServiceOperation("GET_GROUP_DIVISIONS");
+	const ServiceOperation ServiceOperation::GetGroupTournamentStatus = ServiceOperation("GET_GROUP_TOURNAMENT_STATUS");
 	const ServiceOperation ServiceOperation::GetMyDivisions = ServiceOperation("GET_MY_DIVISIONS");
 	const ServiceOperation ServiceOperation::JoinDivision = ServiceOperation("JOIN_DIVISION");
+	const ServiceOperation ServiceOperation::JoinGroupDivision = ServiceOperation("JOIN_GROUP_DIVISION");
+	const ServiceOperation ServiceOperation::JoinGroupTournament = ServiceOperation("JOIN_GROUP_TOURNAMENT");
 	const ServiceOperation ServiceOperation::JoinTournament = ServiceOperation("JOIN_TOURNAMENT");
 	const ServiceOperation ServiceOperation::LeaveDivisionInstance = ServiceOperation("LEAVE_DIVISION_INSTANCE");
+	const ServiceOperation ServiceOperation::LeaveGroupDivisionInstance = ServiceOperation("LEAVE_GROUP_DIVISION_INSTANCE");
+	const ServiceOperation ServiceOperation::LeaveGroupTournament = ServiceOperation("LEAVE_GROUP_TOURNAMENT");
 	const ServiceOperation ServiceOperation::LeaveTournament = ServiceOperation("LEAVE_TOURNAMENT");
+	const ServiceOperation ServiceOperation::PostGroupTournamentScore = ServiceOperation("POST_GROUP_TOURNAMENT_SCORE");
+	const ServiceOperation ServiceOperation::PostGroupTournamentScoreWithResults = ServiceOperation("POST_GROUP_TOURNAMENT_SCORE_WITH_RESULTS");
 	const ServiceOperation ServiceOperation::PostTournamentScore = ServiceOperation("POST_TOURNAMENT_SCORE");
 	const ServiceOperation ServiceOperation::PostTournamentScoreWithResults = ServiceOperation("POST_TOURNAMENT_SCORE_WITH_RESULTS");
 	const ServiceOperation ServiceOperation::ViewCurrentReward = ServiceOperation("VIEW_CURRENT_REWARD");

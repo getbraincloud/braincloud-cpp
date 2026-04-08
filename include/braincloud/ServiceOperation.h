@@ -397,11 +397,20 @@ namespace BrainCloud
 		// tournament
 		static const ServiceOperation GetTournamentStatus;
 		static const ServiceOperation GetDivisionInfo;
+		static const ServiceOperation GetGroupDivisionInfo;
+		static const ServiceOperation GetGroupDivisions;
+		static const ServiceOperation GetGroupTournamentStatus;
 		static const ServiceOperation GetMyDivisions;
 		static const ServiceOperation JoinDivision;
+		static const ServiceOperation JoinGroupDivision;
+		static const ServiceOperation JoinGroupTournament;
 		static const ServiceOperation JoinTournament;
 		static const ServiceOperation LeaveDivisionInstance;
+		static const ServiceOperation LeaveGroupDivisionInstance;
+		static const ServiceOperation LeaveGroupTournament;
 		static const ServiceOperation LeaveTournament;
+		static const ServiceOperation PostGroupTournamentScore;
+		static const ServiceOperation PostGroupTournamentScoreWithResults;
 		static const ServiceOperation PostTournamentScore;
 		static const ServiceOperation PostTournamentScoreWithResults;
 		static const ServiceOperation ViewCurrentReward;
