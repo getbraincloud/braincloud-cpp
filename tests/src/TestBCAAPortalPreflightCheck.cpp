@@ -50,7 +50,7 @@ TEST_F(TestBCAAPortalPreflightCheck, PortalPreflightCheck)
         m_bc->getGlobalAppService()->readSelectedProperties({ "prop1", "prop2", "prop3" }, &tr);
         if (tr.run(m_bc, true))
         {
-            const Json::Value& props = tr.m_response["data"]["response"];
+            const Json::Value& props = tr.m_response["data"];
             for (const char* name : { "prop1", "prop2", "prop3" })
             {
                 if (!props.isMember(name))
@@ -127,7 +127,7 @@ TEST_F(TestBCAAPortalPreflightCheck, PortalPreflightCheck)
         m_bc->getVirtualCurrencyService()->getCurrency(NULL, &tr);
         if (tr.run(m_bc, true))
         {
-            if (!tr.m_response["data"]["currency"].isMember("credits"))
+            if (!tr.m_response["data"]["currencyMap"].isMember("credits"))
                 missing.push_back("virtual currency type: credits");
         }
         else
