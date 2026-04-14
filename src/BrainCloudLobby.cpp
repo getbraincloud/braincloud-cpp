@@ -59,11 +59,19 @@ namespace BrainCloud
 				for (const auto& regionName : regions)
 				{
 					const auto& jsonRegion = jsonRegionPingData[regionName];
-					const auto& jsonType = jsonRegion["type"];
-					const auto& target = jsonRegion["target"];
-					if (target.isString() && jsonType.isString() && jsonType.asString() == "PING")
+					const auto& jsonType   = jsonRegion["type"];
+					const auto& target    = jsonRegion["target"];
+					const auto& targetTcp = jsonRegion["targetTcp"];
+					// Accept the region if "target" is present and either no "type" field
+					// exists (current server format) or the type is explicitly "PING".
+					if (target.isString() && (!jsonType.isString() || jsonType.asString() == "PING"))
 					{
-						m_pBrainCloudLobby->m_pingRegions[regionName] = target.asString();
+						// Append the TCP relay port so the pinger tests the actual relay
+						// endpoint rather than defaulting to port 80 (which may be firewalled).
+						std::string pingTarget = target.asString();
+						if (targetTcp.isString() && !targetTcp.asString().empty())
+							pingTarget += ":" + targetTcp.asString();
+						m_pBrainCloudLobby->m_pingRegions[regionName] = pingTarget;
 					}
 				}
 			}
@@ -202,6 +210,11 @@ namespace BrainCloud
 							std::cout << "#PING " << pActivePing->getRegion() << " = " << pActivePing->getPing() << std::endl;
 						}
 						pingData[pActivePing->getRegion()] = pActivePing->getPing();
+						// Publish partial result so the app can poll for per-region progress
+						{
+							std::lock_guard<std::mutex> dataLock(m_pBrainCloudLobby->m_pingDataMutex);
+							m_pBrainCloudLobby->m_pingData = pingData;
+						}
 						it = activePings.erase(it);
 						continue;
 					}
@@ -211,7 +224,10 @@ namespace BrainCloud
 				// Check if we completed all the regions
 				if (regionsToPing.empty() && activePings.empty())
 				{
-					m_pBrainCloudLobby->m_pingData = pingData;
+					{
+						std::lock_guard<std::mutex> dataLock(m_pBrainCloudLobby->m_pingDataMutex);
+						m_pBrainCloudLobby->m_pingData = pingData;
+					}
 					m_isRunning = false;
 					break;
 				}
@@ -298,6 +314,12 @@ namespace BrainCloud
 	const std::map<std::string, int>& BrainCloudLobby::getPingData() const
 	{
 		return m_pingData;
+	}
+
+	std::map<std::string, int> BrainCloudLobby::getPingDataSnapshot() const
+	{
+		std::lock_guard<std::mutex> lock(m_pingDataMutex);
+		return m_pingData; // copy under lock — safe to call while pinging
 	}
 
 	void BrainCloudLobby::createLobby(const std::string& lobbyType, int rating, const std::vector<std::string>& otherUserCxIds, bool isReady, const std::string& extraJson, const std::string& teamCode, const std::string& jsonSettings, IServerCallback* callback)
