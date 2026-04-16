@@ -49,9 +49,13 @@ namespace BrainCloud
 		 */
 		void pingRegions(IServerCallback* callback);
 
-		/* Returns the Ping Data collected after calling pingRegions
+		/* Returns the ping data collected after (or during) a pingRegions call.
+		 * Thread-safe: acquires an internal mutex so it is safe to call while
+		 * pingRegions is still in progress — partial results are returned as
+		 * regions complete. Regions not yet done are absent from the returned map.
+		 * Returns a copy so the caller holds a stable snapshot.
 		 */
-		const std::map<std::string, int>& getPingData() const;
+		std::map<std::string, int> getPingData() const;
 
 		/**
 		 * Creates a new lobby.
@@ -357,6 +361,7 @@ namespace BrainCloud
 		GetRegionsForLobbiesCallback m_getRegionsForLobbiesCallback;
 		PingRegionsThread m_pingRegionsThread;
 		std::map<std::string, int> m_pingData;
+		mutable std::mutex m_pingDataMutex; /* protects m_pingData for incremental cross-thread reads */
 		std::map<std::string, std::string> m_pingRegions;
 		IServerCallback* m_pingCallback;
 		std::vector<ErrorCallbackEvent> m_errorCallbackQueue;
