@@ -301,17 +301,10 @@ namespace BrainCloud
 		m_errorCallbackQueue.clear();
 	}
 
-	/* Returns the Ping Data collected after calling pingRegions
-	 */
-	const std::map<std::string, int> &BrainCloudLobby::getPingData() const
-	{
-		return m_pingData;
-	}
-
-	std::map<std::string, int> BrainCloudLobby::getPingDataSnapshot() const
+	std::map<std::string, int> BrainCloudLobby::getPingData() const
 	{
 		std::lock_guard<std::mutex> lock(m_pingDataMutex);
-		return m_pingData; // copy under lock — safe to call while pinging
+		return m_pingData;
 	}
 
 	void BrainCloudLobby::createLobby(const std::string &lobbyType, int rating, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, const std::string &jsonSettings, IServerCallback *callback)
