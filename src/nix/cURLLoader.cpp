@@ -25,6 +25,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __linux__
+#include <sys/socket.h>
+#endif
 
 #if !defined(USE_PTHREAD)
 #include <thread>
@@ -343,6 +346,20 @@ namespace BrainCloud
         return loader->_socket;
     }
 
+#ifdef __linux__
+    // Sets SO_LINGER(0) so close() sends RST instead of FIN, bypassing TIME-WAIT.
+    // Without this, Linux accumulates TIME-WAIT connections during test runs fast
+    // enough to trigger the server's per-source-IP connection rate limit.
+    static int linuxSockoptCallback(void* /*clientp*/, curl_socket_t curlfd, curlsocktype /*purpose*/)
+    {
+        struct linger sl;
+        sl.l_onoff = 1;
+        sl.l_linger = 0;
+        setsockopt(curlfd, SOL_SOCKET, SO_LINGER, &sl, sizeof(sl));
+        return CURL_SOCKOPT_OK;
+    }
+#endif
+
     /*
     size_t abort_payload(void *ptr, size_t size, size_t nmemb, SOCKET *curl_socket) {
         SOCKET l_socket = INVALID_SOCKET;
@@ -401,6 +418,10 @@ namespace BrainCloud
 
             curl_easy_setopt(curl, CURLOPT_OPENSOCKETFUNCTION, openSocket);
             curl_easy_setopt(curl, CURLOPT_OPENSOCKETDATA, loader);
+
+#ifdef __linux__
+            curl_easy_setopt(curl, CURLOPT_SOCKOPTFUNCTION, linuxSockoptCallback);
+#endif
 
             // Set up the object to store the content of the response.
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, loader);
