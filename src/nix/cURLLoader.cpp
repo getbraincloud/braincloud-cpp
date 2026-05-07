@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <mutex>
+#include <csignal>
 
 #if !defined(USE_PTHREAD)
 #include <thread>
@@ -125,6 +126,13 @@ namespace BrainCloud
         if (!_initialized)
         {
             curl_global_init(CURL_GLOBAL_ALL);
+            // SIGPIPE is sent when writing to a socket whose remote end has closed.
+            // CURLOPT_NOSIGNAL suppresses SIGALRM only — it does not suppress SIGPIPE.
+            // With connection pooling, a cached connection may be dead (server closed
+            // it after session expiry) and curl's attempt to close it gracefully
+            // triggers SIGPIPE, killing the process. Ignoring it lets curl receive
+            // EPIPE instead, properly close the dead connection, and retry fresh.
+            std::signal(SIGPIPE, SIG_IGN);
             s_curlShare = curl_share_init();
             curl_share_setopt(s_curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
             curl_share_setopt(s_curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SESSION);
