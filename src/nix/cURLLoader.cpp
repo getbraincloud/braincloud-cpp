@@ -25,9 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef __linux__
-#include <sys/socket.h>
-#endif
+#include <mutex>
 
 #if !defined(USE_PTHREAD)
 #include <thread>
@@ -42,6 +40,21 @@ namespace BrainCloud
 
     bool cURLLoader::_initialized = false;
     long cURLLoader::_timeoutInterval = 5000;
+
+    static CURLSH* s_curlShare = nullptr;
+    static std::mutex s_shareMutexes[CURL_LOCK_DATA_LAST];
+
+    static void curlShareLock(CURL*, curl_lock_data data, curl_lock_access, void*)
+    {
+        if (data >= 0 && data < CURL_LOCK_DATA_LAST)
+            s_shareMutexes[data].lock();
+    }
+
+    static void curlShareUnlock(CURL*, curl_lock_data data, void*)
+    {
+        if (data >= 0 && data < CURL_LOCK_DATA_LAST)
+            s_shareMutexes[data].unlock();
+    }
 
     /**
      * Constructor
@@ -112,6 +125,11 @@ namespace BrainCloud
         if (!_initialized)
         {
             curl_global_init(CURL_GLOBAL_ALL);
+            s_curlShare = curl_share_init();
+            curl_share_setopt(s_curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+            curl_share_setopt(s_curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SESSION);
+            curl_share_setopt(s_curlShare, CURLSHOPT_LOCKFUNC, curlShareLock);
+            curl_share_setopt(s_curlShare, CURLSHOPT_UNLOCKFUNC, curlShareUnlock);
             _initialized = true;
         }
 
@@ -346,20 +364,6 @@ namespace BrainCloud
         return loader->_socket;
     }
 
-#ifdef __linux__
-    // Sets SO_LINGER(0) so close() sends RST instead of FIN, bypassing TIME-WAIT.
-    // Without this, Linux accumulates TIME-WAIT connections during test runs fast
-    // enough to trigger the server's per-source-IP connection rate limit.
-    static int linuxSockoptCallback(void* /*clientp*/, curl_socket_t curlfd, curlsocktype /*purpose*/)
-    {
-        struct linger sl;
-        sl.l_onoff = 1;
-        sl.l_linger = 0;
-        setsockopt(curlfd, SOL_SOCKET, SO_LINGER, &sl, sizeof(sl));
-        return CURL_SOCKOPT_OK;
-    }
-#endif
-
     /*
     size_t abort_payload(void *ptr, size_t size, size_t nmemb, SOCKET *curl_socket) {
         SOCKET l_socket = INVALID_SOCKET;
@@ -419,9 +423,8 @@ namespace BrainCloud
             curl_easy_setopt(curl, CURLOPT_OPENSOCKETFUNCTION, openSocket);
             curl_easy_setopt(curl, CURLOPT_OPENSOCKETDATA, loader);
 
-#ifdef __linux__
-            curl_easy_setopt(curl, CURLOPT_SOCKOPTFUNCTION, linuxSockoptCallback);
-#endif
+            if (s_curlShare)
+                curl_easy_setopt(curl, CURLOPT_SHARE, s_curlShare);
 
             // Set up the object to store the content of the response.
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, loader);
@@ -449,10 +452,7 @@ namespace BrainCloud
             //curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 			
-			//Disable connection reuse
-			curl_easy_setopt(curl, CURLOPT_FORBID_REUSE, 1L);
-			
-			//Enable keep alive
+			//Enable keep alive to hold shared connections open between requests
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPIDLE, 30L);
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 30L);
