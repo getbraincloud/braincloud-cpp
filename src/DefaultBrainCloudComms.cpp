@@ -809,11 +809,7 @@ namespace BrainCloud
 	{
 		if (!shouldRetryPacket())
 		{
-			// Auth retries use progressively longer timeouts: 15s, 30s, 60s
-			static const int AUTH_TIMEOUTS[] = { 15, 30, 60 };
-			static const int AUTH_TIMEOUT_COUNT = 3;
-			int idx = retryAttempt < AUTH_TIMEOUT_COUNT ? retryAttempt : AUTH_TIMEOUT_COUNT - 1;
-			return AUTH_TIMEOUTS[idx] * 1000;
+			return _authenticationTimeoutMillis;
 		}
 
 		return _packetTimeouts[retryAttempt >= (int)_packetTimeouts.size() ? _packetTimeouts.size() - 1 : retryAttempt] * 1000;
@@ -823,8 +819,7 @@ namespace BrainCloud
 	{
 		if (!shouldRetryPacket())
 		{
-			// Allow up to 3 auth attempts (15s, 30s, 60s) before giving up
-			return 3;
+			return 1;
 		}
 
 		return (int)_packetTimeouts.size();
@@ -846,31 +841,19 @@ namespace BrainCloud
 			// We haven't reached the maximum number of retries yet.  Try again.
 
 			int64_t currentTime = TimeUtil::getCurrentTimeMillis();
-			int64_t sleepTime;
+			int64_t delta = currentTime - _packetSendTimeMillis;
+			int64_t sleepTime = (int64_t)(getRetryTimeoutMillis(_retryCount));
 
-			if (!shouldRetryPacket())
+			// still more time to spend sleeping
+			if (delta > 0 && sleepTime > delta)
 			{
-				// Auth retries fire immediately — the progressively longer HTTP timeout
-				// (15s → 30s → 60s, set via getRetryTimeoutMillis) provides the backoff.
-				// Adding a sleep on top would push total time past typical test timeouts.
-				sleepTime = 1;
+				sleepTime -= delta;
 			}
-			else
+			// looks like we've waited long enough (but within max margin of 2 secs over retry timeout
+			// in case we get some weird time altering event like system clock being changed)
+			else if (delta > sleepTime && delta < (getRetryTimeoutMillis(_retryCount) + 2000))
 			{
-				int64_t delta = currentTime - _packetSendTimeMillis;
-				sleepTime = (int64_t)(getRetryTimeoutMillis(_retryCount));
-
-				// still more time to spend sleeping
-				if (delta > 0 && sleepTime > delta)
-				{
-					sleepTime -= delta;
-				}
-				// looks like we've waited long enough (but within max margin of 2 secs over retry timeout
-				// in case we get some weird time altering event like system clock being changed)
-				else if (delta > sleepTime && delta < (getRetryTimeoutMillis(_retryCount) + 2000))
-				{
-					sleepTime = 1;
-				}
+				sleepTime = 1;
 			}
 
 			if (_immediateRetryOnError)

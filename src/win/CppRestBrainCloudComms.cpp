@@ -707,11 +707,7 @@ namespace BrainCloud
     {
         if (!shouldRetryPacket())
         {
-            // Auth retries use progressively longer timeouts: 15s, 30s, 60s
-            static const int AUTH_TIMEOUTS[] = { 15, 30, 60 };
-            static const int AUTH_TIMEOUT_COUNT = 3;
-            int idx = retryAttempt < AUTH_TIMEOUT_COUNT ? retryAttempt : AUTH_TIMEOUT_COUNT - 1;
-            return AUTH_TIMEOUTS[idx] * 1000;
+            return _authenticationTimeoutMillis;
         }
 
         return _packetTimeouts[retryAttempt >= (int)_packetTimeouts.size() ? _packetTimeouts.size() - 1 : retryAttempt] * 1000;
@@ -721,8 +717,7 @@ namespace BrainCloud
     {
         if (!shouldRetryPacket())
         {
-            // Allow up to 3 auth attempts (15s, 30s, 60s) before giving up
-            return 3;
+            return 1;
         }
 
         return (int)_packetTimeouts.size();
