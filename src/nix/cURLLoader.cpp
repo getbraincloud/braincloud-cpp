@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <mutex>
+#include <csignal>
 
 #if !defined(USE_PTHREAD)
 #include <thread>
@@ -39,6 +41,21 @@ namespace BrainCloud
 
     bool cURLLoader::_initialized = false;
     long cURLLoader::_timeoutInterval = 5000;
+
+    static CURLSH* s_curlShare = nullptr;
+    static std::mutex s_shareMutexes[CURL_LOCK_DATA_LAST];
+
+    static void curlShareLock(CURL*, curl_lock_data data, curl_lock_access, void*)
+    {
+        if (data >= 0 && data < CURL_LOCK_DATA_LAST)
+            s_shareMutexes[data].lock();
+    }
+
+    static void curlShareUnlock(CURL*, curl_lock_data data, void*)
+    {
+        if (data >= 0 && data < CURL_LOCK_DATA_LAST)
+            s_shareMutexes[data].unlock();
+    }
 
     /**
      * Constructor
@@ -109,6 +126,18 @@ namespace BrainCloud
         if (!_initialized)
         {
             curl_global_init(CURL_GLOBAL_ALL);
+            // SIGPIPE is sent when writing to a socket whose remote end has closed.
+            // CURLOPT_NOSIGNAL suppresses SIGALRM only — it does not suppress SIGPIPE.
+            // With connection pooling, a cached connection may be dead (server closed
+            // it after session expiry) and curl's attempt to close it gracefully
+            // triggers SIGPIPE, killing the process. Ignoring it lets curl receive
+            // EPIPE instead, properly close the dead connection, and retry fresh.
+            std::signal(SIGPIPE, SIG_IGN);
+            s_curlShare = curl_share_init();
+            curl_share_setopt(s_curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+            curl_share_setopt(s_curlShare, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SESSION);
+            curl_share_setopt(s_curlShare, CURLSHOPT_LOCKFUNC, curlShareLock);
+            curl_share_setopt(s_curlShare, CURLSHOPT_UNLOCKFUNC, curlShareUnlock);
             _initialized = true;
         }
 
@@ -402,6 +431,9 @@ namespace BrainCloud
             curl_easy_setopt(curl, CURLOPT_OPENSOCKETFUNCTION, openSocket);
             curl_easy_setopt(curl, CURLOPT_OPENSOCKETDATA, loader);
 
+            if (s_curlShare)
+                curl_easy_setopt(curl, CURLOPT_SHARE, s_curlShare);
+
             // Set up the object to store the content of the response.
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, loader);
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeData);
@@ -428,10 +460,7 @@ namespace BrainCloud
             //curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 			
-			//Disable connection reuse
-			curl_easy_setopt(curl, CURLOPT_FORBID_REUSE, 1L);
-			
-			//Enable keep alive
+			//Enable keep alive to hold shared connections open between requests
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPIDLE, 30L);
 			curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 30L);
