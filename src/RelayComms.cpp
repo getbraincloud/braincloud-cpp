@@ -72,8 +72,10 @@ static std::string extractProfileIdFromCxId(const std::string &cxId)
 {
     auto first = cxId.find_first_of(':');
     auto last = cxId.find_last_of(':');
-    if (first == last) return ""; // If : not found, it should it npos for both too.
-    if (last - first < 2) return "";
+    if (first == last)
+        return ""; // If : not found, it should it npos for both too.
+    if (last - first < 2)
+        return "";
 
     return cxId.substr(first + 1, last - first - 1);
 }
@@ -86,9 +88,8 @@ namespace BrainCloud
     int RelayComms::Event::allocCount = 0;
     int RelayComms::Packet::allocCount = 0;
 
-    RelayComms::RelayComms(BrainCloudClient* client)
-        : m_client(client)
-        , m_isInitialized(false)
+    RelayComms::RelayComms(BrainCloudClient *client)
+        : m_client(client), m_isInitialized(false)
     {
         m_isConnected = false;
         m_isSocketConnected = false;
@@ -126,9 +127,9 @@ namespace BrainCloud
         m_loggingEnabled = shouldEnable;
     }
 
-    void RelayComms::connect(eRelayConnectionType connectionType, const std::string& host, int port, const std::string& passcode, const std::string& lobbyId, IRelayConnectCallback* callback)
+    void RelayComms::connect(eRelayConnectionType connectionType, const std::string &host, int port, const std::string &passcode, const std::string &lobbyId, IRelayConnectCallback *callback)
     {
-        if(!m_client->isAuthenticated() || m_client->isKillswitchEngaged())
+        if (!m_client->isAuthenticated() || m_client->isKillswitchEngaged())
         {
             printf("Relay: Connect called before calling authentication request. Disabling Relay.");
             queueErrorEvent("Relay: Connect called before calling authentication request. Disabling Relay.");
@@ -167,48 +168,50 @@ namespace BrainCloud
 
         switch (m_connectionType)
         {
-            case eRelayConnectionType::TCP:
-            {
-                m_pSocket = IRelayTCPSocket::create(host, port, MAX_PACKET_SIZE);
-                break;
-            }
-            case eRelayConnectionType::UDP:
-            {
-                m_pSocket = IRelayUDPSocket::create(host, port, MAX_PACKET_SIZE);
-                m_lastRecvTime = std::chrono::system_clock::now();
-                break;
-            }
+        case eRelayConnectionType::TCP:
+        {
+            m_pSocket = IRelayTCPSocket::create(host, port, MAX_PACKET_SIZE);
+            break;
+        }
+        case eRelayConnectionType::UDP:
+        {
+            m_pSocket = IRelayUDPSocket::create(host, port, MAX_PACKET_SIZE);
+            m_lastRecvTime = std::chrono::system_clock::now();
+            break;
+        }
 #if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
-            case eRelayConnectionType::WS:
-            {
-                m_pSocket = IRelayWSSocket::create(host, port, MAX_PACKET_SIZE, false);
-                break;
-            }
-            case eRelayConnectionType::WSS:
-            {
-                m_pSocket = IRelayWSSocket::create(host, port, MAX_PACKET_SIZE, true);
-                break;
-            }
+        case eRelayConnectionType::WS:
+        {
+            m_pSocket = IRelayWSSocket::create(host, port, MAX_PACKET_SIZE, false);
+            break;
+        }
+        case eRelayConnectionType::WSS:
+        {
+            m_pSocket = IRelayWSSocket::create(host, port, MAX_PACKET_SIZE, true);
+            break;
+        }
 #endif
-            default:
-            {
-                socketCleanup();
-                queueErrorEvent("Protocol Unimplemented");
-                break;
-            }
+        default:
+        {
+            socketCleanup();
+            queueErrorEvent("Protocol Unimplemented");
+            break;
+        }
         }
     }
 
-    void RelayComms::endMatch(const Json::Value& jsonPayload)
+    void RelayComms::endMatch(const Json::Value &jsonPayload)
     {
-        if (!m_isSocketConnected) return;
+        if (!m_isSocketConnected)
+            return;
 
         send(CL2RS_ENDMATCH, jsonPayload);
     }
 
     void RelayComms::disconnect()
     {
-        if (!m_isSocketConnected) return;
+        if (!m_isSocketConnected)
+            return;
 
         send(CL2RS_DISCONNECT, std::string(""));
     }
@@ -218,11 +221,11 @@ namespace BrainCloud
         m_isConnected = false;
         m_isSocketConnected = false;
         m_resendConnectRequest = false;
-        
+
         // Close socket
         delete m_pSocket;
         m_pSocket = nullptr;
-        
+
         m_sendPacketId.clear();
         m_recvPacketId.clear();
 
@@ -244,24 +247,24 @@ namespace BrainCloud
 
     void RelayComms::setPingInterval(int intervalSeconds)
     {
-        if (intervalSeconds > 999) {
+        if (intervalSeconds > 999)
+        {
             intervalSeconds /= 1000;
-
         }
         m_pingInterval = std::chrono::seconds(intervalSeconds);
     }
 
-    const std::string& RelayComms::getOwnerProfileId() const
+    const std::string &RelayComms::getOwnerProfileId() const
     {
         return m_ownerProfileId;
     }
 
-    const std::string& RelayComms::getOwnerCxId() const
+    const std::string &RelayComms::getOwnerCxId() const
     {
         return m_ownerCxId;
     }
 
-    const std::string& RelayComms::getProfileIdForNetId(int netId) const
+    const std::string &RelayComms::getProfileIdForNetId(int netId) const
     {
         auto it = m_netIdToProfileId.find(netId);
         if (it == m_netIdToProfileId.end())
@@ -272,14 +275,15 @@ namespace BrainCloud
         return it->second;
     }
 
-    int RelayComms::getNetIdForProfileId(const std::string& profileId) const
+    int RelayComms::getNetIdForProfileId(const std::string &profileId) const
     {
         auto it = m_profileIdToNetId.find(profileId);
-        if (it == m_profileIdToNetId.end()) return INVALID_NET_ID;
+        if (it == m_profileIdToNetId.end())
+            return INVALID_NET_ID;
         return it->second;
     }
 
-    const std::string& RelayComms::getCxIdForNetId(int netId) const
+    const std::string &RelayComms::getCxIdForNetId(int netId) const
     {
         auto it = m_netIdToCxId.find(netId);
         if (it == m_netIdToCxId.end())
@@ -290,14 +294,15 @@ namespace BrainCloud
         return it->second;
     }
 
-    int RelayComms::getNetIdForCxId(const std::string& cxId) const
+    int RelayComms::getNetIdForCxId(const std::string &cxId) const
     {
         auto it = m_cxIdToNetId.find(cxId);
-        if (it == m_cxIdToNetId.end()) return INVALID_NET_ID;
+        if (it == m_cxIdToNetId.end())
+            return INVALID_NET_ID;
         return it->second;
     }
 
-    void RelayComms::registerRelayCallback(IRelayCallback* callback)
+    void RelayComms::registerRelayCallback(IRelayCallback *callback)
     {
         m_pRelayCallback = callback;
     }
@@ -307,7 +312,7 @@ namespace BrainCloud
         m_pRelayCallback = nullptr;
     }
 
-    void RelayComms::registerSystemCallback(IRelaySystemCallback* callback)
+    void RelayComms::registerSystemCallback(IRelaySystemCallback *callback)
     {
         m_pSystemCallback = callback;
     }
@@ -331,10 +336,12 @@ namespace BrainCloud
         return request;
     }
 
-    void RelayComms::send(const uint8_t* data, int size, uint64_t playerMask, bool reliable, bool ordered, eRelayChannel channel)
+    void RelayComms::send(const uint8_t *data, int size, uint64_t playerMask, bool reliable, bool ordered, eRelayChannel channel)
     {
-        if (!isConnected()) return;
-        if (playerMask == 0) return;
+        if (!isConnected())
+            return;
+        if (playerMask == 0)
+            return;
         if (size > 1024)
         {
             socketCleanup();
@@ -356,8 +363,10 @@ namespace BrainCloud
 
         // Reliable header
         uint16_t rh = 0;
-        if (reliable) rh |= RELIABLE_BIT;
-        if (ordered) rh |= ORDERED_BIT;
+        if (reliable)
+            rh |= RELIABLE_BIT;
+        if (ordered)
+            rh |= ORDERED_BIT;
         rh |= ((uint16_t)channel << 12) & 0x3000;
 
         // Store inverted player mask
@@ -386,7 +395,7 @@ namespace BrainCloud
         auto rhBE = htons((u_short)rh);
         auto playerMask0BE = (uint64_t)ntohs((u_short)((_playerMask >> 32) & 0xFFFF));
         auto playerMask1BE = (uint64_t)ntohs((u_short)((_playerMask >> 16) & 0xFFFF));
-        auto playerMask2BE = (uint64_t)ntohs((u_short)((_playerMask)       & 0xFFFF));
+        auto playerMask2BE = (uint64_t)ntohs((u_short)((_playerMask) & 0xFFFF));
         memcpy(pPacket->data.data() + 3, &rhBE, 2);
         memcpy(pPacket->data.data() + 5, &playerMask0BE, 2);
         memcpy(pPacket->data.data() + 7, &playerMask1BE, 2);
@@ -402,7 +411,8 @@ namespace BrainCloud
         uint64_t mask = playerMask;
         uint64_t toNetId = 0;
 
-        while ((mask & 1) == 0) {
+        while ((mask & 1) == 0)
+        {
             mask >>= 1;
             ++toNetId;
         }
@@ -413,19 +423,19 @@ namespace BrainCloud
             pPacket->lastResendTime = std::chrono::system_clock::now();
             pPacket->timeSinceFirstSend = pPacket->lastResendTime;
             pPacket->resendInterval = RELIABLE_RESEND_INTERVALS[(int)channel];
-            uint64_t ackId = *(uint64_t*)(pPacket->data.data() + 3);
+            uint64_t ackId = *(uint64_t *)(pPacket->data.data() + 3);
             m_reliables[ackId] = pPacket;
             if (m_loggingEnabled && m_loggingPackets)
             {
-                std::cout<<"<<< send on channel: "<<static_cast<int>(channel)<<" from netId: "<< static_cast<int>(m_netId) << " to netId: " << toNetId << " packet: "<<packetId<<" "<<ackId<<std::endl;
+                std::cout << "<<< send on channel: " << static_cast<int>(channel) << " from netId: " << static_cast<int>(m_netId) << " to netId: " << toNetId << " packet: " << packetId << " " << ackId << std::endl;
             }
         }
         else
         {
             if (m_loggingEnabled && m_loggingPackets)
             {
-                uint64_t ackId = *(uint64_t*)(pPacket->data.data() + 3);
-                std::cout<<"<<< send on channel: "<<static_cast<int>(channel)<<" from netId: "<< static_cast<int>(m_netId) << " to netId: "<< toNetId << " packet: "<<packetId<<" "<<ackId<<std::endl;
+                uint64_t ackId = *(uint64_t *)(pPacket->data.data() + 3);
+                std::cout << "<<< send on channel: " << static_cast<int>(channel) << " from netId: " << static_cast<int>(m_netId) << " to netId: " << toNetId << " packet: " << packetId << " " << ackId << std::endl;
             }
             m_packetPool.free(pPacket);
         }
@@ -436,19 +446,19 @@ namespace BrainCloud
         m_lastPingTime = std::chrono::system_clock::now();
 
         uint8_t data[5];
-        *(uint16_t*)(data) = (uint16_t)htons((u_short)5);
+        *(uint16_t *)(data) = (uint16_t)htons((u_short)5);
         data[2] = CL2RS_PING;
-        *(uint16_t*)(data + 3) = (uint16_t)htons((u_short)m_ping);
+        *(uint16_t *)(data + 3) = (uint16_t)htons((u_short)m_ping);
         send(data, 5);
     }
 
-    void RelayComms::send(int netId, const Json::Value& json)
+    void RelayComms::send(int netId, const Json::Value &json)
     {
         Json::FastWriter writer;
         send(netId, writer.write(json));
     }
 
-    void RelayComms::send(int netId, const std::string& text)
+    void RelayComms::send(int netId, const std::string &text)
     {
 #if VERBOSE_LOG
         if (m_loggingEnabled)
@@ -466,7 +476,7 @@ namespace BrainCloud
         send(buffer.data(), (int)buffer.size());
     }
 
-    void RelayComms::send(const uint8_t* data, int size)
+    void RelayComms::send(const uint8_t *data, int size)
     {
         if (m_pSocket)
         {
@@ -474,7 +484,7 @@ namespace BrainCloud
         }
     }
 
-    void RelayComms::onRecv(const uint8_t* data, int size)
+    void RelayComms::onRecv(const uint8_t *data, int size)
     {
         m_lastRecvTime = std::chrono::system_clock::now();
 
@@ -485,7 +495,7 @@ namespace BrainCloud
             return;
         }
 
-        int _size = (int)ntohs(*(u_short*)data);
+        int _size = (int)ntohs(*(u_short *)data);
         int controlByte = (int)data[2];
 
         if (_size < size)
@@ -554,26 +564,26 @@ namespace BrainCloud
 #endif
 
         uint8_t data[5];
-        *(uint16_t*)(data) = (uint16_t)htons((u_short)5);
+        *(uint16_t *)(data) = (uint16_t)htons((u_short)5);
         data[2] = CL2RS_RSMG_ACK;
-        *(uint16_t*)(data + 3) = (uint16_t)htons((u_short)rsmgPacketId);
+        *(uint16_t *)(data + 3) = (uint16_t)htons((u_short)rsmgPacketId);
         send(data, 5);
     }
 
-    void RelayComms::sendAck(const uint8_t* data)
+    void RelayComms::sendAck(const uint8_t *data)
     {
         uint8_t _data[11];
-        *(uint16_t*)(_data) = (uint16_t)htons((u_short)11);
+        *(uint16_t *)(_data) = (uint16_t)htons((u_short)11);
         _data[2] = CL2RS_ACK;
         memcpy(_data + 3, data, 8);
         send(_data, 11);
     }
 
-    void RelayComms::onRSMG(const uint8_t* data, int size)
+    void RelayComms::onRSMG(const uint8_t *data, int size)
     {
-        int rsmgPacketId = (int)ntohs(*(u_short*)data);
+        int rsmgPacketId = (int)ntohs(*(u_short *)data);
 
-        std::string jsonString((char*)data + 2, (char*)data + size);
+        std::string jsonString((char *)data + 2, (char *)data + size);
         if (m_loggingEnabled)
         {
             std::cout << "RELAY System Msg: " << jsonString << std::endl;
@@ -641,21 +651,22 @@ namespace BrainCloud
             auto profileId = extractProfileIdFromCxId(cxId);
 
             Json::Value PacketIdsArray = json["orderedPacketIds"];
-            
+
             // Loop through the array to get the index and value of each packet id
             for (int channelId = 0; channelId < static_cast<int>(PacketIdsArray.size()); channelId++)
             {
                 int PacketId = PacketIdsArray[channelId].asInt();
-                if (PacketId != 0) {
-                    
+                if (PacketId != 0)
+                {
+
                     m_trackedPacketIds[channelId].insert({netId, PacketId});
                     if (m_loggingEnabled)
                     {
-                        std::cout << "Added tracked packetId "<< PacketId <<" for netId "<< netId <<" at channel " << channelId << std::endl;
+                        std::cout << "Added tracked packetId " << PacketId << " for netId " << netId << " at channel " << channelId << std::endl;
                     }
                 }
             }
-            
+
             m_netIdToCxId[netId] = cxId;
             m_cxIdToNetId[cxId] = netId;
             m_netIdToProfileId[netId] = profileId;
@@ -690,7 +701,8 @@ namespace BrainCloud
     void RelayComms::onPONG()
     {
         m_ping = (int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - m_lastPingTime).count();
-        if (m_ping > 999) m_ping = 999;
+        if (m_ping > 999)
+            m_ping = 999;
 #if VERBOSE_LOG
         if (m_loggingEnabled)
         {
@@ -699,9 +711,9 @@ namespace BrainCloud
 #endif
     }
 
-    void RelayComms::onAck(const uint8_t* data)
+    void RelayComms::onAck(const uint8_t *data)
     {
-        auto ackId = *(uint64_t*)data;
+        auto ackId = *(uint64_t *)data;
         auto it = m_reliables.find(ackId);
         if (it != m_reliables.end())
         {
@@ -709,18 +721,17 @@ namespace BrainCloud
 #if VERBOSE_LOG
             if (m_loggingEnabled)
             {
-                auto rh = (int)ntohs(*(u_short*)data);
+                auto rh = (int)ntohs(*(u_short *)data);
                 auto packetId = rh & 0xFFF;
-                //std::cout << "Acked packet id: " << packetId << std::endl;
+                // std::cout << "Acked packet id: " << packetId << std::endl;
             }
 #endif
             if (m_loggingEnabled && m_loggingPackets)
             {
-                std::cout<<"-*- ack recvd netId: "<<m_netId<<" packet: "<<pPacket->id<<" "<<ackId<<std::endl;
+                std::cout << "-*- ack recvd netId: " << m_netId << " packet: " << pPacket->id << " " << ackId << std::endl;
             }
             m_packetPool.free(pPacket);
             m_reliables.erase(it);
-            
         }
     }
 
@@ -741,17 +752,17 @@ namespace BrainCloud
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-    void RelayComms::onRelay(const uint8_t* data, int size)
+    void RelayComms::onRelay(const uint8_t *data, int size)
     {
-        auto rh = (int)ntohs(*(u_short*)data);
-        auto playerMask0 = (uint64_t)ntohs(*(u_short*)(data + 2));
-        auto playerMask1 = (uint64_t)ntohs(*(u_short*)(data + 4));
-        auto playerMask2 = (uint64_t)ntohs(*(u_short*)(data + 6));
-        auto ackId = 
-            (((uint64_t)rh << 48)          & 0xFFFF000000000000) |
+        auto rh = (int)ntohs(*(u_short *)data);
+        auto playerMask0 = (uint64_t)ntohs(*(u_short *)(data + 2));
+        auto playerMask1 = (uint64_t)ntohs(*(u_short *)(data + 4));
+        auto playerMask2 = (uint64_t)ntohs(*(u_short *)(data + 6));
+        auto ackId =
+            (((uint64_t)rh << 48) & 0xFFFF000000000000) |
             (((uint64_t)playerMask0 << 32) & 0x0000FFFF00000000) |
             (((uint64_t)playerMask1 << 16) & 0x00000000FFFF0000) |
-            (((uint64_t)playerMask2)       & 0x000000000000FFFF);
+            (((uint64_t)playerMask2) & 0x000000000000FFFF);
         uint64_t ackIdWithoutPacketId = ackId & 0xF000FFFFFFFFFFFF;
         auto reliable = rh & RELIABLE_BIT ? true : false;
         auto ordered = rh & ORDERED_BIT ? true : false;
@@ -761,7 +772,7 @@ namespace BrainCloud
 
         if (m_loggingEnabled && m_loggingPackets)
         {
-            std::cout<<">>> recv on channel: "<<static_cast<int>(channel)<<" from netId: "<<static_cast<int>(netId)<< " to netId: " << m_netId << " packet: "<<packetId<<" "<<ackId<<std::endl;
+            std::cout << ">>> recv on channel: " << static_cast<int>(channel) << " from netId: " << static_cast<int>(netId) << " to netId: " << m_netId << " packet: " << packetId << " " << ackId << std::endl;
         }
 
         // Reconstruct ack id without packet id
@@ -781,20 +792,22 @@ namespace BrainCloud
                 {
                     prevPacketId = it->second;
                 }
-                
-                //look for a tracked packetId in channel for netId
-                if (m_trackedPacketIds.size() > 0){
+
+                // look for a tracked packetId in channel for netId
+                if (m_trackedPacketIds.size() > 0)
+                {
                     std::map<uint8_t, int>::iterator it;
                     it = m_trackedPacketIds[channel].find(netId);
-                    if(it != m_trackedPacketIds[channel].end()){
+                    if (it != m_trackedPacketIds[channel].end())
+                    {
                         // use the tracked packet id rather than
                         prevPacketId = m_trackedPacketIds[channel][netId];
                         m_trackedPacketIds[channel].erase(it);
                         if (m_loggingEnabled)
                         {
                             std::cout << "Found tracked packetId for channel: "
-                            <<channel<<" netId: "<<static_cast<int>(netId)<<" which was "<<prevPacketId
-                            << std::endl;
+                                      << channel << " netId: " << static_cast<int>(netId) << " which was " << prevPacketId
+                                      << std::endl;
                         }
                     }
                 }
@@ -815,7 +828,7 @@ namespace BrainCloud
                     }
 
                     // Check if it's out of order, then save it for later
-                    auto& orderedReliablePackets = m_orderedReliablePackets[ackIdWithoutPacketId];
+                    auto &orderedReliablePackets = m_orderedReliablePackets[ackIdWithoutPacketId];
                     if (packetId != ((prevPacketId + 1) & MAX_PACKET_ID))
                     {
                         if ((int)orderedReliablePackets.size() > MAX_PACKET_ID_HISTORY)
@@ -839,7 +852,8 @@ namespace BrainCloud
 #endif
                                 return;
                             }
-                            if (packetLE(packetId, pPacket->id)) break;
+                            if (packetLE(packetId, pPacket->id))
+                                break;
                         }
                         auto pNewPacket = m_packetPool.alloc();
                         pNewPacket->id = packetId;
@@ -928,7 +942,7 @@ namespace BrainCloud
 
                 // Peek messages
                 int packetSize;
-                const uint8_t* pPacketData;
+                const uint8_t *pPacketData;
                 while (m_pSocket && (pPacketData = m_pSocket->peek(packetSize)))
                 {
                     onRecv(pPacketData, packetSize);
@@ -944,7 +958,7 @@ namespace BrainCloud
                 }
 
                 // Ping. Which also works as an heartbeat
-                if (now - m_lastPingTime >= m_pingInterval && 
+                if (now - m_lastPingTime >= m_pingInterval &&
                     m_isConnected)
                 {
                     sendPing();
@@ -978,8 +992,8 @@ namespace BrainCloud
                 }
 
                 // Check if we timeout
-                if (m_connectionType == eRelayConnectionType::UDP && 
-                    m_pSocket && 
+                if (m_connectionType == eRelayConnectionType::UDP &&
+                    m_pSocket &&
                     now - m_lastRecvTime > std::chrono::seconds(TIMEOUT_SECONDS))
                 {
                     socketCleanup();
@@ -1006,6 +1020,8 @@ namespace BrainCloud
                     {
                         m_resendConnectRequest = true;
                         m_lastConnectResendTime = now;
+
+                        std::cout << "RelayComms: Relay UDP" << std::endl;
                     }
                 }
             }
@@ -1019,34 +1035,34 @@ namespace BrainCloud
             {
                 switch (pEvent->type)
                 {
-                    case EventType::ConnectSuccess:
-                        if (m_pRelayConnectCallback)
+                case EventType::ConnectSuccess:
+                    if (m_pRelayConnectCallback)
+                    {
+                        m_pRelayConnectCallback->relayConnectSuccess(pEvent->message);
+                    }
+                    break;
+                case EventType::ConnectFailure:
+                    if (m_pRelayConnectCallback && !m_endMatchRequested)
+                    {
+                        if (m_loggingEnabled)
                         {
-                            m_pRelayConnectCallback->relayConnectSuccess(pEvent->message);
+                            std::cout << "Relay: " << pEvent->message << std::endl;
                         }
-                        break;
-                    case EventType::ConnectFailure:
-                        if (m_pRelayConnectCallback && !m_endMatchRequested)
-                        {
-                            if (m_loggingEnabled)
-                            {
-                                std::cout << "Relay: " << pEvent->message << std::endl;
-                            }
-                            m_pRelayConnectCallback->relayConnectFailure(pEvent->message);
-                        }
-                        break;
-                    case EventType::System:
-                        if (m_pSystemCallback)
-                        {
-                            m_pSystemCallback->relaySystemCallback(pEvent->message);
-                        }
-                        break;
-                    case EventType::Relay:
-                        if (m_pRelayCallback)
-                        {
-                            m_pRelayCallback->relayCallback(pEvent->netId, pEvent->data.data(), (int)pEvent->data.size());
-                        }
-                        break;
+                        m_pRelayConnectCallback->relayConnectFailure(pEvent->message);
+                    }
+                    break;
+                case EventType::System:
+                    if (m_pSystemCallback)
+                    {
+                        m_pSystemCallback->relaySystemCallback(pEvent->message);
+                    }
+                    break;
+                case EventType::Relay:
+                    if (m_pRelayCallback)
+                    {
+                        m_pRelayCallback->relayCallback(pEvent->netId, pEvent->data.data(), (int)pEvent->data.size());
+                    }
+                    break;
                 }
                 m_eventPool.free(pEvent);
             }
@@ -1066,7 +1082,7 @@ namespace BrainCloud
 #endif
     }
 
-    void RelayComms::queueConnectSuccessEvent(const std::string& jsonString)
+    void RelayComms::queueConnectSuccessEvent(const std::string &jsonString)
     {
         auto pEvent = m_eventPool.alloc();
         pEvent->type = EventType::ConnectSuccess;
@@ -1074,7 +1090,7 @@ namespace BrainCloud
         m_events.push_back(pEvent);
     }
 
-    void RelayComms::queueErrorEvent(const std::string& message)
+    void RelayComms::queueErrorEvent(const std::string &message)
     {
         auto pEvent = m_eventPool.alloc();
         pEvent->type = EventType::ConnectFailure;
@@ -1082,7 +1098,7 @@ namespace BrainCloud
         m_events.push_back(pEvent);
     }
 
-    void RelayComms::queueSystemEvent(const std::string& jsonString)
+    void RelayComms::queueSystemEvent(const std::string &jsonString)
     {
         auto pEvent = m_eventPool.alloc();
         pEvent->type = EventType::System;
@@ -1090,7 +1106,7 @@ namespace BrainCloud
         m_events.push_back(pEvent);
     }
 
-    void RelayComms::queueRelayEvent(int netId, const uint8_t* pData, int size)
+    void RelayComms::queueRelayEvent(int netId, const uint8_t *pData, int size)
     {
         auto pEvent = m_eventPool.alloc();
         pEvent->type = EventType::Relay;
