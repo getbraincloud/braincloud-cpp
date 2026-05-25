@@ -73,6 +73,7 @@ namespace BrainCloud {
 		BrainCloudRelay * getRelayService() { return client->getRelayService(); }
 		BrainCloudRTT * getRTTService() { return client->getRTTService(); }
         BrainCloudBlockchain * getBlockchainService() { return client->getBlockchainService(); }
+        BrainCloudCampaign * getCampaignService() { return client->getCampaignService(); }
 
         /**
          * Method returns a singleton instance of the BrainCloudWrapper.
