@@ -539,6 +539,9 @@ namespace BrainCloud
 		static const ServiceOperation GetBlockchainItems;
 		static const ServiceOperation GetUniqs;
 
+		// Campaign
+		static const ServiceOperation GetMyCampaigns;
+
 		std::string getValue() const { return _value; }
 
 		bool operator==(const ServiceOperation &s) const;

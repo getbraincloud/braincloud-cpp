@@ -253,6 +253,7 @@ add_library(brainCloud STATIC
         include/braincloud/BrainCloudAsyncMatch.h
         include/braincloud/BrainCloudAuthentication.h
         include/braincloud/BrainCloudBlockchain.h
+        include/braincloud/BrainCloudCampaign.h
         include/braincloud/BrainCloudChat.h
         include/braincloud/BrainCloudClient.h
         include/braincloud/BrainCloudCustomEntity.h
@@ -352,6 +353,7 @@ add_library(brainCloud STATIC
         src/BrainCloudAsyncMatch.cpp
         src/BrainCloudAuthentication.cpp
         src/BrainCloudBlockchain.cpp
+        src/BrainCloudCampaign.cpp
         src/BrainCloudChat.cpp
         src/BrainCloudClient.cpp
         src/BrainCloudCustomEntity.cpp

@@ -67,6 +67,8 @@ namespace BrainCloud {
 
 
         static const ServiceName Blockchain;
+
+        static const ServiceName Campaign;
         
         std::string getValue() const { return _value; }
 

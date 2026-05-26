@@ -526,6 +526,9 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::GetBlockchainItems = ServiceOperation("GET_BLOCKCHAIN_ITEMS");
 	const ServiceOperation ServiceOperation::GetUniqs = ServiceOperation("GET_UNIQS");
 
+	// Campaign
+	const ServiceOperation ServiceOperation::GetMyCampaigns = ServiceOperation("GET_MY_CAMPAIGNS");
+
 	ServiceOperation::ServiceOperation(const char *value)
 	{
 		_value = value;
