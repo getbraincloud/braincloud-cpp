@@ -336,6 +336,37 @@ namespace BrainCloud
 		attachPingDataAndSend(ServiceName::Lobby, ServiceOperation::CreateLobbyWithPingData, message, callback);
 	}
 
+	void BrainCloudLobby::createLobbyWithConfig(const std::string &lobbyType, int rating, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, const std::string &jsonSettings, const std::string &jsonConfigOverrides, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::LobbyType.getValue()] = lobbyType;
+		message[OperationParam::Rating.getValue()] = rating;
+		message[OperationParam::OtherUserCxIds.getValue()] = JsonUtil::stringVectorToJson(otherUserCxIds);
+		message[OperationParam::IsReady.getValue()] = isReady;
+		message[OperationParam::ExtraJson.getValue()] = JsonUtil::jsonStringToValue(extraJson.c_str());
+		message[OperationParam::TeamCode.getValue()] = teamCode;
+		message[OperationParam::Settings.getValue()] = JsonUtil::jsonStringToValue(jsonSettings.c_str());
+		message[OperationParam::ConfigOverrides.getValue()] = JsonUtil::jsonStringToValue(jsonConfigOverrides.c_str());
+
+		ServerCall *sc = new ServerCall(ServiceName::Lobby, ServiceOperation::CreateLobbyWithConfig, message, callback);
+		m_client->sendRequest(sc);
+	}
+
+	void BrainCloudLobby::createLobbyWithConfigAndPingData(const std::string &lobbyType, int rating, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, const std::string &jsonSettings, const std::string &jsonConfigOverrides, IServerCallback *callback)
+	{
+		Json::Value message;
+		message[OperationParam::LobbyType.getValue()] = lobbyType;
+		message[OperationParam::Rating.getValue()] = rating;
+		message[OperationParam::OtherUserCxIds.getValue()] = JsonUtil::stringVectorToJson(otherUserCxIds);
+		message[OperationParam::IsReady.getValue()] = isReady;
+		message[OperationParam::ExtraJson.getValue()] = JsonUtil::jsonStringToValue(extraJson.c_str());
+		message[OperationParam::TeamCode.getValue()] = teamCode;
+		message[OperationParam::Settings.getValue()] = JsonUtil::jsonStringToValue(jsonSettings.c_str());
+		message[OperationParam::ConfigOverrides.getValue()] = JsonUtil::jsonStringToValue(jsonConfigOverrides.c_str());
+
+		attachPingDataAndSend(ServiceName::Lobby, ServiceOperation::CreateLobbyWithConfigAndPingData, message, callback);
+	}
+
 	void BrainCloudLobby::findLobby(const std::string &lobbyType, int rating, int maxSteps, const std::string &jsonAlgo, const std::string &jsonFilter, const std::vector<std::string> &otherUserCxIds, bool isReady, const std::string &extraJson, const std::string &teamCode, IServerCallback *callback)
 	{
 		Json::Value message;

@@ -416,6 +416,8 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::PingRegions = ServiceOperation("PING_REGIONS");
 	const ServiceOperation ServiceOperation::CreateLobby = ServiceOperation("CREATE_LOBBY");
 	const ServiceOperation ServiceOperation::CreateLobbyWithPingData = ServiceOperation("CREATE_LOBBY_WITH_PING_DATA");
+	const ServiceOperation ServiceOperation::CreateLobbyWithConfig = ServiceOperation("CREATE_LOBBY_WITH_CONFIG");
+	const ServiceOperation ServiceOperation::CreateLobbyWithConfigAndPingData = ServiceOperation("CREATE_LOBBY_WITH_CONFIG_AND_PING_DATA");
 	const ServiceOperation ServiceOperation::FindLobby = ServiceOperation("FIND_LOBBY");
 	const ServiceOperation ServiceOperation::FindLobbyWithPingData = ServiceOperation("FIND_LOBBY_WITH_PING_DATA");
 	const ServiceOperation ServiceOperation::FindOrCreateLobby = ServiceOperation("FIND_OR_CREATE_LOBBY");
