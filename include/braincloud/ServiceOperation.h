@@ -478,6 +478,8 @@ namespace BrainCloud
 		static const ServiceOperation PingRegions;
 		static const ServiceOperation CreateLobby;
 		static const ServiceOperation CreateLobbyWithPingData;
+		static const ServiceOperation CreateLobbyWithConfig;
+		static const ServiceOperation CreateLobbyWithConfigAndPingData;
 		static const ServiceOperation FindLobby;
 		static const ServiceOperation FindLobbyWithPingData;
 		static const ServiceOperation FindOrCreateLobby;

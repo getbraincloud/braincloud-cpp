@@ -94,6 +94,40 @@ namespace BrainCloud
 		void createLobbyWithPingData(const std::string& lobbyType, int rating, const std::vector<std::string>& otherUserCxIds, bool isReady, const std::string& extraJson, const std::string& teamCode, const std::string& jsonSettings, IServerCallback* callback = NULL);
 
 		/**
+		 * Creates a new lobby with server config overrides.
+		 *
+		 * Service Name - Lobby
+		 * Service Operation - CreateLobbyWithConfig
+		 *
+		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+		 * @param rating The skill rating to use for finding the lobby.
+		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well.
+		 * @param isReady Initial ready-status of this user.
+		 * @param extraJson Initial extra-data about this user.
+		 * @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+		 * @param settings Configuration data for the room.
+		 * @param jsonConfigOverrides Server config overrides for the lobby.
+		 */
+		void createLobbyWithConfig(const std::string& lobbyType, int rating, const std::vector<std::string>& otherUserCxIds, bool isReady, const std::string& extraJson, const std::string& teamCode, const std::string& jsonSettings, const std::string& jsonConfigOverrides, IServerCallback* callback = NULL);
+
+		/**
+		 * Creates a new lobby with server config overrides. Uses attached ping data to resolve best location.
+		 *
+		 * Service Name - Lobby
+		 * Service Operation - CreateLobbyWithConfigAndPingData
+		 *
+		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
+		 * @param rating The skill rating to use for finding the lobby.
+		 * @param otherUserCxIds Array of other users (i.e. party members) to add to the lobby as well.
+		 * @param isReady Initial ready-status of this user.
+		 * @param extraJson Initial extra-data about this user.
+		 * @param teamCode Preferred team for this user, if applicable. Send "" or null for automatic assignment.
+		 * @param settings Configuration data for the room.
+		 * @param jsonConfigOverrides Server config overrides for the lobby.
+		 */
+		void createLobbyWithConfigAndPingData(const std::string& lobbyType, int rating, const std::vector<std::string>& otherUserCxIds, bool isReady, const std::string& extraJson, const std::string& teamCode, const std::string& jsonSettings, const std::string& jsonConfigOverrides, IServerCallback* callback = NULL);
+
+		/**
 		 * Finds a lobby matching the specified parameters. Asynchronous - returns 200 to indicate that matchmaking has started.
 		 *
 		 * Service Name - Lobby
