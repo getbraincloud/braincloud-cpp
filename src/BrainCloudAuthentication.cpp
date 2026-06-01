@@ -69,9 +69,42 @@ namespace BrainCloud {
         authenticate(oculusUserId, oculusNonce, AuthenticationType::Oculus, NULL, forceCreate, "", callback);
     }
 
-    void BrainCloudAuthentication::authenticateGameCenter(const char * gameCenterId, bool forceCreate, IServerCallback * callback)
+    std::string BrainCloudAuthentication::createGameCenterAuthenticationToken(uint64_t timestamp,
+                                                                              const std::string& publicKeyUrl,
+                                                                              const uint8_t* signature, size_t signatureLength,
+                                                                              const uint8_t* salt, size_t saltLength,
+                                                                              const std::string& teamPlayerId)
     {
-        authenticate(gameCenterId, "", AuthenticationType::GameCenter, NULL, forceCreate, "", callback);
+        if (salt == NULL || saltLength == 0 ||
+            signature == NULL || signatureLength == 0 ||
+            publicKeyUrl.empty() ||
+            timestamp == 0)
+        {
+            return "";
+        }
+
+        std::string teamPlayerIdJson = teamPlayerId.empty() ? "null" : "\"" + teamPlayerId + "\"";
+
+        std::string json = "{\"playerId\":" + teamPlayerIdJson +
+                           ",\"timestamp\":" + std::to_string(timestamp) +
+                           ",\"publicKeyUrl\":\"" + publicKeyUrl + "\"" +
+                           ",\"signature\":\"" + StringUtil::Base64Encode(signature, signatureLength) + "\"" +
+                           ",\"salt\":\"" + StringUtil::Base64Encode(salt, saltLength) + "\"}";
+
+        return StringUtil::Base64Encode(json);
+    }
+
+    void BrainCloudAuthentication::authenticateGameCenter(const char* gameCenterId, bool forceCreate,
+                                                          uint64_t timestamp,
+                                                          const std::string& publicKeyUrl,
+                                                          const uint8_t* signature, size_t signatureLength,
+                                                          const uint8_t* salt, size_t saltLength,
+                                                          const std::string& teamPlayerId,
+                                                          IServerCallback* callback)
+    {
+        std::string authenticationToken = createGameCenterAuthenticationToken(timestamp, publicKeyUrl, signature, signatureLength, salt, saltLength, teamPlayerId);
+
+        authenticate(gameCenterId, authenticationToken.c_str(), AuthenticationType::GameCenter, NULL, forceCreate, "", callback);
     }
 
     void BrainCloudAuthentication::authenticateEmailPassword(const char * email, const char * password, bool forceCreate, IServerCallback * callback)

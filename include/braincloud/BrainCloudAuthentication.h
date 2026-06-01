@@ -63,7 +63,7 @@ namespace BrainCloud
 		 */
 		void authenticateAnonymous(bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		 * Authenticate the user with brainCloud using their Facebook Credentials
 		 *
 		 * Service Name - Authenticate
@@ -78,7 +78,7 @@ namespace BrainCloud
 		 */
 		void authenticateFacebook(const char * fbUserId, const char * fbAuthToken, bool forceCreate, IServerCallback * callback = NULL);
 
-        /*
+        /**
 		 * Authenticate the user with brainCloud using their Oculus Credentials
 		 *
 		 * Service Name - Authenticate
@@ -92,20 +92,41 @@ namespace BrainCloud
 		 */
 		void authenticateOculus(const char * oculusUserId, const char * oculusNonce, bool forceCreate, IServerCallback * callback = NULL);
 
+		/**
+		* Creates and returns a Base64String-ified JSON for the Game Center authenticationToken.
+		*/
+		static std::string createGameCenterAuthenticationToken(uint64_t timestamp, const std::string& publicKeyUrl, const uint8_t* signature, size_t signatureLength, const uint8_t* salt, size_t saltLength, const std::string& teamPlayerId);
 
-		/*
-		 * Authenticate the user using their Game Center id
+		/**
+		 * Authenticate the user using their Game Center Id and identity verification signature.
+		 *
+         * Note: If the Game Center legacy authentication compatibility flag is enabled,
+         * only gameCenterId is required and all verification signature parameters are ignored.
 		 *
 		 * Service Name - Authenticate
 		 * Service Operation - Authenticate
 		 *
-		 * @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
+		 * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
 		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
-		 * @param callback The method to be invoked when the server response is received
+		 * @param timestamp The timestamp value returned as part of the identity verification signature fetch from Game Center.
+		 * 		  Required for modern Game Center verification.
+		 * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
+		 *        Required for modern Game Center verification.
+		 * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
+		 *        Required for modern Game Center verification.
+		 * @param signatureLength The length of the returned identity verification signature.
+		 *        Required for modern Game Center verification.
+		 * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
+		 *        Required for modern Game Center verification.
+		 * @param saltLength The length of the returned identity verification salt.
+		 *        Required for modern Game Center verification.
+		 * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than teamPlayerId (e.g. playerId),
+		 *        so that brainCloud can still associate the user with their team-scoped identity.
+		 * @param callback The method to be invoked when the server response is received.
 		 */
-		void authenticateGameCenter(const char * gameCenterId, bool forceCreate, IServerCallback * callback = NULL);
+		void authenticateGameCenter(const char* gameCenterId, bool forceCreate, uint64_t timestamp = 0, const std::string& publicKeyUrl = "", const uint8_t* signature = NULL, size_t signatureLength = 0, const uint8_t* salt = NULL, size_t saltLength = 0, const std::string& teamPlayerId = "", IServerCallback* callback = NULL);
 
-		/*
+		/**
 		 * Authenticate the user with a custom Email and Password.  Note that the client app
 		 * is responsible for collecting (and storing) the e-mail and potentially password
 		 * (for convenience) in the client data.  For the greatest security,
@@ -125,7 +146,7 @@ namespace BrainCloud
 		 */
 		void authenticateEmailPassword(const char * email, const char * password, bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		 * Authenticate the user using a userid and password (without any validation on the userid).
 		 * Similar to AuthenticateEmailPassword - except that that method has additional features to
 		 * allow for e-mail validation, password resets, etc.
@@ -140,12 +161,12 @@ namespace BrainCloud
 		 */
 		void authenticateUniversal(const char * userId, const char * password, bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		 * Get server version.
 		 */
 		void getServerVersion(IServerCallback *callback = NULL);
 
-		/*
+		/**
 		 * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
 		 *
 		 * Service Name - Authenticate
@@ -158,7 +179,7 @@ namespace BrainCloud
 		 */
 		void authenticateSteam(const char * userId, const char * sessionticket, bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		* Authenticate the user using a google userid(email address) and google authentication token.
 		*
 		* Service Name - Authenticate
@@ -171,7 +192,7 @@ namespace BrainCloud
 		*/
 		void authenticateApple(const char * appleUserId, const char * identityToken, bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		* Authenticate the user using a google userid(email address) and google authentication token.
 		*
 		* Service Name - Authenticate
@@ -184,7 +205,7 @@ namespace BrainCloud
 		*/
 		void authenticateGoogle(const char * googleUserId, const char * serverAuthCode, bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		* Authenticate the user using a google userid(email address) and google authentication token.
 		*
 		* Service Name - Authenticate
@@ -197,7 +218,7 @@ namespace BrainCloud
 		*/
 		void authenticateGoogleOpenId(const char * googleUserAccountEmail, const char * IdToken, bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		 * Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
 		 *
 		 * Service Name - Authenticate
@@ -211,7 +232,7 @@ namespace BrainCloud
 		 */
 		void authenticateTwitter(const char * userId, const char * token, const char * secret, bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		* Authenticate the user using a Pase userid and authentication token
 		*
 		* Service Name - Authenticate
@@ -224,7 +245,7 @@ namespace BrainCloud
 		*/
 		void authenticateParse(const char * userId, const char * token, bool forceCreate, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		* Authenticate the user using a handoffId and authentication token
 		*
 		* Service Name - Authenticate
@@ -236,7 +257,7 @@ namespace BrainCloud
 		*/
 		void authenticateHandoff(const char * handoffId, const char * securityToken, IServerCallback * callback = NULL);
 
-		/*
+		/**
 		* Authenticate the user using a handoffCode 
 		*
 		* Service Name - Authenticate
@@ -262,7 +283,7 @@ namespace BrainCloud
 		 */
 		void authenticateExternal(const char * userId, const char * token, const char * externalAuthName, bool forceCreate, IServerCallback * callback = NULL);
 
-        /*
+        /**
          * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
          * that will be passed along to pre- or post- hooks.
          *
@@ -388,7 +409,7 @@ namespace BrainCloud
 		void resetUniversalIdPasswordAdvanced(const char * universalId, std::string serviceParams, IServerCallback * callback = NULL);
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				/**
+		/**
 		 * Resets Universal ID password
 		 *
 		 * Service Name - Authenticate
