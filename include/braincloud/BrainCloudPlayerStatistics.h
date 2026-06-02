@@ -30,8 +30,8 @@ namespace BrainCloud
         /**
          * Read all available user statistics.
          *
-         * Service Name - PlayerStatistics
-         * Service Operation - Read
+         * Service Name - playerStatistics
+         * Service Operation - READ
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -40,8 +40,8 @@ namespace BrainCloud
         /**
          * Reads a subset of user statistics as defined by the input collection.
          *
-         * Service Name - PlayerStatistics
-         * Service Operation - ReadSubset
+         * Service Name - playerStatistics
+         * Service Operation - READ_SUBSET
          *
          * @param statistics A collection containing the subset of statistics to read:
          * ex. [ "pantaloons", "minions" ]
@@ -52,7 +52,7 @@ namespace BrainCloud
         /**
          * Method retrieves the user statistics for the given category.
          *
-         * Service Name - PlayerStatistics
+         * Service Name - playerStatistics
          * Service Operation - READ_FOR_CATEGORY
          *
          * @param category The user statistics category
@@ -63,8 +63,8 @@ namespace BrainCloud
         /**
          * Reset all of the statistics for this user back to their initial value.
          *
-         * Service Name - PlayerStatistics
-         * Service Operation - Reset
+         * Service Name - playerStatistics
+         * Service Operation - RESET
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -77,8 +77,8 @@ namespace BrainCloud
          * Note also that the "xpCapped" property is returned (true/false depending on whether
          * the xp cap is turned on and whether the user has hit it).
          *
-         * Service Name - PlayerStatistics
-         * Service Operation - Update
+         * Service Name - playerStatistics
+         * Service Operation - UPDATE
          *
          * @param jsonData The JSON encoded data to be sent to the server as follows:
          * {
@@ -100,8 +100,8 @@ namespace BrainCloud
         /**
          * Returns JSON representing the next experience level for the user.
          *
-         * Service Name - PlayerStatistics
-         * Service Operation - ReadNextXpLevel
+         * Service Name - playerStatistics
+         * Service Operation - READ_NEXT_XPLEVEL
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -111,8 +111,8 @@ namespace BrainCloud
          * Increments the user's experience. If the user goes up a level,
          * the new level details will be returned along with a list of rewards.
          *
-         * Service Name - PlayerStatistics
-         * Service Operation - UpdateIncrement
+         * Service Name - playerStatistics
+         * Service Operation - UPDATE_INCREMENT
          *
          * @param xpValue The amount to increase the user's experience by
          * @param callback The method to be invoked when the server response is received
@@ -124,8 +124,8 @@ namespace BrainCloud
          * is simply a set and will not reward the user if their level changes
          * as a result.
          *
-         * Service Name - PlayerStatistics
-         * Service Operation - SetXpPoints
+         * Service Name - playerStatistics
+         * Service Operation - SET_XPPOINTS
          *
          * @param xpValue The amount to set the the user's experience to
          * @param callback The method to be invoked when the server response is received
@@ -135,7 +135,7 @@ namespace BrainCloud
 		/**
 		* Apply statistics grammar to a partial set of statistics.
 		*
-		* Service Name - PlayerStatistics
+		* Service Name - playerStatistics
 		* Service Operation - PROCESS_STATISTICS
 		*
 		* @param jsonData The JSON format is as follows:

@@ -36,8 +36,8 @@ namespace BrainCloud
 
 		/* Retrieves the region settings for each of the given lobby types. Upon success or afterwards, call pingRegions to start retrieving appropriate data.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - GetRegionsForLobbies
+		 * Service Name - lobby
+		 * Service Operation - GET_REGIONS_FOR_LOBBIES
 		 *
 		 * @param roomTypes Ids of the lobby types.
 		 */
@@ -62,8 +62,8 @@ namespace BrainCloud
 		 * 
 		 * Sends LOBBY_JOSUCCESS message to the user, with full copy of lobby data Sends LOBBY_MEMBER_JOINED to all lobby members, with copy of member data
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - CreateLobby
+		 * Service Name - lobby
+		 * Service Operation - CREATE_LOBBY
 		 *
 		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
@@ -80,8 +80,8 @@ namespace BrainCloud
 		 * 
 		 * Sends LOBBY_JOSUCCESS message to the user, with full copy of lobby data Sends LOBBY_MEMBER_JOINED to all lobby members, with copy of member data
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - CreateLobbyWithPingData
+		 * Service Name - lobby
+		 * Service Operation - CREATE_LOBBY_WITH_PING_DATA
 		 *
 		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
@@ -96,8 +96,8 @@ namespace BrainCloud
 		/**
 		 * Creates a new lobby with server config overrides.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - CreateLobbyWithConfig
+		 * Service Name - lobby
+		 * Service Operation - CREATE_LOBBY_WITH_CONFIG
 		 *
 		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param rating The skill rating to use for finding the lobby.
@@ -113,8 +113,8 @@ namespace BrainCloud
 		/**
 		 * Creates a new lobby with server config overrides. Uses attached ping data to resolve best location.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - CreateLobbyWithConfigAndPingData
+		 * Service Name - lobby
+		 * Service Operation - CREATE_LOBBY_WITH_CONFIG_AND_PING_DATA
 		 *
 		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param rating The skill rating to use for finding the lobby.
@@ -130,8 +130,8 @@ namespace BrainCloud
 		/**
 		 * Finds a lobby matching the specified parameters. Asynchronous - returns 200 to indicate that matchmaking has started.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - FindLobby
+		 * Service Name - lobby
+		 * Service Operation - FIND_LOBBY
 		 *
 		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
@@ -148,8 +148,8 @@ namespace BrainCloud
 		/**
 		 * Finds a lobby matching the specified parameters. Asynchronous - returns 200 to indicate that matchmaking has started. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - FindLobbyWithPingData
+		 * Service Name - lobby
+		 * Service Operation - FIND_LOBBY_WITH_PING_DATA
 		 *
 		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
@@ -166,8 +166,8 @@ namespace BrainCloud
 		/**
 		 * Adds the caller to the lobby entry queue and will create a lobby if none are found.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - FindOrCreateLobby
+		 * Service Name - lobby
+		 * Service Operation - FIND_OR_CREATE_LOBBY
 		 *
 		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
@@ -185,8 +185,8 @@ namespace BrainCloud
 		/**
 		 * Adds the caller to the lobby entry queue and will create a lobby if none are found. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - FindOrCreateLobbyWithPingData
+		 * Service Name - lobby
+		 * Service Operation - FIND_OR_CREATE_LOBBY_WITH_PING_DATA
 		 *
 		 * @param lobbyType The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param rating The skill rating to use for finding the lobby. Provided as a separate parameter because it may not exactly match the user's rating (especially in cases where parties are involved).
@@ -204,8 +204,8 @@ namespace BrainCloud
 		/**
 		 * Returns the data for the specified lobby, including member data.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - GetLobbyData
+		 * Service Name - lobby
+		 * Service Operation - GET_LOBBY_DATA
 		 *
 		 * @param lobbyId Id of chosen lobby.
 		 */
@@ -214,8 +214,8 @@ namespace BrainCloud
 		/**
 		 * Causes the caller to leave the specified lobby. If the user was the owner, a new owner will be chosen. If user was the last member, the lobby will be deleted.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - LeaveLobby
+		 * Service Name - lobby
+		 * Service Operation - LEAVE_LOBBY
 		 *
 		 * @param lobbyId Id of chosen lobby.
 		 */
@@ -224,8 +224,8 @@ namespace BrainCloud
 		/**
 		 * Evicts the specified user from the specified lobby. The caller must be the owner of the lobby.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - RemoveMember
+		 * Service Name - lobby
+		 * Service Operation - REMOVE_MEMBER
 		 *
 		 * @param lobbyId Id of chosen lobby.
 		 * @param cxId Specified member to be removed from the lobby.
@@ -235,8 +235,8 @@ namespace BrainCloud
 		/**
 		 * Sends LOBBY_SIGNAL_DATA message to all lobby members.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - SendSignal
+		 * Service Name - lobby
+		 * Service Operation - SEND_SIGNAL
 		 *
 		 * @param lobbyId Id of chosen lobby.
 		 * @param signalData Signal data to be sent.
@@ -248,8 +248,8 @@ namespace BrainCloud
 		 * 
 		 * Sends LOBBY_MEMBER_UPDATED to all lobby members, with copy of member data
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - SwitchTeam
+		 * Service Name - lobby
+		 * Service Operation - SWITCH_TEAM
 		 *
 		 * @param lobbyId Id of chosen lobby.
 		 * @param toTeamCode Specified team code.
@@ -259,8 +259,8 @@ namespace BrainCloud
 		/**
 		 * Updates the ready status and extra json for the given lobby member.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - UpdateReady
+		 * Service Name - lobby
+		 * Service Operation - UPDATE_READY
 		 *
 		 * @param lobbyId The type of lobby to look for. Lobby types are defined in the portal.
 		 * @param isReady Initial ready-status of this user.
@@ -271,8 +271,8 @@ namespace BrainCloud
 		/**
 		 * Updates the ready status and extra json for the given lobby member.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - UpdateSettings
+		 * Service Name - lobby
+		 * Service Operation - UPDATE_SETTINGS
 		 *
 		 * @param lobbyId Id of the specfified lobby.
 		 * @param settings Configuration data for the room.
@@ -282,8 +282,8 @@ namespace BrainCloud
 		/**
 		 * Join specified lobby
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - JoinLobby
+		 * Service Name - lobby
+		 * Service Operation - JOIN_LOBBY
 		 *
 		 * @param lobbyId Id of the specfified lobby.
 		 * @param isReady Initial ready-status of this user.
@@ -297,8 +297,8 @@ namespace BrainCloud
 		/**
 		 * Join specified lobby. Uses attached ping data to resolve best location. GetRegionsForLobbies and PingRegions must be successfully responded to.
 		 *
-		 * Service Name - Lobby
-		 * Service Operation - JoinLobbyWithPingData
+		 * Service Name - lobby
+		 * Service Operation - JOIN_LOBBY_WITH_PING_DATA
 		 *
 		 * @param lobbyId Id of the specfified lobby.
 		 * @param isReady Initial ready-status of this user.
@@ -322,7 +322,7 @@ namespace BrainCloud
 		/**
 		 * Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
 		 *
-		 * Service Name - Lobby
+		 * Service Name - lobby
 		 * Service Operation - GET_LOBBY_INSTANCES
 		 *
 		 * @param lobbyType The type of lobby to look for.
@@ -334,7 +334,7 @@ namespace BrainCloud
 		 * Gets a map keyed by rating of the visible lobby instances matching the given type and rating range.
 		 * Only lobby instances in the regions that satisfy the ping portion of the criteriaJson (based on the values provided in pingData) will be returned.
 		 *
-		 * Service Name - Lobby
+		 * Service Name - lobby
 		 * Service Operation - GET_LOBBY_INSTANCES_WITH_PING_DATA
 		 *
 		 * @param lobbyType The type of lobby to look for.

@@ -23,8 +23,8 @@ namespace BrainCloud
 		/**
 		* Method creates a new entity on the server.
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - Create
+		* Service Name - globalEntity
+		* Service Operation - CREATE
 		*
 		* @param entityType The entity type as defined by the user
 		* @param timeToLive Sets expiry time for entity in milliseconds if > 0
@@ -38,8 +38,8 @@ namespace BrainCloud
 		/**
 		* Method creates a new entity on the server with an indexed id.
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - CreateWithIndexedId
+		* Service Name - globalEntity
+		* Service Operation - CREATE_WITH_INDEXED_ID
 		*
 		* @param entityType The entity type as defined by the user
 		* @param indexedId A secondary ID that will be indexed
@@ -54,8 +54,8 @@ namespace BrainCloud
 		/**
 		* Method updates an existing entity on the server.
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - Update
+		* Service Name - globalEntity
+		* Service Operation - UPDATE
 		*
 		* @param entityId The entity ID
 		* @param version The version of the entity to update
@@ -67,8 +67,8 @@ namespace BrainCloud
 		/**
 		* Method updates an existing entity's Acl on the server.
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - UpdateAcl
+		* Service Name - globalEntity
+		* Service Operation - UPDATE_ACL
 		*
 		* @param entityId The entity ID
 		* @param version The version of the entity to update
@@ -80,8 +80,8 @@ namespace BrainCloud
 		/**
 		* Method updates an existing entity's time to live on the server.
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - UpdateTimeToLive
+		* Service Name - globalEntity
+		* Service Operation - UPDATE_TIME_TO_LIVE
 		*
 		* @param entityId The entity ID
 		* @param version The version of the entity to update
@@ -93,8 +93,8 @@ namespace BrainCloud
 		/**
 		* Method deletes an existing entity on the server.
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - Delete
+		* Service Name - globalEntity
+		* Service Operation - DELETE
 		*
 		* @param entityId The entity ID
 		* @param version The version of the entity to delete
@@ -105,8 +105,8 @@ namespace BrainCloud
 		/**
 		* Method reads an existing entity from the server.
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - Read
+		* Service Name - globalEntity
+		* Service Operation - READ
 		*
 		* @param entityId The entity ID
 		* @param callback The callback object
@@ -116,8 +116,8 @@ namespace BrainCloud
 		/**
 		* Method gets list of entities from the server base on type and/or where clause
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - GetList
+		* Service Name - globalEntity
+		* Service Operation - GET_LIST
 		*
 		* @param where Mongo style query string
 		* @param orderBy Sort order
@@ -129,8 +129,8 @@ namespace BrainCloud
 		/**
 		* Method gets list of entities from the server base on indexed id
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - GetListByIndexedId
+		* Service Name - globalEntity
+		* Service Operation - GET_LIST_BY_INDEXED_ID
 		*
 		* @param entityIndexedId The entity indexed Id
 		* @param maxReturn The maximum number of entities to return
@@ -141,8 +141,8 @@ namespace BrainCloud
 		/**
 		* Method gets a count of entities based on the where clause
 		*
-		* Service Name - GlobalEntity
-		* Service Operation - GetListCount
+		* Service Name - globalEntity
+		* Service Operation - GET_LIST_COUNT
 		*
 		* @param where Mongo style query string
 		* @param callback The callback object
@@ -154,8 +154,8 @@ namespace BrainCloud
 		 * After retrieving a page of Global Entities with this method,
 		 * use GetPageOffset() to retrieve previous or next pages.
 		 *
-		 * Service Name - GlobalEntity
-		 * Service Operation - GetPage
+		 * Service Name - globalEntity
+		 * Service Operation - GET_PAGE
 		 *
 		 * @param context The json context for the page request.
 		 *                   See the portal appendix documentation for format.
@@ -166,8 +166,8 @@ namespace BrainCloud
 		/**
 		 * Method to retrieve previous or next pages after having called the GetPage method.
 		 *
-		 * Service Name - GlobalEntity
-		 * Service Operation - GetPageOffset
+		 * Service Name - globalEntity
+		 * Service Operation - GET_PAGE_BY_OFFSET
 		 *
 		 * @param context The context string returned from the server from a
 		 *      previous call to GetPage or GetPageOffset

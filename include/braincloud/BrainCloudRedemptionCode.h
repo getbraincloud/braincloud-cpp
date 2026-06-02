@@ -22,7 +22,7 @@ namespace BrainCloud
         /**
          * Redeem a code.
          *
-         * Service Name - RedemptionCode
+         * Service Name - redemptionCode
          * Service Operation - REDEEM_CODE
          *
          * @param scanCode The code to redeem
@@ -35,7 +35,7 @@ namespace BrainCloud
         /**
          * Retrieve the codes already redeemed by player.
          *
-         * Service Name - RedemptionCode
+         * Service Name - redemptionCode
          * Service Operation - GET_REDEEMED_CODES
          *
          * @param codeType Optional - The type of codes to retrieve. Returns all codes if left unspecified.

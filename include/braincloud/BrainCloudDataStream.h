@@ -23,6 +23,9 @@ namespace BrainCloud {
         /**
          * Creates custom data stream page event
          *
+         * Service Name - dataStream
+         * Service Operation - CUSTOM_PAGE_EVENT
+         *
          * @param eventName Name of event
          * @param eventProperties Properties of event
          */

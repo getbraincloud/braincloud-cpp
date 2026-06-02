@@ -23,8 +23,8 @@ namespace BrainCloud
         /**
          * Returns the complete info for the specified file given it’s fileId
          *
-         * Service Name - GlobalFileV3
-         * Service Operation - GetFileInfo
+         * Service Name - globalFileV3
+         * Service Operation - GET_FILE_INFO
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -33,8 +33,8 @@ namespace BrainCloud
         /**
          * Returns the complete info for the specified file, without having to look up the fileId first.
          *
-         * Service Name - GlobalFileV3
-         * Service Operation - GetFileInfoSimple
+         * Service Name - globalFileV3
+         * Service Operation - GET_FILE_INFO_SIMPLE
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -43,8 +43,8 @@ namespace BrainCloud
         /**
          * Returns the CDN of the specified file.
          *
-         * Service Name - GlobalFileV3
-         * Service Operation - GetGlobalCDNUrl
+         * Service Name - globalFileV3
+         * Service Operation - GET_GLOBAL_CDN_URL
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -53,8 +53,8 @@ namespace BrainCloud
         /**
          * Returns files at the current path.
          *
-         * Service Name - GlobalFileV3
-         * Service Operation - GetGlobalFileList
+         * Service Name - globalFileV3
+         * Service Operation - GET_GLOBAL_FILE_LIST
          *
          * @param callback The method to be invoked when the server response is received
          */

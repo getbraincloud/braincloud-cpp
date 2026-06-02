@@ -24,8 +24,8 @@ namespace BrainCloud
 		/**
 		 * Creates new custom entity.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - CreateEntity
+		 * Service Name - customEntity
+		 * Service Operation - CREATE_ENTITY
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param jsonEntityData The entity's data as a json string
@@ -40,8 +40,8 @@ namespace BrainCloud
 		/**
 		 * Deletes the specified custom entity on the server.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - DeleteEntity
+		 * Service Name - customEntity
+		 * Service Operation - DELETE_ENTITY
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param jsonEntityData The entity's data as a json string
@@ -53,8 +53,8 @@ namespace BrainCloud
 		/**
 		 * Deletes the specified custom entity on the server.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - GetCount
+		 * Service Name - customEntity
+		 * Service Operation - GET_COUNT
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param whereJson
@@ -67,8 +67,8 @@ namespace BrainCloud
 		 * After retrieving a page of Custom Entities with this method,
 		 * use GetEntityPageOffset() to retrieve previous or next pages.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - GetCustomEntityPage
+		 * Service Name - customEntity
+		 * Service Operation - GET_ENTITY_PAGE
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param context The json context for the page request.
@@ -79,8 +79,8 @@ namespace BrainCloud
 
 		/**
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - GetRandomEntitiesMatching
+		 * Service Name - customEntity
+		 * Service Operation - GET_RANDOM_ENTITIES_MATCHING
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param whereJson
@@ -92,8 +92,8 @@ namespace BrainCloud
 		/**
 		 * Gets the page of custom entities from the server based on the encoded context and specified page offset.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - GetEntityPageOffset
+		 * Service Name - customEntity
+		 * Service Operation - GET_ENTITY_PAGE_OFFSET
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param context
@@ -105,8 +105,8 @@ namespace BrainCloud
 		/**
 		 * Reads the specified custom entity from the server.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - ReadEntity
+		 * Service Name - customEntity
+		 * Service Operation - READ_ENTITY
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param entityId The entity id as defined by the system
@@ -117,8 +117,8 @@ namespace BrainCloud
 		/**
 		 * Replaces the specified custom entity's data, and optionally updates the acl and expiry, on the server.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - UpdateEntity
+		 * Service Name - customEntity
+		 * Service Operation - UPDATE_ENTITY
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param entityId
@@ -134,8 +134,8 @@ namespace BrainCloud
 		/**
 		 * Replaces the specified custom entity's data, and optionally updates the acl and expiry, on the server.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - UpdateEntityFields
+		 * Service Name - customEntity
+		 * Service Operation - UPDATE_ENTITY_FIELDS
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param entityId
@@ -148,8 +148,8 @@ namespace BrainCloud
 		/**
 		 * For sharded custom collection entities. Sets the specified fields within custom entity data on the server, enforcing ownership/ACL permissions.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - UpdateEntityFieldsSharded
+		 * Service Name - customEntity
+		 * Service Operation - UPDATE_ENTITY_FIELDS_SHARDED
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param entityId
@@ -163,8 +163,8 @@ namespace BrainCloud
 		/**
 		 * deletes entities based on the delete criteria.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - DeleteEntities
+		 * Service Name - customEntity
+		 * Service Operation - DELETE_ENTITIES
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param deleteCriteria Json string of criteria wanted for deletion
@@ -176,8 +176,8 @@ namespace BrainCloud
 		 * Deletes the specified custom entity singleton, owned by the session's user,
 		 * for the specified entity type, on the server.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - DeleteSingleton
+		 * Service Name - customEntity
+		 * Service Operation - DELETE_SINGLETON
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param version
@@ -189,8 +189,8 @@ namespace BrainCloud
 		 * creating the singleton if it does not exist.
 		 * This operation results in the owned singleton's data being completely replaced by the passed in JSON object.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - UpdateSingleton
+		 * Service Name - customEntity
+		 * Service Operation - UPDATE_SINGLETON
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param version
@@ -205,8 +205,8 @@ namespace BrainCloud
 		 * Partially updates the data, of the singleton owned by the user for the specified custom entity type,
 		 * with the specified fields, on the server
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - UpdateSingletonFields
+		 * Service Name - customEntity
+		 * Service Operation - UPDATE_SINGLETON_FIELDS
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param version
@@ -218,8 +218,8 @@ namespace BrainCloud
 		/**
 		 * Reads the custom entity singleton owned by the session's user.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - ReadSingleton
+		 * Service Name - customEntity
+		 * Service Operation - READ_SINGLETON
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param callback The method to be invoked when the server response is received
@@ -229,8 +229,8 @@ namespace BrainCloud
 		/**
 		 * Increments fields on the specified custom entity owned by the user on the server.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - IncrementData
+		 * Service Name - customEntity
+		 * Service Operation - INCREMENT_DATA
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param entityId The entity id as defined by the system
@@ -242,8 +242,8 @@ namespace BrainCloud
 		/**
 		 * Increments the specified fields, of the singleton owned by the user, by the specified amount within the custom entity data on the server.
 		 *
-		 * Service Name - CustomEntity
-		 * Service Operation - IncrementSingletonData
+		 * Service Name - customEntity
+		 * Service Operation - INCREMENT_SINGLETON_DATA
 		 *
 		 * @param entityType The type of custom entity being updated.
 		 * @param fieldsJson Specific fields, as JSON, within entity's custom data, with respective increment amount.

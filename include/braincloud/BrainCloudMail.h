@@ -64,7 +64,7 @@ namespace BrainCloud
 		/**
 		 * Sends an advanced email to the specified email addresses.
 		 *
-		 * Service Name - Mail
+		 * Service Name - mail
 		 * Service Operation - SEND_ADVANCED_EMAIL_BY_ADDRESSES
 		 *
 		 * @param emailAddress The list of addresses to send the email to

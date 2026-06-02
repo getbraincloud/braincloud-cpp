@@ -1,6 +1,6 @@
 {
   "name": "bc-cpp",
-  "version-string": "5.9.0",
+  "version-string": "6.0.0",
   "builtin-baseline": "b2fd29fec759bf49fd40bfd633204200b115a2b5",
   "dependencies": [
     "curl",

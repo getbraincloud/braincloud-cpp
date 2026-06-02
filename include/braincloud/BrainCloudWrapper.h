@@ -99,9 +99,9 @@ namespace BrainCloud {
          * @param appId The app id
          * @param version The app version
          * @param companyName The company name used in the keychain for storing anonymous and profile ids.
-         * You are free to pick anything you want.
+         *                    You are free to pick anything you want.
          * @param appName The app name used in the keychain for storing anonymous and profile ids.
-         * You are free to pick anything you want.
+         *                You are free to pick anything you want.
          */
         void initialize(const char* serverUrl, const char* secretKey, const char* appId, const char* version, const char* companyName, const char* appName);
 
@@ -110,14 +110,14 @@ namespace BrainCloud {
          * Used when needed to switch between child and parent apps.
          *
          * @param serverURL The url to the brainCloud server
-         *     Currently this should be:  https://api.braincloudservers.com/dispatcherv2
+         *                  Currently this should be:  https://api.braincloudservers.com/dispatcherv2
          * @param defaultAppId The default app id that we start with
          * @param secretMap A map of <appId, secretKey>
          * @param version The app version
          * @param companyName The company name used in the keychain for storing anonymous and profile ids.
-         * You are free to pick anything you want.
+         *                    You are free to pick anything you want.
          * @param appName The app name used in the keychain for storing anonymous and profile ids.
-         * You are free to pick anything you want.
+         *                You are free to pick anything you want.
          */
         void initializeWithApps(const char* serverURL, const char* defaultAppId, const std::map<std::string, std::string>& secretMap, const char* version, const char* companyName, const char* appName);
 
@@ -125,10 +125,12 @@ namespace BrainCloud {
          * Authenticate a user anonymously with brainCloud - used for apps that don't want to bother
          * the user to login, or for users who are sensitive to their privacy
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
-         * @param callback The method to be invoked when the server response is received
+         * @param callback The method to be invoked when the server response is received.
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
          *
          */
         void authenticateAnonymous(IServerCallback* callback = NULL, bool forceCreate = true);
@@ -142,14 +144,16 @@ namespace BrainCloud {
          *
          * Note that the password sent from the client to the server is protected via SSL.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
          * @param password  The password of the user
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
          *
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void authenticateEmailPassword(const char* email, const char* password, bool forceCreate, IServerCallback* callback = NULL);
 
@@ -157,13 +161,14 @@ namespace BrainCloud {
          * Authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
          * This allows the developer to extend brainCloud authentication to support other backend authentication systems.
          *
-         * Service Name - Authenticate
-         * Server Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid The user id
          * @param token The user token (password etc)
          * @param externalAuthName The name of the cloud script to call for external authentication
-         * @param force Should a new profile be created for this user if the account does not exist?
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param callback The method to be invoked when the server response is received
          *
          * @returns Performs the success callback on success, failure callback on failure.
          */
@@ -172,37 +177,45 @@ namespace BrainCloud {
         /**
 		 * Authenticate the user using a handoffId and authentication token
 		 *
-		 * Service Name - Authenticate
-		 * Service Operation - Authenticate
+		 * Service Name - authenticationV2
+		 * Service Operation - AUTHENTICATE
 		 *
 		 * @param handoffId braincloud handoff id generated from cloud script
 		 * @param securityToken The authentication token
 		 * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
 		 */
 		void authenticateHandoff(const char* handoffId, const char* securityToken, IServerCallback* callback = NULL);
 
 		/**
 		 * Authenticate the user using a handoffCode 
 		 *
-		 * Service Name - Authenticate
-		 * Service Operation - Authenticate
+		 * Service Name - authenticationV2
+		 * Service Operation - AUTHENTICATE
 		 *
 		 * @param handoffCode the code we generate in cloudcode
 		 * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
 		 */
-		void authenticateSettopHandoff(const char* handoffCode, IServerCallback* callback = NULL);
+		void authenticateSettopHandoff(const char * handoffCode, IServerCallback * callback = NULL);
 
         /**
          * Authenticate the user with brainCloud using their Facebook Credentials
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param fbUserId The facebook id of the user
          * @param fbAuthToken The validated token from the Facebook SDK
-         *   (that will be further validated when sent to the bC service)
+         *                    (that will be further validated when sent to the bC service)
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
          *
          */
         void authenticateFacebook(const char* fbUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback = NULL);
@@ -210,13 +223,15 @@ namespace BrainCloud {
         /**
          * Authenticate the user with brainCloud using their Oculus Credentials
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param oculusUserId The oculus id of the user
          * @param oculusNonce oculus token from the Oculus SDK
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
          *
          */
         void authenticateOculus(const char* oculusUserId, const char* oculusNonce, bool forceCreate, IServerCallback* callback = NULL);
@@ -224,13 +239,12 @@ namespace BrainCloud {
         /**
          * Authenticate the user using their Game Center Id (legacy support only, not recommended).
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
-         * @param success The method to call in event of successful login
-         * @param failure The method to call in the event of an error during authentication
+         * @param callback The method to be invoked when the server response is received.
          *
          * @returns Performs the success callback on success, failure callback on failure.
          * 
@@ -244,8 +258,8 @@ namespace BrainCloud {
         /**
          * Authenticate the user using their Game Center Id and identity verification signature.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
@@ -273,21 +287,24 @@ namespace BrainCloud {
 		/**
 		 * Authenticate the user using a google userid(email address) and google authentication token.
 		 *
-		 * Service Name - Authenticate
-		 * Service Operation - Authenticate
+		 * Service Name - authenticationV2
+		 * Service Operation - AUTHENTICATE
 		 *
 		 * @param appleUserId  String of the apple accounts user Id OR email
 		 * @param identityToken  The authentication token confirming users identity
 		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
 		 */
-		void authenticateApple(const char* appleUserId, const char* identityToken, bool forceCreate, IServerCallback* callback = NULL);
+		void authenticateApple(const char * appleUserId, const char * identityToken, bool forceCreate, IServerCallback * callback = NULL);
 
         /**
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param googleUserId  String representation of google+ userid (email)
          * @param serverAuthCode The authentication token derived via the google apis.
@@ -302,8 +319,8 @@ namespace BrainCloud {
         /**
          * Authenticate the user using a google openId
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param googleUserAccountEmail  String representation of google+ userid (email)
          * @param IdToken  The authentication token derived via the google apis.
@@ -318,8 +335,8 @@ namespace BrainCloud {
         /**
          * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of 64 bit steam id
          * @param sessionticket  The session ticket of the user (hex encoded)
@@ -334,8 +351,8 @@ namespace BrainCloud {
         /**
          * Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of Twitter userid
          * @param token  The authentication token derived via the Twitter apis.
@@ -353,13 +370,15 @@ namespace BrainCloud {
          * Similar to AuthenticateEmailPassword - except that that method has additional features to
          * allow for e-mail validation, password resets, etc.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
          * @param password  The password of the user
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
          *
          */
         void authenticateUniversal(const char* userid, const char* password, bool forceCreate, IServerCallback* callback = NULL);
@@ -367,13 +386,16 @@ namespace BrainCloud {
         /**
          * Authenticate the user for Ultra.
          *
-         * Service Name - Authenticate
-         * Server Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param ultraUsername it's what the user uses to log into the Ultra endpoint initially
          * @param ultraIdToken The "id_token" taken from Ultra's JWT.
-         * @param force Should a new profile be created for this user if the account does not exist?
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void authenticateUltra(const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback* callback = NULL);
 
@@ -381,14 +403,17 @@ namespace BrainCloud {
          * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
          * that will be passed along to pre- or post- hooks.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param authenticationType Universal, Email, Facebook, etc
          * @param ids Auth IDs structure
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
          * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void authenticateAdvanced(AuthenticationType authenticationType, const AuthenticationIds &ids, bool forceCreate, const std::string &extraJson, IServerCallback* callback = NULL);
 
@@ -405,13 +430,15 @@ namespace BrainCloud {
          *
          * Note that the password sent from the client to the server is protected via SSL.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
          * @param password  The password of the user
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
          *
          */
         void smartSwitchAuthenticateEmailPassword(const char* email, const char* password, bool forceCreate, IServerCallback* callback = NULL);
@@ -424,15 +451,17 @@ namespace BrainCloud {
          * Authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
          * This allows the developer to extend brainCloud authentication to support other backend authentication systems.
          *
-         * Service Name - Authenticate
-         * Server Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid The user id
          * @param token The user token (password etc)
          * @param externalAuthName The name of the cloud script to call for external authentication
-         * @param force Should a new profile be created for this user if the account does not exist?
-         *
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param callback The method to be invoked when the server response is received
+         * 
          * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void smartSwitchAuthenticateExternal(const char* userid, const char* token, const char* externalAuthName, bool forceCreate, IServerCallback* callback = NULL);
 
@@ -443,15 +472,17 @@ namespace BrainCloud {
          *
          * Authenticate the user with brainCloud using their Facebook Credentials
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param fbUserId The facebook id of the user
          * @param fbAuthToken The validated token from the Facebook SDK
-         *   (that will be further validated when sent to the bC service)
+         *                    (that will be further validated when sent to the bC service)
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
          *
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void smartSwitchAuthenticateFacebook(const char* fbUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback = NULL);
 
@@ -462,14 +493,16 @@ namespace BrainCloud {
          *
          * Authenticate the user with brainCloud using their Oculus Credentials
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param oculusUserId The oculus id of the user
          * @param oculusNonce oculus token from the Oculus SDK
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
          *
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void smartSwitchAuthenticateOculus(const char* oculusUserId, const char* oculusNonce, bool forceCreate, IServerCallback* callback = NULL);
 
@@ -480,8 +513,8 @@ namespace BrainCloud {
          *
          * Authenticate the user using their Game Center Id (legacy support only, not recommended).
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
@@ -503,8 +536,8 @@ namespace BrainCloud {
          *
          * Authenticate the user using their Game Center Id and identity verification signature.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
@@ -536,8 +569,8 @@ namespace BrainCloud {
          *
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of google+ userid (email)
          * @param token  The authentication token derived via the google apis.
@@ -556,8 +589,8 @@ namespace BrainCloud {
          *
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of google+ userid (email)
          * @param token  The authentication token derived via the google apis.
@@ -576,8 +609,8 @@ namespace BrainCloud {
          *
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of apple+ userid (email)
          * @param token  The authentication token derived via the apple apis.
@@ -596,8 +629,8 @@ namespace BrainCloud {
          *
          * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of 64 bit steam id
          * @param sessionticket  The session ticket of the user (hex encoded)
@@ -616,8 +649,8 @@ namespace BrainCloud {
          *
          * Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of Twitter userid
          * @param token  The authentication token derived via the Twitter apis.
@@ -639,14 +672,16 @@ namespace BrainCloud {
          * Similar to AuthenticateEmailPassword - except that that method has additional features to
          * allow for e-mail validation, password resets, etc.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
          * @param password  The password of the user
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
          *
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void smartSwitchAuthenticateUniversal(const char* userid, const char* password, bool forceCreate, IServerCallback* callback = NULL);
 
@@ -657,13 +692,16 @@ namespace BrainCloud {
          * 
          * Authenticate the user for Ultra.
          *
-         * Service Name - Authenticate
-         * Server Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param ultraUsername it's what the user uses to log into the Ultra endpoint initially
          * @param ultraIdToken The "id_token" taken from Ultra's JWT.
-         * @param force Should a new profile be created for this user if the account does not exist?
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void smartSwitchAuthenticateUltra(const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback* callback = NULL);
 
@@ -675,25 +713,30 @@ namespace BrainCloud {
          * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
          * that will be passed along to pre- or post- hooks.
          *
-         * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param authenticationType Universal, Email, Facebook, etc
          * @param ids Auth IDs structure
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param extraJson Additional to piggyback along with the call, to be picked up by pre- or post- hooks. Leave empty string for no extraJson.
          * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
          */
         void smartSwitchAuthenticateAdvanced(AuthenticationType authenticationType, const AuthenticationIds &ids, bool forceCreate, const std::string &extraJson, IServerCallback* callback = NULL);
 
 	    /**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPassword
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD
 		 *
 		 * @param externalId The email address to send the reset email to.
 		 * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
 		 *
 		 * Note the follow error reason codes:
 		 *
@@ -705,8 +748,8 @@ namespace BrainCloud {
 		 * Reset Email password with service parameters - Sends a password reset email to 
 		 * the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPasswordAdvanced
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD_ADVANCED
 		 *
 		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
@@ -723,8 +766,8 @@ namespace BrainCloud {
         /**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPassword
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD
 		 *
 		 * @param externalId The email address to send the reset email to.
 		 * @param callback The method to be invoked when the server response is received
@@ -739,30 +782,35 @@ namespace BrainCloud {
 		 * Reset Email password with service parameters - Sends a password reset email to 
 		 * the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPasswordAdvanced
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD_ADVANCED
 		 *
 		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
-		 * @param serviceParams - parameters to send to the email service. See documentation for
-		 * full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
+		 * @param serviceParams parameters to send to the email service. See documentation for
+		 *                      full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
 		 * @param callback The method to be invoked when the server response is received
 		 *
-		 * Note the follow error reason codes:
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
+		 * Note The follow error reason codes:
 		 *
 		 * SECURITY_ERROR (40209) - If the email address cannot be found.
+         * 
 		 */
 		void resetEmailPasswordAdvancedWithExpiry(const char* emailAddress, std::string serviceParams, int tokenTtlInMinutes , IServerCallback* callback = NULL);
         
 	    /**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPassword
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD
 		 *
 		 * @param externalId The email address to send the reset email to.
 		 * @param callback The method to be invoked when the server response is received
 		 *
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
 		 * Note the follow error reason codes:
 		 *
 		 * SECURITY_ERROR (40209) - If the email address cannot be found.
@@ -773,15 +821,17 @@ namespace BrainCloud {
 		 * Reset Email password with service parameters - Sends a password reset email to 
 		 * the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPasswordAdvanced
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD_ADVANCED
 		 *
 		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
-		 * @param serviceParams - parameters to send to the email service. See documentation for
-		 * full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
+		 * @param serviceParams Parameters to send to the email service. See documentation for
+		 *                      full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
 		 * @param callback The method to be invoked when the server response is received
 		 *
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
 		 * Note the follow error reason codes:
 		 *
 		 * SECURITY_ERROR (40209) - If the email address cannot be found.
@@ -791,12 +841,14 @@ namespace BrainCloud {
         /**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPassword
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD
 		 *
 		 * @param externalId The email address to send the reset email to.
 		 * @param callback The method to be invoked when the server response is received
 		 *
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
 		 * Note the follow error reason codes:
 		 *
 		 * SECURITY_ERROR (40209) - If the email address cannot be found.
@@ -807,15 +859,17 @@ namespace BrainCloud {
 		 * Reset Email password with service parameters - Sends a password reset email to 
 		 * the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPasswordAdvanced
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD_ADVANCED
 		 *
 		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
-		 * @param serviceParams - parameters to send to the email service. See documentation for
-		 * full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
+		 * @param serviceParams Parameters to send to the email service. See documentation for
+		 *                      full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
 		 * @param callback The method to be invoked when the server response is received
 		 *
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
 		 * Note the follow error reason codes:
 		 *
 		 * SECURITY_ERROR (40209) - If the email address cannot be found.
@@ -824,7 +878,9 @@ namespace BrainCloud {
 
         /**
          * Returns true IF both Profile ID and Anonymous ID are stored - meaning reconnect possible
+         * 
          * @return true if reconnect possible
+         * 
          */
         bool canReconnect();
 
@@ -832,6 +888,8 @@ namespace BrainCloud {
 		 * Re-authenticates the user with brainCloud
 		 *
 		 * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
 		 *
 		 */
 		void reconnect(IServerCallback* callback = NULL);
@@ -863,7 +921,9 @@ namespace BrainCloud {
 
         /**
          * Returns a singleton instance of the BrainCloudClient.
+         * 
          * @return A singleton instance of the BrainCloudClient.
+         * 
          */
         BrainCloud::BrainCloudClient* getBCClient() {
             return client;
@@ -871,20 +931,27 @@ namespace BrainCloud {
 
         /**
          * Clears Profile Id and Anonymous Id and deletes data entry on device
-         * Use Logout
-         * NOTE: If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
+         * 
+         * @note Use Logout
+         * 
+         * If this is called when AnonymousAuthentication is used, the portal user cannot be reconnected or recovered!
+         * 
          */
         void clearIds();
         
         /**
          * Returns the stored profile id
+         * 
          * @return The stored profile id
+         * 
          */
         std::string getStoredProfileId();
 
         /**
          * Sets the stored profile id
+         * 
          * @param profileId The profile id to set
+         * 
          */
         void setStoredProfileId(const char* profileId);
 
@@ -895,13 +962,17 @@ namespace BrainCloud {
 
         /**
          * Returns the stored anonymous id
+         * 
          * @return The stored anonymous id
+         * 
          */
         std::string getStoredAnonymousId();
 
         /**
          * Sets the stored anonymous id
+         * 
          * @param anonymousId The anonymous id to set
+         * 
          */
         void setStoredAnonymousId(const char* anonymousId);
 
@@ -917,28 +988,35 @@ namespace BrainCloud {
          * authentication credentials. By default, this value is true.
          *
          * @param alwaysAllow Controls whether the profile id is passed in with
-         * non-anonymous authentications.
+         *                    non-anonymous authentications.
          */
         void setAlwaysAllowProfileSwitch(bool alwaysAllow);
 
         /**
          * Returns the value for always allow profile switch
+         * 
          * @return Whether to always allow profile switches
+         * 
          */
         bool getAlwaysAllowProfileSwitch();
 
         /**
          * Logs user out of playerState and optionally clears the profile id (eg. shared computer)
-         * NOTE: if forgetUser is true for an AuthenticateAnonymous THEN the user data will be in-accessible and non-recoverable
+         * 
          * @param forgetUser true if user profile should be deleted from device on logout, false to allow reconnect
          * @param callback
+         *  
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
+         * @note If forgetUser is true for an AuthenticateAnonymous THEN the user data will be in-accessible and non-recoverable
+         * 
          */
         void logout(bool forgetUser, IServerCallback* callback);
 
         virtual void serverCallback(BrainCloud::ServiceName serviceName, BrainCloud::ServiceOperation serviceOperation, std::string const & jsonData);
         virtual void serverError(BrainCloud::ServiceName serviceName,
-            BrainCloud::ServiceOperation serviceOperation,
-            int statusCode, int reasonCode, const std::string & message);
+                                 BrainCloud::ServiceOperation serviceOperation,
+                                 int statusCode, int reasonCode, const std::string & message);
 
     protected:
         static BrainCloudWrapper* m_instance;
@@ -958,7 +1036,7 @@ namespace BrainCloud {
         void initializeIdentity(bool isAnonymousAuth = false);
         void reauthenticate();
 
-		void getIdentitiesCallback(IServerCallback*success);
+		void getIdentitiesCallback(IServerCallback* success);
 
         // these methods are not really used
         std::string getStoredAuthenticationType();

@@ -28,8 +28,8 @@ public:
     /**
      * Check if filename exists for provided path and name
      *
-     * Service Name GroupFile
-     * Service Operation  CheckFilenameExists
+     * Service Name - groupFile
+     * Service Operation - CHECK_FILENAME_EXISTS
      *
      * @param groupId ID of the group.
      * @param folderPath The path of the file
@@ -41,8 +41,8 @@ public:
     /**
      * Check if filename exists for provided full path name
      *
-     * Service Name GroupFile
-     * Service Operation CheckFullpathFilenameExists
+     * Service Name - groupFile
+     * Service Operation - CHECK_FULLPATH_FILENAME_EXISTS
      *
      * @param groupId ID of the group.
      * @param fullPathFilename The full path of the file
@@ -53,8 +53,8 @@ public:
     /**
      *  Copy a file.
      *
-     * Service Name GroupFile
-     * Service Operation CopyFile
+     * Service Name - groupFile
+     * Service Operation - COPY_FILE
      *
      * @param groupId the groupId
      * @param fileId the fileId
@@ -69,8 +69,8 @@ public:
     /**
      * Delete a file.
      *
-     * Service Name GroupFile
-     * Service Operation DeleteFile
+     * Service Name - groupFile
+     * Service Operation - DELETE_FILE
      *
      * @param groupId the groupId
      * @param fileId the fileId
@@ -84,8 +84,8 @@ public:
     /**
      * Return CDN url for file for clients that cannot handle redirect.
      *
-     * Service Name GroupFile
-     * Service Operation GetCdnUrl
+     * Service Name - groupFile
+     * Service Operation - GET_CDN_URL
      *
      * @param groupId the groupId
      * @param fileId the fileId
@@ -97,8 +97,8 @@ public:
     /**
      * Returns information on a file using fileId.
      *
-     * Service Name GroupFile
-     * Service Operation GetFileInfo
+     * Service Name - groupFile
+     * Service Operation - GET_FILE_INFO
      *
      * @param groupId the groupId
      * @param fileId the fileId
@@ -109,8 +109,8 @@ public:
     /**
      * Returns information on a file using path and name.
      *
-     * Service Name GroupFile
-     * Service Operation GetFileInfoSimple
+     * Service Name - groupFile
+     * Service Operation - GET_FILE_INFO_SIMPLE
      *
      * @param groupId the groupId
      * @param folderPath the folderPath
@@ -123,8 +123,8 @@ public:
     /**
      * Returns a list of files.
      *
-     * Service Name GroupFile
-     * Service Operation GetFileList
+     * Service Name - groupFile
+     * Service Operation - GET_FILE_LIST
      *
      * @param groupId the groupId
      * @param folderPath the folderPath
@@ -136,8 +136,8 @@ public:
     /**
      *  Move a file.
      *
-     * Service Name GroupFile
-     * Service Operation MoveFile
+     * Service Name - groupFile
+     * Service Operation - MOVE_FILE
      *
      * @param groupId the groupId
      * @param fileId the fileId
@@ -151,8 +151,8 @@ public:
     /**
      * Move a file from user space to group space.
      *
-     * Service Name GroupFile
-     * Service Operation MoveUserToGroupFile
+     * Service Name - groupFile
+     * Service Operation - MOVE_USER_TO_GROUP_FILE
      *
      * @param userCloudPath the userCloudPath
      * @param userCloudFilename the userCloudFilename
@@ -168,8 +168,8 @@ public:
     /**
      * updates information on a file given fileId.
      *
-     * Service Name GroupFile
-     * Service Operation UpdateFileInfo
+     * Service Name - groupFile
+     * Service Operation - UPDATE_FILE_INFO
      *
      * @param groupId the groupId
      * @param fileId the fileId

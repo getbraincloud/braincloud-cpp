@@ -30,8 +30,8 @@ namespace BrainCloud
          * PlayerStatisticsService API method only update the raw statistics without
          * triggering the rewards.
          *
-         * Service Name - PlayerStatisticsEvent
-         * Service Operation - Trigger
+         * Service Name - playerStatisticsEvent
+         * Service Operation - TRIGGER
          *
          * @see BrainCloudPlayerStatistics
          *
@@ -44,8 +44,8 @@ namespace BrainCloud
          * See documentation for TriggerStatisticsEvent for more
          * documentation.
          *
-         * Service Name - PlayerStatisticsEvent
-         * Service Operation - TriggerMultiple
+         * Service Name - playerStatisticsEvent
+         * Service Operation - TRIGGER_MULTIPLE
          *
          * @param jsonData
          *   [
