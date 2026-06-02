@@ -28,7 +28,7 @@ namespace BrainCloud
          * Apps will typically call this method after authenticating to get an
          * up-to-date view of the user's data.
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - READ
          *
          * @param callback The method to be invoked when the server response is received
@@ -41,7 +41,7 @@ namespace BrainCloud
          * to re-authenticate and create a new profile.
          * This is mostly used for debugging/qa.
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - FULL_PLAYER_RESET
          *
          * @param callback The method to be invoked when the server response is received
@@ -55,7 +55,7 @@ namespace BrainCloud
          * the user record will continue to exist after the reset (so the user
          * does not need to re-authenticate).
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - GAME_DATA_RESET
          *
          * @param callback The method to be invoked when the server response is received
@@ -65,7 +65,7 @@ namespace BrainCloud
         /**
          * Logs user out of server.
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - LOGOUT
          *
          * @param callback The method to be invoked when the server response is received
@@ -91,7 +91,7 @@ namespace BrainCloud
          * a quick overview of the player without requiring a separate API call
          * to read their public stats or entity data.
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - UPDATE_SUMMARY
          *
          * @param jsonSummaryData A JSON string defining the summary data.
@@ -108,7 +108,7 @@ namespace BrainCloud
         /**
         * Retrieve the user's attributes.
         *
-        * Service Name - PlayerState
+        * Service Name - playerState
         * Service Operation - GET_ATTRIBUTES
         *
         * @param callback The method to be invoked when the server response is received
@@ -118,7 +118,7 @@ namespace BrainCloud
         /**
         * Update user's attributes.
         *
-        * Service Name - PlayerState
+        * Service Name - playerState
         * Service Operation - UPDATE_ATTRIBUTES
         *
         * @param jsonAttributes Single layer json string that is a set of key-value pairs
@@ -130,7 +130,7 @@ namespace BrainCloud
         /**
         * Remove user's attributes.
         *
-        * Service Name - PlayerState
+        * Service Name - playerState
         * Service Operation - REMOVE_ATTRIBUTES
         *
         * @param attributeNames Collection of attribute names.
@@ -141,7 +141,7 @@ namespace BrainCloud
         /**
         * Remove user's attributes.
         *
-        * Service Name - PlayerState
+        * Service Name - playerState
         * Service Operation - REMOVE_ATTRIBUTES
         *
         * @param attributeNames Collection of attribute names.
@@ -152,7 +152,7 @@ namespace BrainCloud
                 /**
         * Remove user's attributes.
         *
-        * Service Name - PlayerState
+        * Service Name - playerState
         * Service Operation - REMOVE_ATTRIBUTES
         *
         * @param attributeNames Collection of attribute names.
@@ -163,7 +163,7 @@ namespace BrainCloud
         /**
          * Update User picture URL.
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - UPDATE_PICTURE_URL
          *
          * @param pictureUrl URL to apply
@@ -175,7 +175,7 @@ namespace BrainCloud
          * Update the user's contact email.
          * Note this is unrelated to email authentication.
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - UPDATE_CONTACT_EMAIL
          *
          * @param contactEmail Updated email
@@ -187,7 +187,7 @@ namespace BrainCloud
         /**
          * Delete's the specified status
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - CLEAR_USER_STATUS
          *
          * @param statusName Updated email
@@ -198,7 +198,7 @@ namespace BrainCloud
         /**
          * Stack user's statuses
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - EXTEND_USER_STATUS
          *
          * @param statusName Updated email
@@ -211,7 +211,7 @@ namespace BrainCloud
         /**
          * Get user status
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - GET_USER_STATUS
          *
          * @param statusName Updated email
@@ -222,7 +222,7 @@ namespace BrainCloud
         /**
          * Set timed status for a user
          *
-         * Service Name - PlayerState
+         * Service Name - playerState
          * Service Operation - SET_USER_STATUS
          *
          * @param statusName Updated email

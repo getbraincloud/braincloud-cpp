@@ -23,7 +23,7 @@ namespace BrainCloud
          * Sends an array of file details and returns
          * the details of any of those files that have changed
          *
-         * Service Name - S3Handling
+         * Service Name - s3Handling
          * Service Operation - GET_UPDATED_FILES
          *
          * @param category  Category of files on server to compare against
@@ -35,7 +35,7 @@ namespace BrainCloud
         /*
          * Retrieves the details of custom files stored on the server
          *
-         * Service Name - S3Handling
+         * Service Name - s3Handling
          * Service Operation - GET_FILE_LIST
          *
          * @param category  Category of files to retrieve

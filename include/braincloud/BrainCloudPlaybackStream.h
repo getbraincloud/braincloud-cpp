@@ -23,7 +23,7 @@ namespace BrainCloud
         /**
         * Starts a stream
         *
-        * Service Name - PlaybackStream
+        * Service Name - playbackStream
         * Service Operation - START_STREAM
         *
         * @param targetPlayerId The player to start a stream with
@@ -35,7 +35,7 @@ namespace BrainCloud
         /**
         * Reads a stream
         *
-        * Service Name - PlaybackStream
+        * Service Name - playbackStream
         * Service Operation - READ_STREAM
         *
         * @param playbackStreamId Identifies the stream to read
@@ -46,7 +46,7 @@ namespace BrainCloud
         /**
         * Ends a stream
         *
-        * Service Name - PlaybackStream
+        * Service Name - playbackStream
         * Service Operation - END_STREAM
         *
         * @param playbackStreamId Identifies the stream to read
@@ -57,7 +57,7 @@ namespace BrainCloud
         /**
         * Deletes a stream
         *
-        * Service Name - PlaybackStream
+        * Service Name - playbackStream
         * Service Operation - DELETE_STREAM
         *
         * @param playbackStreamId Identifies the stream to read
@@ -68,7 +68,7 @@ namespace BrainCloud
         /**
         * Adds a stream event
         *
-        * Service Name - PlaybackStream
+        * Service Name - playbackStream
         * Service Operation - ADD_EVENT
         *
         * @param playbackStreamId Identifies the stream to read
@@ -81,7 +81,7 @@ namespace BrainCloud
         /**
         * Gets recent stream summaries for initiating player
         *
-        * Service Name - PlaybackStream
+        * Service Name - playbackStream
         * Service Operation - GET_RECENT_STREAMS_FOR_INITIATING_PLAYER
         *
         * @param targetPlayerId The player that started the stream
@@ -93,7 +93,7 @@ namespace BrainCloud
         /**
         * Gets recent stream summaries for target player
         *
-        * Service Name - PlaybackStream
+        * Service Name - playbackStream
         * Service Operation - GET_RECENT_STREAMS_FOR_TARGET_PLAYER
         *
         * @param targetPlayerId The player that was target of the stream
@@ -107,7 +107,7 @@ namespace BrainCloud
          * If the number of days given is less than the normal purge interval days (from createdAt), the longer protection date is applied.
          * Can only be called by users involved in the playback stream.
          *
-         * Service Name - PlaybackStream
+         * Service Name - playbackStream
          * Service Operation - PROTECT_STREAM_UNTIL
          *
          * @param playbackStreamId Identifies the stream to protect

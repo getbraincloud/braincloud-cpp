@@ -22,7 +22,7 @@ namespace BrainCloud
         /**
          * Checks supplied text for profanity.
          *
-         * Service Name - Profanity
+         * Service Name - profanity
          * Service Operation - PROFANITY_CHECK
          *
          * @param text The text to check
@@ -50,7 +50,7 @@ namespace BrainCloud
         /**
          * Replaces the characters of profanity text with a passed character(s).
          *
-         * Service Name - Profanity
+         * Service Name - profanity
          * Service Operation - PROFANITY_REPLACE_TEXT
          *
          * @param text The text to check
@@ -80,7 +80,7 @@ namespace BrainCloud
         /**
          * Checks supplied text for profanity and returns a list of bad wors.
          *
-         * Service Name - Profanity
+         * Service Name - profanity
          * Service Operation - PROFANITY_IDENTIFY_BAD_WORDS
          *
          * @param text The text to check

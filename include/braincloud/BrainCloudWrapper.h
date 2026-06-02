@@ -127,7 +127,7 @@ namespace BrainCloud {
          * Authenticate a user anonymously with brainCloud - used for apps that don't want to bother
          * the user to login, or for users who are sensitive to their privacy
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param callback The method to be invoked when the server response is received
@@ -144,7 +144,7 @@ namespace BrainCloud {
          *
          * Note that the password sent from the client to the server is protected via SSL.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
@@ -159,8 +159,8 @@ namespace BrainCloud {
          * Authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
          * This allows the developer to extend brainCloud authentication to support other backend authentication systems.
          *
-         * Service Name - Authenticate
-         * Server Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid The user id
          * @param token The user token (password etc)
@@ -174,7 +174,7 @@ namespace BrainCloud {
         /*
 		* Authenticate the user using a handoffId and authentication token
 		*
-		* Service Name - Authenticate
+		* Service Name - authenticationV2
 		* Service Operation - AUTHENTICATE
 		*
 		* @param handoffId braincloud handoff id generated from cloud script
@@ -186,7 +186,7 @@ namespace BrainCloud {
 		/*
 		* Authenticate the user using a handoffCode 
 		*
-		* Service Name - Authenticate
+		* Service Name - authenticationV2
 		* Service Operation - AUTHENTICATE
 		*
 		* @param handoffCode the code we generate in cloudcode
@@ -197,7 +197,7 @@ namespace BrainCloud {
         /*
          * Authenticate the user with brainCloud using their Facebook Credentials
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param fbUserId The facebook id of the user
@@ -212,7 +212,7 @@ namespace BrainCloud {
         /*
          * Authenticate the user with brainCloud using their Oculus Credentials
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param oculusUserId The oculus id of the user
@@ -227,7 +227,7 @@ namespace BrainCloud {
         /*
          * Authenticate the user using their Game Center id
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
@@ -243,7 +243,7 @@ namespace BrainCloud {
 		/*
 		* Authenticate the user using a google userid(email address) and google authentication token.
 		*
-		* Service Name - Authenticate
+		* Service Name - authenticationV2
 		* Service Operation - AUTHENTICATE
 		*
 		* @param appleUserId  String of the apple accounts user Id OR email
@@ -256,7 +256,7 @@ namespace BrainCloud {
         /*
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param googleUserId  String representation of google+ userid (email)
@@ -272,7 +272,7 @@ namespace BrainCloud {
         /*
          * Authenticate the user using a google openId
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param googleUserAccountEmail  String representation of google+ userid (email)
@@ -288,7 +288,7 @@ namespace BrainCloud {
         /*
          * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of 64 bit steam id
@@ -304,7 +304,7 @@ namespace BrainCloud {
         /*
          * Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of Twitter userid
@@ -323,7 +323,7 @@ namespace BrainCloud {
          * Similar to AuthenticateEmailPassword - except that that method has additional features to
          * allow for e-mail validation, password resets, etc.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
@@ -337,8 +337,8 @@ namespace BrainCloud {
         /**
          * Authenticate the user for Ultra.
          *
-         * Service Name - Authenticate
-         * Server Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param ultraUsername it's what the user uses to log into the Ultra endpoint initially
          * @param ultraIdToken The "id_token" taken from Ultra's JWT.
@@ -351,7 +351,7 @@ namespace BrainCloud {
          * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
          * that will be passed along to pre- or post- hooks.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param authenticationType Universal, Email, Facebook, etc
@@ -375,7 +375,7 @@ namespace BrainCloud {
          *
          * Note that the password sent from the client to the server is protected via SSL.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
@@ -394,8 +394,8 @@ namespace BrainCloud {
          * Authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
          * This allows the developer to extend brainCloud authentication to support other backend authentication systems.
          *
-         * Service Name - Authenticate
-         * Server Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param userid The user id
          * @param token The user token (password etc)
@@ -413,7 +413,7 @@ namespace BrainCloud {
          *
          * Authenticate the user with brainCloud using their Facebook Credentials
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param fbUserId The facebook id of the user
@@ -432,7 +432,7 @@ namespace BrainCloud {
          *
          * Authenticate the user with brainCloud using their Oculus Credentials
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param oculusUserId The oculus id of the user
@@ -451,7 +451,7 @@ namespace BrainCloud {
          *
          * Authenticate the user using their Game Center id
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
@@ -471,7 +471,7 @@ namespace BrainCloud {
          *
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of google+ userid (email)
@@ -491,7 +491,7 @@ namespace BrainCloud {
          *
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of google+ userid (email)
@@ -511,7 +511,7 @@ namespace BrainCloud {
          *
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of apple+ userid (email)
@@ -531,7 +531,7 @@ namespace BrainCloud {
          *
          * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of 64 bit steam id
@@ -551,7 +551,7 @@ namespace BrainCloud {
          *
          * Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of Twitter userid
@@ -574,7 +574,7 @@ namespace BrainCloud {
          * Similar to AuthenticateEmailPassword - except that that method has additional features to
          * allow for e-mail validation, password resets, etc.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
@@ -592,8 +592,8 @@ namespace BrainCloud {
          * 
          * Authenticate the user for Ultra.
          *
-         * Service Name - Authenticate
-         * Server Operation - Authenticate
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
          *
          * @param ultraUsername it's what the user uses to log into the Ultra endpoint initially
          * @param ultraIdToken The "id_token" taken from Ultra's JWT.
@@ -610,7 +610,7 @@ namespace BrainCloud {
          * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
          * that will be passed along to pre- or post- hooks.
          *
-         * Service Name - Authenticate
+         * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
          * @param authenticationType Universal, Email, Facebook, etc
@@ -624,8 +624,8 @@ namespace BrainCloud {
 	    /**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPassword
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD
 		 *
 		 * @param externalId The email address to send the reset email to.
 		 * @param callback The method to be invoked when the server response is received
@@ -640,8 +640,8 @@ namespace BrainCloud {
 		 * Reset Email password with service parameters - Sends a password reset email to 
 		 * the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPasswordAdvanced
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD_ADVANCED
 		 *
 		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
@@ -658,8 +658,8 @@ namespace BrainCloud {
         	    /**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPassword
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD
 		 *
 		 * @param externalId The email address to send the reset email to.
 		 * @param callback The method to be invoked when the server response is received
@@ -674,8 +674,8 @@ namespace BrainCloud {
 		 * Reset Email password with service parameters - Sends a password reset email to 
 		 * the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPasswordAdvanced
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD_ADVANCED
 		 *
 		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
@@ -694,8 +694,8 @@ namespace BrainCloud {
 	    /**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPassword
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD
 		 *
 		 * @param externalId The email address to send the reset email to.
 		 * @param callback The method to be invoked when the server response is received
@@ -710,8 +710,8 @@ namespace BrainCloud {
 		 * Reset Email password with service parameters - Sends a password reset email to 
 		 * the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPasswordAdvanced
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD_ADVANCED
 		 *
 		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
@@ -728,8 +728,8 @@ namespace BrainCloud {
         	    /**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPassword
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD
 		 *
 		 * @param externalId The email address to send the reset email to.
 		 * @param callback The method to be invoked when the server response is received
@@ -744,8 +744,8 @@ namespace BrainCloud {
 		 * Reset Email password with service parameters - Sends a password reset email to 
 		 * the specified address
 		 *
-		 * Service Name - Authenticate
-		 * Operation - ResetEmailPasswordAdvanced
+		 * Service Name - authenticationV2
+		 * Service Operation - RESET_EMAIL_PASSWORD_ADVANCED
 		 *
 		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.

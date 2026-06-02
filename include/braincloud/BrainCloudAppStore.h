@@ -23,7 +23,7 @@ namespace BrainCloud
         /**
         * Verifies that purchase was properly made at the store.
         *
-        * Service Name - AppStore
+        * Service Name - appStore
         * Service Operation - VERIFY_PURCHASE
         *
         * @param storeId The store platform. Valid stores are:
@@ -42,7 +42,7 @@ namespace BrainCloud
         /**
         * Returns the eligible promotions for the player.
         *
-        * Service Name - AppStore
+        * Service Name - appStore
         * Service Operation - ELIGIBLE_PROMOTIONS
         *
         * @param callback The method to be invoked when the server response is received
@@ -53,7 +53,7 @@ namespace BrainCloud
         * Method gets the active sales inventory for the passed-in
         * currency type.
         *
-        * Service Name - AppStore
+        * Service Name - appStore
         * Service Operation - GET_INVENTORY
         *
         * @param platform The store platform. Valid stores are:
@@ -73,7 +73,7 @@ namespace BrainCloud
         * Method gets the active sales inventory for the passed-in
         * currency type.
         *
-        * Service Name - AppStore
+        * Service Name - appStore
         * Service Operation - GET_INVENTORY
         *
         * @param storeId The store platform. Valid stores are:
@@ -93,7 +93,7 @@ namespace BrainCloud
         /**
         * Start A Two Staged Purchase Transaction
         *
-        * Service Name - AppStore
+        * Service Name - appStore
         * Service Operation - START_PURCHASE
         *
         * @param storeId The store platform. Valid stores are:
@@ -112,7 +112,7 @@ namespace BrainCloud
         /**
         * Finalize A Two Staged Purchase Transaction
         *
-        * Service Name - AppStore
+        * Service Name - appStore
         * Service Operation - FINALIZE_PURCHASE
         *
         * @param storeId The store platform. Valid stores are:
@@ -132,7 +132,7 @@ namespace BrainCloud
         /**
         * Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing.
         *
-        * Service Name - AppStore
+        * Service Name - appStore
         * Service Operation - REFRESH_PROMOTIONS
         */
         void refreshPromotions(IServerCallback* callback = NULL);
@@ -143,7 +143,7 @@ namespace BrainCloud
         * This payload will be used during the VerifyPurchase method to ensure the
         * user properly paid for the correct product before awarding them the IAP product.
         *
-        * Service Name - AppStore
+        * Service Name - appStore
         * Service Operation - CACHE_PURCHASE_PAYLOAD_CONTEXT
         *
         * @param storeId The store platform. Valid stores are:

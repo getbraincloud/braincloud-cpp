@@ -25,7 +25,7 @@ namespace BrainCloud
 		/**
 		 * Deletes specified user messages on the server.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - DELETE_MESSAGES
 		 *
 		 * @param msgIds Arrays of message ids to delete.
@@ -36,7 +36,7 @@ namespace BrainCloud
 		/**
 		 * Retrieve user's message boxes, including 'inbox', 'sent', etc.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - GET_MESSAGE_BOXES
 		 *
 		 * @param callback The method to be invoked when the server response is received
@@ -46,7 +46,7 @@ namespace BrainCloud
 		/**
 		 * Retrieve user's message boxes, including 'inbox', 'sent', etc.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - GET_MESSAGE_COUNTS
 		 *
 		 * @param callback The method to be invoked when the server response is received
@@ -56,7 +56,7 @@ namespace BrainCloud
 		/**
 		 * Retrieves list of specified messages.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - GET_MESSAGES
 		 *
 		 * @param msgIds Arrays of message ids to get.
@@ -68,7 +68,7 @@ namespace BrainCloud
 		/**
 		 * Retrieves a page of messages.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - GET_MESSAGES_PAGE
 		 *
 		 * @param context
@@ -79,7 +79,7 @@ namespace BrainCloud
 		/**
 		 * Gets the page of messages from the server based on the encoded context and specified page offset.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - GET_MESSAGES_PAGE_OFFSET
 		 *
 		 * @param context
@@ -91,7 +91,7 @@ namespace BrainCloud
 		/**
 		 * Sends a message with specified 'subject' and 'text' to list of users.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - SEND_MESSAGE
 		 *
 		 * @param toProfileIds
@@ -103,7 +103,7 @@ namespace BrainCloud
 		/**
 		 * Sends a simple message to specified list of users.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - SEND_MESSAGE_SIMPLE
 		 *
 		 * @param toProfileIds
@@ -115,7 +115,7 @@ namespace BrainCloud
 		/**
 		 * Marks list of user messages as read on the server.
 		 *
-		 * Service Name - Messaging
+		 * Service Name - messaging
 		 * Service Operation - MARK_MESSAGES_READ
 		 *
 		 * @param msgbox

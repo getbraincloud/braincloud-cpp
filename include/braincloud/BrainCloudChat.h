@@ -25,7 +25,7 @@ namespace BrainCloud
 		 * Registers a listener for incoming events from <channelId>.
 		 * Also returns a list of <maxReturn> recent messages from history.
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - CHANNEL_CONNECT
 		 *
 		 * @param channelId The id of the chat channel to return history from.
@@ -37,7 +37,7 @@ namespace BrainCloud
 		/**
 		 * Unregisters a listener for incoming events from <channelId>.
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - CHANNEL_DISCONNECT
 		 *
 		 * @param channelId The id of the chat channel to unsubscribed from.
@@ -48,7 +48,7 @@ namespace BrainCloud
 		/**
 		 * Delete a chat message. <version> must match the latest or pass -1 to bypass version check.
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - DELETE_CHAT_MESSAGE
 		 *
 		 * @param channelId The id of the chat channel that contains the message to delete.
@@ -61,7 +61,7 @@ namespace BrainCloud
 		/**
 		 * Gets the channelId for the given <channelType> and <channelSubId>. Channel type must be one of "gl" or "gr".
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - GET_CHANNEL_ID
 		 *
 		 * @param channelType Channel type must be one of "gl" or "gr". For (global) or (group) respectively.
@@ -75,7 +75,7 @@ namespace BrainCloud
 		 * Note that numMsgs and listeners only returned for non-global groups.
 		 * Only callable for channels the user is a member of.
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - GET_CHANNEL_INFO
 		 *
 		 * @param channelId Id of the channel to receive the info from.
@@ -86,7 +86,7 @@ namespace BrainCloud
 		/**
 		 * Gets a populated chat object (normally for editing).
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - GET_CHAT_MESSAGE
 		 *
 		 * @param channelId Id of the channel to receive the message from.
@@ -98,7 +98,7 @@ namespace BrainCloud
 		/**
 		 * Get a list of <maxReturn> messages from history of channel <channelId>.
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - GET_RECENT_CHAT_MESSAGES
 		 *
 		 * @param channelId Id of the channel to receive the info from.
@@ -111,7 +111,7 @@ namespace BrainCloud
 		 * Gets a list of the channels of type <channelType> that the user has access to.
 		 * Channel type must be one of "gl", "gr" or "all".
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - GET_SUBSCRIBED_CHANNELS
 		 *
 		 * @param channelType Type of channels to get back. "gl" for global, "gr" for group or "all" for both.
@@ -123,7 +123,7 @@ namespace BrainCloud
 		 * Send a potentially rich chat message.
 		 * <content> must contain at least a "text" field for text messaging.
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - POST_CHAT_MESSAGE
 		 *
 		 * @param channelId Channel id to post message to.
@@ -135,7 +135,7 @@ namespace BrainCloud
 		/**
 		 * Send a chat message with text only
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - POST_CHAT_MESSAGE
 		 *
 		 * @param channelId Channel id to post message to.
@@ -149,7 +149,7 @@ namespace BrainCloud
 		 * <content> must contain at least a "text" field for text-text messaging.
 		 * <version> must match the latest or pass -1 to bypass version check.
 		 *
-		 * Service Name - Chat
+		 * Service Name - chat
 		 * Service Operation - UPDATE_CHAT_MESSAGE
 		 *
 		 * @param channelId Channel id where the message to update is.

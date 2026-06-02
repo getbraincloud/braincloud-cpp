@@ -168,7 +168,7 @@ namespace BrainCloud
 		 *
 		 * Note: This method allows the client to retrieve pages from within the global leaderboard list
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_PAGE
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
@@ -193,7 +193,7 @@ namespace BrainCloud
 		 *
 		 * Note: This method allows the client to retrieve pages from within the global leaderboard list
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_IF_EXISTS
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
@@ -214,7 +214,7 @@ namespace BrainCloud
 		 * By using a non-current version id, the user can retrieve a historical leaderboard.
 		 * See GetGlobalLeaderboardVersions method to retrieve the version id.
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_BY_VERSION
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
@@ -239,7 +239,7 @@ namespace BrainCloud
 		 *
 		 * This method returns the same data as getGlobalLeaderboardPageByVersion, but it will not return an error if the leaderboard does not exist
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_PAGE_BY_VERSION_IF_EXISTS
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
@@ -263,7 +263,7 @@ namespace BrainCloud
 		 * Leaderboards entries contain the player's score and optionally, some user-defined
 		 * data associated with the score.
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
@@ -281,7 +281,7 @@ namespace BrainCloud
 		 * Leaderboards entries contain the player's score and optionally, some user-defined
 		 * data associated with the score.
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
@@ -297,7 +297,7 @@ namespace BrainCloud
 		 * By using a non-current version id, the user can retrieve a historical leaderboard.
 		 * See GetGlobalLeaderboardVersions method to retrieve the version id.
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
@@ -316,7 +316,7 @@ namespace BrainCloud
 		 * 
 		 * This method returns the same data as getGlobalLeaderboardViewByVersion, but it will not return an error if the leaderboard does not exist.
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW_IF_EXISTS
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
@@ -330,7 +330,7 @@ namespace BrainCloud
 
 		/** Gets the global leaderboard versions.
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - GET_GLOBAL_LEADERBOARD_VERSIONS
 		 *
 		 * @param leaderboardId The leaderboard
@@ -360,7 +360,7 @@ namespace BrainCloud
 		 * dynamically creating the leaderboard if it does not exist yet. 
 		 * To create new leaderboard, configJson must specify leaderboardType, rotationType, resetAt, and retainedCount, at a minimum, with support to optionally specify an expiry in minutes.
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - POST_SCORE_DYNAMIC_USING_CONFIG
 		 *
 		 * @param leaderboardId The leaderboard to post to.
@@ -402,7 +402,7 @@ namespace BrainCloud
 		 * with the posted score. This string could include information
 		 * relevant to the posted score. Uses UTC time in milliseconds since epoch
 		 *
-		 * Service Name - SocialLeaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - POST_SCORE_DYNAMIC
 		 *
 		 * @param leaderboardId The leaderboard to post to
@@ -431,7 +431,7 @@ namespace BrainCloud
 		* with the posted score. This string could include information
 		* relevant to the posted score. uses UTC time in milliseconds since epoch
 		*
-		* Service Name - SocialLeaderboard
+		* Service Name - leaderboard
 		* Service Operation - POST_SCORE_DYNAMIC
 		*
 		* @param leaderboardId The leaderboard to post to
@@ -693,7 +693,7 @@ namespace BrainCloud
 		 * Post the group's score to the given social leaderboard, dynamically creating the group leaderboard if it does not exist yet.
 		 * To create new leaderboard, configJson must specify leaderboardType, rotationType, resetAt, and retainedCount, at a minimum, with support to optionally specify an expiry in minutes.
 		 *
-		 * Service Name - Leaderboard
+		 * Service Name - leaderboard
 		 * Service Operation - POST_GROUP_SCORE_DYNAMIC_USING_CONFIG
 		 *
 		 * @param leaderboard The leaderboard to post to

@@ -23,7 +23,7 @@ namespace BrainCloud
 		/**
 		* Method creates a new entity on the server.
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - CREATE
 		*
 		* @param entityType The entity type as defined by the user
@@ -38,7 +38,7 @@ namespace BrainCloud
 		/**
 		* Method creates a new entity on the server with an indexed id.
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - CREATE_WITH_INDEXED_ID
 		*
 		* @param entityType The entity type as defined by the user
@@ -54,7 +54,7 @@ namespace BrainCloud
 		/**
 		* Method updates an existing entity on the server.
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - UPDATE
 		*
 		* @param entityId The entity ID
@@ -67,7 +67,7 @@ namespace BrainCloud
 		/**
 		* Method updates an existing entity's Acl on the server.
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - UPDATE_ACL
 		*
 		* @param entityId The entity ID
@@ -80,7 +80,7 @@ namespace BrainCloud
 		/**
 		* Method updates an existing entity's time to live on the server.
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - UPDATE_TIME_TO_LIVE
 		*
 		* @param entityId The entity ID
@@ -93,7 +93,7 @@ namespace BrainCloud
 		/**
 		* Method deletes an existing entity on the server.
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - DELETE
 		*
 		* @param entityId The entity ID
@@ -105,7 +105,7 @@ namespace BrainCloud
 		/**
 		* Method reads an existing entity from the server.
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - READ
 		*
 		* @param entityId The entity ID
@@ -116,7 +116,7 @@ namespace BrainCloud
 		/**
 		* Method gets list of entities from the server base on type and/or where clause
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - GET_LIST
 		*
 		* @param where Mongo style query string
@@ -129,7 +129,7 @@ namespace BrainCloud
 		/**
 		* Method gets list of entities from the server base on indexed id
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - GET_LIST_BY_INDEXED_ID
 		*
 		* @param entityIndexedId The entity indexed Id
@@ -141,7 +141,7 @@ namespace BrainCloud
 		/**
 		* Method gets a count of entities based on the where clause
 		*
-		* Service Name - GlobalEntity
+		* Service Name - globalEntity
 		* Service Operation - GET_LIST_COUNT
 		*
 		* @param where Mongo style query string
@@ -154,7 +154,7 @@ namespace BrainCloud
 		 * After retrieving a page of Global Entities with this method,
 		 * use GetPageOffset() to retrieve previous or next pages.
 		 *
-		 * Service Name - GlobalEntity
+		 * Service Name - globalEntity
 		 * Service Operation - GET_PAGE
 		 *
 		 * @param context The json context for the page request.
@@ -166,7 +166,7 @@ namespace BrainCloud
 		/**
 		 * Method to retrieve previous or next pages after having called the GetPage method.
 		 *
-		 * Service Name - GlobalEntity
+		 * Service Name - globalEntity
 		 * Service Operation - GET_PAGE_BY_OFFSET
 		 *
 		 * @param context The context string returned from the server from a
