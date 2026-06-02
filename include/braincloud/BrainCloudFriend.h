@@ -108,7 +108,7 @@ namespace BrainCloud
 		* Returns a particular entity of a particular friend.
 		*
 		* Service Name - Friend
-		* Service Operation - ReadFriendEntity
+		* Service Operation - READ_FRIEND_ENTITY
 		*
 		* @param entityId Id of entity to retrieve.
 		* @param friendId Profile Id of friend who owns entity.
@@ -120,7 +120,7 @@ namespace BrainCloud
 		* Returns entities of all friends optionally based on type.
 		*
 		* Service Name - Friend
-		* Service Operation - ReadFriendsEntities
+		* Service Operation - READ_FRIENDS_ENTITIES
 		*
 		* @param entityType Types of entities to retrieve.
 		* @param callback Method to be invoked when the server response is received.
@@ -133,7 +133,7 @@ namespace BrainCloud
          * with NOT_FRIENDS reason code.
 		 *
 		 * Service Name - Friend
-		 * Service Operation - ReadFriendsPlayerState
+		 * Service Operation - READ_FRIEND_PLAYER_STATE
 		 *
 		 * @param friendId Target friend
 		 * @param callback Method to be invoked when the server response is received.

@@ -26,7 +26,7 @@ namespace BrainCloud
 		 * Executes a script on the server.
 		 *
 		 * Service Name - Script
-		 * Service Operation - Run
+		 * Service Operation - RUN
 		 *
 		 * @param scriptName The name of the script to be run
 		 * @param jsonScriptData Data to be sent to the script in json format
@@ -38,7 +38,7 @@ namespace BrainCloud
 		 * Allows cloud script executions to be scheduled - UTC time
 		 *
 		 * Service Name - Script
-		 * Service Operation - ScheduleCloudScript
+		 * Service Operation - SCHEDULE_CLOUD_SCRIPT
 		 *
 		 * @param scriptName The name of the script to be run
 		 * @param jsonScriptData Data to be sent to the script in json format
@@ -51,7 +51,7 @@ namespace BrainCloud
 		 * Allows cloud script executions to be scheduled
 		 *
 		 * Service Name - Script
-		 * Service Operation - ScheduleCloudScript
+		 * Service Operation - SCHEDULE_CLOUD_SCRIPT
 		 *
 		 * @param scriptName The name of the script to be run
 		 * @param jsonScriptData Data to be sent to the script in json format

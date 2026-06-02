@@ -169,7 +169,7 @@ namespace BrainCloud
 		 * Note: This method allows the client to retrieve pages from within the global leaderboard list
 		 *
 		 * Service Name - SocialLeaderboard
-		 * Service Operation - GetGlobalLeaderboardPage
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_PAGE
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
 		 * @param sort Sort key Sort order of page.
@@ -264,7 +264,7 @@ namespace BrainCloud
 		 * data associated with the score.
 		 *
 		 * Service Name - SocialLeaderboard
-		 * Service Operation - GetGlobalLeaderboardView
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
 		 * @param sort Sort key Sort order of page.
@@ -298,7 +298,7 @@ namespace BrainCloud
 		 * See GetGlobalLeaderboardVersions method to retrieve the version id.
 		 *
 		 * Service Name - SocialLeaderboard
-		 * Service Operation - GetGlobalLeaderboardView
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_VIEW
 		 *
 		 * @param leaderboardId The id of the leaderboard to retrieve.
 		 * @param sort Sort key Sort order of page.
@@ -331,7 +331,7 @@ namespace BrainCloud
 		/** Gets the global leaderboard versions.
 		 *
 		 * Service Name - SocialLeaderboard
-		 * Service Operation - GetGlobalLeaderboardVersions
+		 * Service Operation - GET_GLOBAL_LEADERBOARD_VERSIONS
 		 *
 		 * @param leaderboardId The leaderboard
 		 * @param callback The method to be invoked when the server response is received
@@ -403,7 +403,7 @@ namespace BrainCloud
 		 * relevant to the posted score. Uses UTC time in milliseconds since epoch
 		 *
 		 * Service Name - SocialLeaderboard
-		 * Service Operation - PostScoreDynamic
+		 * Service Operation - POST_SCORE_DYNAMIC
 		 *
 		 * @param leaderboardId The leaderboard to post to
 		 * @param score The score to post
@@ -432,7 +432,7 @@ namespace BrainCloud
 		* relevant to the posted score. uses UTC time in milliseconds since epoch
 		*
 		* Service Name - SocialLeaderboard
-		* Service Operation - PostScoreDynamic
+		* Service Operation - POST_SCORE_DYNAMIC
 		*
 		* @param leaderboardId The leaderboard to post to
 		* @param score The score to post

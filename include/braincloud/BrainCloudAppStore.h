@@ -24,7 +24,7 @@ namespace BrainCloud
         * Verifies that purchase was properly made at the store.
         *
         * Service Name - AppStore
-        * Service Operation - VerifyPurchase
+        * Service Operation - VERIFY_PURCHASE
         *
         * @param storeId The store platform. Valid stores are:
         * - itunes
@@ -43,7 +43,7 @@ namespace BrainCloud
         * Returns the eligible promotions for the player.
         *
         * Service Name - AppStore
-        * Service Operation - EligiblePromotions
+        * Service Operation - ELIGIBLE_PROMOTIONS
         *
         * @param callback The method to be invoked when the server response is received
         */
@@ -54,7 +54,7 @@ namespace BrainCloud
         * currency type.
         *
         * Service Name - AppStore
-        * Service Operation - GetInventory
+        * Service Operation - GET_INVENTORY
         *
         * @param platform The store platform. Valid stores are:
         * - itunes
@@ -74,7 +74,7 @@ namespace BrainCloud
         * currency type.
         *
         * Service Name - AppStore
-        * Service Operation - GetInventory
+        * Service Operation - GET_INVENTORY
         *
         * @param storeId The store platform. Valid stores are:
         * - itunes
@@ -94,7 +94,7 @@ namespace BrainCloud
         * Start A Two Staged Purchase Transaction
         *
         * Service Name - AppStore
-        * Service Operation - StartPurchase
+        * Service Operation - START_PURCHASE
         *
         * @param storeId The store platform. Valid stores are:
         * - itunes
@@ -113,7 +113,7 @@ namespace BrainCloud
         * Finalize A Two Staged Purchase Transaction
         *
         * Service Name - AppStore
-        * Service Operation - FinalizePurchase
+        * Service Operation - FINALIZE_PURCHASE
         *
         * @param storeId The store platform. Valid stores are:
         * - itunes
@@ -133,7 +133,7 @@ namespace BrainCloud
         * Returns up-to-date eligible 'promotions' for the user and a 'promotionsRefreshed' flag indicating whether the user's promotion info required refreshing.
         *
         * Service Name - AppStore
-        * Service Operation - RefreshPromotions
+        * Service Operation - REFRESH_PROMOTIONS
         */
         void refreshPromotions(IServerCallback* callback = NULL);
         
@@ -144,7 +144,7 @@ namespace BrainCloud
         * user properly paid for the correct product before awarding them the IAP product.
         *
         * Service Name - AppStore
-        * Service Operation - CachePurchasePayloadContext
+        * Service Operation - CACHE_PURCHASE_PAYLOAD_CONTEXT
         *
         * @param storeId The store platform. Valid stores are:
         * - itunes

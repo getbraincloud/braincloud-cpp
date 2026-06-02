@@ -29,7 +29,7 @@ namespace BrainCloud
          * up-to-date view of the user's data.
          *
          * Service Name - PlayerState
-         * Service Operation - Read
+         * Service Operation - READ
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -42,7 +42,7 @@ namespace BrainCloud
          * This is mostly used for debugging/qa.
          *
          * Service Name - PlayerState
-         * Service Operation - FullReset
+         * Service Operation - FULL_PLAYER_RESET
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -56,7 +56,7 @@ namespace BrainCloud
          * does not need to re-authenticate).
          *
          * Service Name - PlayerState
-         * Service Operation - DataReset
+         * Service Operation - GAME_DATA_RESET
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -66,7 +66,7 @@ namespace BrainCloud
          * Logs user out of server.
          *
          * Service Name - PlayerState
-         * Service Operation - Logout
+         * Service Operation - LOGOUT
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -92,7 +92,7 @@ namespace BrainCloud
          * to read their public stats or entity data.
          *
          * Service Name - PlayerState
-         * Service Operation - UpdateSummary
+         * Service Operation - UPDATE_SUMMARY
          *
          * @param jsonSummaryData A JSON string defining the summary data.
          * For example:
@@ -109,7 +109,7 @@ namespace BrainCloud
         * Retrieve the user's attributes.
         *
         * Service Name - PlayerState
-        * Service Operation - GetAttributes
+        * Service Operation - GET_ATTRIBUTES
         *
         * @param callback The method to be invoked when the server response is received
         */
@@ -119,7 +119,7 @@ namespace BrainCloud
         * Update user's attributes.
         *
         * Service Name - PlayerState
-        * Service Operation - UpdateAttributes
+        * Service Operation - UPDATE_ATTRIBUTES
         *
         * @param jsonAttributes Single layer json string that is a set of key-value pairs
         * @param wipeExisting Whether to wipe existing attributes prior to update.
@@ -131,7 +131,7 @@ namespace BrainCloud
         * Remove user's attributes.
         *
         * Service Name - PlayerState
-        * Service Operation - RemoveAttributes
+        * Service Operation - REMOVE_ATTRIBUTES
         *
         * @param attributeNames Collection of attribute names.
         * @param callback The method to be invoked when the server response is received
@@ -142,7 +142,7 @@ namespace BrainCloud
         * Remove user's attributes.
         *
         * Service Name - PlayerState
-        * Service Operation - RemoveAttributes
+        * Service Operation - REMOVE_ATTRIBUTES
         *
         * @param attributeNames Collection of attribute names.
         * @param callback The method to be invoked when the server response is received
@@ -153,7 +153,7 @@ namespace BrainCloud
         * Remove user's attributes.
         *
         * Service Name - PlayerState
-        * Service Operation - RemoveAttribute
+        * Service Operation - REMOVE_ATTRIBUTES
         *
         * @param attributeNames Collection of attribute names.
         * @param callback The method to be invoked when the server response is received

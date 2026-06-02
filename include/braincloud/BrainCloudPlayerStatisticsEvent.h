@@ -31,7 +31,7 @@ namespace BrainCloud
          * triggering the rewards.
          *
          * Service Name - PlayerStatisticsEvent
-         * Service Operation - Trigger
+         * Service Operation - TRIGGER
          *
          * @see BrainCloudPlayerStatistics
          *
@@ -45,7 +45,7 @@ namespace BrainCloud
          * documentation.
          *
          * Service Name - PlayerStatisticsEvent
-         * Service Operation - TriggerMultiple
+         * Service Operation - TRIGGER_MULTIPLE
          *
          * @param jsonData
          *   [
