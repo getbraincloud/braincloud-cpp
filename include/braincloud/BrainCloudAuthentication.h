@@ -33,7 +33,7 @@ namespace BrainCloud
 		 * Initialize - initializes the identity service with a saved
 		 * anonymous installation id and most recently used profile id
 		 *
-		 * @param anonymousId  The anonymous installation id that was generated for this device
+		 * @param anonymousId The anonymous installation id that was generated for this device
 		 * @param profileId The id of the profile id that was most recently used by the app (on this device)
 		 */
 		void initialize(const char * profileId, const char * anonymousId);
@@ -71,7 +71,7 @@ namespace BrainCloud
 		 *
 		 * @param fbUserId The facebook id of the user
 		 * @param fbAuthToken The validated token from the Facebook SDK
-		 *   (that will be further validated when sent to the bC service)
+		 *                    (that will be further validated when sent to the bC service)
 		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param callback The method to be invoked when the server response is received
 		 *
@@ -109,19 +109,19 @@ namespace BrainCloud
 		 * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
 		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param timestamp The timestamp value returned as part of the identity verification signature fetch from Game Center.
-		 * 		  Required for modern Game Center verification.
+		 * 		            Required for modern Game Center verification.
 		 * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *                     Required for modern Game Center verification.
 		 * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *                  Required for modern Game Center verification.
 		 * @param signatureLength The length of the returned identity verification signature.
-		 *        Required for modern Game Center verification.
+		 *                        Required for modern Game Center verification.
 		 * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *             Required for modern Game Center verification.
 		 * @param saltLength The length of the returned identity verification salt.
-		 *        Required for modern Game Center verification.
+		 *                   Required for modern Game Center verification.
 		 * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than teamPlayerId (e.g. playerId),
-		 *        so that brainCloud can still associate the user with their team-scoped identity.
+		 *                     so that brainCloud can still associate the user with their team-scoped identity.
 		 * @param callback The method to be invoked when the server response is received.
 		 */
 		void authenticateGameCenter(const char* gameCenterId, bool forceCreate, uint64_t timestamp = 0, const std::string& publicKeyUrl = "", const uint8_t* signature = NULL, size_t signatureLength = 0, const uint8_t* salt = NULL, size_t saltLength = 0, const std::string& teamPlayerId = "", IServerCallback* callback = NULL);
@@ -138,8 +138,8 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Service Operation - AUTHENTICATE
 		 *
-		 * @param email  The e-mail address of the user
-		 * @param password  The password of the user
+		 * @param email The e-mail address of the user
+		 * @param password The password of the user
 		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param callback The method to be invoked when the server response is received
 		 *
@@ -154,8 +154,8 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Service Operation - AUTHENTICATE
 		 *
-		 * @param email  The e-mail address of the user
-		 * @param password  The password of the user
+		 * @param email The e-mail address of the user
+		 * @param password The password of the user
 		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param callback The method to be invoked when the server response is received
 		 */
@@ -172,8 +172,8 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Service Operation - AUTHENTICATE
 		 *
-		 * @param userId  String representation of 64 bit steam id
-		 * @param sessionticket  The session ticket of the user (hex encoded)
+		 * @param userId String representation of 64 bit steam id
+		 * @param sessionticket The session ticket of the user (hex encoded)
 		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param callback The method to be invoked when the server response is received
 		 */
@@ -185,8 +185,8 @@ namespace BrainCloud
 		* Service Name - authenticationV2
 		* Service Operation - AUTHENTICATE
 		*
-		* @param appleUserId  String of the apple accounts user Id OR email
-		* @param identityToken  The authentication token confirming users identity
+		* @param appleUserId String of the apple accounts user Id OR email
+		* @param identityToken The authentication token confirming users identity
 		* @param forceCreate Should a new profile be created for this user if the account does not exist?
 		* @param callback The method to be invoked when the server response is received
 		*/
@@ -198,8 +198,8 @@ namespace BrainCloud
 		* Service Name - authenticationV2
 		* Service Operation - AUTHENTICATE
 		*
-		* @param googleUserId  String representation of google+ userid (email)
-		* @param serverAuthCode  The authentication token derived via the google apis.
+		* @param googleUserId String representation of google+ userid (email)
+		* @param serverAuthCode The authentication token derived via the google apis.
 		* @param forceCreate Should a new profile be created for this user if the account does not exist?
 		* @param callback The method to be invoked when the server response is received
 		*/
@@ -212,7 +212,7 @@ namespace BrainCloud
 		* Service Operation - AUTHENTICATE
 		*
 		* @param googleUserAccountEmail String representation of google+ userid (email)
-		* @param IdToken  The authentication token derived via the google apis.
+		* @param IdToken The authentication token derived via the google apis.
 		* @param forceCreate Should a new profile be created for this user if the account does not exist?
 		* @param callback The method to be invoked when the server response is received
 		*/
@@ -224,9 +224,9 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Service Operation - AUTHENTICATE
 		 *
-		 * @param userId  String representation of Twitter userid
-		 * @param token  The authentication token derived via the Twitter apis.
-		 * @param secret  The secret given when attempting to link with Twitter
+		 * @param userId String representation of Twitter userid
+		 * @param token The authentication token derived via the Twitter apis.
+		 * @param secret The secret given when attempting to link with Twitter
 		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
 		 * @param callback The method to be invoked when the server response is received
 		 */
@@ -311,8 +311,6 @@ namespace BrainCloud
          */
         void authenticateUltra(const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback * callback = NULL);
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		/**
 		 * Reset Email password - Sends a password reset email to the specified address
 		 *
@@ -335,10 +333,9 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Operation - ResetEmailPasswordAdvanced
 		 *
-		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
-		 * @param serviceParams - parameters to send to the email service. See documentation for
-		 * full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
+		 * @param serviceParams Parameters to send to the email service. See documentation for
+		 *                      full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
 		 * @param callback The method to be invoked when the server response is received
 		 *
 		 * Note the follow error reason codes:
@@ -369,10 +366,9 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Operation - ResetEmailPasswordAdvanced
 		 *
-		 * @param appId the applicationId
 		 * @param emailAddress The email address to send the reset email to.
-		 * @param serviceParams - parameters to send to the email service. See documentation for
-		 * full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
+		 * @param serviceParams Parameters to send to the email service. See documentation for
+		 *                      full list. http://getbraincloud.com/apidocs/apiref/#capi-mail
 		 * @param callback The method to be invoked when the server response is received
 		 *
 		 * Note the follow error reason codes:
@@ -387,8 +383,7 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Operation - ResetUniversalIdPassword
 		 *
-		 * @param appId the applicationId
-		 * @param universalId the universal Id in question
+		 * @param universalId The universal Id in question
 		 * @param callback The method to be invoked when the server response is received
 		 *
 		 */
@@ -400,23 +395,20 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Operation - ResetUniversalIdPassword
 		 *
-		 * @param appId the applicationId
-		 * @param universalId the universal Id in question
-		 * @param serviceParams - parameters to send to the email service. 
+		 * @param universalId The universal Id in question
+		 * @param serviceParams Parameters to send to the email service. 
 		 * @param callback The method to be invoked when the server response is received
 		 *
 		 */
 		void resetUniversalIdPasswordAdvanced(const char * universalId, std::string serviceParams, IServerCallback * callback = NULL);
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/**
 		 * Resets Universal ID password
 		 *
 		 * Service Name - authenticationV2
 		 * Operation - ResetUniversalIdPassword
 		 *
-		 * @param appId the applicationId
-		 * @param universalId the universal Id in question
+		 * @param universalId The universal Id in question
 		 * @param callback The method to be invoked when the server response is received
 		 *
 		 */
@@ -428,9 +420,8 @@ namespace BrainCloud
 		 * Service Name - authenticationV2
 		 * Operation - ResetUniversalIdPassword
 		 *
-		 * @param appId the applicationId
-		 * @param universalId the universal Id in question
-		 * @param serviceParams - parameters to send to the email service. 
+		 * @param universalId The universal Id in question
+		 * @param serviceParams Parameters to send to the email service. 
 		 * @param callback The method to be invoked when the server response is received
 		 *
 		 */

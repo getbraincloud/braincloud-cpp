@@ -303,19 +303,19 @@ namespace BrainCloud
 		 *
 		 * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
 		 * @param timestamp The timestamp value returned as part of the identity verification signature fetch from Game Center.
-		 * 		  Required for modern Game Center verification.
+		 * 		            Required for modern Game Center verification.
 		 * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *                     Required for modern Game Center verification.
 		 * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *                  Required for modern Game Center verification.
 		 * @param signatureLength The length of the returned identity verification signature.
-		 *        Required for modern Game Center verification.
+		 *                        Required for modern Game Center verification.
 		 * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *             Required for modern Game Center verification.
 		 * @param saltLength The length of the returned identity verification salt.
-		 *        Required for modern Game Center verification.
+		 *                   Required for modern Game Center verification.
 		 * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than teamPlayerId (e.g. playerId),
-		 *        so that brainCloud can still associate the user with their team-scoped identity.
+		 *                     so that brainCloud can still associate the user with their team-scoped identity.
 		 * @param callback The method to be invoked when the server response is received.
 		 *
 		 * Errors to watch for:  SWITCHING_PROFILES - this means that the Game Center identity you provided
@@ -337,19 +337,19 @@ namespace BrainCloud
 		 *
 		 * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
 		 * @param timestamp The timestamp value returned as part of the identity verification signature fetch from Game Center.
-		 * 		  Required for modern Game Center verification.
+		 * 		            Required for modern Game Center verification.
 		 * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *                     Required for modern Game Center verification.
 		 * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *                  Required for modern Game Center verification.
 		 * @param signatureLength The length of the returned identity verification signature.
-		 *        Required for modern Game Center verification.
+		 *                        Required for modern Game Center verification.
 		 * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
-		 *        Required for modern Game Center verification.
+		 *             Required for modern Game Center verification.
 		 * @param saltLength The length of the returned identity verification salt.
-		 *        Required for modern Game Center verification.
+		 *                   Required for modern Game Center verification.
 		 * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than
-		 * 	      teamPlayerId (e.g. playerId), so that brainCloud can still associate the user with their team-scoped identity.
+		 * 	                   teamPlayerId (e.g. playerId), so that brainCloud can still associate the user with their team-scoped identity.
 		 * @param callback The method to be invoked when the server response is received.
 		 */
 		void mergeGameCenterIdentity(const char* gameCenterId, uint64_t timestamp = 0, const std::string& publicKeyUrl = "", const uint8_t* signature = NULL, size_t signatureLength = 0, const uint8_t* salt = NULL, size_t saltLength = 0, const std::string& teamPlayerId = "", IServerCallback * callback = NULL);
