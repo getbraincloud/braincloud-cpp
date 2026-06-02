@@ -24,7 +24,7 @@ namespace BrainCloud
          * For instance 1396378241893 represents 2014-04-01 2:50:41.893 in GMT-4.
          *
          * Service Name - Time
-         * Service Operation - Read
+         * Service Operation - READ
          *
          * Server API reference: ServiceName.Time, ServiceOperation.Read
          *

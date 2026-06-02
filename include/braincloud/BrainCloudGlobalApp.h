@@ -25,7 +25,7 @@ namespace BrainCloud
          * Read game's global properties
          *
          * Service Name - GlobalApp
-         * Service Operation - ReadProperties
+         * Service Operation - READ_PROPERTIES
          *
          * @param callback The method to be invoked when the server response is received
          */

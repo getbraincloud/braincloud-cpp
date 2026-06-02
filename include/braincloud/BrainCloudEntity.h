@@ -25,7 +25,7 @@ namespace BrainCloud {
 		 * Method creates a new entity on the server.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - Create
+		 * Service Operation - CREATE
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param jsonEntityData The entity's data as a json string
@@ -40,7 +40,7 @@ namespace BrainCloud {
 		 * data being completely replaced by the passed in JSON string.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - Update
+		 * Service Operation - UPDATE
 		 *
 		 * @param entityId The id of the entity to update
 		 * @param entityType The entity type as defined by the user
@@ -65,7 +65,7 @@ namespace BrainCloud {
 		* data being completely replaced by the passed in JSON string. If the entity doesn't exists it is created
 		*
 		* Service Name - Entity
-		* Service Operation - UpdateSingleton
+		* Service Operation - UPDATE_SINGLETON
 		*
 		* @param entityType The entity type as defined by the user
 		* @param jsonEntityData  The entity's data as a json string.
@@ -83,7 +83,7 @@ namespace BrainCloud {
 		 * Method deletes the given entity on the server.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - Delete
+		 * Service Operation - DELETE
 		 *
 		 * @param entityId The id of the entity to update
 		 * @param version Current version of the entity. If the version of the
@@ -97,7 +97,7 @@ namespace BrainCloud {
 		* Method deletes the given singleton entity on the server.
 		*
 		* Service Name - Entity
-		* Service Operation - DeleteSingleton
+		* Service Operation - DELETE_SINGLETON
 		*
 		* @param entityType The type of the entity to delete
 		* @param version Current version of the entity. If the version of the
@@ -110,7 +110,7 @@ namespace BrainCloud {
 		/** Method to get a specific entity.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - Read
+		 * Service Operation - READ
 		 *
 		 * @param entityId The entity id
 		 * @param callback The method to be invoked when the server response is received
@@ -120,7 +120,7 @@ namespace BrainCloud {
 		/** Method retreives a singleton entity on the server. If the entity doesn't exist, null is returned.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - ReadSingleton
+		 * Service Operation - READ_SINGLETON
 		 *
 		 * @param entityType The entity type as defined by the user
 		 * @param callback The method to be invoked when the server response is received
@@ -129,7 +129,7 @@ namespace BrainCloud {
 
 		/** Method returns all user entities that match the given type.
 		 * Service Name - Entity
-		 * Service Operation - ReadByType
+		 * Service Operation - READ_BY_TYPE
 		 *
 		 * @param entityType The entity type to search for
 		 * @param callback The method to be invoked when the server response is received
@@ -156,7 +156,7 @@ namespace BrainCloud {
 		 * in user to read the data.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - ReadShared
+		 * Service Operation - READ_SHARED
 		 *
 		 * @param profileId The profile id to retrieve shared entities for
 		 * @param callback The method to be invoked when the server response is received
@@ -182,7 +182,7 @@ namespace BrainCloud {
 		 * data being completely replaced by the passed in JSON string.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - UpdateShared
+		 * Service Operation - UPDATE_SHARED
 		 *
 		 * @param entityId The id of the entity to update
 		 * @param targetProfileId The id of the user who owns the shared entity
@@ -228,7 +228,7 @@ namespace BrainCloud {
 		 * use GetPageOffset() to retrieve previous or next pages.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - GetPage
+		 * Service Operation - GET_PAGE
 		 *
 		 * @param context The json context for the page request.
 		 *                   See the portal appendix documentation for format.
@@ -240,7 +240,7 @@ namespace BrainCloud {
 		 * Method to retrieve previous or next pages after having called the GetPage method.
 		 *
 		 * Service Name - Entity
-		 * Service Operation - GetPageOffset
+		 * Service Operation - GET_PAGE_BY_OFFSET
 		 *
 		 * @param context The context string returned from the server from a
 		 *      previous call to GetPage or GetPageOffset

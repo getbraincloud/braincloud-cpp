@@ -25,7 +25,7 @@ namespace BrainCloud
          * Method returns all of the global statistics.
          *
          * Service Name - GlobalStatistics
-         * Service Operation - Read
+         * Service Operation - READ
          *
          * @param callback Method to be invoked when the server response is received.
          */
@@ -35,7 +35,7 @@ namespace BrainCloud
          * Reads a subset of global statistics as defined by the input collection.
          *
          * Service Name - GlobalStatistics
-         * Service Operation - ReadSubset
+         * Service Operation - READ_SUBSET
          *
          * @param statistics A collection containing the statistics to read:
          * [
@@ -62,7 +62,7 @@ namespace BrainCloud
          * Global statistics are defined through the brainCloud portal.
          *
          * Service Name - GlobalStatistics
-         * Service Operation - UpdateIncrement
+         * Service Operation - UPDATE_INCREMENT
          *
          * @param jsonData The JSON encoded data to be sent to the server as follows:
          * {

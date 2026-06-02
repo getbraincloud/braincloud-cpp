@@ -128,7 +128,7 @@ namespace BrainCloud {
          * the user to login, or for users who are sensitive to their privacy
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param callback The method to be invoked when the server response is received
          *
@@ -145,7 +145,7 @@ namespace BrainCloud {
          * Note that the password sent from the client to the server is protected via SSL.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
          * @param password  The password of the user
@@ -175,7 +175,7 @@ namespace BrainCloud {
 		* Authenticate the user using a handoffId and authentication token
 		*
 		* Service Name - Authenticate
-		* Service Operation - Authenticate
+		* Service Operation - AUTHENTICATE
 		*
 		* @param handoffId braincloud handoff id generated from cloud script
 		* @param securityToken The authentication token
@@ -187,7 +187,7 @@ namespace BrainCloud {
 		* Authenticate the user using a handoffCode 
 		*
 		* Service Name - Authenticate
-		* Service Operation - Authenticate
+		* Service Operation - AUTHENTICATE
 		*
 		* @param handoffCode the code we generate in cloudcode
 		* @param callback The method to be invoked when the server response is received
@@ -198,7 +198,7 @@ namespace BrainCloud {
          * Authenticate the user with brainCloud using their Facebook Credentials
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param fbUserId The facebook id of the user
          * @param fbAuthToken The validated token from the Facebook SDK
@@ -213,7 +213,7 @@ namespace BrainCloud {
          * Authenticate the user with brainCloud using their Oculus Credentials
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param oculusUserId The oculus id of the user
          * @param oculusNonce oculus token from the Oculus SDK
@@ -228,7 +228,7 @@ namespace BrainCloud {
          * Authenticate the user using their Game Center id
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
@@ -244,7 +244,7 @@ namespace BrainCloud {
 		* Authenticate the user using a google userid(email address) and google authentication token.
 		*
 		* Service Name - Authenticate
-		* Service Operation - Authenticate
+		* Service Operation - AUTHENTICATE
 		*
 		* @param appleUserId  String of the apple accounts user Id OR email
 		* @param identityToken  The authentication token confirming users identity
@@ -257,7 +257,7 @@ namespace BrainCloud {
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param googleUserId  String representation of google+ userid (email)
          * @param serverAuthCode The authentication token derived via the google apis.
@@ -273,7 +273,7 @@ namespace BrainCloud {
          * Authenticate the user using a google openId
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param googleUserAccountEmail  String representation of google+ userid (email)
          * @param IdToken  The authentication token derived via the google apis.
@@ -289,7 +289,7 @@ namespace BrainCloud {
          * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of 64 bit steam id
          * @param sessionticket  The session ticket of the user (hex encoded)
@@ -305,7 +305,7 @@ namespace BrainCloud {
          * Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of Twitter userid
          * @param token  The authentication token derived via the Twitter apis.
@@ -324,7 +324,7 @@ namespace BrainCloud {
          * allow for e-mail validation, password resets, etc.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
          * @param password  The password of the user
@@ -352,7 +352,7 @@ namespace BrainCloud {
          * that will be passed along to pre- or post- hooks.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param authenticationType Universal, Email, Facebook, etc
          * @param ids Auth IDs structure
@@ -376,7 +376,7 @@ namespace BrainCloud {
          * Note that the password sent from the client to the server is protected via SSL.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
          * @param password  The password of the user
@@ -414,7 +414,7 @@ namespace BrainCloud {
          * Authenticate the user with brainCloud using their Facebook Credentials
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param fbUserId The facebook id of the user
          * @param fbAuthToken The validated token from the Facebook SDK
@@ -433,7 +433,7 @@ namespace BrainCloud {
          * Authenticate the user with brainCloud using their Oculus Credentials
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param oculusUserId The oculus id of the user
          * @param oculusNonce oculus token from the Oculus SDK
@@ -452,7 +452,7 @@ namespace BrainCloud {
          * Authenticate the user using their Game Center id
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
@@ -472,7 +472,7 @@ namespace BrainCloud {
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of google+ userid (email)
          * @param token  The authentication token derived via the google apis.
@@ -492,7 +492,7 @@ namespace BrainCloud {
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of google+ userid (email)
          * @param token  The authentication token derived via the google apis.
@@ -512,7 +512,7 @@ namespace BrainCloud {
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of apple+ userid (email)
          * @param token  The authentication token derived via the apple apis.
@@ -532,7 +532,7 @@ namespace BrainCloud {
          * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of 64 bit steam id
          * @param sessionticket  The session ticket of the user (hex encoded)
@@ -552,7 +552,7 @@ namespace BrainCloud {
          * Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param userid  String representation of Twitter userid
          * @param token  The authentication token derived via the Twitter apis.
@@ -575,7 +575,7 @@ namespace BrainCloud {
          * allow for e-mail validation, password resets, etc.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param email  The e-mail address of the user
          * @param password  The password of the user
@@ -611,7 +611,7 @@ namespace BrainCloud {
          * that will be passed along to pre- or post- hooks.
          *
          * Service Name - Authenticate
-         * Service Operation - Authenticate
+         * Service Operation - AUTHENTICATE
          *
          * @param authenticationType Universal, Email, Facebook, etc
          * @param ids Auth IDs structure

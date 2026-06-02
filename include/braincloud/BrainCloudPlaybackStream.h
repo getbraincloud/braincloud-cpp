@@ -24,7 +24,7 @@ namespace BrainCloud
         * Starts a stream
         *
         * Service Name - PlaybackStream
-        * Service Operation - StartStream
+        * Service Operation - START_STREAM
         *
         * @param targetPlayerId The player to start a stream with
         * @param includeSharedData Whether to include shared data in the stream
@@ -36,7 +36,7 @@ namespace BrainCloud
         * Reads a stream
         *
         * Service Name - PlaybackStream
-        * Service Operation - ReadStream
+        * Service Operation - READ_STREAM
         *
         * @param playbackStreamId Identifies the stream to read
         * @param callback The method to be invoked when the server response is received
@@ -47,7 +47,7 @@ namespace BrainCloud
         * Ends a stream
         *
         * Service Name - PlaybackStream
-        * Service Operation - EndStream
+        * Service Operation - END_STREAM
         *
         * @param playbackStreamId Identifies the stream to read
         * @param callback The method to be invoked when the server response is received
@@ -58,7 +58,7 @@ namespace BrainCloud
         * Deletes a stream
         *
         * Service Name - PlaybackStream
-        * Service Operation - DeleteStream
+        * Service Operation - DELETE_STREAM
         *
         * @param playbackStreamId Identifies the stream to read
         * @param callback The method to be invoked when the server response is received
@@ -69,7 +69,7 @@ namespace BrainCloud
         * Adds a stream event
         *
         * Service Name - PlaybackStream
-        * Service Operation - AddEvent
+        * Service Operation - ADD_EVENT
         *
         * @param playbackStreamId Identifies the stream to read
         * @param jsonEventData Describes the event
@@ -82,7 +82,7 @@ namespace BrainCloud
         * Gets recent stream summaries for initiating player
         *
         * Service Name - PlaybackStream
-        * Service Operation - GetRecentStreamsForInitiatingPlayer
+        * Service Operation - GET_RECENT_STREAMS_FOR_INITIATING_PLAYER
         *
         * @param targetPlayerId The player that started the stream
         * @param maxNumStreams The max number of streams to query
@@ -94,7 +94,7 @@ namespace BrainCloud
         * Gets recent stream summaries for target player
         *
         * Service Name - PlaybackStream
-        * Service Operation - GetRecentStreamsForTargetPlayer
+        * Service Operation - GET_RECENT_STREAMS_FOR_TARGET_PLAYER
         *
         * @param targetPlayerId The player that was target of the stream
         * @param maxNumStreams The max number of streams to query
