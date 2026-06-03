@@ -223,7 +223,7 @@ if (APPLE)
             "src/apple/SAMKeychain.m"
             "src/apple/SAMKeychainQuery.m"
             PROPERTIES COMPILE_FLAGS "-fobjc-arc")
-    list(APPEND includes PUBLIC "lib/apple")
+    list(APPEND includes PUBLIC "include/braincloud/internal/apple")
 elseif (WIN32)
     if (UWP)
         list(APPEND OS_SPECIFIC_INCS
