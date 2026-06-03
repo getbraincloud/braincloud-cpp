@@ -16,10 +16,11 @@ Pod::Spec.new do |s|
   s.summary  = "The C++ client library for brainCloud"
   s.homepage = "http://getbraincloud.com/"
 
-  s.ios.deployment_target  = "12.0"
-  s.osx.deployment_target  = "10.13"
-  s.tvos.deployment_target = "12.0"
-  s.watchos.deployment_target = "4.0"
+  s.ios.deployment_target      = "12.0"
+  s.osx.deployment_target      = "10.13"
+  s.tvos.deployment_target     = "12.0"
+  s.visionos.deployment_target = "1.0"
+  s.watchos.deployment_target  = "4.0"
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
@@ -57,6 +58,7 @@ Pod::Spec.new do |s|
   s.dependency                'BrainCloudJsonCpp', '~>1.2.1'
   s.ios.dependency            'SocketRocket', '~> 0.5'
   s.osx.dependency            'SocketRocket', '~> 0.5'
-  #s.watchos.dependency       'SocketRocket', '~> 0.5'
   s.tvos.dependency           'SocketRocket', '~> 0.5'
+  s.visionos.dependency       'SocketRocket', '~> 0.5'
+  #s.watchos.dependency       'SocketRocket', '~> 0.5'
 end
