@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
   s.version  = "6.0.0"
 
-  s.summary  = "The C++ client library for brainCloud"
+  s.summary  = "The C++ client library for brainCloud."
   s.homepage = "http://getbraincloud.com/"
 
   s.ios.deployment_target      = "12.0"
