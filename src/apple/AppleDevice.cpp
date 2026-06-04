@@ -7,10 +7,14 @@
 
 #if TARGET_OS_IOS
 static const std::string PLATFORM_NAME("IOS");
-#elif  TARGET_OS_TV
-static const std::string PLATFORM_NAME("APPLE_TV_OS");
-#elif  TARGET_OS_MAC
+#elif TARGET_OS_MAC
 static const std::string PLATFORM_NAME("MAC");
+#elif TARGET_OS_TV
+static const std::string PLATFORM_NAME("APPLE_TV_OS");
+#elif TARGET_OS_VISION
+static const std::string PLATFORM_NAME("VISION_OS");
+#elif TARGET_OS_WATCH
+static const std::string PLATFORM_NAME("WATCH_OS");
 #else
 #error "Unsupported __APPLE__ platform!"
 #endif
