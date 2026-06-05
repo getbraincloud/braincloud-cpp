@@ -17,12 +17,21 @@ namespace BrainCloud
 
     int nsPinger::ping(const std::string& url)
     {
+        // App Transport Security blocks cleartext http:// through NSURLSession, so
+        // upgrade to https:// (ping targets answer on 443).
+        std::string secureUrl = url;
+        const std::string httpPrefix = "http://";
+        if (secureUrl.compare(0, httpPrefix.size(), httpPrefix) == 0)
+        {
+            secureUrl = "https://" + secureUrl.substr(httpPrefix.size());
+        }
+
         std::mutex mutex;
         std::condition_variable condition;
 
         // Create the request
         NSURLSession* pSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
-        NSURL* requestUrl = [NSURL URLWithString:[NSString stringWithCString:url.c_str() encoding:NSUTF8StringEncoding]];
+        NSURL* requestUrl = [NSURL URLWithString:[NSString stringWithCString:secureUrl.c_str() encoding:NSUTF8StringEncoding]];
         NSMutableURLRequest* pRequest = [NSMutableURLRequest requestWithURL:requestUrl];
         if (pRequest == NULL)
         {
