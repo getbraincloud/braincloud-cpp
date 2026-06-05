@@ -16,27 +16,30 @@ namespace BrainCloud
     class Platform
     {
     public:
+        static const Platform & Unknown;
+        static const Platform & Amazon;
         static const Platform & AppleTVOS;
         static const Platform & BlackBerry;
         static const Platform & Facebook;
-        static const Platform & Oculus;
         static const Platform & GooglePlayAndroid;
         static const Platform & iOS;
         static const Platform & Linux;
         static const Platform & Mac;
+        static const Platform & Nintendo;
+        static const Platform & Oculus;
+        static const Platform & PS3;
+        static const Platform & PS4;
+        static const Platform & PSVita;
+        static const Platform & Roku;
+        static const Platform & Tizen;
+        static const Platform & VisionOS;
+        static const Platform & WatchOS;
         static const Platform & Web;
+        static const Platform & Wii;
         static const Platform & Windows;
         static const Platform & WindowsPhone;
         static const Platform & Xbox360;
-        static const Platform & PS3;
         static const Platform & XboxOne;
-        static const Platform & PS4;
-        static const Platform & Wii;
-        static const Platform & PSVita;
-        static const Platform & Tizen;
-        static const Platform & Roku;
-        static const Platform & WatchOS;
-        static const Platform & Unknown;
 
         const std::string & toString() const;
         static const Platform & fromString(const std::string & platform);

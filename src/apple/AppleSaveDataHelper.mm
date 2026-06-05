@@ -1,6 +1,6 @@
 #include "braincloud/internal/apple/AppleSaveDataHelper.h"
 
-#import "SAMKeychain/SAMKeychain.h"
+#import "SAMKeychain.h"
 
 namespace BrainCloud
 {
