@@ -165,17 +165,33 @@ namespace BrainCloud
 		detachIdentity(userId, AuthenticationType::Universal, continueAnon, callback);
 	}
 
-	void BrainCloudIdentity::attachGameCenterIdentity(const char * gameCenterId, IServerCallback * callback)
+	void BrainCloudIdentity::attachGameCenterIdentity(const char * gameCenterId,
+													  uint64_t timestamp,
+                                                      const std::string& publicKeyUrl,
+                                                      const uint8_t* signature, size_t signatureLength,
+                                                      const uint8_t* salt, size_t saltLength,
+                                                      const std::string& teamPlayerId,
+													  IServerCallback* callback)
 	{
-		attachIdentity(gameCenterId, "", AuthenticationType::GameCenter, callback);
+		std::string authenticationToken = BrainCloudAuthentication::createGameCenterAuthenticationToken(timestamp, publicKeyUrl, signature, signatureLength, salt, saltLength, teamPlayerId);
+
+		attachIdentity(gameCenterId, authenticationToken.c_str(), AuthenticationType::GameCenter, callback);
 	}
 
-	void BrainCloudIdentity::mergeGameCenterIdentity(const char * gameCenterId, IServerCallback * callback)
+	void BrainCloudIdentity::mergeGameCenterIdentity(const char * gameCenterId,
+												     uint64_t timestamp,
+                                                     const std::string& publicKeyUrl,
+                                                     const uint8_t* signature, size_t signatureLength,
+                                                     const uint8_t* salt, size_t saltLength,
+                                                     const std::string& teamPlayerId,
+													 IServerCallback* callback)
 	{
-		mergeIdentity(gameCenterId, "", AuthenticationType::GameCenter, callback);
+		std::string authenticationToken = BrainCloudAuthentication::createGameCenterAuthenticationToken(timestamp, publicKeyUrl, signature, signatureLength, salt, saltLength, teamPlayerId);
+
+		mergeIdentity(gameCenterId, authenticationToken.c_str(), AuthenticationType::GameCenter, callback);
 	}
 
-	void BrainCloudIdentity::detachGameCenterIdentity(const char * gameCenterId, bool continueAnon, IServerCallback * callback)
+	void BrainCloudIdentity::detachGameCenterIdentity(const char * gameCenterId, bool continueAnon, IServerCallback* callback)
 	{
 		detachIdentity(gameCenterId, AuthenticationType::GameCenter, continueAnon, callback);
 	}
