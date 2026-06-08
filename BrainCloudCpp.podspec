@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   s.header_mappings_dir     = "include"
   s.preserve_paths          = "include/*", "include/**/*"
   s.public_header_files     = "include/braincloud/*.h", "include/braincloud/internal/*.h", "include/braincloud/internal/apple/*.h"
-  s.source_files            = "src/*.{c,cpp}", "src/apple/*.{c,cpp,mm}", "include/braincloud/*.h", "include/braincloud/internal/*.h", "include/braincloud/internal/apple/*.h"
+  s.source_files            = "src/*.{c,cpp}", "src/apple/*.{c,m,cpp,mm}", "include/braincloud/*.h", "include/braincloud/internal/*.h", "include/braincloud/internal/apple/*.h"
   s.exclude_files           = "src/DefaultSaveDataHelper.cpp", "src/DefaultGUID.cpp" , "src/DefaultFileUploader.cpp", "src/DefaultWebSocket.cpp", "src/DefaultPinger.cpp", "src/DefaultRelayWSSocket.cpp", "include/braincloud/internal/DefaultRelayWSSocket.h"
 
   # for use_frameworks!
