@@ -64,6 +64,11 @@ namespace BrainCloud {
         authenticate(fbUserId, fbAuthToken, AuthenticationType::Facebook, NULL, forceCreate, "", callback);
     }
 
+    void BrainCloudAuthentication::authenticateFacebookLimited(const char * fbLimitedUserId, const char * fbAuthToken, bool forceCreate, IServerCallback * callback)
+    {
+        authenticate(fbLimitedUserId, fbAuthToken, AuthenticationType::FacebookLimited, NULL, forceCreate, "", callback);
+    }
+
        void BrainCloudAuthentication::authenticateOculus(const char * oculusUserId, const char * oculusNonce, bool forceCreate, IServerCallback * callback)
     {
         authenticate(oculusUserId, oculusNonce, AuthenticationType::Oculus, NULL, forceCreate, "", callback);

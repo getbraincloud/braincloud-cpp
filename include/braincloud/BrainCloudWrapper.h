@@ -221,6 +221,23 @@ namespace BrainCloud {
         void authenticateFacebook(const char* fbUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback = NULL);
 
         /**
+         * Authenticate the user with brainCloud using their FacebookLimited Credentials
+         *
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
+         *
+         * @param fbLimitedUserId The facebookLimited id of the user
+         * @param fbAuthToken The validated token from the Facebook SDK
+         *                    (that will be further validated when sent to the bC service)
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param callback The method to be invoked when the server response is received
+         *
+         * @returns Performs the success callback on success, failure callback on failure.
+         *
+         */
+        void authenticateFacebookLimited(const char* fbLimitedUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback = NULL);
+
+        /**
          * Authenticate the user with brainCloud using their Oculus Credentials
          *
          * Service Name - authenticationV2
@@ -485,6 +502,27 @@ namespace BrainCloud {
          * 
          */
         void smartSwitchAuthenticateFacebook(const char* fbUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback = NULL);
+
+        /**
+         * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
+	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         *
+         * Authenticate the user with brainCloud using their FacebookLimited Credentials
+         *
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
+         *
+         * @param fbLimitedUserId The facebookLimited id of the user
+         * @param fbAuthToken The validated token from the Facebook SDK
+         *                    (that will be further validated when sent to the bC service)
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param callback The method to be invoked when the server response is received
+         *
+         * @returns Performs the success callback on success, failure callback on failure.
+         *
+         */
+        void smartSwitchAuthenticateFacebookLimited(const char* fbLimitedUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback = NULL);
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.

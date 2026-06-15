@@ -7,6 +7,7 @@ namespace BrainCloud
     const AuthenticationType & AuthenticationType::Universal = AuthenticationType("Universal");
     const AuthenticationType & AuthenticationType::Email = AuthenticationType("Email");
     const AuthenticationType & AuthenticationType::Facebook = AuthenticationType("Facebook");
+    const AuthenticationType & AuthenticationType::FacebookLimited = AuthenticationType("FacebookLimited");
     const AuthenticationType & AuthenticationType::Oculus = AuthenticationType("Oculus");
     const AuthenticationType & AuthenticationType::GameCenter = AuthenticationType("GameCenter");
     const AuthenticationType & AuthenticationType::Steam = AuthenticationType("Steam");
@@ -49,6 +50,10 @@ namespace BrainCloud
         if (AuthenticationType == Facebook)
         {
             return AuthenticationType::Facebook;
+        }
+        if (AuthenticationType == FacebookLimited)
+        {
+            return AuthenticationType::FacebookLimited;
         }
         if (AuthenticationType == GameCenter)
         {
