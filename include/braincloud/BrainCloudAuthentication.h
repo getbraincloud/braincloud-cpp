@@ -78,6 +78,21 @@ namespace BrainCloud
 		 */
 		void authenticateFacebook(const char * fbUserId, const char * fbAuthToken, bool forceCreate, IServerCallback * callback = NULL);
 
+		/**
+		 * Authenticate the user with brainCloud using their FacebookLimited Credentials
+		 *
+		 * Service Name - authenticationV2
+		 * Service Operation - AUTHENTICATE
+		 *
+		 * @param fbLimitedUserId The facebookLimited id of the user
+		 * @param fbAuthToken The validated token from the Facebook SDK
+		 *                    (that will be further validated when sent to the bC service)
+		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
+		 * @param callback The method to be invoked when the server response is received
+		 *
+		 */
+		void authenticateFacebookLimited(const char * fbLimitedUserId, const char * fbAuthToken, bool forceCreate, IServerCallback * callback = NULL);
+
         /**
 		 * Authenticate the user with brainCloud using their Oculus Credentials
 		 *
