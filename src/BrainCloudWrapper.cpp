@@ -202,6 +202,15 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateFacebook(fbUserId, fbAuthToken, forceCreate, this);
     }
 
+    void BrainCloudWrapper::authenticateFacebookLimited(const char* fbLimitedUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback)
+    {
+        m_authenticateCallback = callback;
+
+        initializeIdentity();
+
+        client->getAuthenticationService()->authenticateFacebookLimited(fbLimitedUserId, fbAuthToken, forceCreate, this);
+    }
+
     void BrainCloudWrapper::authenticateOculus(const char* oculusUserId, const char* oculusNonce, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
@@ -460,6 +469,31 @@ namespace BrainCloud {
 		};
 
 		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, fbUserId, fbAuthToken, forceCreate, callback);
+		getIdentitiesCallback(smartCallback);
+	}
+
+	void BrainCloudWrapper::smartSwitchAuthenticateFacebookLimited(const char* fbLimitedUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback)
+	{
+		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
+		{
+		public:
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* fbLimitedUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
+                this->fbLimitedUserId = fbLimitedUserId;
+                this->fbAuthToken = fbAuthToken;
+                this->forceCreate = forceCreate;
+			}
+
+			std::string fbLimitedUserId; std::string fbAuthToken; bool forceCreate;
+
+			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
+			{
+				wrapper->clearIds();
+				wrapper->client->getAuthenticationService()->authenticateFacebookLimited(fbLimitedUserId.c_str(), fbAuthToken.c_str(), forceCreate, callback);
+				delete this;
+			}
+		};
+
+		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, fbLimitedUserId, fbAuthToken, forceCreate, callback);
 		getIdentitiesCallback(smartCallback);
 	}
 
