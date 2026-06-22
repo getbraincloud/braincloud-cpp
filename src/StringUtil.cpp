@@ -39,4 +39,31 @@ namespace BrainCloud {
         return true;
     }
 
+    std::string StringUtil::Base64Encode(const uint8_t* data, size_t length)
+    {
+        static const char alphabet[] =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+        std::string result;
+        result.reserve(((length + 2) / 3) * 4);
+
+        for (size_t i = 0; i < length; i += 3)
+        {
+            uint32_t group = (uint32_t)data[i] << 16;
+            if (i + 1 < length) group |= (uint32_t)data[i + 1] << 8;
+            if (i + 2 < length) group |= (uint32_t)data[i + 2];
+
+            result += alphabet[(group >> 18) & 0x3F];
+            result += alphabet[(group >> 12) & 0x3F];
+            result += (i + 1 < length) ? alphabet[(group >> 6) & 0x3F] : '=';
+            result += (i + 2 < length) ? alphabet[group & 0x3F] : '=';
+        }
+
+        return result;
+    }
+
+    std::string StringUtil::Base64Encode(const std::string & input)
+    {
+        return Base64Encode(reinterpret_cast<const uint8_t*>(input.data()), input.size());
+    }
 }

@@ -33,6 +33,9 @@ namespace BrainCloud
 		/**
 		 * Requests the event server address
 		 *
+		 * Service Name - rttRegistration
+		 * Service Operation - REQUEST_CLIENT_CONNECTION
+		 *
 		 * @param callback The callback.
 		 */
 		void requestClientConnection(IServerCallback* callback);

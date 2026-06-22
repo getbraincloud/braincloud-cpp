@@ -66,7 +66,6 @@ TEST_F(TestBCPlayerState, ResetPlayerState)
     TestResult tr;
     m_bc->getPlayerStateService()->resetUserState(&tr);
     tr.run(m_bc);
-    Logout();
 }
 
 TEST_F(TestBCPlayerState, UpdateAttributes)

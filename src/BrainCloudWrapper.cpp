@@ -20,7 +20,7 @@ namespace BrainCloud {
     std::string BrainCloudWrapper::AUTHENTICATION_ANONYMOUS = "anonymous";
 
 
-    BrainCloudWrapper::BrainCloudWrapper(const char * wrapperName)
+    BrainCloudWrapper::BrainCloudWrapper(const char* wrapperName)
         : client(NULL)
         , m_authenticateCallback(NULL)
         , m_lastUrl("")
@@ -69,7 +69,7 @@ namespace BrainCloud {
 #pragma warning( pop )
 #endif
 
-    void BrainCloudWrapper::initialize(const char * url, const char * secretKey, const char * appId, const char * version, const char * companyName, const char * appName)
+    void BrainCloudWrapper::initialize(const char* url, const char* secretKey, const char* appId, const char* version, const char* companyName, const char* appName)
     {
         if(client == NULL) {
             client = new BrainCloudClient();
@@ -93,7 +93,7 @@ namespace BrainCloud {
         initializeIdentity();
     }
 
-    void BrainCloudWrapper::initializeWithApps(const char * url, const char * defaultAppId, const std::map<std::string, std::string>& secretMap, const char * version, const char * companyName, const char * appName)
+    void BrainCloudWrapper::initializeWithApps(const char* url, const char* defaultAppId, const std::map<std::string, std::string>& secretMap, const char* version, const char* companyName, const char* appName)
     {
         if (client == NULL)
         {
@@ -166,7 +166,7 @@ namespace BrainCloud {
     }
 
     // authenticate the player with an anonymous id
-    void BrainCloudWrapper::authenticateAnonymous(IServerCallback * callback, bool forceCreate)
+    void BrainCloudWrapper::authenticateAnonymous(IServerCallback* callback, bool forceCreate)
     {
         m_authenticateCallback = callback;
 
@@ -175,7 +175,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateAnonymous(forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateEmailPassword(const char * email, const char * password, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateEmailPassword(const char* email, const char* password, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -184,7 +184,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateEmailPassword(email, password, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateExternal(const char * userid, const char * token, const char * externalAuthName, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateExternal(const char* userid, const char* token, const char* externalAuthName, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -193,7 +193,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateExternal(userid, token, externalAuthName, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateFacebook(const char * fbUserId, const char * fbAuthToken, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateFacebook(const char* fbUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -202,7 +202,16 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateFacebook(fbUserId, fbAuthToken, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateOculus(const char * oculusUserId, const char * oculusNonce, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateFacebookLimited(const char* fbLimitedUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback)
+    {
+        m_authenticateCallback = callback;
+
+        initializeIdentity();
+
+        client->getAuthenticationService()->authenticateFacebookLimited(fbLimitedUserId, fbAuthToken, forceCreate, this);
+    }
+
+    void BrainCloudWrapper::authenticateOculus(const char* oculusUserId, const char* oculusNonce, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -211,16 +220,32 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateOculus(oculusUserId, oculusNonce, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateGameCenter(const char * gameCenterId, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateGameCenter(const char* gameCenterId, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
         initializeIdentity();
 
-        client->getAuthenticationService()->authenticateGameCenter(gameCenterId, forceCreate, this);
+        client->getAuthenticationService()->authenticateGameCenter(gameCenterId, forceCreate, 0, "", NULL, 0, NULL, 0, "", this);
     }
 
-	void BrainCloudWrapper::authenticateApple(const char * appleUserId, const char * identityToken, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateGameCenter(const char* gameCenterId, bool forceCreate,
+                                                   uint64_t timestamp,
+                                                   const std::string& publicKeyUrl,
+                                                   const uint8_t* signature, size_t signatureLength,
+                                                   const uint8_t* salt, size_t saltLength,
+                                                   const std::string& teamPlayerId,
+                                                   IServerCallback* callback)
+    {
+        m_authenticateCallback = callback;
+
+        initializeIdentity();
+
+        client->getAuthenticationService()->authenticateGameCenter(gameCenterId, forceCreate, timestamp, publicKeyUrl,
+                                                                   signature, signatureLength, salt, saltLength, teamPlayerId, this);
+    }
+
+	void BrainCloudWrapper::authenticateApple(const char* appleUserId, const char* identityToken, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -229,7 +254,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateApple(appleUserId, identityToken, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateGoogle(const char * googleUserId, const char * serverAuthCode, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateGoogle(const char* googleUserId, const char* serverAuthCode, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -238,7 +263,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateGoogle(googleUserId, serverAuthCode, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateGoogleOpenId(const char * googleUserAccountEmail, const char * IdToken, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateGoogleOpenId(const char* googleUserAccountEmail, const char* IdToken, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -247,7 +272,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateGoogleOpenId(googleUserAccountEmail, IdToken, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateSteam(const char * userid, const char * sessionticket, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateSteam(const char* userid, const char* sessionticket, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -256,7 +281,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateSteam(userid, sessionticket, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateTwitter(const char * userid, const char * token, const char * secret, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateTwitter(const char* userid, const char* token, const char* secret, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -265,7 +290,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateTwitter(userid, token, secret, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateUniversal(const char * userid, const char * password, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateUniversal(const char* userid, const char* password, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -274,7 +299,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateUniversal(userid, password, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateUltra(const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateUltra(const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -283,7 +308,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateUltra(ultraUsername, ultraIdToken, forceCreate, this);
     }
 
-    void BrainCloudWrapper::authenticateAdvanced(AuthenticationType authenticationType, const AuthenticationIds &ids, bool forceCreate, const std::string &extraJson, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateAdvanced(AuthenticationType authenticationType, const AuthenticationIds &ids, bool forceCreate, const std::string &extraJson, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -292,7 +317,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateAdvanced(authenticationType, ids, forceCreate, extraJson, this);
     }
 
-    void BrainCloudWrapper::authenticateHandoff(const char * handoffId, const char * securityToken, IServerCallback * callback)
+    void BrainCloudWrapper::authenticateHandoff(const char* handoffId, const char* securityToken, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -301,7 +326,7 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateHandoff(handoffId, securityToken, callback);
     }
 
-	void BrainCloudWrapper::authenticateSettopHandoff(const char * handoffCode, IServerCallback * callback)
+	void BrainCloudWrapper::authenticateSettopHandoff(const char* handoffCode, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
 
@@ -317,9 +342,9 @@ namespace BrainCloud {
 	{
 	public: 
 		BrainCloudWrapper * wrapper;
-		IServerCallback * authenticateCallback;
+		IServerCallback* authenticateCallback;
 
-		IdentityCallback(BrainCloudWrapper * wrapper, IServerCallback * authenticateCallback) {
+		IdentityCallback(BrainCloudWrapper * wrapper, IServerCallback* authenticateCallback) {
 			this->wrapper = wrapper;
 			this->authenticateCallback = authenticateCallback;
 		}
@@ -356,13 +381,13 @@ namespace BrainCloud {
 	class SmartSwitchCallback : public IServerCallback
 	{
 	public:
-		SmartSwitchCallback(BrainCloudWrapper *wrapper, IServerCallback * callback) {
+		SmartSwitchCallback(BrainCloudWrapper* wrapper, IServerCallback* callback) {
 			this->wrapper = wrapper;
 			this->callback = callback;
 		}
 
 		BrainCloudWrapper * wrapper;
-		IServerCallback * callback;
+		IServerCallback* callback;
 
 		void serverError(ServiceName serviceName, ServiceOperation serviceOperation, int statusCode, int reasonCode, const std::string & jsonError)
 		{
@@ -371,23 +396,23 @@ namespace BrainCloud {
 		}
 	};
 
-	void BrainCloudWrapper::smartSwitchAuthenticateEmailPassword(const char * email, const char * password, bool forceCreate, IServerCallback * callback)
+	void BrainCloudWrapper::smartSwitchAuthenticateEmailPassword(const char* email, const char* password, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * email, const char * password, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* email, const char* password, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->email = email;
                 this->password = password;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * email; const char * password; bool forceCreate;
+			std::string email; std::string password; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateEmailPassword(email, password, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateEmailPassword(email.c_str(), password.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -396,24 +421,24 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-	void BrainCloudWrapper::smartSwitchAuthenticateExternal(const char * userid, const char * token, const char * externalAuthName, bool forceCreate, IServerCallback * callback)
+	void BrainCloudWrapper::smartSwitchAuthenticateExternal(const char* userid, const char* token, const char* externalAuthName, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * userid, const char * token, const char * externalAuthName, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* userid, const char* token, const char* externalAuthName, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->userid = userid;
                 this->token = token;
                 this->externalAuthName = externalAuthName;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * userid; const char * token; const char * externalAuthName; const char * fbAuthToken; bool forceCreate;
+			std::string userid; std::string token; std::string externalAuthName; std::string fbAuthToken; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateExternal(userid, token, externalAuthName, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateExternal(userid.c_str(), token.c_str(), externalAuthName.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -422,23 +447,23 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-	void BrainCloudWrapper::smartSwitchAuthenticateFacebook(const char * fbUserId, const char * fbAuthToken, bool forceCreate, IServerCallback * callback)
+	void BrainCloudWrapper::smartSwitchAuthenticateFacebook(const char* fbUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * fbUserId, const char * fbAuthToken, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* fbUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->fbUserId = fbUserId;
                 this->fbAuthToken = fbAuthToken;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * fbUserId; const char * fbAuthToken; bool forceCreate;
+			std::string fbUserId; std::string fbAuthToken; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateFacebook(fbUserId, fbAuthToken, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateFacebook(fbUserId.c_str(), fbAuthToken.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -447,23 +472,48 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-    	void BrainCloudWrapper::smartSwitchAuthenticateOculus(const char * oculusUserId, const char * oculusNonce, bool forceCreate, IServerCallback * callback)
+	void BrainCloudWrapper::smartSwitchAuthenticateFacebookLimited(const char* fbLimitedUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * oculusUserId, const char * oculusNonce, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* fbLimitedUserId, const char* fbAuthToken, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
+                this->fbLimitedUserId = fbLimitedUserId;
+                this->fbAuthToken = fbAuthToken;
+                this->forceCreate = forceCreate;
+			}
+
+			std::string fbLimitedUserId; std::string fbAuthToken; bool forceCreate;
+
+			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
+			{
+				wrapper->clearIds();
+				wrapper->client->getAuthenticationService()->authenticateFacebookLimited(fbLimitedUserId.c_str(), fbAuthToken.c_str(), forceCreate, callback);
+				delete this;
+			}
+		};
+
+		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, fbLimitedUserId, fbAuthToken, forceCreate, callback);
+		getIdentitiesCallback(smartCallback);
+	}
+
+    	void BrainCloudWrapper::smartSwitchAuthenticateOculus(const char* oculusUserId, const char* oculusNonce, bool forceCreate, IServerCallback* callback)
+	{
+		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
+		{
+		public:
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* oculusUserId, const char* oculusNonce, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->oculusUserId = oculusUserId;
                 this->oculusNonce = oculusNonce;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * oculusUserId; const char * oculusNonce; bool forceCreate;
+			std::string oculusUserId; std::string oculusNonce; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateOculus(oculusUserId, oculusNonce, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateOculus(oculusUserId.c_str(), oculusNonce.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -472,22 +522,22 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-	void BrainCloudWrapper::smartSwitchAuthenticateGameCenter(const char * gameCenterId, bool forceCreate, IServerCallback * callback)
+	void BrainCloudWrapper::smartSwitchAuthenticateGameCenter(const char* gameCenterId, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * gameCenterId, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* gameCenterId, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->gameCenterId = gameCenterId;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * gameCenterId; bool forceCreate;
+			std::string gameCenterId; bool forceCreate;
 
-			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
+			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const& jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateGameCenter(gameCenterId, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateGameCenter(gameCenterId.c_str(), forceCreate, 0, "", NULL, 0, NULL, 0, "", callback);
 				delete this;
 			}
 		};
@@ -496,23 +546,67 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-	void BrainCloudWrapper::smartSwitchAuthenticateGoogle(const char * userid, const char * token, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::smartSwitchAuthenticateGameCenter(const char* gameCenterId, bool forceCreate,
+                                                              uint64_t timestamp,
+                                                              const std::string& publicKeyUrl,
+                                                              const uint8_t* signature, size_t signatureLength,
+                                                              const uint8_t* salt, size_t saltLength,
+                                                              const std::string& teamPlayerId,
+													          IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * userid, const char * token, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* gameCenterId, bool forceCreate, uint64_t timestamp, const std::string& publicKeyUrl,
+                                            const uint8_t* signature, size_t signatureLength, const uint8_t* salt, size_t saltLength, const std::string& teamPlayerId,
+											IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
+                this->gameCenterId = gameCenterId;
+                this->forceCreate = forceCreate;
+                this->timestamp = timestamp;
+                this->publicKeyUrl = publicKeyUrl;
+                this->signature = (signature != NULL && signatureLength > 0)
+                                ? std::vector<uint8_t>(signature, signature + signatureLength)
+                                : std::vector<uint8_t>();
+                this->salt = (salt != NULL && saltLength > 0)
+                           ? std::vector<uint8_t>(salt, salt + saltLength)
+                           : std::vector<uint8_t>();
+                this->teamPlayerId = teamPlayerId;
+			}
+
+			std::string gameCenterId; bool forceCreate; uint64_t timestamp; std::string publicKeyUrl;
+            std::vector<uint8_t> signature; std::vector<uint8_t> salt; std::string teamPlayerId;
+
+			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const& jsonData)
+			{
+				wrapper->clearIds();
+				wrapper->client->getAuthenticationService()->authenticateGameCenter(gameCenterId.c_str(), forceCreate, timestamp, publicKeyUrl,
+                                                                                    signature.data(), signature.size(), salt.data(), salt.size(), teamPlayerId, callback);
+				delete this;
+			}
+		};
+
+		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, gameCenterId, forceCreate, timestamp, publicKeyUrl,
+                                                                                             signature, signatureLength, salt, saltLength, teamPlayerId, callback);
+		getIdentitiesCallback(smartCallback);
+	}
+
+	void BrainCloudWrapper::smartSwitchAuthenticateGoogle(const char* userid, const char* token, bool forceCreate, IServerCallback* callback)
+	{
+		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
+		{
+		public:
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* userid, const char* token, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->userid = userid;
                 this->token = token;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * userid; const char * token; bool forceCreate;
+			std::string userid;std::string token; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateGoogle(userid, token, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateGoogle(userid.c_str(), token.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -521,23 +615,23 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-    	void BrainCloudWrapper::smartSwitchAuthenticateGoogleOpenId(const char * userid, const char * token, bool forceCreate, IServerCallback * callback)
+    	void BrainCloudWrapper::smartSwitchAuthenticateGoogleOpenId(const char* userid, const char* token, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * userid, const char * token, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* userid, const char* token, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->userid = userid;
                 this->token = token;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * userid; const char * token; bool forceCreate;
+			std::string userid; std::string token; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateGoogle(userid, token, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateGoogle(userid.c_str(), token.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -546,23 +640,23 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-    	void BrainCloudWrapper::smartSwitchAuthenticateApple(const char * userid, const char * token, bool forceCreate, IServerCallback * callback)
+    	void BrainCloudWrapper::smartSwitchAuthenticateApple(const char* userid, const char* token, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * userid, const char * token, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* userid, const char* token, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->userid = userid;
                 this->token = token;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * userid; const char * token; bool forceCreate;
+			std::string userid; std::string token; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateApple(userid, token, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateApple(userid.c_str(), token.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -571,23 +665,23 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-	void BrainCloudWrapper::smartSwitchAuthenticateSteam(const char * userid, const char * sessionticket, bool forceCreate, IServerCallback * callback)
+	void BrainCloudWrapper::smartSwitchAuthenticateSteam(const char* userid, const char* sessionticket, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * userid, const char * sessionticket, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* userid, const char* sessionticket, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->userid = userid;
                 this->sessionticket = sessionticket;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * userid; const char * sessionticket; bool forceCreate;
+			std::string userid; std::string sessionticket; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateSteam(userid, sessionticket, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateSteam(userid.c_str(), sessionticket.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -596,24 +690,24 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-	void BrainCloudWrapper::smartSwitchAuthenticateTwitter(const char * userid, const char * token, const char * secret, bool forceCreate, IServerCallback * callback)
+	void BrainCloudWrapper::smartSwitchAuthenticateTwitter(const char* userid, const char* token, const char* secret, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * userid, const char * token, const char * secret, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* userid, const char* token, const char* secret, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->userid = userid;
                 this->token = token;
                 this->secret = secret;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * userid; const char * token; const char * secret; bool forceCreate;
+			std::string userid; std::string token; std::string secret; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateTwitter(userid, token, secret, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateTwitter(userid.c_str(), token.c_str(), secret.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -622,24 +716,24 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-    void BrainCloudWrapper::smartSwitchAuthenticateUniversal(const char * userid, const char * password, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::smartSwitchAuthenticateUniversal(const char* userid, const char* password, bool forceCreate, IServerCallback* callback)
     {
         
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const char * userid, const char * password, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* userid, const char* password, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
 				this->userid = userid;
                 this->password = password;
                 this->forceCreate = forceCreate;
 			}
 
-			const char * userid; const char * password; bool forceCreate;
+			std::string userid; std::string password; bool forceCreate;
 			
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateUniversal(userid, password, forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateUniversal(userid.c_str(), password.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
@@ -649,12 +743,12 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
     }
 
-    void BrainCloudWrapper::smartSwitchAuthenticateUltra(const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback * callback)
+    void BrainCloudWrapper::smartSwitchAuthenticateUltra(const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback* callback)
     {
         class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
         {
         public:
-            SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+            SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const std::string &ultraUsername, const std::string &ultraIdToken, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->ultraUsername = ultraUsername;
                 this->ultraIdToken = ultraIdToken;
                 this->forceCreate = forceCreate;
@@ -674,12 +768,12 @@ namespace BrainCloud {
         getIdentitiesCallback(smartCallback);
     }
 
-    void BrainCloudWrapper::smartSwitchAuthenticateAdvanced(AuthenticationType authenticationType, const AuthenticationIds &ids, bool forceCreate, const std::string &extraJson, IServerCallback * callback)
+    void BrainCloudWrapper::smartSwitchAuthenticateAdvanced(AuthenticationType authenticationType, const AuthenticationIds &ids, bool forceCreate, const std::string &extraJson, IServerCallback* callback)
     {
         class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
         {
         public:
-            SmartSwitchAuthenticateCallback(BrainCloudWrapper *wrapper, AuthenticationType authenticationType, const AuthenticationIds &ids, bool forceCreate, const std::string &extraJson, IServerCallback * callback) : SmartSwitchCallback(wrapper, callback) {
+            SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, AuthenticationType authenticationType, const AuthenticationIds &ids, bool forceCreate, const std::string &extraJson, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
                 this->authenticationType = authenticationType;
                 this->ids = ids;
                 this->forceCreate = forceCreate;
@@ -703,7 +797,7 @@ namespace BrainCloud {
         getIdentitiesCallback(smartCallback);
     }
 
-    void BrainCloudWrapper::getIdentitiesCallback(IServerCallback *success)
+    void BrainCloudWrapper::getIdentitiesCallback(IServerCallback*success)
     {
 		IdentityCallback *identityCallback = new IdentityCallback(this, success);
 		identityCallback->authenticateCallback = success;
@@ -716,7 +810,7 @@ namespace BrainCloud {
 		}
     }
 
-    void BrainCloudWrapper::logout(bool forgetUser, IServerCallback * callback)
+    void BrainCloudWrapper::logout(bool forgetUser, IServerCallback* callback)
     {
         if (forgetUser) {
             resetStoredProfileId();
@@ -724,47 +818,47 @@ namespace BrainCloud {
         client->getPlayerStateService()->logout(callback);
     }
 
-    void BrainCloudWrapper::resetEmailPassword(const char * externalId, IServerCallback * callback)
+    void BrainCloudWrapper::resetEmailPassword(const char* externalId, IServerCallback* callback)
     {
         client->getAuthenticationService()->resetEmailPassword(externalId, callback);
     }
 
-    void BrainCloudWrapper::resetEmailPasswordAdvanced(const char * emailAddress, std::string serviceParams, IServerCallback * callback)
+    void BrainCloudWrapper::resetEmailPasswordAdvanced(const char* emailAddress, std::string serviceParams, IServerCallback* callback)
     {
         client->getAuthenticationService()->resetEmailPasswordAdvanced(emailAddress, serviceParams, callback);
     }
 
-    void BrainCloudWrapper::resetEmailPasswordWithExpiry(const char * externalId, int tokenTtlInMinutes , IServerCallback * callback)
+    void BrainCloudWrapper::resetEmailPasswordWithExpiry(const char* externalId, int tokenTtlInMinutes , IServerCallback* callback)
     {
         client->getAuthenticationService()->resetEmailPasswordWithExpiry(externalId, tokenTtlInMinutes , callback);
     }
 
-    void BrainCloudWrapper::resetEmailPasswordAdvancedWithExpiry(const char * emailAddress, std::string serviceParams, int tokenTtlInMinutes , IServerCallback * callback)
+    void BrainCloudWrapper::resetEmailPasswordAdvancedWithExpiry(const char* emailAddress, std::string serviceParams, int tokenTtlInMinutes , IServerCallback* callback)
     {
         client->getAuthenticationService()->resetEmailPasswordAdvancedWithExpiry(emailAddress, serviceParams, tokenTtlInMinutes , callback);
     }
 
-        void BrainCloudWrapper::resetUniversalIdPassword(const char * externalId, IServerCallback * callback)
+        void BrainCloudWrapper::resetUniversalIdPassword(const char* externalId, IServerCallback* callback)
     {
         client->getAuthenticationService()->resetUniversalIdPassword(externalId, callback);
     }
 
-    void BrainCloudWrapper::resetUniversalIdPasswordAdvanced(const char * externalId, std::string serviceParams, IServerCallback * callback)
+    void BrainCloudWrapper::resetUniversalIdPasswordAdvanced(const char* externalId, std::string serviceParams, IServerCallback* callback)
     {
         client->getAuthenticationService()->resetUniversalIdPasswordAdvanced(externalId, serviceParams, callback);
     }
 
-    void BrainCloudWrapper::resetUniversalIdPasswordWithExpiry(const char * externalId, int tokenTtlInMinutes , IServerCallback * callback)
+    void BrainCloudWrapper::resetUniversalIdPasswordWithExpiry(const char* externalId, int tokenTtlInMinutes , IServerCallback* callback)
     {
         client->getAuthenticationService()->resetUniversalIdPasswordWithExpiry(externalId, tokenTtlInMinutes , callback);
     }
 
-    void BrainCloudWrapper::resetUniversalIdPasswordAdvancedWithExpiry(const char * externalId, std::string serviceParams, int tokenTtlInMinutes , IServerCallback * callback)
+    void BrainCloudWrapper::resetUniversalIdPasswordAdvancedWithExpiry(const char* externalId, std::string serviceParams, int tokenTtlInMinutes , IServerCallback* callback)
     {
         client->getAuthenticationService()->resetUniversalIdPasswordAdvancedWithExpiry(externalId, serviceParams, tokenTtlInMinutes , callback);
     }
 
-	void BrainCloudWrapper::reconnect(IServerCallback * callback)
+	void BrainCloudWrapper::reconnect(IServerCallback* callback)
 	{
 		authenticateAnonymous(callback, false);
 	}
@@ -790,7 +884,7 @@ namespace BrainCloud {
         return SaveDataHelper::getInstance()->readData(PROFILE_ID_KEY);
     }
 
-    void BrainCloudWrapper::setStoredProfileId(const char * profileId)
+    void BrainCloudWrapper::setStoredProfileId(const char* profileId)
     {
         SaveDataHelper::getInstance()->saveData(PROFILE_ID_KEY, profileId);
     }
@@ -800,7 +894,7 @@ namespace BrainCloud {
         return SaveDataHelper::getInstance()->readData(ANONYMOUS_ID_KEY);
     }
 
-    void BrainCloudWrapper::setStoredAnonymousId(const char * anonymousId)
+    void BrainCloudWrapper::setStoredAnonymousId(const char* anonymousId)
     {
         SaveDataHelper::getInstance()->saveData(ANONYMOUS_ID_KEY, anonymousId);
     }
@@ -822,7 +916,7 @@ namespace BrainCloud {
         return SaveDataHelper::getInstance()->readData(AUTHENTICATION_TYPE_KEY);
     }
 
-    void BrainCloudWrapper::setStoredAuthenticationType(const char * authenticationType)
+    void BrainCloudWrapper::setStoredAuthenticationType(const char* authenticationType)
     {
         SaveDataHelper::getInstance()->saveData(AUTHENTICATION_TYPE_KEY, authenticationType);
     }

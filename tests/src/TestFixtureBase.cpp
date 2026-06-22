@@ -76,7 +76,7 @@ void TestFixtureBase::TearDown()
 {
 	m_bc->enableLogging(ENABLE_SETUP_TEARDOWN_LOGGING);
 
-	if (!ShouldSkipAuthenticate())
+	if (ShouldLogoutOnTearDown())
 	{
 		TestResult tr;
 		printf("\n [SkipAuthenticate is false, logging out userA] \n");
@@ -95,6 +95,11 @@ void TestFixtureBase::TearDown()
 bool TestFixtureBase::ShouldSkipAuthenticate()
 {
 	return false;
+}
+
+bool TestFixtureBase::ShouldLogoutOnTearDown()
+{
+	return !ShouldSkipAuthenticate();
 }
 
 void TestFixtureBase::Init()

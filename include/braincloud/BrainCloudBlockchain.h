@@ -24,10 +24,16 @@ namespace BrainCloud {
 
         /**
          * @brief Retrieves the blockchain items owned by the caller.
+         * Service Name - blockchain
+         * Service Operation - GET_BLOCKCHAIN_ITEMS
+         *
          */
         void GetBlockchainItems(const std::string& integrationID ,const std::string& contextJson, IServerCallback * callback = NULL);
         /**
          * @brief Retrieves the uniqs owned by the caller.
+         *
+         * Service Name - blockchain
+         * Service Operation - GET_UNIQS
          */
         void GetUniqs(const std::string& integrationID, const std::string& contextJson, IServerCallback * callback = NULL);
 

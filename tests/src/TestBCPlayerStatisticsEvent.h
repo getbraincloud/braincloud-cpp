@@ -25,6 +25,7 @@ public:
     }
     
     virtual void rewardCallback(std::string const & jsonData);
+    virtual bool ShouldLogoutOnTearDown() override { return false; }
 };
 
 #endif

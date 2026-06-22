@@ -23,8 +23,8 @@ namespace BrainCloud
         /**
          * Read match making record
          *
-         * Service Name - MatchMaking
-         * Service Operation - Read
+         * Service Name - matchMaking
+         * Service Operation - READ
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -33,8 +33,8 @@ namespace BrainCloud
         /**
          * Sets player rating
          *
-         * Service Name - MatchMaking
-         * Service Operation - SetPlayerRating
+         * Service Name - matchMaking
+         * Service Operation - SET_PLAYER_RATING
          *
          * @param playerRating The new player rating.
          * @param callback The method to be invoked when the server response is received
@@ -44,8 +44,8 @@ namespace BrainCloud
         /**
          * Resets player rating
          *
-         * Service Name - MatchMaking
-         * Service Operation - ResetPlayerRating
+         * Service Name - matchMaking
+         * Service Operation - RESET_PLAYER_RATING
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -54,8 +54,8 @@ namespace BrainCloud
         /**
          * Increments player rating
          *
-         * Service Name - MatchMaking
-         * Service Operation - IncrementPlayerRating
+         * Service Name - matchMaking
+         * Service Operation - INCREMENT_PLAYER_RATING
          *
          * @param increment The increment amount
          * @param callback The method to be invoked when the server response is received
@@ -65,8 +65,8 @@ namespace BrainCloud
         /**
          * Decrements player rating
          *
-         * Service Name - MatchMaking
-         * Service Operation - DecrementPlayerRating
+         * Service Name - matchMaking
+         * Service Operation - DECREMENT_PLAYER_RATING
          *
          * @param decrement The decrement amount
          * @param callback The method to be invoked when the server response is received
@@ -76,8 +76,8 @@ namespace BrainCloud
         /**
          * Turns shield on
          *
-         * Service Name - MatchMaking
-         * Service Operation - ShieldOn
+         * Service Name - matchMaking
+         * Service Operation - SHIELD_ON
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -86,8 +86,8 @@ namespace BrainCloud
         /**
          * Turns shield on for the specified number of minutes
          *
-         * Service Name - MatchMaking
-         * Service Operation - ShieldOnFor
+         * Service Name - matchMaking
+         * Service Operation - SHIELD_ON_FOR
          *
          * @param minutes Number of minutes to turn the shield on for
          * @param callback The method to be invoked when the server response is received
@@ -97,8 +97,8 @@ namespace BrainCloud
         /**
          * Increases the shield on time by specified number of minutes 
          *
-         * Service Name - MatchMaking
-         * Service Operation - IncrementShieldOnFor
+         * Service Name - matchMaking
+         * Service Operation - INCREMENT_SHIELD_ON_FOR
          *
          * @param minutes Number of minutes to increase the shield time for
          * @param callback The method to be invoked when the server response is received
@@ -108,8 +108,8 @@ namespace BrainCloud
         /**
          * Turns shield off
          *
-         * Service Name - MatchMaking
-         * Service Operation - ShieldOff
+         * Service Name - matchMaking
+         * Service Operation - SHIELD_OFF
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -120,8 +120,8 @@ namespace BrainCloud
          * will return the shield expiry for the current player. The value returned is
          * the time in UTC millis when the shield will expire.
          *
-         * Service Name - MatchMaking
-         * Service Operation - GetShieldExpiry
+         * Service Name - matchMaking
+         * Service Operation - GET_SHIELD_EXPIRY
          *
          * @param playerId The player id or use null to retrieve for the current player
          * @param callback The method to be invoked when the server response is received
@@ -131,7 +131,7 @@ namespace BrainCloud
         /**
          * Finds matchmaking enabled players
          *
-         * Service Name - MatchMaking
+         * Service Name - matchMaking
          * Service Operation - FIND_PLAYERS
          *
          * @param rangeDelta The range delta
@@ -143,7 +143,7 @@ namespace BrainCloud
         /**
          * Finds matchmaking enabled players with additional attributes
          *
-         * Service Name - MatchMaking
+         * Service Name - matchMaking
          * Service Operation - FIND_PLAYERS
          *
          * @param rangeDelta The range delta
@@ -156,7 +156,7 @@ namespace BrainCloud
         /**
          * Finds matchmaking enabled players
          *
-         * Service Name - MatchMaking
+         * Service Name - matchMaking
          * Service Operation - FIND_PLAYERS_USING_FILTER
          *
          * @param rangeDelta The range delta
@@ -170,7 +170,7 @@ namespace BrainCloud
         * Finds matchmaking enabled players using a cloud code filter
         * and additional attributes
         *
-        * Service Name - MatchMaking
+        * Service Name - matchMaking
         * Service Operation - FIND_PLAYERS_USING_FILTER
         *
         * @param rangeDelta The range delta
@@ -189,8 +189,8 @@ namespace BrainCloud
         /**
          * Enables Match Making for the Player
          *
-         * Service Name - MatchMaking
-         * Service Operation - EnableMatchMaking
+         * Service Name - matchMaking
+         * Service Operation - ENABLE_FOR_MATCH
          *
          * @param callback The method to be invoked when the server response is received
          */
@@ -199,8 +199,8 @@ namespace BrainCloud
         /**
         * Disables Match Making for the Player
         *
-        * Service Name - MatchMaking
-        * Service Operation - EnableMatchMaking
+        * Service Name - matchMaking
+        * Service Operation - ENABLE_FOR_MATCH
         *
         * @param callback The method to be invoked when the server response is received
         */

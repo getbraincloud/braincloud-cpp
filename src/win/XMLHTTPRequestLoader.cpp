@@ -265,27 +265,35 @@ namespace BrainCloud
         const auto& method = urlRequest.getMethod();
         bool hasTimeout = _timeoutInterval > 0;
 
-        bool isCompleted = false;
-        std::string result;
-        int httpStatus = HTTP_CLIENT_NETWORK_ERROR;
-        std::mutex mutex;
-        std::condition_variable cv;
+        // Heap-allocate the synchronization state so it outlives this stack frame.
+        // The detached abort thread and late COM callbacks (OnError/OnResponseReceived)
+        // can fire after loadThreadXMLHTTPRequest returns.  If these objects were on the
+        // stack the lambdas below would hold dangling references, causing the
+        // "mutex destroyed while busy" crash seen on Windows (MSVC STL mutex.cpp:48).
+        struct RequestState {
+            std::mutex mutex;
+            std::condition_variable cv;
+            bool isCompleted = false;
+            std::string result;
+            int httpStatus = HTTP_CLIENT_NETWORK_ERROR;
+        };
+        auto state = std::make_shared<RequestState>();
 
         XMLHTTPRequestCallback* pCallback = new XMLHTTPRequestCallback(
-            [&](const std::string& in_result, int status) // Success
+            [state](const std::string& in_result, int status) // Success
         {
-            std::unique_lock<std::mutex> lock(mutex);
-            isCompleted = true;
-            result = in_result;
-            httpStatus = status;
-            cv.notify_all();
+            std::unique_lock<std::mutex> lock(state->mutex);
+            state->isCompleted = true;
+            state->result = in_result;
+            state->httpStatus = status;
+            state->cv.notify_all();
         },
-            [&](int status) // Error
+            [state](int status) // Error
         {
-            std::unique_lock<std::mutex> lock(mutex);
-            isCompleted = true;
-            httpStatus = status;
-            cv.notify_all();
+            std::unique_lock<std::mutex> lock(state->mutex);
+            state->isCompleted = true;
+            state->httpStatus = status;
+            state->cv.notify_all();
         });
 
         DataStream* pStream = new DataStream(data);
@@ -353,19 +361,19 @@ namespace BrainCloud
         // We wait until the async request is done
         auto startTime = std::chrono::steady_clock::now();
         auto endTime = startTime + std::chrono::milliseconds(_timeoutInterval);
-        std::unique_lock<std::mutex> lock(mutex);
-        cv.wait_until(lock, endTime, [&]()
+        std::unique_lock<std::mutex> lock(state->mutex);
+        state->cv.wait_until(lock, endTime, [&]()
         {
-            return std::chrono::steady_clock::now() >= endTime || isCompleted;
+            return std::chrono::steady_clock::now() >= endTime || state->isCompleted;
         });
 
         // Check if we timed out
-        if (!isCompleted)
+        if (!state->isCompleted)
         {
             // Timeout
             printf("#BCC TIMEOUT\n");
 
-            isCompleted = true;
+            state->isCompleted = true;
             pLoader->_urlResponse.setStatusCode(HTTP_CLIENT_NETWORK_ERROR);
             pLoader->_threadRunning = false;
 
@@ -390,8 +398,8 @@ namespace BrainCloud
         }
 
         // Set results
-        pLoader->_urlResponse.setStatusCode((unsigned short)httpStatus);
-        pLoader->_urlResponse.addData(result);
+        pLoader->_urlResponse.setStatusCode((unsigned short)state->httpStatus);
+        pLoader->_urlResponse.addData(state->result);
 
         // We done
         pLoader->_requestMutex.lock();

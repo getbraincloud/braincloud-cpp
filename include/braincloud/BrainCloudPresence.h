@@ -25,8 +25,8 @@ namespace BrainCloud
 		/**
 		 * Force an RTT presence update to all listeners of the caller.
 		 *
-		 * Service Name - Presence
-		 * Service Operation - ForcePush
+		 * Service Name - presence
+		 * Service Operation - FORCE_PUSH
 		 *
 		 * @param callback The method to be invoked when the server response is received
 		 */

@@ -121,6 +121,93 @@ TEST_F(TestBCTournament, ViewReward)
 	LeaveTournament();
 }
 
+TEST_F(TestBCTournament, GetGroupDivisionInfo)
+{
+	if (!CreateGroup())
+	{
+		FAIL() << "Failed to create test group";
+	}
+
+	TestResult tr;
+	m_bc->getTournamentService()->getGroupDivisionInfo("bronzeGroup", _groupId, &tr);
+	tr.run(m_bc);
+
+	DeleteGroup();
+}
+
+TEST_F(TestBCTournament, GetGroupDivisions)
+{
+	if (!CreateGroup())
+	{
+		FAIL() << "Failed to create test group";
+	}
+
+	TestResult tr;
+	m_bc->getTournamentService()->getGroupDivisions(_groupId, &tr);
+	tr.run(m_bc);
+
+	DeleteGroup();
+}
+
+TEST_F(TestBCTournament, GetGroupTournamentStatus)
+{
+	if (!CreateGroup())
+	{
+		FAIL() << "Failed to create test group";
+	}
+
+	TestResult tr;
+	m_bc->getTournamentService()->getGroupTournamentStatus(_groupLeaderboardId, _groupId, -1, &tr);
+	tr.run(m_bc);
+
+	DeleteGroup();
+}
+
+TEST_F(TestBCTournament, JoinAndLeaveGroupDivision)
+{
+	if (!CreateGroup())
+	{
+		FAIL() << "Failed to create test group";
+	}
+
+	TestResult tr;
+	m_bc->getTournamentService()->joinGroupDivision("bronzeGroup", "testGroupTournament", _groupId, 0, &tr);
+	tr.run(m_bc);
+
+	std::string leaderboardId = tr.m_response["data"]["leaderboardId"].asString();
+	ASSERT_FALSE(leaderboardId.empty()) << "Error reading joinGroupDivision response leaderboardId";
+
+	m_bc->getTournamentService()->leaveGroupDivisionInstance(leaderboardId, _groupId, &tr);
+	tr.run(m_bc);
+
+	DeleteGroup();
+}
+
+TEST_F(TestBCTournament, JoinPostLeaveGroupTournament)
+{
+	if (!CreateGroup())
+	{
+		FAIL() << "Failed to create test group";
+	}
+
+	int64_t milliseconds_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+	TestResult tr;
+	m_bc->getTournamentService()->joinGroupTournament(_groupLeaderboardId, "testGroupTournament", _groupId, 0, &tr);
+	tr.run(m_bc);
+
+	m_bc->getTournamentService()->postGroupTournamentScore(_groupLeaderboardId, _groupId, 10, "{}", milliseconds_since_epoch, &tr);
+	tr.run(m_bc);
+
+	m_bc->getTournamentService()->postGroupTournamentScoreWithResults(_groupLeaderboardId, _groupId, 100, "{}", milliseconds_since_epoch, HIGH_TO_LOW, 10, 10, 0, &tr);
+	tr.run(m_bc);
+
+	m_bc->getTournamentService()->leaveGroupTournament(_groupLeaderboardId, _groupId, &tr);
+	tr.run(m_bc);
+
+	DeleteGroup();
+}
+
 int32_t TestBCTournament::JoinTournament()
 {
 	TestResult tr;
@@ -137,4 +224,28 @@ void TestBCTournament::LeaveTournament()
 	TestResult tr;
 	m_bc->getTournamentService()->leaveTournament(_leaderboardId, &tr);
 	tr.run(m_bc);
+}
+
+bool TestBCTournament::CreateGroup()
+{
+	TestResult tr;
+	m_bc->getGroupService()->createGroup("CppTestGroup", "csharpTest", true, "{ \"other\": 2, \"member\": 2 }", "{ \"test\": 123 }", "{\"testInc\": 123}", "{\"test\": \"test\"}", &tr);
+	tr.run(m_bc);
+
+	if (!tr.m_result)
+		return false;
+
+	_groupId = tr.m_response["data"]["groupId"].asString();
+	return !_groupId.empty();
+}
+
+void TestBCTournament::DeleteGroup()
+{
+	if (_groupId.empty())
+		return;
+
+	TestResult tr;
+	m_bc->getGroupService()->deleteGroup(_groupId.c_str(), -1, &tr);
+	tr.run(m_bc);
+	_groupId = "";
 }

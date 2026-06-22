@@ -219,6 +219,17 @@ TEST_F(TestBCLobby, CreateLobby)
 	tr.run(m_bc);
 }
 
+TEST_F(TestBCLobby, CreateLobbyWithConfig)
+{
+	TestResult tr;
+
+	std::vector<std::string> otherUserCxIds;
+	std::string configOverrides = "{\"teams\":[{\"code\":\"reserved\",\"minUsers\":0,\"maxUsers\":1,\"autoAssign\":false},{\"code\":\"all\",\"minUsers\":6,\"maxUsers\":6,\"autoAssign\":true}]}";
+	m_bc->getLobbyService()->createLobbyWithConfig("MATCH_UNRANKED", 0, otherUserCxIds, true, "{}", "all", "{}", configOverrides, &tr);
+
+	tr.run(m_bc);
+}
+
 TEST_F(TestBCLobby, FindOrCreateLobby)
 {
 	TestResult tr;
@@ -363,6 +374,10 @@ TEST_F(TestBCLobby, PingRegions)
     tr.run(m_bc);
 
     m_bc->getLobbyService()->createLobbyWithPingData("MATCH_UNRANKED", 0, otherUserCxIds, true, "{}", "all", "{}", &tr);
+    tr.run(m_bc);
+
+    std::string configOverrides = "{\"teams\":[{\"code\":\"reserved\",\"minUsers\":0,\"maxUsers\":1,\"autoAssign\":false},{\"code\":\"all\",\"minUsers\":6,\"maxUsers\":6,\"autoAssign\":true}]}";
+    m_bc->getLobbyService()->createLobbyWithConfigAndPingData("MATCH_UNRANKED", 0, otherUserCxIds, true, "{}", "all", "{}", configOverrides, &tr);
     tr.run(m_bc);
 
     m_bc->getLobbyService()->joinLobbyWithPingData("wrongLobbyId", true, "{}", "red", otherUserCxIds, &tr);

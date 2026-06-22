@@ -40,6 +40,7 @@ protected:
     virtual void SetUp();
     virtual void TearDown();
     virtual bool ShouldSkipAuthenticate();
+    virtual bool ShouldLogoutOnTearDown();
 
     enum Users { UserA, UserB, UserC, USERS_MAX };
     static const char* Users_names[3];

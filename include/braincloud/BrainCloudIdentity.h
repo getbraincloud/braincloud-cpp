@@ -26,7 +26,7 @@ namespace BrainCloud
 		 * Updates univeral id of the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - UpdateUniversalIdLogin
+		 * Service Operation - UPDATE_UNIVERSAL_LOGIN
 		 *
 		 * @param externalId the id that's been connected with
 		 * @param callback The method to be invoked when the server response is received
@@ -37,7 +37,7 @@ namespace BrainCloud
 		 * Attaches a univeral id to the current profile with no login capability.
 		 *
 		 * Service Name - identity
-		 * Service Operation - AttachNonLoginUniversalId
+		 * Service Operation - ATTACH_NONLOGIN_UNIVERSAL
 		 *
 		 * @param externalId the id that's been connected with
 		 * @param callback The method to be invoked when the server response is received
@@ -48,7 +48,7 @@ namespace BrainCloud
 		 * Attach the user's Facebook credentials to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param facebookId The facebook id of the user
 		 * @param authenticationToken The validated token from the Facebook SDK
@@ -68,7 +68,7 @@ namespace BrainCloud
 		 * current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param facebookId The facebook id of the user
 		 * @param authenticationToken The validated token from the Facebook SDK
@@ -82,7 +82,7 @@ namespace BrainCloud
 		 * Detach the Facebook identity from this profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param facebookId The facebook id of the user
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -98,7 +98,7 @@ namespace BrainCloud
 		 * Attach the user's Oculus credentials to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param oculusId The oculus id of the user
 		 * @param oculusNonce The validated token from the Oculus SDK
@@ -117,7 +117,7 @@ namespace BrainCloud
 		 * current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param oculusId The oculus id of the user
 		 * @param oculusNonce The validated token from the Oculus SDK
@@ -130,7 +130,7 @@ namespace BrainCloud
 		 * Detach the Oculus identity from this profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param oculusId The oculus id of the user
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -146,7 +146,7 @@ namespace BrainCloud
          * Attach the user's credentials to the current profile.
          *
          * Service Name - identity
-         * Service Operation - Attach
+         * Service Operation - ATTACH
          *
          * @param authenticationType Universal, Email, Facebook, etc
          * @param ids Auth IDs structure
@@ -166,7 +166,7 @@ namespace BrainCloud
          * current profile.
          *
          * Service Name - identity
-         * Service Operation - Merge
+         * Service Operation - MERGE
          *
          * @param authenticationType Universal, Email, Facebook, etc
          * @param ids Auth IDs structure
@@ -180,7 +180,7 @@ namespace BrainCloud
          * Detach the identity from this profile.
          *
          * Service Name - identity
-         * Service Operation - Detach
+         * Service Operation - DETACH
          *
          * @param authenticationType Universal, Email, Facebook, etc
          * @param externalId User ID
@@ -198,7 +198,7 @@ namespace BrainCloud
 		 * Attach the user's Apple credentials to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param appleId The appleid of the user
 		 * @param authenticationToken The validated token from the Apple SDK
@@ -218,7 +218,7 @@ namespace BrainCloud
 		 * current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param appleId The apple id of the user
 		 * @param authenticationToken The validated token from the Apple SDK
@@ -232,7 +232,7 @@ namespace BrainCloud
 		 * Detach the Apple identity from this profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param appleId The apple id of the user
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -248,7 +248,7 @@ namespace BrainCloud
          * Attach the user's Ultra credentials to the current profile.
          *
          * Service Name - identity
-         * Service Operation - Attach
+         * Service Operation - ATTACH
          *
          * @param ultraUsername it's what the user uses to log into the Ultra endpoint initially
          * @param ultraIdToken The "id_token" taken from Ultra's JWT.
@@ -267,7 +267,7 @@ namespace BrainCloud
          * current profile.
          *
          * Service Name - identity
-         * Service Operation - Merge
+         * Service Operation - MERGE
          *
          * @param ultraUsername it's what the user uses to log into the Ultra endpoint initially
          * @param ultraIdToken The "id_token" taken from Ultra's JWT.
@@ -280,7 +280,7 @@ namespace BrainCloud
          * Detach the Ultra identity from this profile.
          *
          * Service Name - identity
-         * Service Operation - Detach
+         * Service Operation - DETACH
          *
          * @param ultraUsername it's what the user uses to log into the Ultra endpoint initially
          * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -294,42 +294,75 @@ namespace BrainCloud
 
 		/**
 		 * Attach a Game Center identity to the current profile.
+         * 
+		 * Note: If the Game Center legacy authentication compatibility flag is enabled,
+         * only gameCenterId is required and all verification signature parameters are ignored.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
-		 * @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
-		 * @param callback The method to be invoked when the server response is received
+		 * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
+		 * @param timestamp The timestamp value returned as part of the identity verification signature fetch from Game Center.
+		 * 		            Required for modern Game Center verification.
+		 * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
+		 *                     Required for modern Game Center verification.
+		 * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
+		 *                  Required for modern Game Center verification.
+		 * @param signatureLength The length of the returned identity verification signature.
+		 *                        Required for modern Game Center verification.
+		 * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
+		 *             Required for modern Game Center verification.
+		 * @param saltLength The length of the returned identity verification salt.
+		 *                   Required for modern Game Center verification.
+		 * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than teamPlayerId (e.g. playerId),
+		 *                     so that brainCloud can still associate the user with their team-scoped identity.
+		 * @param callback The method to be invoked when the server response is received.
 		 *
 		 * Errors to watch for:  SWITCHING_PROFILES - this means that the Game Center identity you provided
 		 * already points to a different profile.  You will likely want to offer the player the
 		 * choice to *SWITCH* to that profile, or *MERGE* the profiles.
 		 *
 		 * To switch profiles, call ClearSavedProfileID() and call this method again.
-		 *
 		 */
-		void attachGameCenterIdentity(const char * gameCenterId, IServerCallback * callback = NULL);
+		void attachGameCenterIdentity(const char* gameCenterId, uint64_t timestamp = 0, const std::string& publicKeyUrl = "", const uint8_t* signature = NULL, size_t signatureLength = 0, const uint8_t* salt = NULL, size_t saltLength = 0, const std::string& teamPlayerId = "", IServerCallback * callback = NULL);
 
 		/**
 		 * Merge the profile associated with the specified Game Center identity with the current profile.
+         * 
+		 * Note: If the Game Center legacy authentication compatibility flag is enabled,
+         * only gameCenterId is required and all verification signature parameters are ignored.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
-		 * @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
-		 * @param callback The method to be invoked when the server response is received
+		 * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
+		 * @param timestamp The timestamp value returned as part of the identity verification signature fetch from Game Center.
+		 * 		            Required for modern Game Center verification.
+		 * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
+		 *                     Required for modern Game Center verification.
+		 * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
+		 *                  Required for modern Game Center verification.
+		 * @param signatureLength The length of the returned identity verification signature.
+		 *                        Required for modern Game Center verification.
+		 * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
+		 *             Required for modern Game Center verification.
+		 * @param saltLength The length of the returned identity verification salt.
+		 *                   Required for modern Game Center verification.
+		 * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than
+		 * 	                   teamPlayerId (e.g. playerId), so that brainCloud can still associate the user with their team-scoped identity.
+		 * @param callback The method to be invoked when the server response is received.
 		 */
-		void mergeGameCenterIdentity(const char * gameCenterId, IServerCallback * callback = NULL);
+		void mergeGameCenterIdentity(const char* gameCenterId, uint64_t timestamp = 0, const std::string& publicKeyUrl = "", const uint8_t* signature = NULL, size_t signatureLength = 0, const uint8_t* salt = NULL, size_t saltLength = 0, const std::string& teamPlayerId = "", IServerCallback * callback = NULL);
 
 		/**
 		 * Detach the Game Center identity from the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
-		 * @param gameCenterId The player's game center id  (use the playerID property from the local GKPlayer object)
+		 * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
-		 * @param callback The method to be invoked when the server response is received
+		 * @param callback The method to be invoked when the server response is received.
 		 *
 		 * Watch for DOWNGRADING_TO_ANONYMOUS_ERROR - occurs if you set continueAnon to false, and
 		 * disconnecting this identity would result in the profile being anonymous (which means that
@@ -341,7 +374,7 @@ namespace BrainCloud
 		 * Attach a Email and Password identity to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param email The user's e-mail address
 		 * @param password The user's password
@@ -359,7 +392,7 @@ namespace BrainCloud
 		 * Merge the profile associated with the provided e=mail with the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param email The user's e-mail address
 		 * @param password The user's password
@@ -372,7 +405,7 @@ namespace BrainCloud
 		 * Detach the e-mail identity from the current profile
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param email The user's e-mail address
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -388,7 +421,7 @@ namespace BrainCloud
 		 * Attach a Universal (userid + password) identity to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param userId The user's userid
 		 * @param password The user's password
@@ -406,7 +439,7 @@ namespace BrainCloud
 		 * Merge the profile associated with the provided userId with the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param userId The user's userid
 		 * @param password The user's password
@@ -418,7 +451,7 @@ namespace BrainCloud
 		 * Detach the universal identity from the current profile
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param userId The user's userid
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -434,7 +467,7 @@ namespace BrainCloud
 		 * Attach a Steam (userid + steamsessionticket) identity to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param steamId String representation of 64 bit steam id
 		 * @param sessionTicket The user's session ticket (hex encoded)
@@ -452,7 +485,7 @@ namespace BrainCloud
 		 * Merge the profile associated with the provided steam userid with the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param steamId String representation of 64 bit steam id
 		 * @param sessionTicket The user's session ticket (hex encoded)
@@ -465,7 +498,7 @@ namespace BrainCloud
 		 * Detach the steam identity from the current profile
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param steamId String representation of 64 bit steam id
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -481,7 +514,7 @@ namespace BrainCloud
 		 * Attach the user's Google credentials to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param googleId The Google id of the user
 		 * @param authenticationToken The validated token from the Google SDK
@@ -501,7 +534,7 @@ namespace BrainCloud
 		 * current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param googleId The Google id of the user
 		 * @param authenticationToken The validated token from the Google SDK
@@ -515,7 +548,7 @@ namespace BrainCloud
 		 * Detach the Google identity from this profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param googleId The Google id of the user
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -531,7 +564,7 @@ namespace BrainCloud
 		 * Attach the user's Google credentials to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param googleId The Google id of the user
 		 * @param authenticationToken The validated token from the Google SDK
@@ -551,7 +584,7 @@ namespace BrainCloud
 		 * current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param googleId The Google id of the user
 		 * @param authenticationToken The validated token from the Google SDK
@@ -565,7 +598,7 @@ namespace BrainCloud
 		 * Detach the Google identity from this profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param googleId The Google id of the user
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -581,7 +614,7 @@ namespace BrainCloud
 		 * Attach the user's Twitter credentials to the current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Attach
+		 * Service Operation - ATTACH
 		 *
 		 * @param twitterId The Twitter id of the user
 		 * @param authenticationToken The authentication token derived from the twitter APIs
@@ -601,7 +634,7 @@ namespace BrainCloud
 		 * current profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Merge
+		 * Service Operation - MERGE
 		 *
 		 * @param twitterId The Twitter id of the user
 		 * @param authenticationToken The authentication token derived from the twitter APIs
@@ -615,7 +648,7 @@ namespace BrainCloud
 		 * Detach the Twitter identity from this profile.
 		 *
 		 * Service Name - identity
-		 * Service Operation - Detach
+		 * Service Operation - DETACH
 		 *
 		 * @param twitterId The Twitter id of the user
 		 * @param continueAnon Proceed even if the profile will revert to anonymous?
@@ -631,7 +664,7 @@ namespace BrainCloud
 		* Attach the user's Parse credentials to the current profile.
 		*
 		* Service Name - identity
-		* Service Operation - Attach
+		* Service Operation - ATTACH
 		*
 		* @param parseId The Parse id of the user
 		* @param authenticationToken The validated token from Parse
@@ -651,7 +684,7 @@ namespace BrainCloud
 		* current profile.
 		*
 		* Service Name - identity
-		* Service Operation - Merge
+		* Service Operation - MERGE
 		*
 		* @param parseId The Parse id of the user
 		* @param authenticationToken The validated token from Parse
@@ -665,7 +698,7 @@ namespace BrainCloud
 		* Detach the Google identity from this profile.
 		*
 		* Service Name - identity
-		* Service Operation - Detach
+		* Service Operation - DETACH
 		*
 		* @param parseId The Parse id of the user
 		* @param continueAnon Proceed even if the profile will revert to anonymous?

@@ -25,6 +25,9 @@ namespace BrainCloud
          * to the brainCloud server. To be informed of success/failure of the upload
          * register an IFileUploadCallback with the BrainCloudClient class.
          *
+         * Service Name - file
+         * Service Operation - PREPARE_USER_UPLOAD
+         *
          * @param cloudPath The desired cloud path of the file
          * @param cloudFilename The desired cloud filename of the file
          * @param shareable True if the file is shareable.
@@ -47,12 +50,18 @@ namespace BrainCloud
         /**
          * List all user files
          *
+         * Service Name - file
+         * Service Operation - LIST_USER_FILES
+         *
          * @param callback The method to be invoked when the server response is received
          */
         void listUserFiles(IServerCallback * callback = NULL);
 
         /**
          * List user files from the given cloud path
+         *
+         * Service Name - file
+         * Service Operation - LIST_USER_FILES
          *
          * @param cloudPath File path
          * @param recurse Whether to recurse into sub-directories
@@ -62,6 +71,9 @@ namespace BrainCloud
 
         /**
          * Deletes a single user file.
+         *
+         * Service Name - file
+         * Service Operation - DELETE_USER_FILES
          *
          * @param cloudPath File path
          * @param cloudFilename name of file
@@ -78,6 +90,9 @@ namespace BrainCloud
         /**
          * Delete multiple user files
          *
+         * Service Name - file
+         * Service Operation - DELETE_USER_FILES
+         *
          * @param cloudPath File path
          * @param recurse Whether to recurse into sub-directories
          * @param callback The method to be invoked when the server response is received
@@ -86,6 +101,9 @@ namespace BrainCloud
 
 		/**
 		* Returns the CDN url for a file object
+		*
+		* Service Name - file
+		* Service Operation - GET_CDN_URL
 		*
 		* @param cloudPath File path
 		* @param cloudFileName File name

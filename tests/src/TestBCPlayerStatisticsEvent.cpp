@@ -35,55 +35,52 @@ TEST_F(TestBCPlayerStatisticsEvent, triggerStatsEvents)
 TEST_F(TestBCPlayerStatisticsEvent, RewardHandlerTriggerStatisticsEvents)
 {
     m_rewardCallbackHitCount = 0;
-    
+
     TestResult tr;
     Json::FastWriter fw;
     Json::Value eventArray(Json::arrayValue);
 
-    m_bc->getPlayerStateService()->resetUserState(&tr);
-    tr.run(m_bc);
-    
     Json::Value event;
     event["eventName"] = "incQuest1Stat";
     event["eventMultiplier"] = 1;
     eventArray.append(event);
-    
+
     event.clear();
     event["eventName"] = "incQuest2Stat";
     event["eventMultiplier"] = 1;
     eventArray.append(event);
-    
+
     m_bc->registerRewardCallback(this);
     m_bc->getPlayerStatisticsEventService()->triggerStatsEvents(fw.write(eventArray).c_str(), &tr);
     tr.run(m_bc, true);
-    
+
     // sleep a bit... to let threaded comms trigger the reward callback
     TestResult::sleep(1000);
     m_bc->deregisterRewardCallback();
 
     ASSERT_EQ(m_rewardCallbackHitCount, 1);
+
+    m_bc->getPlayerStateService()->resetUserState(&tr);
+    tr.run(m_bc);
 }
 
 // Bundles not supported right now
 TEST_F(TestBCPlayerStatisticsEvent, RewardHandlerMultipleApiCallsInBundle)
 {
     m_rewardCallbackHitCount = 0;
-    
+
     TestResult tr;
     Json::FastWriter fw;
     Json::Value eventArray(Json::arrayValue);
 
-    m_bc->getPlayerStateService()->resetUserState(&tr);
-    tr.run(m_bc);
-    
     Json::Value event;
     event["eventName"] = "incQuest1Stat";
     event["eventMultiplier"] = 1;
     eventArray.append(event);
-    
+
     m_bc->registerRewardCallback(this);
     m_bc->getPlayerStatisticsEventService()->triggerStatsEvents(fw.write(eventArray).c_str(), &tr);
-    
+
     eventArray.clear();
     event.clear();
     event["eventName"] = "incQuest2Stat";
@@ -92,12 +89,15 @@ TEST_F(TestBCPlayerStatisticsEvent, RewardHandlerMultipleApiCallsInBundle)
 
     m_bc->getPlayerStatisticsEventService()->triggerStatsEvents(fw.write(eventArray).c_str(), &tr);
     tr.runExpectCount(m_bc, 2, true);
-    
+
     // sleep a bit... to let threaded comms trigger the reward callback
     TestResult::sleep(1000);
     m_bc->deregisterRewardCallback();
 
     ASSERT_EQ(m_rewardCallbackHitCount, 2);
+
+    m_bc->getPlayerStateService()->resetUserState(&tr);
+    tr.run(m_bc);
 }
 
 void TestBCPlayerStatisticsEvent::rewardCallback(std::string const & jsonData)
