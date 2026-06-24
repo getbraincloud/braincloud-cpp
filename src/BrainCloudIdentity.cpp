@@ -34,6 +34,21 @@ namespace BrainCloud
 		detachIdentity(facebookId, AuthenticationType::Facebook, continueAnon, callback);
 	}
 
+	void BrainCloudIdentity::attachFacebookLimitedIdentity(const char * facebookLimitedId, const char * authenticationToken, IServerCallback * callback)
+	{
+		attachIdentity(facebookLimitedId, authenticationToken, AuthenticationType::FacebookLimited, callback);
+	}
+
+	void BrainCloudIdentity::mergeFacebookLimitedIdentity(const char * facebookLimitedId, const char * authenticationToken, IServerCallback * callback)
+	{
+		mergeIdentity(facebookLimitedId, authenticationToken, AuthenticationType::FacebookLimited, callback);
+	}
+
+	void BrainCloudIdentity::detachFacebookLimitedIdentity(const char * facebookLimitedId, bool continueAnon, IServerCallback * callback)
+	{
+		detachIdentity(facebookLimitedId, AuthenticationType::FacebookLimited, continueAnon, callback);
+	}
+
 		void BrainCloudIdentity::attachOculusIdentity(const char * oculusId, const char * oculusNonce, IServerCallback * callback)
 	{
 		attachIdentity(oculusId, oculusNonce, AuthenticationType::Oculus, callback);
