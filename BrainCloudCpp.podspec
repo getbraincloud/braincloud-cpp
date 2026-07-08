@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.name     = "BrainCloudCpp"
 
-  s.version  = "6.0.0"
+  s.version  = "6.0.1"
 
   s.summary  = "The C++ client library for brainCloud."
   s.homepage = "http://getbraincloud.com/"
@@ -46,15 +46,19 @@ Pod::Spec.new do |s|
   # to use development pod: change below to your full source code path
   # to use cocoapod release: change to be relative to ${PODS_ROOT}
   s.xcconfig = {
-        # eg. '"${PODS_ROOT}/BrainCloudCpp/include"', '"/local/path/to/braincloud-cpp/include"'
-        'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/BrainCloudCpp/include" "${PODS_ROOT}/BrainCloudCpp/include/braincloud/internal/apple"'
+        # PODS_TARGET_SRCROOT points at THIS pod's own source root, so it resolves for both a
+        # published pod (${PODS_ROOT}/BrainCloudCpp — identical to the old hardcoded value) AND a
+        # local :path dev pod (the working tree, e.g. repositories/cpp), where ${PODS_ROOT}/
+        # BrainCloudCpp does not exist. The pod's own sources #include "braincloud/..." (quoted),
+        # so this must be USER_HEADER_SEARCH_PATHS.
+        'USER_HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/include" "${PODS_TARGET_SRCROOT}/include/braincloud/internal/apple"'
   }
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
   s.libraries               = 'c++', 'z'
   s.osx.framework           = 'LDAP'
-  s.dependency                'BrainCloudJsonCpp', '~>6.0.0'
+  s.dependency                'BrainCloudJsonCpp', '~>6.0.1'
   s.ios.dependency            'SocketRocket', '~> 0.5'
   s.osx.dependency            'SocketRocket', '~> 0.5'
   s.tvos.dependency           'SocketRocket', '~> 0.5'
