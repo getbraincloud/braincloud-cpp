@@ -22,8 +22,8 @@
 #include "braincloud/IServerCallback.h"
 #include "braincloud/ServerCall.h"
 
-#include <braincloud/ServiceName.h>
-#include <braincloud/ServiceOperation.h>
+#include "braincloud/ServiceName.h"
+#include "braincloud/ServiceOperation.h"
 
 #include "braincloud/internal/URLLoader.h"
 #include "braincloud/internal/URLRequest.h"
