@@ -110,8 +110,8 @@ TEST_F(TestBCPushNotifications, ScheduleRichPushNotificationUTC)
 
     Json::FastWriter fw;
     Json::Value data;
-    data["body"] = "asdf";
-    data["title"] = "asdf";
+    data["0"] = "asdf";
+    data["1"] = "asdf";
 
     uint64_t startTime = 0;
 
@@ -140,8 +140,8 @@ TEST_F(TestBCPushNotifications, ScheduleRichPushNotificationMinutes)
 
     Json::FastWriter fw;
     Json::Value data;
-    data["body"] = "asdf";
-    data["title"] = "asdf";
+    data["0"] = "asdf";
+    data["1"] = "asdf";
 
     int32_t minutesFromNow = 0;
 
