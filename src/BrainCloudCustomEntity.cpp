@@ -22,7 +22,9 @@ namespace BrainCloud
 		Json::Value message;
 		message[OperationParam::CustomEntityServiceEntityType.getValue()] = entityType;
 		message[OperationParam::CustomEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
-		message[OperationParam::CustomEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::CustomEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 		message[OperationParam::CustomEntityServiceTimeToLive.getValue()] = (Json::Int64) timeToLive;
 		message[OperationParam::CustomEntityServiceIsOwned.getValue()] = isOwned;
 
@@ -106,7 +108,9 @@ namespace BrainCloud
 		message[OperationParam::CustomEntityServiceEntityId.getValue()] = entityId;
 		message[OperationParam::CustomEntityServiceVersion.getValue()] = version;
 		message[OperationParam::CustomEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
-		message[OperationParam::CustomEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::CustomEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 		message[OperationParam::CustomEntityServiceTimeToLive.getValue()] = (Json::Int64) timeToLive;
 
 		ServerCall * sc = new ServerCall(ServiceName::CustomEntity, ServiceOperation::UpdateEntity, message, callback);
@@ -164,7 +168,9 @@ namespace BrainCloud
 		message[OperationParam::CustomEntityServiceEntityType.getValue()] = entityType;
 		message[OperationParam::CustomEntityServiceVersion.getValue()] = version;
 		message[OperationParam::CustomEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(dataJson);
-		message[OperationParam::CustomEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(acl);
+		if (StringUtil::IsOptionalParameterValid(acl)) {
+			message[OperationParam::CustomEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(acl);
+		}
 		message[OperationParam::CustomEntityServiceTimeToLive.getValue()] = (Json::Int64) timeToLive;
 		
 		ServerCall * sc = new ServerCall(ServiceName::CustomEntity, ServiceOperation::UpdateSingleton, message, callback);
