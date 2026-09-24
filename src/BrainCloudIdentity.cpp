@@ -135,6 +135,21 @@ namespace BrainCloud
 		detachIdentity(appleId, AuthenticationType::Apple, continueAnon, callback);
 	}
 
+	void BrainCloudIdentity::attachEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback)
+	{
+		attachIdentity(epicAccountId, authIdToken, AuthenticationType::EpicGames, callback);
+	}
+
+	void BrainCloudIdentity::mergeEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback)
+	{
+		mergeIdentity(epicAccountId, authIdToken, AuthenticationType::EpicGames, callback);
+	}
+
+	void BrainCloudIdentity::detachEpicGamesIdentity(const char * epicAccountId, bool continueAnon, IServerCallback * callback)
+	{
+		detachIdentity(epicAccountId, AuthenticationType::EpicGames, continueAnon, callback);
+	}
+
     void BrainCloudIdentity::attachUltraIdentity(const std::string &ultraUsername, const std::string &ultraIdToken, IServerCallback * callback)
     {
         attachIdentity(ultraUsername.c_str(), ultraIdToken.c_str(), AuthenticationType::Ultra, callback);

@@ -254,6 +254,15 @@ namespace BrainCloud {
         client->getAuthenticationService()->authenticateApple(appleUserId, identityToken, forceCreate, this);
     }
 
+    void BrainCloudWrapper::authenticateEpicGames(const char* epicAccountId, const char* authIdToken, bool forceCreate, IServerCallback* callback)
+    {
+        m_authenticateCallback = callback;
+
+        initializeIdentity();
+
+        client->getAuthenticationService()->authenticateEpicGames(epicAccountId, authIdToken, forceCreate, this);
+    }
+
     void BrainCloudWrapper::authenticateGoogle(const char* googleUserId, const char* serverAuthCode, bool forceCreate, IServerCallback* callback)
     {
         m_authenticateCallback = callback;
@@ -640,7 +649,7 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-    	void BrainCloudWrapper::smartSwitchAuthenticateApple(const char* userid, const char* token, bool forceCreate, IServerCallback* callback)
+    void BrainCloudWrapper::smartSwitchAuthenticateApple(const char* userid, const char* token, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
@@ -662,6 +671,31 @@ namespace BrainCloud {
 		};
 
 		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, userid, token, forceCreate, callback);
+		getIdentitiesCallback(smartCallback);
+	}
+
+    void BrainCloudWrapper::smartSwitchAuthenticateEpicGames(const char* epicAccountId, const char* authIdToken, bool forceCreate, IServerCallback* callback)
+	{
+		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
+		{
+		public:
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* epicAccountId, const char* authIdToken, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
+                this->epicAccountId = epicAccountId;
+                this->authIdToken = authIdToken;
+                this->forceCreate = forceCreate;
+			}
+
+			std::string epicAccountId; std::string authIdToken; bool forceCreate;
+
+			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
+			{
+				wrapper->clearIds();
+				wrapper->client->getAuthenticationService()->authenticateEpicGames(epicAccountId.c_str(), authIdToken.c_str(), forceCreate, callback);
+				delete this;
+			}
+		};
+
+		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, epicAccountId, authIdToken, forceCreate, callback);
 		getIdentitiesCallback(smartCallback);
 	}
 
