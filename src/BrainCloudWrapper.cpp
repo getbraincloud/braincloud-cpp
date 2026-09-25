@@ -649,28 +649,28 @@ namespace BrainCloud {
 		getIdentitiesCallback(smartCallback);
 	}
 
-    void BrainCloudWrapper::smartSwitchAuthenticateApple(const char* userid, const char* token, bool forceCreate, IServerCallback* callback)
+    void BrainCloudWrapper::smartSwitchAuthenticateApple(const char* appleUserId, const char* identityToken, bool forceCreate, IServerCallback* callback)
 	{
 		class SmartSwitchAuthenticateCallback : public SmartSwitchCallback
 		{
 		public:
-			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* userid, const char* token, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
-                this->userid = userid;
-                this->token = token;
+			SmartSwitchAuthenticateCallback(BrainCloudWrapper* wrapper, const char* appleUserId, const char* identityToken, bool forceCreate, IServerCallback* callback) : SmartSwitchCallback(wrapper, callback) {
+                this->appleUserId = appleUserId;
+                this->identityToken = identityToken;
                 this->forceCreate = forceCreate;
 			}
 
-			std::string userid; std::string token; bool forceCreate;
+			std::string appleUserId; std::string identityToken; bool forceCreate;
 
 			void serverCallback(ServiceName serviceName, ServiceOperation serviceOperation, std::string const & jsonData)
 			{
 				wrapper->clearIds();
-				wrapper->client->getAuthenticationService()->authenticateApple(userid.c_str(), token.c_str(), forceCreate, callback);
+				wrapper->client->getAuthenticationService()->authenticateApple(appleUserId.c_str(), identityToken.c_str(), forceCreate, callback);
 				delete this;
 			}
 		};
 
-		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, userid, token, forceCreate, callback);
+		SmartSwitchAuthenticateCallback *smartCallback = new SmartSwitchAuthenticateCallback(this, appleUserId, identityToken, forceCreate, callback);
 		getIdentitiesCallback(smartCallback);
 	}
 

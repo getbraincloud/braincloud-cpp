@@ -302,7 +302,7 @@ namespace BrainCloud {
         void authenticateGameCenter(const char* gameCenterId, bool forceCreate, uint64_t timestamp, const std::string& publicKeyUrl, const uint8_t* signature, size_t signatureLength, const uint8_t* salt, size_t saltLength, const std::string& teamPlayerId = "", IServerCallback* callback = NULL);
 
         /**
-         * Authenticate the user using a google userid(email address) and google authentication token.
+         * Authenticate the user using their Apple account and identityToken.
          *
          * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
@@ -661,20 +661,20 @@ namespace BrainCloud {
          * In event the current session was previously an anonymous account, the smart switch will delete that profile.
          * Use this function to keep a clean designflow from anonymous to signed profiles
          *
-         * Authenticate the user using a google userid(email address) and google authentication token.
+         * Authenticate the user using their Apple account and identityToken.
          *
          * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
-         * @param userid String representation of apple+ userid (email)
-         * @param token The authentication token derived via the apple apis.
+         * @param appleUserId String of the apple accounts user Id OR email
+         * @param identityToken The identityToken confirming users identity
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
          *
          * @returns Performs the success callback on success, failure callback on failure.
          *
          */
-        void smartSwitchAuthenticateApple(const char* userid, const char* token, bool forceCreate, IServerCallback* callback = NULL);
+        void smartSwitchAuthenticateApple(const char* appleUserId, const char* identityToken, bool forceCreate, IServerCallback* callback = NULL);
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
