@@ -281,19 +281,19 @@ namespace BrainCloud {
          * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param timestamp The timestamp value returned as part of the identity verification signature fetch from Game Center.
-		 * 		            Required for modern Game Center verification.
-		 * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
-		 *                     Required for modern Game Center verification.
-		 * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
-		 *                  Required for modern Game Center verification.
-		 * @param signatureLength The length of the returned identity verification signature.
-		 *                        Required for modern Game Center verification.
-		 * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
-		 *             Required for modern Game Center verification.
-		 * @param saltLength The length of the returned identity verification salt.
-		 *                   Required for modern Game Center verification.
-		 * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than teamPlayerId (e.g. playerId),
-		 *                     so that brainCloud can still associate the user with their team-scoped identity.
+         * 	                Required for modern Game Center verification.
+         * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
+         *                     Required for modern Game Center verification.
+         * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
+         *                  Required for modern Game Center verification.
+         * @param signatureLength The length of the returned identity verification signature.
+         *                        Required for modern Game Center verification.
+         * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
+         *             Required for modern Game Center verification.
+         * @param saltLength The length of the returned identity verification salt.
+         *                   Required for modern Game Center verification.
+         * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than teamPlayerId (e.g. playerId),
+         *                     so that brainCloud can still associate the user with their team-scoped identity.
          * @param callback The method to be invoked when the server response is received.
          *
          * @returns Performs the success callback on success, failure callback on failure.
@@ -301,21 +301,37 @@ namespace BrainCloud {
          */
         void authenticateGameCenter(const char* gameCenterId, bool forceCreate, uint64_t timestamp, const std::string& publicKeyUrl, const uint8_t* signature, size_t signatureLength, const uint8_t* salt, size_t saltLength, const std::string& teamPlayerId = "", IServerCallback* callback = NULL);
 
-		/**
-		 * Authenticate the user using a google userid(email address) and google authentication token.
-		 *
-		 * Service Name - authenticationV2
-		 * Service Operation - AUTHENTICATE
-		 *
-		 * @param appleUserId String of the apple accounts user Id OR email
-		 * @param identityToken The authentication token confirming users identity
-		 * @param forceCreate Should a new profile be created for this user if the account does not exist?
-		 * @param callback The method to be invoked when the server response is received
+        /**
+         * Authenticate the user using their Apple account and identityToken.
+         *
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
+         *
+         * @param appleUserId String of the apple accounts user Id OR email
+         * @param identityToken The authentication token confirming users identity
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param callback The method to be invoked when the server response is received
          * 
          * @returns Performs the success callback on success, failure callback on failure.
          * 
-		 */
+         */
 		void authenticateApple(const char * appleUserId, const char * identityToken, bool forceCreate, IServerCallback * callback = NULL);
+
+        /**
+         * Authenticate the user using an epicAccountId and their authIdToken.
+         *
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
+         *
+         * @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+         * @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param callback The method to be invoked when the server response is received
+         * 
+         * @returns Performs the success callback on success, failure callback on failure.
+         * 
+         */
+		void authenticateEpicGames(const char * epicAccountId, const char * authIdToken, bool forceCreate, IServerCallback * callback = NULL);
 
         /**
          * Authenticate the user using a google userid(email address) and google authentication token.
@@ -436,8 +452,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user with a custom Email and Password.  Note that the client app
          * is responsible for collecting (and storing) the e-mail and potentially password
@@ -462,8 +478,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user via cloud code (which in turn validates the supplied credentials against an external system).
          * This allows the developer to extend brainCloud authentication to support other backend authentication systems.
@@ -484,8 +500,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user with brainCloud using their Facebook Credentials
          *
@@ -505,8 +521,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user with brainCloud using their FacebookLimited Credentials
          *
@@ -526,8 +542,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user with brainCloud using their Oculus Credentials
          *
@@ -546,8 +562,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user using their Game Center Id (legacy support only, not recommended).
          *
@@ -569,8 +585,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user using their Game Center Id and identity verification signature.
          *
@@ -580,19 +596,19 @@ namespace BrainCloud {
          * @param gameCenterId The user's Game Center Id which can be the playerId, gamePlayerId, or teamPlayerId from the localPlayer object.
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param timestamp The timestamp value returned as part of the identity verification signature fetch from Game Center.
-		 * 		            Required for modern Game Center verification.
-		 * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
-		 *                     Required for modern Game Center verification.
-		 * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
-		 *                  Required for modern Game Center verification.
-		 * @param signatureLength The length of the returned identity verification signature.
-		 *                        Required for modern Game Center verification.
-		 * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
-		 *             Required for modern Game Center verification.
-		 * @param saltLength The length of the returned identity verification salt.
-		 *                   Required for modern Game Center verification.
-		 * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than teamPlayerId (e.g. playerId),
-		 *                     so that brainCloud can still associate the user with their team-scoped identity.
+         * 	                Required for modern Game Center verification.
+         * @param publicKeyUrl The publicKeyUrl value returned as part of the identity verification signature fetch from Game Center.
+         *                     Required for modern Game Center verification.
+         * @param signature The raw signature bytes returned as part of the identity verification signature fetch from Game Center.
+         *                  Required for modern Game Center verification.
+         * @param signatureLength The length of the returned identity verification signature.
+         *                        Required for modern Game Center verification.
+         * @param salt The raw salt bytes returned as part of the identity verification signature fetch from Game Center.
+         *             Required for modern Game Center verification.
+         * @param saltLength The length of the returned identity verification salt.
+         *                   Required for modern Game Center verification.
+         * @param teamPlayerId Optional for Game Center verification; only required when gameCenterId is set to a value other than teamPlayerId (e.g. playerId),
+         *                     so that brainCloud can still associate the user with their team-scoped identity.
          * @param callback The method to be invoked when the server response is received.
          *
          * @returns Performs the success callback on success, failure callback on failure.
@@ -602,8 +618,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
@@ -622,8 +638,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user using a google userid(email address) and google authentication token.
          *
@@ -642,28 +658,48 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
-         * Authenticate the user using a google userid(email address) and google authentication token.
+         * Authenticate the user using their Apple account and identityToken.
          *
          * Service Name - authenticationV2
          * Service Operation - AUTHENTICATE
          *
-         * @param userid String representation of apple+ userid (email)
-         * @param token The authentication token derived via the apple apis.
+         * @param appleUserId String of the apple accounts user Id OR email
+         * @param identityToken The identityToken confirming users identity
          * @param forceCreate Should a new profile be created for this user if the account does not exist?
          * @param callback The method to be invoked when the server response is received
          *
          * @returns Performs the success callback on success, failure callback on failure.
          *
          */
-        void smartSwitchAuthenticateApple(const char* userid, const char* token, bool forceCreate, IServerCallback* callback = NULL);
+        void smartSwitchAuthenticateApple(const char* appleUserId, const char* identityToken, bool forceCreate, IServerCallback* callback = NULL);
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
+         *
+         * Authenticate the user using an epicAccountId and their authIdToken.
+         *
+         * Service Name - authenticationV2
+         * Service Operation - AUTHENTICATE
+         *
+         * @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+         * @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+         * @param forceCreate Should a new profile be created for this user if the account does not exist?
+         * @param callback The method to be invoked when the server response is received
+         *
+         * @returns Performs the success callback on success, failure callback on failure.
+         *
+         */
+        void smartSwitchAuthenticateEpicGames(const char* epicAccountId, const char* authIdToken, bool forceCreate, IServerCallback* callback = NULL);
+
+        /**
+         * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user using a steam userid and session ticket (without any validation on the userid).
          *
@@ -682,8 +718,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user using a Twitter userid, authentication token, and secret from Twitter.
          *
@@ -703,8 +739,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * Authenticate the user using a userid and password (without any validation on the userid).
          * Similar to AuthenticateEmailPassword - except that that method has additional features to
@@ -725,8 +761,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          * 
          * Authenticate the user for Ultra.
          *
@@ -745,8 +781,8 @@ namespace BrainCloud {
 
         /**
          * Smart Switch Authenticate will logout of the current profile, and switch to the new authentication type.
-	     * In event the current session was previously an anonymous account, the smart switch will delete that profile.
-	     * Use this function to keep a clean designflow from anonymous to signed profiles
+         * In event the current session was previously an anonymous account, the smart switch will delete that profile.
+         * Use this function to keep a clean designflow from anonymous to signed profiles
          *
          * A generic Authenticate method that translates to the same as calling a specific one, except it takes an extraJson
          * that will be passed along to pre- or post- hooks.
