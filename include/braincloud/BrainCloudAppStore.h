@@ -34,6 +34,7 @@ namespace BrainCloud
         * - windows
         * - windowsPhone
         * - googlePlay
+        * - metaHorizon
         * - epicGames
         * - xsolla
         * @param receiptData the specific store data required
@@ -66,6 +67,7 @@ namespace BrainCloud
         * - windows
         * - windowsPhone
         * - googlePlay
+        * - metaHorizon
         * - epicGames
         * - xsolla
         * @param userCurrency The currency type to retrieve the sales inventory for.
@@ -88,6 +90,7 @@ namespace BrainCloud
         * - windows
         * - windowsPhone
         * - googlePlay
+        * - metaHorizon
         * - epicGames
         * - xsolla
         * @param userCurrency The currency type to retrieve the sales inventory for.
@@ -146,6 +149,7 @@ namespace BrainCloud
         * - windows
         * - windowsPhone
         * - googlePlay
+        * - metaHorizon
         * - epicGames
         * - xsolla
         * @param transactionId the transactionId returned from start Purchase
