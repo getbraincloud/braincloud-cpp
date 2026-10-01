@@ -120,6 +120,21 @@ namespace BrainCloud
         m_client->sendRequest(sc);
     }
 
+    void BrainCloudIdentity::attachEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback)
+    {
+        attachIdentity(epicAccountId, authIdToken, AuthenticationType::EpicGames, callback);
+    }
+
+    void BrainCloudIdentity::mergeEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback)
+    {
+        mergeIdentity(epicAccountId, authIdToken, AuthenticationType::EpicGames, callback);
+    }
+
+    void BrainCloudIdentity::detachEpicGamesIdentity(const char * epicAccountId, bool continueAnon, IServerCallback * callback)
+    {
+        detachIdentity(epicAccountId, AuthenticationType::EpicGames, continueAnon, callback);
+    }
+
     void BrainCloudIdentity::attachAppleIdentity(const char * appleId, const char * authenticationToken, IServerCallback * callback)
 	{
 		attachIdentity(appleId, authenticationToken, AuthenticationType::Apple, callback);

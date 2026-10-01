@@ -29,6 +29,11 @@ namespace BrainCloud {
 			_clientLib = lib;
 	}
 
+    void BrainCloudAuthentication::setAppCheckToken(const std::string& token)
+    {
+        _appCheckToken = token;
+    }
+
     void BrainCloudAuthentication::initialize(const char * profileId, const char * anonymousId)
     {
         _profileId = profileId;
@@ -141,6 +146,11 @@ namespace BrainCloud {
     void BrainCloudAuthentication::authenticateSteam(const char * userid, const char * sessionticket, bool forceCreate, IServerCallback * callback)
     {
         authenticate(userid, sessionticket, AuthenticationType::Steam, NULL, forceCreate, "", callback);
+    }
+
+    void BrainCloudAuthentication::authenticateEpicGames(const char * epicAccountId, const char * authIdToken, bool forceCreate, IServerCallback * callback)
+    {
+        authenticate(epicAccountId, authIdToken, AuthenticationType::EpicGames, NULL, forceCreate, "", callback);
     }
 
     void BrainCloudAuthentication::authenticateApple(const char * appleUserId, const char * identityToken, bool forceCreate, IServerCallback * callback)
@@ -332,6 +342,11 @@ namespace BrainCloud {
         if (StringUtil::IsOptionalParameterValid(extraJson))
         {
             message[OperationParam::AuthenticateServiceAuthenticateExtraJson.getValue()] = JsonUtil::jsonStringToValue(extraJson);
+        }
+
+        if (!_appCheckToken.empty())
+        {
+            message[OperationParam::AuthenticateServiceAuthenticateAppCheckToken.getValue()] = _appCheckToken;
         }
 
         ServerCall * sc = new ServerCall(ServiceName::AuthenticateV2, ServiceOperation::Authenticate, message, callback);

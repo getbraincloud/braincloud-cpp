@@ -30,6 +30,16 @@ namespace BrainCloud
 		void setClientLib(const char* lib);
 
 		/**
+		 * Sets the caller-supplied Firebase App Check token for subsequent authenticate requests.
+		 * The token is copied and retained in memory until replaced or cleared with an empty string.
+		 * The host app is responsible for obtaining and refreshing it, including before reconnects.
+		 * Call on the same thread as authentication; already queued requests are not updated.
+		 * No token validation or Firebase integration is performed by this SDK.
+		 * @param token Opaque App Check token, or an empty string to omit it from requests.
+		 */
+		void setAppCheckToken(const std::string& token);
+
+		/**
 		 * Initialize - initializes the identity service with a saved
 		 * anonymous installation id and most recently used profile id
 		 *
@@ -206,6 +216,13 @@ namespace BrainCloud
 		* @param callback The method to be invoked when the server response is received
 		*/
 		void authenticateApple(const char * appleUserId, const char * identityToken, bool forceCreate, IServerCallback * callback = NULL);
+
+        /** Authenticate with an Epic account ID and authentication ID token.
+         * @param forceCreate Create a profile if this identity does not exist.
+         * @param callback Callback invoked with the server response.
+         */
+        void authenticateEpicGames(const char * epicAccountId, const char * authIdToken, bool forceCreate, IServerCallback * callback = NULL);
+
 
 		/**
 		* Authenticate the user using a google userid(email address) and google authentication token.
@@ -462,6 +479,8 @@ namespace BrainCloud
 		void authenticate(const char * externalId, const char * authenticationToken, AuthenticationType authenticationType, const char * externalAuthName, bool forceCreate, const std::string &extraJson, IServerCallback * callback);
 
 	private:
+		std::string _appCheckToken;
+
 		struct PreviousAuthParams
 		{
 			std::string externalId;

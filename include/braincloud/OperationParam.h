@@ -44,6 +44,7 @@ namespace BrainCloud {
 		// Authenticate Service - Authenticate Params
 		static const OperationParam AuthenticateServiceAuthenticateAuthenticationType;
 		static const OperationParam AuthenticateServiceAuthenticateAuthenticationToken;
+		static const OperationParam AuthenticateServiceAuthenticateAppCheckToken;
 		static const OperationParam AuthenticateServiceAuthenticateExternalId;
 		static const OperationParam AuthenticateServiceAuthenticateUniversalId;
 		static const OperationParam AuthenticateServiceAuthenticateEmailAddress;

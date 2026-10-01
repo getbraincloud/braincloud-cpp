@@ -294,6 +294,23 @@ namespace BrainCloud
 		 */
 		void detachAppleIdentity(const char * appleId, bool continueAnon, IServerCallback * callback = NULL);
 
+        /** Attach Epic Games credentials to the current profile (identity ATTACH).
+         * @param epicAccountId Epic account ID.
+         * @param authIdToken Epic authentication ID token.
+         * @param callback Callback invoked with the server response.
+         */
+        void attachEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback = NULL);
+
+        /** Merge the profile associated with Epic Games credentials (identity MERGE). */
+        void mergeEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback = NULL);
+
+        /** Detach Epic Games credentials (identity DETACH).
+         * @param epicAccountId Epic account ID.
+         * @param continueAnon Allow the profile to revert to anonymous.
+         * @param callback Callback invoked with the server response.
+         */
+        void detachEpicGamesIdentity(const char * epicAccountId, bool continueAnon, IServerCallback * callback = NULL);
+
         /**
          * Attach the user's Ultra credentials to the current profile.
          *
