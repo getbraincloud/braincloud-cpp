@@ -1,6 +1,9 @@
 // Copyright 2026 bitHeads, Inc. All Rights Reserved.
 
 #include "braincloud/BrainCloudAuthentication.h"
+#include <mutex>
+#include <chrono>
+#include "braincloud/reason_codes.h"
 
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/IServerCallback.h"
@@ -32,6 +35,71 @@ namespace BrainCloud {
     void BrainCloudAuthentication::setAppCheckToken(const std::string& token)
     {
         _appCheckToken = token;
+    }
+
+    struct BrainCloudAuthentication::PendingAppCheck
+    {
+        std::mutex mutex;
+        bool completed = false;
+        std::string token, error;
+        Json::Value message;
+        IServerCallback* callback = nullptr;
+        std::chrono::steady_clock::time_point started = std::chrono::steady_clock::now();
+    };
+
+    void BrainCloudAuthentication::setAppCheckTokenProvider(AppCheckTokenProvider provider)
+    {
+        _appCheckTokenProvider = provider;
+    }
+
+    void BrainCloudAuthentication::cancelPendingAppCheckRequests()
+    {
+        _pendingAppCheck.clear();
+    }
+
+    void BrainCloudAuthentication::runAppCheckCallbacks()
+    {
+        // Remove each result before invoking application code, which can reset the client.
+        for (size_t i = 0; i < _pendingAppCheck.size();)
+        {
+            auto pending = _pendingAppCheck[i];
+            std::string token, error;
+            {
+                std::lock_guard<std::mutex> lock(pending->mutex);
+                if (!pending->completed)
+                {
+                    if (std::chrono::steady_clock::now() - pending->started < std::chrono::seconds(30))
+                    {
+                        ++i;
+                        continue;
+                    }
+                    pending->completed = true;
+                    pending->error = "App Check token provider timed out";
+                }
+                token = pending->token;
+                error = pending->error;
+            }
+            _pendingAppCheck.erase(_pendingAppCheck.begin() + i);
+            if (!error.empty() || token.empty())
+            {
+                if (pending->callback)
+                {
+                    Json::Value response;
+                    response["status"] = 400;
+                    response["reason_code"] = CLIENT_APP_CHECK_TOKEN_ERROR;
+                    response["status_message"] = error.empty() ? "App Check token provider returned an empty token" : error;
+                    pending->callback->serverError(ServiceName::AuthenticateV2, ServiceOperation::Authenticate,
+                        400, CLIENT_APP_CHECK_TOKEN_ERROR, Json::FastWriter().write(response));
+                }
+            }
+            else
+            {
+                pending->message[OperationParam::AuthenticateServiceAuthenticateAppCheckToken.getValue()] = token;
+                m_client->sendRequest(new ServerCall(ServiceName::AuthenticateV2,
+                    ServiceOperation::Authenticate, pending->message, pending->callback));
+            }
+            i = 0;
+        }
     }
 
     void BrainCloudAuthentication::initialize(const char * profileId, const char * anonymousId)
@@ -342,6 +410,27 @@ namespace BrainCloud {
         if (StringUtil::IsOptionalParameterValid(extraJson))
         {
             message[OperationParam::AuthenticateServiceAuthenticateExtraJson.getValue()] = JsonUtil::jsonStringToValue(extraJson);
+        }
+
+        if (_appCheckTokenProvider)
+        {
+            auto pending = std::make_shared<PendingAppCheck>();
+            pending->message = message;
+            pending->callback = callback;
+            _pendingAppCheck.push_back(pending);
+            std::weak_ptr<PendingAppCheck> weakPending = pending;
+            // Capture no client pointer: late completions after reset/destruction are harmless.
+            auto provider = _appCheckTokenProvider;
+            provider([weakPending](const std::string& token, const std::string& error) {
+                auto result = weakPending.lock();
+                if (!result) return;
+                std::lock_guard<std::mutex> lock(result->mutex);
+                if (result->completed) return;
+                result->token = token;
+                result->error = error;
+                result->completed = true;
+            });
+            return;
         }
 
         if (!_appCheckToken.empty())
