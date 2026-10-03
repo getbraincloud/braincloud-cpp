@@ -229,4 +229,21 @@ namespace
         done("after destruction", "");
     }
 
+    TEST_F(TestBCAppCheck, EpicGamesAuthenticationUsesProviderWithoutReplacingEpicCredentials)
+    {
+        auto auth = client.getAuthenticationService();
+        auth->setAppCheckTokenProvider([](BrainCloudAuthentication::AppCheckTokenCompletion done) {
+            done("app-check-token", "");
+        });
+        auth->authenticateEpicGames("epic-account", "epic-id-token", false);
+        EXPECT_TRUE(client.payload().isNull());
+        client.runCallbacks(eBrainCloudUpdateType::REST);
+        const Json::Value& data = client.payload()["data"];
+        EXPECT_EQ("EpicGames", data["authenticationType"].asString());
+        EXPECT_EQ("epic-account", data["externalId"].asString());
+        EXPECT_EQ("epic-id-token", data["authenticationToken"].asString());
+        EXPECT_EQ("app-check-token", data["appCheckToken"].asString());
+        EXPECT_FALSE(data["forceCreate"].asBool());
+    }
+
 }

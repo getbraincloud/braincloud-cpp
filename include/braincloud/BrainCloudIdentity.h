@@ -294,22 +294,53 @@ namespace BrainCloud
 		 */
 		void detachAppleIdentity(const char * appleId, bool continueAnon, IServerCallback * callback = NULL);
 
-        /** Attach Epic Games credentials to the current profile (identity ATTACH).
-         * @param epicAccountId Epic account ID.
-         * @param authIdToken Epic authentication ID token.
-         * @param callback Callback invoked with the server response.
-         */
-        void attachEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback = NULL);
+		/**
+		 * Attach the user's EpicGames credentials to the current profile.
+		 *
+		 * Service Name - identity
+		 * Service Operation - ATTACH
+		 *
+		 * @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+		 * @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+		 * @param callback The method to be invoked when the server response is received
+		 *
+		 * Errors to watch for:  SWITCHING_PROFILES - this means that the EpicGames identity you provided
+		 * already points to a different profile.  You will likely want to offer the user the
+		 * choice to *SWITCH* to that profile, or *MERGE* the profiles.
+		 *
+		 * To switch profiles, call ClearSavedProfileID() and call AuthenticateEpicGames().
+		 */
+		void attachEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback = NULL);
 
-        /** Merge the profile associated with Epic Games credentials (identity MERGE). */
-        void mergeEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback = NULL);
+		/**
+		 * Merge the profile associated with the provided EpicGames credentials with the
+		 * current profile.
+		 *
+		 * Service Name - identity
+		 * Service Operation - MERGE
+		 *
+		 * @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+		 * @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+		 * @param callback The method to be invoked when the server response is received
+		 *
+		 */
+		void mergeEpicGamesIdentity(const char * epicAccountId, const char * authIdToken, IServerCallback * callback = NULL);
 
-        /** Detach Epic Games credentials (identity DETACH).
-         * @param epicAccountId Epic account ID.
-         * @param continueAnon Allow the profile to revert to anonymous.
-         * @param callback Callback invoked with the server response.
-         */
-        void detachEpicGamesIdentity(const char * epicAccountId, bool continueAnon, IServerCallback * callback = NULL);
+		/**
+		 * Detach the EpicGames identity from this profile.
+		 *
+		 * Service Name - identity
+		 * Service Operation - DETACH
+		 *
+		 * @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+		 * @param continueAnon Proceed even if the profile will revert to anonymous?
+		 * @param callback The method to be invoked when the server response is received
+		 *
+		 * Watch for DOWNGRADING_TO_ANONYMOUS_ERROR - occurs if you set continueAnon to false, and
+		 * disconnecting this identity would result in the profile being anonymous (which means that
+		 * the profile wouldn't be retrievable if the user loses their device)
+		 */
+		void detachEpicGamesIdentity(const char * epicAccountId, bool continueAnon, IServerCallback * callback = NULL);
 
         /**
          * Attach the user's Ultra credentials to the current profile.

@@ -216,14 +216,14 @@ namespace BrainCloud {
         authenticate(userid, sessionticket, AuthenticationType::Steam, NULL, forceCreate, "", callback);
     }
 
-    void BrainCloudAuthentication::authenticateEpicGames(const char * epicAccountId, const char * authIdToken, bool forceCreate, IServerCallback * callback)
-    {
-        authenticate(epicAccountId, authIdToken, AuthenticationType::EpicGames, NULL, forceCreate, "", callback);
-    }
-
     void BrainCloudAuthentication::authenticateApple(const char * appleUserId, const char * identityToken, bool forceCreate, IServerCallback * callback)
     {
         authenticate(appleUserId, identityToken, AuthenticationType::Apple, NULL, forceCreate, "", callback);
+    }
+
+    void BrainCloudAuthentication::authenticateEpicGames(const char * epicAccountId, const char * authIdToken, bool forceCreate, IServerCallback * callback)
+    {
+        authenticate(epicAccountId, authIdToken, AuthenticationType::EpicGames, NULL, forceCreate, "", callback);
     }
 
     void BrainCloudAuthentication::authenticateGoogle(const char * googleUserId, const char * serverAuthToken, bool forceCreate, IServerCallback * callback)

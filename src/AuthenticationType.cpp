@@ -11,8 +11,8 @@ namespace BrainCloud
     const AuthenticationType & AuthenticationType::Oculus = AuthenticationType("Oculus");
     const AuthenticationType & AuthenticationType::GameCenter = AuthenticationType("GameCenter");
     const AuthenticationType & AuthenticationType::Steam = AuthenticationType("Steam");
-    const AuthenticationType & AuthenticationType::EpicGames = AuthenticationType("EpicGames");
     const AuthenticationType & AuthenticationType::Apple = AuthenticationType("Apple");
+    const AuthenticationType & AuthenticationType::EpicGames = AuthenticationType("EpicGames");
     const AuthenticationType & AuthenticationType::Google = AuthenticationType("Google");
     const AuthenticationType & AuthenticationType::GoogleOpenId = AuthenticationType("GoogleOpenId");
     const AuthenticationType & AuthenticationType::Twitter = AuthenticationType("Twitter");
@@ -64,13 +64,13 @@ namespace BrainCloud
         {
             return AuthenticationType::Steam;
         }
-        if (AuthenticationType == EpicGames)
-        {
-            return AuthenticationType::EpicGames;
-        }
         if (AuthenticationType == Apple)
         {
             return AuthenticationType::Apple;
+        }
+        if (AuthenticationType == EpicGames)
+        {
+            return AuthenticationType::EpicGames;
         }
         if (AuthenticationType == Google)
         {
