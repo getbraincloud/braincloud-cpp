@@ -271,6 +271,7 @@ namespace BrainCloud
         switch (updateType)
         {
             case eBrainCloudUpdateType::REST:
+                _authenticationService->runAppCheckCallbacks();
                 _brainCloudComms->runCallbacks();
                 break;
             case eBrainCloudUpdateType::PING:
@@ -283,6 +284,7 @@ namespace BrainCloud
                 _relayComms->runCallbacks();
                 break;
             case eBrainCloudUpdateType::ALL:
+                _authenticationService->runAppCheckCallbacks();
                 _brainCloudComms->runCallbacks();
                 _lobbyService->runPingCallbacks();
                 _rttComms->runCallbacks();
@@ -380,6 +382,7 @@ namespace BrainCloud
 
     void BrainCloudClient::resetCommunication()
     {
+        _authenticationService->cancelPendingAppCheckRequests();
         _relayComms->resetCommunication();
         _rttComms->resetCommunication();
         _brainCloudComms->resetCommunication();
