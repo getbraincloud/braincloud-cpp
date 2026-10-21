@@ -364,3 +364,28 @@ client.getAuthenticationService()->setAppCheckTokenProvider(
 // Restore the manually supplied token:
 client.getAuthenticationService()->setAppCheckTokenProvider(nullptr);
 ```
+
+////
+Use `setAppCheckTokenProvider` to fetch a fresh token for each authentication attempt,
+including retries and reconnects. It overrides `setAppCheckToken` until removed.
+Firebase is not required.
+The provider runs on the authentication thread and can complete on any thread.
+Keep calling runCallbacks (`REST` or `ALL`) to process results and the 30-second timeout.
+Errors, empty tokens, and timeouts fail locally with 
+(`ReasonCodes.CLIENT_APP_CHECK_TOKEN_ERROR`); the stored token is never used as a fallback.
+
+```cpp
+client.getAuthenticationService()->setAppCheckTokenProvider(
+    [](BrainCloud::BrainCloudAuthentication::AppCheckTokenCompletion completion) {
+        // Fetch a token asynchronously, then call:
+        // completion(token, "");        // success
+        // completion("", errorMessage); // failure
+    });
+
+// Switch back to the manually supplied token:
+client.getAuthenticationService()->setAppCheckTokenProvider(nullptr);
+```
+
+Configure providers on the SDK thread and avoid strong ownership cycles.
+Changes apply to new requests. Only the first completion counts; completions
+after a reset or client destruction are ignored.
