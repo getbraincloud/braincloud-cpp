@@ -12,6 +12,7 @@
 #include "braincloud/internal/IRelaySocket.h"
 
 #include <atomic>
+#include <chrono>
 #include <cinttypes>
 #include <condition_variable>
 #include <string>
