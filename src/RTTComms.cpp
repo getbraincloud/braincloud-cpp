@@ -464,7 +464,7 @@ namespace BrainCloud
                 _rttConnectionStatus = BrainCloudRTT::RTTConnectionStatus::Connected;
             }
 
-            _lastHeartbeatTime = TimeUtil::getCurrentTimeMillis();
+            _lastHeartbeatTime = TimeUtil::getMonotonicTimeMillis();
 
             if (_loggingEnabled)
             {
@@ -596,7 +596,7 @@ namespace BrainCloud
 
             while (isRTTEnabled())
             {
-                int64_t sleepTime = ((int64_t)_heartbeatSeconds * 1000) - (TimeUtil::getCurrentTimeMillis() - _lastHeartbeatTime);
+                int64_t sleepTime = ((int64_t)_heartbeatSeconds * 1000) - (TimeUtil::getMonotonicTimeMillis() - _lastHeartbeatTime);
                 if (sleepTime > 0)
                 {
                     _heartbeatCondition.wait_for(lock, std::chrono::milliseconds(sleepTime));
@@ -604,7 +604,7 @@ namespace BrainCloud
                 else
                 {
                     send(jsonHeartbeat);
-                    _lastHeartbeatTime = TimeUtil::getCurrentTimeMillis();
+                    _lastHeartbeatTime = TimeUtil::getMonotonicTimeMillis();
                 }
             }
 
