@@ -154,6 +154,12 @@ namespace BrainCloud
 		bool _isInitialized;
 		bool _isAuthenticated;
 		int _heartbeatInterval;
+
+		// server time = monotonic ms + offset, synced from server_time so device clock changes can't skew it
+		int64_t _serverTimeOffsetMs;
+		bool _isServerTimeSynced;
+		int64_t getServerTimeMs() const;
+		void syncServerTime(const Json::Value& data);
 		int _maxBundleSize;
 		bool _immediateRetryOnError;
 		bool _loggingEnabled;

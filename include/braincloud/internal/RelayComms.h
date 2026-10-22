@@ -98,8 +98,8 @@ namespace BrainCloud
             int netId;
             std::vector<uint8_t> data;
             double resendInterval;
-            std::chrono::time_point<std::chrono::system_clock> lastResendTime;
-            std::chrono::time_point<std::chrono::system_clock> timeSinceFirstSend;
+            std::chrono::time_point<std::chrono::steady_clock> lastResendTime;
+            std::chrono::time_point<std::chrono::steady_clock> timeSinceFirstSend;
 
             static int allocCount;
             Packet() { ++allocCount; }
@@ -181,7 +181,7 @@ namespace BrainCloud
         bool m_isSocketConnected = false;
         bool m_resendConnectRequest = false;
         bool m_endMatchRequested = false;
-        std::chrono::time_point<std::chrono::system_clock> m_lastConnectResendTime;
+        std::chrono::time_point<std::chrono::steady_clock> m_lastConnectResendTime;
         bool m_isConnected = false;
 
         // Events
@@ -194,8 +194,8 @@ namespace BrainCloud
         // Ping
         int m_ping = 999;
         std::chrono::seconds m_pingInterval;
-        std::chrono::time_point<std::chrono::system_clock> m_lastPingTime;
-        std::chrono::time_point<std::chrono::system_clock> m_lastRecvTime; // For UDP timeout
+        std::chrono::time_point<std::chrono::steady_clock> m_lastPingTime;
+        std::chrono::time_point<std::chrono::steady_clock> m_lastRecvTime; // For UDP timeout
 
         // Profile/Cx/Net IDs
         int m_netId = -1;
