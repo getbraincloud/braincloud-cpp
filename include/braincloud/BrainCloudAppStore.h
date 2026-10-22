@@ -158,6 +158,30 @@ namespace BrainCloud
         */
         void cachePurchasePayloadContext(const std::string& storeId, const std::string& iapId, const std::string& payload, IServerCallback* callback = NULL);
 
+        /**
+        * Returns the store's client-side configuration for the given store.
+        *
+        * Service Name - appStore
+        * Service Operation - GET_STORE_INFO
+        *
+        * @param storeId The store to query. Currently only returns info for "xsolla", all other storeIds will return empty data.
+        * @param callback The method to be invoked when the server response is received
+        */
+        void getStoreInfo(const std::string& storeId, IServerCallback* callback = NULL);
+
+        /**
+        * Returns a store user token (JWT) for the current user, generated server-side.
+        * Currently only Xsolla is supported. The userToken is null if the required
+        * Xsolla integration settings are missing or the Xsolla call fails.
+        *
+        * Service Name - appStore
+        * Service Operation - GET_USER_TOKEN
+        *
+        * @param storeId The store to get the token. Currently only returns info for "xsolla", all other storeIds will return empty data.
+        * @param callback The method to be invoked when the server response is received
+        */
+        void getUserToken(const std::string& storeId, IServerCallback* callback = NULL);
+
     private:
         BrainCloudClient * m_client;
     };

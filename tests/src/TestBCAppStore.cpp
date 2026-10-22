@@ -62,3 +62,17 @@ TEST_F(TestBCAppStore, cachePurchasePayloadContext)
     m_bc->getAppStoreService()->cachePurchasePayloadContext("_invalid_store_id_", "_invalid_transaction_id_", "{}", &tr);
     tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_STORE_ID);
 }
+
+TEST_F(TestBCAppStore, GetStoreInfo)
+{
+    TestResult tr;
+    m_bc->getAppStoreService()->getStoreInfo("_invalid_store_id_", &tr);
+    tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_STORE_ID);
+}
+
+TEST_F(TestBCAppStore, GetUserToken)
+{
+    TestResult tr;
+    m_bc->getAppStoreService()->getUserToken("_invalid_store_id_", &tr);
+    tr.runExpectFail(m_bc, HTTP_BAD_REQUEST, INVALID_STORE_ID);
+}
