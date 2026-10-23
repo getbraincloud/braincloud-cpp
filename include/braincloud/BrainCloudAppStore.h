@@ -34,6 +34,9 @@ namespace BrainCloud
         * - windows
         * - windowsPhone
         * - googlePlay
+        * - metaHorizon
+        * - epicGames
+        * - xsolla
         * @param receiptData the specific store data required
         * @param callback The method to be invoked when the server response is received
         */
@@ -64,6 +67,9 @@ namespace BrainCloud
         * - windows
         * - windowsPhone
         * - googlePlay
+        * - metaHorizon
+        * - epicGames
+        * - xsolla
         * @param userCurrency The currency type to retrieve the sales inventory for.
         * @param callback The method to be invoked when the server response is received
         */
@@ -84,6 +90,9 @@ namespace BrainCloud
         * - windows
         * - windowsPhone
         * - googlePlay
+        * - metaHorizon
+        * - epicGames
+        * - xsolla
         * @param userCurrency The currency type to retrieve the sales inventory for.
         * @param category The product category
         * @param callback The method to be invoked when the server response is received
@@ -96,14 +105,7 @@ namespace BrainCloud
         * Service Name - appStore
         * Service Operation - START_PURCHASE
         *
-        * @param storeId The store platform. Valid stores are:
-        * - itunes
-        * - facebook
-        * - appworld
-        * - steam
-        * - windows
-        * - windowsPhone
-        * - googlePlay
+        * @param storeId The store id. Currently only accepts "steam".
         * @param purchaseData specific data for purchasing 2 staged purchases
         * @param callback The method to be invoked when the server response is received
         */
@@ -115,14 +117,7 @@ namespace BrainCloud
         * Service Name - appStore
         * Service Operation - FINALIZE_PURCHASE
         *
-        * @param storeId The store platform. Valid stores are:
-        * - itunes
-        * - facebook
-        * - appworld
-        * - steam
-        * - windows
-        * - windowsPhone
-        * - googlePlay
+        * @param storeId The store id. Currently only accepts "steam".
         * @param transactionId the transactionId returned from start Purchase
         * @param transactionData specific data for purchasing 2 staged purchases
         * @param callback The method to be invoked when the server response is received
@@ -154,11 +149,38 @@ namespace BrainCloud
         * - windows
         * - windowsPhone
         * - googlePlay
+        * - metaHorizon
+        * - epicGames
+        * - xsolla
         * @param transactionId the transactionId returned from start Purchase
         * @param transactionData specific data for purchasing 2 staged purchases
         * @param callback The method to be invoked when the server response is received
         */
         void cachePurchasePayloadContext(const std::string& storeId, const std::string& iapId, const std::string& payload, IServerCallback* callback = NULL);
+
+        /**
+        * Returns the store's client-side configuration for the given store.
+        *
+        * Service Name - appStore
+        * Service Operation - GET_STORE_INFO
+        *
+        * @param storeId The store to query. Currently only returns info for "xsolla", all other storeIds will return empty data.
+        * @param callback The method to be invoked when the server response is received
+        */
+        void getStoreInfo(const std::string& storeId, IServerCallback* callback = NULL);
+
+        /**
+        * Returns a store user token (JWT) for the current user, generated server-side.
+        * Currently only Xsolla is supported. The userToken is null if the required
+        * Xsolla integration settings are missing or the Xsolla call fails.
+        *
+        * Service Name - appStore
+        * Service Operation - GET_USER_TOKEN
+        *
+        * @param storeId The store to get the token. Currently only returns info for "xsolla", all other storeIds will return empty data.
+        * @param callback The method to be invoked when the server response is received
+        */
+        void getUserToken(const std::string& storeId, IServerCallback* callback = NULL);
 
     private:
         BrainCloudClient * m_client;

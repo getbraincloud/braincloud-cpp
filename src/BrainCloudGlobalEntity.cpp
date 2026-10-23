@@ -24,7 +24,9 @@ namespace BrainCloud
 		message[OperationParam::GlobalEntityServiceEntityType.getValue()] = entityType;
 		message[OperationParam::GlobalEntityServiceTimeToLive.getValue()] = (Json::Int64) timeToLive;
 		message[OperationParam::GlobalEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 
 		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::Create, message, callback);
 		m_client->sendRequest(sc);
@@ -38,7 +40,9 @@ namespace BrainCloud
 		message[OperationParam::GlobalEntityServiceIndexedId.getValue()] = indexedId;
 		message[OperationParam::GlobalEntityServiceTimeToLive.getValue()] = (Json::Int64) timeToLive;
 		message[OperationParam::GlobalEntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 
 		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::CreateWithIndexedId, message, callback);
 		m_client->sendRequest(sc);
@@ -60,7 +64,9 @@ namespace BrainCloud
 		Json::Value message;
 		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
 		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) version;
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 
 		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateAcl, message, callback);
 		m_client->sendRequest(sc);
@@ -204,7 +210,9 @@ namespace BrainCloud
 		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
 		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) version;
 		message[OperationParam::OwnerId.getValue()] = ownerId;
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 
 		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::UpdateEntityOwnerAndAcl, message, callback);
 		m_client->sendRequest(sc);
@@ -215,7 +223,9 @@ namespace BrainCloud
 		Json::Value message;
 		message[OperationParam::GlobalEntityServiceEntityId.getValue()] = entityId;
 		message[OperationParam::GlobalEntityServiceVersion.getValue()] = (Json::Int64) version;
-		message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::GlobalEntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 
 		ServerCall * sc = new ServerCall(ServiceName::GlobalEntity, ServiceOperation::MakeSystemEntity, message, callback);
 		m_client->sendRequest(sc);

@@ -111,7 +111,7 @@ namespace BrainCloud
                 //TODO: Move this into the request. Like we did in IXMLHttpRequestLoader which has a timeout in a thread
                 // iwhttp doesn't have a timeout mechanism so we have to monitor ourselves
                 // and cancel the request if it goes over the retry timeout
-                int64_t currentTimeMillis = TimeUtil::getCurrentTimeMillis();
+                int64_t currentTimeMillis = TimeUtil::getMonotonicTimeMillis();
                 int64_t retryTimeout = (int64_t)(getRetryTimeoutMillis(_retryCount));
                 if (currentTimeMillis >= _packetSendTimeMillis + retryTimeout)
                 {
@@ -128,7 +128,7 @@ namespace BrainCloud
         }
 		else
 		{
-			int64_t currentTimeMillis = TimeUtil::getCurrentTimeMillis();
+			int64_t currentTimeMillis = TimeUtil::getMonotonicTimeMillis();
 
             _queueMutex.lock();
 			bool queueHasMessages = _queue.size() > 0;
@@ -840,7 +840,7 @@ namespace BrainCloud
 		{
 			// We haven't reached the maximum number of retries yet.  Try again.
 
-			int64_t currentTime = TimeUtil::getCurrentTimeMillis();
+			int64_t currentTime = TimeUtil::getMonotonicTimeMillis();
 			int64_t delta = currentTime - _packetSendTimeMillis;
 			int64_t sleepTime = (int64_t)(getRetryTimeoutMillis(_retryCount));
 
@@ -1188,7 +1188,7 @@ namespace BrainCloud
             _loader->load(_request);
         }
 
-		_packetSendTimeMillis = TimeUtil::getCurrentTimeMillis();
+		_packetSendTimeMillis = TimeUtil::getMonotonicTimeMillis();
 		_retryTimeMillis = RETRY_TIME_NOT_RETRYING;
 	}
 
