@@ -156,6 +156,8 @@ namespace BrainCloud
 	const ServiceOperation ServiceOperation::ConsumeVC = ServiceOperation("CONSUME_VC");
 	const ServiceOperation ServiceOperation::GetPlayerVC = ServiceOperation("GET_PLAYER_VC");
 	const ServiceOperation ServiceOperation::ResetPlayerVC = ServiceOperation("RESET_PLAYER_VC");
+	const ServiceOperation ServiceOperation::GetStoreInfo = ServiceOperation("GET_STORE_INFO");
+	const ServiceOperation ServiceOperation::GetUserToken = ServiceOperation("GET_USER_TOKEN");
 
 	const ServiceOperation ServiceOperation::AwardParentVC = ServiceOperation("AWARD_PARENT_VC");
 	const ServiceOperation ServiceOperation::ConsumeParentVC = ServiceOperation("CONSUME_PARENT_VC");
