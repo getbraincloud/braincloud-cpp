@@ -58,7 +58,7 @@ Pod::Spec.new do |s|
 
   s.libraries               = 'c++', 'z'
   s.osx.framework           = 'LDAP'
-  s.dependency                'BrainCloudJsonCpp', '~>6.0.1'
+  s.dependency                'BrainCloudJsonCpp', '~>6.1.0'
   s.ios.dependency            'SocketRocket', '~> 0.5'
   s.osx.dependency            'SocketRocket', '~> 0.5'
   s.tvos.dependency           'SocketRocket', '~> 0.5'
