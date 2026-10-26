@@ -195,17 +195,30 @@ namespace BrainCloud
 		void authenticateSteam(const char * userId, const char * sessionticket, bool forceCreate, IServerCallback * callback = NULL);
 
 		/**
-		* Authenticate the user using a google userid(email address) and google authentication token.
+		* Authenticate the user using their Apple account and identityToken.
 		*
 		* Service Name - authenticationV2
 		* Service Operation - AUTHENTICATE
 		*
 		* @param appleUserId String of the apple accounts user Id OR email
-		* @param identityToken The authentication token confirming users identity
+		* @param identityToken The identityToken confirming users identity
 		* @param forceCreate Should a new profile be created for this user if the account does not exist?
 		* @param callback The method to be invoked when the server response is received
 		*/
 		void authenticateApple(const char * appleUserId, const char * identityToken, bool forceCreate, IServerCallback * callback = NULL);
+
+		/**
+		* Authenticate the user using an epicAccountId and their authIdToken.
+		*
+		* Service Name - authenticationV2
+		* Service Operation - AUTHENTICATE
+		*
+		* @param epicAccountId LocalUserId retrieved from the EOS AuthInterface's Login method.
+		* @param authIdToken IdToken string from the EOS AuthInterface's CopyIdToken method.
+		* @param forceCreate Should a new profile be created for this user if the account does not exist?
+		* @param callback The method to be invoked when the server response is received
+		*/
+		void authenticateEpicGames(const char * epicAccountId, const char * authIdToken, bool forceCreate, IServerCallback * callback = NULL);
 
 		/**
 		* Authenticate the user using a google userid(email address) and google authentication token.

@@ -148,6 +148,11 @@ namespace BrainCloud {
         authenticate(appleUserId, identityToken, AuthenticationType::Apple, NULL, forceCreate, "", callback);
     }
 
+    void BrainCloudAuthentication::authenticateEpicGames(const char * epicAccountId, const char * authIdToken, bool forceCreate, IServerCallback * callback)
+    {
+        authenticate(epicAccountId, authIdToken, AuthenticationType::EpicGames, NULL, forceCreate, "", callback);
+    }
+
     void BrainCloudAuthentication::authenticateGoogle(const char * googleUserId, const char * serverAuthToken, bool forceCreate, IServerCallback * callback)
     {
         authenticate(googleUserId, serverAuthToken, AuthenticationType::Google, NULL, forceCreate, "", callback);

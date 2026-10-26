@@ -176,7 +176,7 @@ namespace BrainCloud
         case eRelayConnectionType::UDP:
         {
             m_pSocket = IRelayUDPSocket::create(host, port, MAX_PACKET_SIZE);
-            m_lastRecvTime = std::chrono::system_clock::now();
+            m_lastRecvTime = std::chrono::steady_clock::now();
             break;
         }
 #if (!defined(TARGET_OS_WATCH) || TARGET_OS_WATCH == 0)
@@ -420,7 +420,7 @@ namespace BrainCloud
         if (reliable)
         {
             pPacket->id = packetId;
-            pPacket->lastResendTime = std::chrono::system_clock::now();
+            pPacket->lastResendTime = std::chrono::steady_clock::now();
             pPacket->timeSinceFirstSend = pPacket->lastResendTime;
             pPacket->resendInterval = RELIABLE_RESEND_INTERVALS[(int)channel];
             uint64_t ackId = *(uint64_t *)(pPacket->data.data() + 3);
@@ -443,7 +443,7 @@ namespace BrainCloud
 
     void RelayComms::sendPing()
     {
-        m_lastPingTime = std::chrono::system_clock::now();
+        m_lastPingTime = std::chrono::steady_clock::now();
 
         uint8_t data[5];
         *(uint16_t *)(data) = (uint16_t)htons((u_short)5);
@@ -486,7 +486,7 @@ namespace BrainCloud
 
     void RelayComms::onRecv(const uint8_t *data, int size)
     {
-        m_lastRecvTime = std::chrono::system_clock::now();
+        m_lastRecvTime = std::chrono::steady_clock::now();
 
         if (size < 3)
         {
@@ -638,7 +638,7 @@ namespace BrainCloud
                 m_netId = netId;
                 m_ownerCxId = json["ownerCxId"].asString();
                 m_ownerProfileId = extractProfileIdFromCxId(m_ownerCxId);
-                m_lastPingTime = std::chrono::system_clock::now();
+                m_lastPingTime = std::chrono::steady_clock::now();
                 m_isConnected = true;
                 m_resendConnectRequest = false;
                 queueConnectSuccessEvent(jsonString);
@@ -700,7 +700,7 @@ namespace BrainCloud
 
     void RelayComms::onPONG()
     {
-        m_ping = (int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - m_lastPingTime).count();
+        m_ping = (int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - m_lastPingTime).count();
         if (m_ping > 999)
             m_ping = 999;
 #if VERBOSE_LOG
@@ -916,7 +916,7 @@ namespace BrainCloud
 
     void RelayComms::runCallbacks()
     {
-        auto now = std::chrono::system_clock::now();
+        auto now = std::chrono::steady_clock::now();
 
         // Update socket
         if (m_pSocket)
@@ -970,7 +970,7 @@ namespace BrainCloud
                     for (auto it = m_reliables.begin(); it != m_reliables.end(); ++it)
                     {
                         auto pPacket = it->second;
-                        if (pPacket->timeSinceFirstSend - now > std::chrono::seconds(10))
+                        if (now - pPacket->timeSinceFirstSend > std::chrono::seconds(10))
                         {
                             socketCleanup();
                             queueErrorEvent("Relay disconnected, too many packet lost");

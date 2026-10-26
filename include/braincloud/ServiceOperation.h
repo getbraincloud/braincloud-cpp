@@ -536,6 +536,8 @@ namespace BrainCloud
 		static const ServiceOperation AppStoreStartPurchase;
 		static const ServiceOperation AppStoreFinalizePurchase;
 		static const ServiceOperation AppStoreRefreshPromotions;
+		static const ServiceOperation GetStoreInfo;
+		static const ServiceOperation GetUserToken;
 
 		// Blockchain
 		static const ServiceOperation GetBlockchainItems;

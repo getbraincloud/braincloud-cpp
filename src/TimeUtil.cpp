@@ -75,6 +75,7 @@ int gettimeofday(struct timeval *tv, char* NULLPTR)
 }
 
 #include "braincloud/internal/TimeUtil.h"
+#include <chrono>
 
 
 namespace BrainCloud
@@ -91,6 +92,11 @@ namespace BrainCloud
         return timeMillis;
     }
 
+
+    int64_t TimeUtil::getMonotonicTimeMillis()
+    {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+    }
 
     void TimeUtil::sleepMillis(int millis)
     {

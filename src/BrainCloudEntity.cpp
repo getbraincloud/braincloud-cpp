@@ -22,7 +22,9 @@ namespace BrainCloud
 		Json::Value message;
 		message[OperationParam::EntityServiceEntityType.getValue()] = entityType;
 		message[OperationParam::EntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
-		message[OperationParam::EntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::EntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 
 		ServerCall * sc = new ServerCall(ServiceName::Entity, ServiceOperation::Create, message, callback);
 		m_client->sendRequest(sc);
@@ -61,7 +63,9 @@ namespace BrainCloud
 		message[OperationParam::EntityServiceEntityId.getValue()] = entityId;
 		message[OperationParam::EntityServiceEntityType.getValue()] = entityType;
 		message[OperationParam::EntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
-		message[OperationParam::EntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::EntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 		message[OperationParam::EntityServiceVersion.getValue()] = (Json::Int64) version;
 
 		ServerCall * sc = new ServerCall(ServiceName::Entity, ServiceOperation::Update, message, callback);
@@ -73,7 +77,9 @@ namespace BrainCloud
 		Json::Value message;
 		message[OperationParam::EntityServiceEntityType.getValue()] = entityType;
 		message[OperationParam::EntityServiceData.getValue()] = JsonUtil::jsonStringToValue(jsonEntityData);
-		message[OperationParam::EntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		if (StringUtil::IsOptionalParameterValid(jsonEntityAcl)) {
+			message[OperationParam::EntityServiceAcl.getValue()] = JsonUtil::jsonStringToValue(jsonEntityAcl);
+		}
 		message[OperationParam::EntityServiceVersion.getValue()] = (Json::Int64) version;
 
 		ServerCall * sc = new ServerCall(ServiceName::Entity, ServiceOperation::UpdateSingleton, message, callback);

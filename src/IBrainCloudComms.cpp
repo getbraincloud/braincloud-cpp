@@ -2,6 +2,7 @@
 
 #include "braincloud/internal/IBrainCloudComms.h"
 #include "braincloud/BrainCloudClient.h"
+#include "braincloud/internal/TimeUtil.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -29,6 +30,8 @@ namespace BrainCloud {
 		, _isInitialized(false)
 		, _isAuthenticated(false)
 		, _heartbeatInterval(0)
+		, _serverTimeOffsetMs(TimeUtil::getCurrentTimeMillis() - TimeUtil::getMonotonicTimeMillis())
+		, _isServerTimeSynced(false)
 		, _immediateRetryOnError(false)
 		, _loggingEnabled(false)
 		, _authenticationTimeoutMillis(DEFAULT_AUTHENTICATION_TIMEOUT_MILLIS)
@@ -233,6 +236,21 @@ namespace BrainCloud {
         }
 	}
 
+	int64_t IBrainCloudComms::getServerTimeMs() const
+	{
+		return TimeUtil::getMonotonicTimeMillis() + _serverTimeOffsetMs;
+	}
+
+	void IBrainCloudComms::syncServerTime(const Json::Value& data)
+	{
+		const Json::Value& serverTime = data["server_time"];
+		if (serverTime.isNumeric() && serverTime.asInt64() > 0)
+		{
+			_serverTimeOffsetMs = serverTime.asInt64() - TimeUtil::getMonotonicTimeMillis();
+			_isServerTimeSynced = true;
+		}
+	}
+
 	void IBrainCloudComms::filterIncomingMessages(const ServerCall* servercall, const Json::Value& response)
 	{
 		//This is a hook to perform processing on any messages that come in, before they are sent to the calling application.
@@ -274,7 +292,15 @@ namespace BrainCloud {
 				{
 					_killSwitchThreshold = response["data"]["maxKillCount"].asInt();
 				}
+
+				syncServerTime(response["data"]);
 			}
+		}
+		else if (servercall->getService() == ServiceName::Time &&
+			servercall->getOperation() == ServiceOperation::Read &&
+			response["data"] != Json::nullValue)
+		{
+			syncServerTime(response["data"]);
 		}
 		else if (servercall->getService() == ServiceName::PlayerState
 			&& (servercall->getOperation() == ServiceOperation::FullReset
