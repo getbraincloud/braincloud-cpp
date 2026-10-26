@@ -338,3 +338,54 @@ These are included as submodules so can be retrieved using
 However should not be updated or pulled to another version since the initialized version is known to build and run stable. 
 
 JsonCpp has recently been made a submodule (as of brainCloud 4.15) so if pulling or changing branches the existing folder lib/jsoncpp-1.0.0/ should be deleted or there will be git errors.
+
+### Asynchronous App Check token provider
+
+Register `setAppCheckTokenProvider` on the authentication service to obtain a current
+opaque token for every authentication, including retries and automatic reconnects.
+The provider takes precedence over `setAppCheckToken`; removing it restores the
+stored-token behavior. Neither SDK depends on Firebase.
+
+The provider is invoked on the authentication thread and may complete on any thread.
+Keep calling `runCallbacks` (REST or ALL): it processes results and a 30-second timeout.
+An error or empty token fails authentication locally with status 400 and reason 90300
+(`CLIENT_APP_CHECK_TOKEN_ERROR`), without sending the request or using the stored token.
+Only the first completion is accepted. Resetting communication or destroying the client
+silently discards pending requests; late completions are ignored. Configure providers
+on the SDK thread and avoid strong ownership cycles. Provider replacement affects new
+requests; requests already waiting retain their original provider.
+
+```cpp
+client.getAuthenticationService()->setAppCheckTokenProvider(
+    [](BrainCloud::BrainCloudAuthentication::AppCheckTokenCompletion completion) {
+        // Fetch asynchronously through your app's token service, then:
+        // completion(token, ""); on success, or completion("", errorMessage).
+    });
+// Restore the manually supplied token:
+client.getAuthenticationService()->setAppCheckTokenProvider(nullptr);
+```
+
+////
+Use `setAppCheckTokenProvider` to fetch a fresh token for each authentication attempt,
+including retries and reconnects. It overrides `setAppCheckToken` until removed.
+Firebase is not required.
+The provider runs on the authentication thread and can complete on any thread.
+Keep calling runCallbacks (`REST` or `ALL`) to process results and the 30-second timeout.
+Errors, empty tokens, and timeouts fail locally with 
+(`ReasonCodes.CLIENT_APP_CHECK_TOKEN_ERROR`); the stored token is never used as a fallback.
+
+```cpp
+client.getAuthenticationService()->setAppCheckTokenProvider(
+    [](BrainCloud::BrainCloudAuthentication::AppCheckTokenCompletion completion) {
+        // Fetch a token asynchronously, then call:
+        // completion(token, "");        // success
+        // completion("", errorMessage); // failure
+    });
+
+// Switch back to the manually supplied token:
+client.getAuthenticationService()->setAppCheckTokenProvider(nullptr);
+```
+
+Configure providers on the SDK thread and avoid strong ownership cycles.
+Changes apply to new requests. Only the first completion counts; completions
+after a reset or client destruction are ignored.
