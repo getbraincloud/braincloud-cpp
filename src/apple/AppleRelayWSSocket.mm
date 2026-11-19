@@ -21,8 +21,17 @@
 {
     _callback = callback;
 
-    NSString* scheme = useSSL ? @"wss" : @"ws";
-    NSString* url = [NSString stringWithFormat:@"%@://%s:%i/", scheme, address.c_str(), port];
+    NSString* url;
+    if (address.find("://") != std::string::npos)
+    {
+        // A full URL (secureUrl) is used as given; port is ignored.
+        url = [NSString stringWithUTF8String:address.c_str()];
+    }
+    else
+    {
+        NSString* scheme = useSSL ? @"wss" : @"ws";
+        url = [NSString stringWithFormat:@"%@://%s:%i/", scheme, address.c_str(), port];
+    }
 
     _webSocket = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:url]];
     _webSocket.delegate = self;

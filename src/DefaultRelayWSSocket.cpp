@@ -3,6 +3,7 @@
 
 #include "braincloud/internal/DefaultRelayWSSocket.h"
 
+#include <cstring>
 #include <iostream>
 
 #define RELAY_WS_MAX_PAYLOAD (64 * 1024)
@@ -37,7 +38,26 @@ namespace BrainCloud
         , _isConnecting(true)
         , _pLwsContext(NULL)
         , _pLws(NULL)
+        , _host(address)
+        , _path("/")
     {
+        // A full URL (secureUrl) is used as given; port is ignored.
+        if (address.find("://") != std::string::npos)
+        {
+            std::vector<char> buf(address.begin(), address.end());
+            buf.push_back('\0');
+            const char *prot, *host, *path;
+            if (lws_parse_uri(buf.data(), &prot, &host, &port, &path))
+            {
+                std::cout << "Relay WS: Invalid url " << address << std::endl;
+                _isConnecting = false;
+                return;
+            }
+            useSSL = strcmp(prot, "wss") == 0;
+            _host = host;
+            _path = std::string("/") + path; // lws strips the leading '/'
+        }
+
         // Create lws context
         {
             struct lws_context_creation_info info;
@@ -71,7 +91,7 @@ namespace BrainCloud
             memset(&connectInfo, 0, sizeof(connectInfo));
 
             connectInfo.context = _pLwsContext;
-            connectInfo.address = address.c_str();
+            connectInfo.address = _host.c_str();
             connectInfo.port = port;
             if (useSSL)
             {
@@ -86,9 +106,9 @@ namespace BrainCloud
             {
                 connectInfo.ssl_connection = 0;
             }
-            connectInfo.path = "/";
-            connectInfo.host = address.c_str();
-            connectInfo.origin = address.c_str();
+            connectInfo.path = _path.c_str();
+            connectInfo.host = _host.c_str();
+            connectInfo.origin = _host.c_str();
             connectInfo.protocol = relayWsProtocols[0].name;
             connectInfo.ietf_version_or_minus_one = -1;
             connectInfo.userdata = this;

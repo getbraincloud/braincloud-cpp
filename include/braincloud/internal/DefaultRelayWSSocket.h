@@ -63,6 +63,10 @@ namespace BrainCloud
         // libwebsockets
         struct lws_context* _pLwsContext;
         struct lws* _pLws;
+
+        // Kept alive for lws, which holds these pointers during the handshake
+        std::string _host;
+        std::string _path;
     };
 };
 

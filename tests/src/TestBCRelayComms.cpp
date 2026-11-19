@@ -135,7 +135,10 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
     {
         TestResult tr;
         vector<std::string> otherUserCxIds;
-        bc->getLobbyService()->findOrCreateLobby(gameLift ? "READY_START_V2_GAMELIFT" : "READY_START_V2", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
+        bc->getLobbyService()->findOrCreateLobby(gameLift ? "READY_START_V2_GAMELIFT" : "testingNewRegions", 
+                0, 1, 
+                "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", 
+                "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
         tr.run(bc);
     }
 
@@ -224,6 +227,10 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
                 case eRelayConnectionType::TCP: port = connectionInfo["connectData"]["ports"]["tcp"].asInt(); break;
                 case eRelayConnectionType::UDP: port = connectionInfo["connectData"]["ports"]["udp"].asInt(); break;
                 case eRelayConnectionType::WSS:
+                    // wss uses the server-provided URL as-is; no port
+                    host = connectionInfo["connectData"]["secureUrl"].asString();
+                    EXPECT_FALSE(host.empty()) << "connectData has no secureUrl";
+                    break;
                 case eRelayConnectionType::WS: port = connectionInfo["connectData"]["ports"]["ws"].asInt(); break;
             }
         }
@@ -322,7 +329,7 @@ TEST_F(TestBCRelayComms, GameliftEnd)
 //    relayFullFlow(m_bc, eRelayConnectionType::WS);
 //}
 
-//TEST_F(TestBCRelayComms, FullFlowWSS)
-//{
-//    relayFullFlow(m_bc, eRelayConnectionType::WSS);
-//}
+TEST_F(TestBCRelayComms, FullFlowWSS)
+{
+    relayFullFlow(m_bc, eRelayConnectionType::WSS);
+}
