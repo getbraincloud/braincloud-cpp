@@ -182,6 +182,7 @@ namespace BrainCloud
         bool m_isSocketConnected = false;
         bool m_resendConnectRequest = false;
         bool m_endMatchRequested = false;
+        bool m_disconnectRequested = false;
         std::chrono::time_point<std::chrono::steady_clock> m_lastConnectResendTime;
         bool m_isConnected = false;
 

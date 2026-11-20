@@ -91,3 +91,6 @@ gen/
 cmake-**/
 
 *vcpkg_installed/*
+# Restored from data/ by bccm test (test_cpp_<env>.cfg, test_cpp_tuning.cpp)
+tests/braincloud.cfg
+tests/braincloud_tuning.cpp

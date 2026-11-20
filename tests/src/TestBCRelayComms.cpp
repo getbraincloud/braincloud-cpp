@@ -100,9 +100,24 @@ private:
     function<void(int netId, const uint8_t* bytes, int size)> callback;
 };
 
+// Callbacks are stack objects; deregister them so a later test never hits a dangling pointer.
+struct RelayCallbackGuard
+{
+    BrainCloudClient* bc;
+    ~RelayCallbackGuard()
+    {
+        bc->getRTTService()->deregisterRTTLobbyCallback();
+        bc->getRelayService()->deregisterRelayCallback();
+        bc->getRelayService()->deregisterSystemCallback();
+    }
+};
+
 static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionType, bool endMatch = false, bool gameLift = false)
 {
-    bool isRoomReady = false;
+    RelayCallbackGuard guard{ bc };
+    bool isDisbanded = false;
+    int disbandCode = 0;
+    std::string disbandDesc;
     Json::Value connectionInfo;
 
     // Enable RTT
@@ -112,20 +127,18 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         tr.run(bc);
     }
 
-    // Register lobby callback
-    LobbyCallback lobbyCallback([&isRoomReady, &connectionInfo](const Json::Value& eventJson)
+    // Asserts inside the callback would only return from the lambda, so record and check after.
+    LobbyCallback lobbyCallback([&](const Json::Value& eventJson)
     {
-        ASSERT_TRUE(eventJson["operation"].isString());
         auto op = eventJson["operation"].asString();
         if (op == "DISBANDED")
         {
-            ASSERT_TRUE(eventJson["data"]["reason"]["code"].isInt());
-            ASSERT_TRUE(eventJson["data"]["reason"]["code"].asInt() == RTT_ROOM_READY);
-            isRoomReady = true;
+            disbandCode = eventJson["data"]["reason"]["code"].asInt();
+            disbandDesc = eventJson["data"]["reason"]["desc"].asString();
+            isDisbanded = true;
         }
         else if (op == "ROOM_READY")
         {
-            ASSERT_TRUE(eventJson["data"].isObject());
             connectionInfo = eventJson["data"];
         }
     });
@@ -135,21 +148,25 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
     {
         TestResult tr;
         vector<std::string> otherUserCxIds;
-        bc->getLobbyService()->findOrCreateLobby(gameLift ? "READY_START_V2_GAMELIFT" : "READY_START_V2", 0, 1, "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}", "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
-        tr.run(bc);
+        bc->getLobbyService()->findOrCreateLobby(gameLift ? "READY_START_V2_GAMELIFT" : "READY_START_V2",
+                0, 1,
+                "{\"strategy\":\"ranged-absolute\",\"alignment\":\"center\",\"ranges\":[1000]}",
+                "{}", otherUserCxIds, "{}", true, "{}", "all", &tr);
+        ASSERT_TRUE(tr.run(bc)) << "findOrCreateLobby failed";
     }
 
-    // Wait for lobby to start, or timeout 2mins
+    // Wait for the lobby to disband (room ready or failed). Server gives up on a room after ~3min.
     {
         auto timeStart = steady_clock::now();
-        while (!isRoomReady)
+        while (!isDisbanded)
         {
             bc->runCallbacks();
             this_thread::sleep_for(milliseconds(100));
-            ASSERT_TRUE(steady_clock::now() < timeStart + minutes(10));
+            ASSERT_TRUE(steady_clock::now() < timeStart + minutes(5)) << "Timed out waiting for the room";
         }
         auto time = steady_clock::now() - timeStart;
         printf("\nTook: %i:%.02i\n", (int)duration_cast<minutes>(time).count(), (int)duration_cast<seconds>(time).count() % 60);
+        ASSERT_EQ(RTT_ROOM_READY, disbandCode) << "Lobby disbanded: " << disbandDesc;
     }
 
     if (gameLift)
@@ -157,6 +174,7 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         // We only support WS for our gamelift server, we just test that they launched successfully.
         return;
     }
+    ASSERT_TRUE(connectionInfo.isObject()) << "No ROOM_READY received";
     bc->getRelayComms()->enableLogging(true);
     // Register relay callback
     bool relayFailed = false;
@@ -224,6 +242,10 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
                 case eRelayConnectionType::TCP: port = connectionInfo["connectData"]["ports"]["tcp"].asInt(); break;
                 case eRelayConnectionType::UDP: port = connectionInfo["connectData"]["ports"]["udp"].asInt(); break;
                 case eRelayConnectionType::WSS:
+                    // wss uses the server-provided URL as-is; no port
+                    host = connectionInfo["connectData"]["secureUrl"].asString();
+                    EXPECT_FALSE(host.empty()) << "connectData has no secureUrl";
+                    break;
                 case eRelayConnectionType::WS: port = connectionInfo["connectData"]["ports"]["ws"].asInt(); break;
             }
         }
@@ -276,12 +298,12 @@ static void relayFullFlow(BrainCloudClient* bc, eRelayConnectionType connectionT
         bc->getRelayService()->disconnect();
 
         auto timeStart = steady_clock::now();
-        while (steady_clock::now() < timeStart + seconds(30) && !relayFailed)
+        while (steady_clock::now() < timeStart + seconds(30) && bc->getRelayService()->isConnected())
         {
             bc->runCallbacks();
             this_thread::sleep_for(milliseconds(100));
         }
-        
+
         ASSERT_TRUE(!bc->getRelayService()->isConnected());
     }
 }
@@ -317,12 +339,12 @@ TEST_F(TestBCRelayComms, GameliftEnd)
     relayFullFlow(m_bc, eRelayConnectionType::WS, true, true);
 }
 
-//TEST_F(TestBCRelayComms, FullFlowWS)
-//{
-//    relayFullFlow(m_bc, eRelayConnectionType::WS);
-//}
+TEST_F(TestBCRelayComms, FullFlowWS)
+{
+    relayFullFlow(m_bc, eRelayConnectionType::WS);
+}
 
-//TEST_F(TestBCRelayComms, FullFlowWSS)
-//{
-//    relayFullFlow(m_bc, eRelayConnectionType::WSS);
-//}
+TEST_F(TestBCRelayComms, FullFlowWSS)
+{
+    relayFullFlow(m_bc, eRelayConnectionType::WSS);
+}

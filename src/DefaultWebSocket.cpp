@@ -175,15 +175,20 @@ namespace BrainCloud
             // Start update thread
             _updateThread = std::thread([this]()
                 {
-                    _mutex.lock();
-                    while (_isConnecting || _isValid)
+                    // Only ask for writable when there's data; asking every pass keeps lws_service from sleeping.
+                    // send() wakes the thread with lws_cancel_service. The timeout only matters for lws v3.0.
+                    while (true)
                     {
-                        _mutex.unlock();
-                        lws_service(_pLwsContext, 0);
-                        lws_callback_on_writable_all_protocol(_pLwsContext, &protocols[0]);
-                        _mutex.lock();
+                        bool wantWrite;
+                        {
+                            std::unique_lock<std::mutex> lock(_mutex);
+                            if (!_isConnecting && !_isValid) break;
+                            wantWrite = !_sendQueue.empty() && _pLws;
+                        }
+                        if (wantWrite)
+                            lws_callback_on_writable_all_protocol(_pLwsContext, &protocols[0]);
+                        lws_service(_pLwsContext, 50);
                     }
-                    _mutex.unlock();
                 });
         }
     }
@@ -334,6 +339,8 @@ namespace BrainCloud
     {
         std::unique_lock<std::mutex> lock(_mutex);
         _sendQueue.push(message);
+        if (_pLwsContext && (_isValid || _isConnecting))
+            lws_cancel_service(_pLwsContext); // wake the service thread to write
     }
 
     void DefaultWebSocket::processSendQueue()
@@ -386,6 +393,12 @@ namespace BrainCloud
             _isValid = false;
             _isConnecting = false;
             _connectionCondition.notify_all();
+        }
+
+        // Unblock lws_service() so the update thread can exit
+        if (_pLwsContext)
+        {
+            lws_cancel_service(_pLwsContext);
         }
 
         // Stop and clean recving
