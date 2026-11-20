@@ -148,6 +148,7 @@ namespace BrainCloud
         m_connectOptions.lobbyId = lobbyId;
         m_pRelayConnectCallback = callback;
         m_endMatchRequested = false;
+        m_disconnectRequested = false;
         m_ping = 999;
         m_netId = -1;
         m_ownerProfileId.clear();
@@ -213,6 +214,8 @@ namespace BrainCloud
         if (!m_isSocketConnected)
             return;
 
+        // The server closes the socket in response; don't report that as a failure
+        m_disconnectRequested = true;
         send(CL2RS_DISCONNECT, std::string(""));
     }
 
@@ -1042,7 +1045,7 @@ namespace BrainCloud
                     }
                     break;
                 case EventType::ConnectFailure:
-                    if (m_pRelayConnectCallback && !m_endMatchRequested)
+                    if (m_pRelayConnectCallback && !m_endMatchRequested && !m_disconnectRequested)
                     {
                         if (m_loggingEnabled)
                         {

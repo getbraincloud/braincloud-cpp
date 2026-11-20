@@ -124,15 +124,20 @@ namespace BrainCloud
             // Start background service thread
             _updateThread = std::thread([this]()
             {
-                _mutex.lock();
-                while (_isConnecting || _isValid)
+                // Only ask for writable when there's data; asking every pass keeps lws_service from sleeping.
+                // send() wakes the thread with lws_cancel_service. The timeout only matters for lws v3.0.
+                while (true)
                 {
-                    _mutex.unlock();
-                    lws_service(_pLwsContext, 0);
-                    lws_callback_on_writable_all_protocol(_pLwsContext, &relayWsProtocols[0]);
-                    _mutex.lock();
+                    bool wantWrite;
+                    {
+                        std::unique_lock<std::mutex> lock(_mutex);
+                        if (!_isConnecting && !_isValid) break;
+                        wantWrite = !_sendQueue.empty() && _pLws;
+                    }
+                    if (wantWrite)
+                        lws_callback_on_writable_all_protocol(_pLwsContext, &relayWsProtocols[0]);
+                    lws_service(_pLwsContext, 50);
                 }
-                _mutex.unlock();
             });
         }
     }
@@ -205,6 +210,8 @@ namespace BrainCloud
         std::unique_lock<std::mutex> lock(_mutex);
         if (!_isValid && !_isConnecting) return;
         _sendQueue.push(std::vector<uint8_t>(pData, pData + size));
+        if (_pLwsContext)
+            lws_cancel_service(_pLwsContext); // wake the service thread to write
     }
 
     void DefaultRelayWSSocket::processSendQueue()
