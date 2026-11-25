@@ -9,6 +9,9 @@
 
 #include <string>
 #include <map>
+#include <functional>
+#include <memory>
+#include <vector>
 #include "json/json.h"
 #include "braincloud/BrainCloudTypes.h"
 #include "braincloud/AuthenticationType.h"
@@ -28,6 +31,35 @@ namespace BrainCloud
 
 		// internal use only
 		void setClientLib(const char* lib);
+
+		/**
+		 * Sets the caller-supplied Firebase App Check token for subsequent authenticate requests.
+		 * The token is copied and retained in memory until replaced or cleared with an empty string.
+		 * The host app is responsible for obtaining and refreshing it, including before reconnects.
+		 * Call on the same thread as authentication; already queued requests are not updated.
+		 * No token validation or Firebase integration is performed by this SDK.
+		 * @param token Opaque App Check token, or an empty string to omit it from requests.
+		 */
+		void setAppCheckToken(const std::string& token);
+
+        typedef std::function<void(const std::string& token, const std::string& error)> AppCheckTokenCompletion;
+        typedef std::function<void(AppCheckTokenCompletion)> AppCheckTokenProvider;
+
+        /**
+         * Resolves a token for every authentication, including retries and automatic reconnects.
+         * Takes precedence over the setter; an empty provider restores setter behavior.
+         * Called on the authentication thread. Completion may run on any thread; only its
+         * first result is used. An error or empty token fails authentication without sending.
+         * Results and a 30-second timeout are processed by REST/ALL runCallbacks().
+         * Configure on the SDK thread. Reset/destruction discards pending results without callbacks.
+         * The provider is retained until replaced or the client is destroyed; avoid ownership cycles.
+         * No Firebase dependency is required.
+         */
+        void setAppCheckTokenProvider(AppCheckTokenProvider provider);
+
+        // Internal: called by BrainCloudClient on its callback thread.
+        void runAppCheckCallbacks();
+        void cancelPendingAppCheckRequests();
 
 		/**
 		 * Initialize - initializes the identity service with a saved
@@ -475,6 +507,11 @@ namespace BrainCloud
 		void authenticate(const char * externalId, const char * authenticationToken, AuthenticationType authenticationType, const char * externalAuthName, bool forceCreate, const std::string &extraJson, IServerCallback * callback);
 
 	private:
+		std::string _appCheckToken;
+        struct PendingAppCheck;
+        AppCheckTokenProvider _appCheckTokenProvider;
+        std::vector<std::shared_ptr<PendingAppCheck> > _pendingAppCheck;
+
 		struct PreviousAuthParams
 		{
 			std::string externalId;
