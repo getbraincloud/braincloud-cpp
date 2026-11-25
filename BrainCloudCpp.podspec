@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.name     = "BrainCloudCpp"
 
-  s.version  = "6.1.0"
+  s.version  = "6.1.1"
 
   s.summary  = "The C++ client library for brainCloud."
   s.homepage = "http://getbraincloud.com/"
@@ -58,7 +58,7 @@ Pod::Spec.new do |s|
 
   s.libraries               = 'c++', 'z'
   s.osx.framework           = 'LDAP'
-  s.dependency                'BrainCloudJsonCpp', '~>6.1.0'
+  s.dependency                'BrainCloudJsonCpp', '~>6.1.1'
   s.ios.dependency            'BrainCloudSocketRocket', '0.7.1'
   s.osx.dependency            'BrainCloudSocketRocket', '0.7.1'
   s.tvos.dependency           'BrainCloudSocketRocket', '0.7.1'
