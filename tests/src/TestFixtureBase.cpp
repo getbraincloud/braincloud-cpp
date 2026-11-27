@@ -201,10 +201,10 @@ void TestFixtureBase::LoadIds()
 
 		printf("\nURL - %s", m_serverUrl.c_str());
 		printf("\nApp ID - %s", m_appId.c_str());
-		printf("\nSecret - %s", m_secret.c_str());
+		printf("\nSecret - %s", m_secret.empty() ? "(missing)" : "(set)");
 		printf("\nVersion - %s", m_version.c_str());
 		printf("\nChild App ID - %s", m_childAppId.c_str());
-		printf("\nChild Secret - %s", m_childSecret.c_str());
+		printf("\nChild Secret - %s", m_childSecret.empty() ? "(missing)" : "(set)");
 		printf("\nParent Level Name - %s\n", m_parentLevelName.c_str());
 		printf("\nPeer Name - %s\n", m_peerName.c_str());
 	}
