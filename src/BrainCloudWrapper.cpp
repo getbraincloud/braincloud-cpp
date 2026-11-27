@@ -1,6 +1,8 @@
 // Copyright 2026 bitHeads, Inc. All Rights Reserved.
 #include "braincloud/BrainCloudWrapper.h"
 #include "braincloud/internal/SaveDataHelper.h"
+#include "braincloud/internal/NativeConfigProfile.h"
+#include <iostream>
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/AuthenticationIds.h"
 #include "braincloud/reason_codes.h"
@@ -24,9 +26,8 @@ namespace BrainCloud {
         : client(NULL)
         , m_authenticateCallback(NULL)
         , m_lastUrl("")
-        , m_lastSecretKey("")
         , m_lastGameId("")
-        , m_lastGameVersion("")
+        , m_initializedWithApps(false)
         , m_wrapperName(wrapperName)
         , m_alwaysAllowProfileSwitch(true)
     {
@@ -75,12 +76,10 @@ namespace BrainCloud {
             client = new BrainCloudClient();
         }
 
-        // save the app info in case we need to reauthenticate
+        // save the app info in case we need to reauthenticate; comms keeps the credentials
         m_lastUrl = url;
-        m_lastSecretKey = secretKey;
         m_lastGameId = appId;
-        m_lastGameVersion = version;
-        m_secretMap.clear();
+        m_initializedWithApps = false;
 
         // initialize the client with our app info
         client->initialize(url, secretKey, appId, version);
@@ -100,20 +99,10 @@ namespace BrainCloud {
             client = new BrainCloudClient();
         }
 
-        // Find the default secret key that matches the default app id
-        std::string defaultSecretKey;
-        std::map<std::string, std::string>::const_iterator it = secretMap.find(defaultAppId);
-        if (it != secretMap.end())
-        {
-            defaultSecretKey = it->second;
-        }
-
-        // save the app info in case we need to reauthenticate
+        // save the app info in case we need to reauthenticate; comms keeps the credentials
         m_lastUrl = url;
-        m_lastSecretKey = defaultSecretKey;
         m_lastGameId = defaultAppId;
-        m_lastGameVersion = version;
-        m_secretMap = secretMap;
+        m_initializedWithApps = true;
 
         // initialize the client with our app info
         client->initializeWithApps(url, defaultAppId, secretMap, version);
@@ -124,6 +113,51 @@ namespace BrainCloud {
 
         //initialize brainCloud identity
         initializeIdentity();
+    }
+
+    void BrainCloudWrapper::initialize(const char* url, const std::shared_ptr<IAppProfile>& appProfile, const char* appId, const char* version, const char* companyName, const char* appName)
+    {
+        std::map<std::string, std::shared_ptr<IAppProfile> > appProfiles;
+        if (appId != NULL)
+            appProfiles[appId] = appProfile;
+        initializeWithApps(url, appId, appProfiles, version, companyName, appName);
+        m_initializedWithApps = false;
+    }
+
+    void BrainCloudWrapper::initializeWithApps(const char* url, const char* defaultAppId, const std::map<std::string, std::shared_ptr<IAppProfile> >& appProfiles, const char* version, const char* companyName, const char* appName)
+    {
+        if (client == NULL)
+        {
+            client = new BrainCloudClient();
+        }
+
+        m_lastUrl = url;
+        m_lastGameId = defaultAppId;
+        m_initializedWithApps = true;
+
+        client->initializeWithApps(url, defaultAppId, appProfiles, version);
+        SaveDataHelper::getInstance()->initialize(companyName, appName);
+        initializeIdentity();
+    }
+
+    bool BrainCloudWrapper::initialize()
+    {
+#if defined(BC_NATIVE_CONFIG)
+        NativeAppConfig config;
+        if (!loadDefaultNativeAppConfig(config))
+        {
+            std::cout << "ERROR | Failed to initialize brainCloud - braincloud.cfg not found or unreadable. Run the brainCloud setup tool to create it." << std::endl;
+            return false;
+        }
+        const std::string url = config.serverUrl.empty() ? "https://api.braincloudservers.com/dispatcherv2" : config.serverUrl;
+        const std::string version = config.appVersion.empty() ? "1.0.0" : config.appVersion;
+        initializeWithApps(url.c_str(), config.appId.c_str(), config.profiles, version.c_str(), "brainCloud", config.appId.c_str());
+        return client->getBrainCloudComms()->hasAppProfile();
+#else
+        std::cout << "ERROR | Failed to initialize brainCloud - this build has no BrainCloudNative library to read braincloud.cfg. "
+                  << "Pass the app id and secret to initialize() instead." << std::endl;
+        return false;
+#endif
     }
 
     void BrainCloudWrapper::initializeIdentity(bool isAnonymousAuth)
@@ -154,9 +188,9 @@ namespace BrainCloud {
 
     void BrainCloudWrapper::reauthenticate()
     {
-        // send our saved app info to brainCloud
-        // company and app name can be NULL since they are already set
-        initialize(m_lastUrl.c_str(), m_lastSecretKey.c_str(), m_lastGameId.c_str(), m_lastGameVersion.c_str(), NULL, NULL);
+        // back to the default app with the credentials comms already holds
+        client->reinitialize(m_lastUrl.c_str(), m_lastGameId.c_str());
+        initializeIdentity();
 
         std::string authType = getStoredAuthenticationType();
         if (authType == AUTHENTICATION_ANONYMOUS)
@@ -1006,17 +1040,13 @@ namespace BrainCloud {
             m_lastUrl = data["redirect_url"].asString();
             auto newGameId = data["redirect_appid"].asString();
 
-            // re-initialize the client with our app info
-            if (m_secretMap.empty())
+            // re-initialize the client with the credentials comms already holds
+            if (!m_initializedWithApps && newGameId != "")
             {
-                if (newGameId != "") m_lastGameId = newGameId;
-                client->initialize(m_lastUrl.c_str(), m_lastSecretKey.c_str(), m_lastGameId.c_str(), m_lastGameVersion.c_str());
+                m_lastGameId = newGameId;
             }
-            else
-            {
-                // For initialize with apps, we ignore the app id
-                client->initializeWithApps(m_lastUrl.c_str(), m_lastGameId.c_str(), m_secretMap, m_lastGameVersion.c_str());
-            }
+            // For initialize with apps, we ignore the app id
+            client->reinitialize(m_lastUrl.c_str(), m_lastGameId.c_str());
             
             // Retry the previous authenticate, that is cached inside the authentication service.
             initializeIdentity(true);

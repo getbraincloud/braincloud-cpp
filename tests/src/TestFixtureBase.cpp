@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <fstream>
 #include <time.h>
 #include "TestFixtureBase.h"
@@ -39,13 +40,11 @@ void TestFixtureBase::SetUp()
 
 	LoadIds();
 
-	std::map<std::string, std::string> secretMap;
-	secretMap[m_appId] = m_secret;
-	secretMap[m_childAppId] = m_childSecret;
-	m_bcWrapper->initializeWithApps(m_serverUrl.c_str(), m_appId.c_str(), secretMap, m_version.c_str(), "", "");
+	bool fromConfig = InitWrapper();
 
     static bool firstSetup = true;
-    if(firstSetup) printf("\nClient version - %s\n", m_bcWrapper->getBCClient()->getBrainCloudClientVersion().c_str());
+    if(firstSetup) printf("\nClient version - %s (%s)\n", m_bcWrapper->getBCClient()->getBrainCloudClientVersion().c_str(),
+                          fromConfig ? "braincloud.cfg" : "ids.txt");
     firstSetup = false;
 
     m_bc = m_bcWrapper->client;
@@ -269,8 +268,26 @@ void TestFixtureBase::Logout()
 	//
 	// In any case, the test case will call resetCommunication in the TearDown - the only worry
 	// is if re-init will use different parameters from what the test case was expecting. Super unlikely.
+	InitWrapper();
+}
+
+// braincloud.cfg comes from data/test_cpp_<env>.cfg when bccm has one; returns true when it was used.
+bool TestFixtureBase::InitWrapper()
+{
+#if defined(BC_NATIVE_CONFIG)
+	std::FILE* cfg = std::fopen("braincloud.cfg", "rb");
+	if (cfg != NULL)
+	{
+		std::fclose(cfg);
+		if (m_bcWrapper->initialize()) return true;
+		// Don't let ids.txt hide a config that should have read.
+		printf("ERROR: braincloud.cfg is present but did not initialize. Check data/test_cpp_tuning.cpp matches it.\n");
+		exit(1);
+	}
+#endif
 	std::map<std::string, std::string> secretMap;
 	secretMap[m_appId] = m_secret;
 	secretMap[m_childAppId] = m_childSecret;
-	m_bc->initializeWithApps(m_serverUrl.c_str(), m_appId.c_str(), secretMap, m_version.c_str());
+	m_bcWrapper->initializeWithApps(m_serverUrl.c_str(), m_appId.c_str(), secretMap, m_version.c_str(), "", "");
+	return false;
 }

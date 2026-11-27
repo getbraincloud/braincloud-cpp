@@ -122,6 +122,38 @@ namespace BrainCloud {
         void initializeWithApps(const char* serverURL, const char* defaultAppId, const std::map<std::string, std::string>& secretMap, const char* version, const char* companyName, const char* appName);
 
         /**
+         * Initializes with a profile that signs requests in place of the app secret.
+         *
+         * @param serverURL The url to the brainCloud server
+         * @param appProfile Signs each request
+         * @param appId The app id
+         * @param version The app version
+         * @param companyName The company name used in the keychain for storing anonymous and profile ids.
+         * @param appName The app name used in the keychain for storing anonymous and profile ids.
+         */
+        void initialize(const char* serverURL, const std::shared_ptr<IAppProfile>& appProfile, const char* appId, const char* version, const char* companyName, const char* appName);
+
+        /**
+         * Initializes with profiles that sign requests for each app in place of the app secrets.
+         *
+         * @param serverURL The url to the brainCloud server
+         * @param defaultAppId The default app id that we start with
+         * @param appProfiles A map of <appId, profile>
+         * @param version The app version
+         * @param companyName The company name used in the keychain for storing anonymous and profile ids.
+         * @param appName The app name used in the keychain for storing anonymous and profile ids.
+         */
+        void initializeWithApps(const char* serverURL, const char* defaultAppId, const std::map<std::string, std::shared_ptr<IAppProfile> >& appProfiles, const char* version, const char* companyName, const char* appName);
+
+        /**
+         * Initializes from the braincloud.cfg written by the brainCloud setup tool, found in the
+         * working directory or beside the executable. Ids are stored under "brainCloud" and the app id.
+         *
+         * @return True if the config was read
+         */
+        bool initialize();
+
+        /**
          * Authenticate a user anonymously with brainCloud - used for apps that don't want to bother
          * the user to login, or for users who are sensitive to their privacy
          *
@@ -1090,11 +1122,9 @@ namespace BrainCloud {
         IServerCallback* m_authenticateCallback;
 
         std::string m_lastUrl;
-        std::string m_lastSecretKey;
         std::string m_lastGameId;
-        std::string m_lastGameVersion;
+        bool m_initializedWithApps;
         std::string m_wrapperName;
-        std::map<std::string, std::string> m_secretMap;
 
         bool m_alwaysAllowProfileSwitch;
 

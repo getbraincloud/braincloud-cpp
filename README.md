@@ -208,7 +208,7 @@ pod update
 
 Here are a few common errors that you may see on your first attempt to connect to brainCloud.
 
-- **App id not set**: Verify you've set up the app id and app secret correctly in the `initialize()` method.
+- **App id not set**: Verify `braincloud.cfg` is where `initialize()` looks for it, or that the app id and app secret passed to `initialize()` are correct.
 - **Platform not enabled**: Verify you've enabled your platform on the portal.
 
 If you're still having issues, log into the portal and give us a shout through the help system (bottom right icon with the question mark and chat bubble).
@@ -235,11 +235,40 @@ It is recommended to use the wrapper by default.
 
 ## How do I initialize brainCloud?
 
-If using the wrapper use the following code.
+With the SDK added to your CMake project (`add_subdirectory`), run the setup target and have the
+config copied beside your app:
+
+```cmake
+braincloud_copy_config(MyGame)
+```
+```sh
+cmake --build <build dir> --target braincloud_setup
+```
+
+It opens a page in your browser where you log in to the portal and pick your team and app (and any
+child apps). It writes `braincloud.cfg` into your project folder with the app id, server url and app
+version, plus `braincloud_tuning.cpp`, which `braincloud_copy_config` compiles into your app. The config
+only reads in a build that has it, so a copy of `braincloud.cfg` is no use on its own. Both are added to
+`.gitignore`; share them with your build machines. Without CMake, add `braincloud_tuning.cpp` to your app's
+sources. To run the tool without CMake, open `tools/setup/<mac|windows|linux>/braincloud_setup`; it finds your project from where the SDK sits in it. The app's
+credentials are never stored as readable text, and the app has no app secret in its code.
 
 ```c++
 _bc = new BrainCloudWrapper(); // optionally pass in a _wrapperName
-_bc->initialize("https://api.braincloudservers.com/dispatcherv2", _appId, _secret, _appVersion, _companyName, _appName);
+_bc->initialize(); // reads braincloud.cfg
+```
+
+`initialize()` looks for `braincloud.cfg` in the working directory, beside the executable, then in a Mac
+app bundle's `Contents/Resources`, and stores ids under "brainCloud" and the app id. On Android it reads
+`braincloud.cfg` from the APK assets: the setup tool writes it to `app/src/main/assets/` in an Android
+Studio project, and the app sets `BrainCloud::appEnv` / `BrainCloud::appContext` before `initialize()`, as
+it already does for saved data. Reading the config needs the BrainCloudNative library in
+`lib/braincloud-native`; CMake turns it on automatically for platforms that have one (`BC_NATIVE_CONFIG`).
+
+To pass the app id and secret yourself instead:
+
+```c++
+_bc->initialize("https://api.braincloudservers.com/dispatcherv2", _secret, _appId, _appVersion, _companyName, _appName);
 ```
 
 Your \_appId, \_secret, is set on the brainCloud dashboard. Under Design | Core App Info > Application IDs

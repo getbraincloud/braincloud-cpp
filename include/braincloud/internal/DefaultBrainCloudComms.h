@@ -41,7 +41,7 @@ namespace BrainCloud
         virtual ~DefaultBrainCloudComms();
 
         // from IBrainCloudComms
-        virtual void initialize(const char * serverURL, const char * appId, const char * secretKey);
+        virtual void initialize(const char * serverURL, const char * appId);
 
         virtual void addToQueue( ServerCall * );
 

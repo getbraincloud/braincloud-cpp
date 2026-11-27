@@ -45,12 +45,16 @@ local_src_files := \
     $(LOCAL_PATH)/../../src/DefaultTCPSocket.cpp \
     $(LOCAL_PATH)/../../src/FriendPlatform.cpp \
     $(LOCAL_PATH)/../../src/GUID.cpp \
+    $(LOCAL_PATH)/../../src/HeldAppProfile.cpp \
     $(LOCAL_PATH)/../../src/IBrainCloudComms.cpp \
+    $(LOCAL_PATH)/../../src/NativeConfigProfile.cpp \
+    $(LOCAL_PATH)/../../src/NativeTuning.cpp \
     $(LOCAL_PATH)/../../src/JsonUtil.cpp \
     $(LOCAL_PATH)/../../src/md5x.c \
     $(LOCAL_PATH)/../../src/OperationParam.cpp \
     $(LOCAL_PATH)/../../src/Platform.cpp \
     $(LOCAL_PATH)/../../src/RTTComms.cpp \
+    $(LOCAL_PATH)/../../src/SecureRandom.cpp \
     $(LOCAL_PATH)/../../src/SaveDataHelper.cpp \
     $(LOCAL_PATH)/../../src/ServerCall.cpp \
     $(LOCAL_PATH)/../../src/ServiceName.cpp \

@@ -16,7 +16,9 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
+#include "braincloud/IAppProfile.h"
 #include "braincloud/IEventCallback.h"
 #include "braincloud/IFileUploadCallback.h"
 #include "braincloud/IGlobalErrorCallback.h"
@@ -194,6 +196,35 @@ namespace BrainCloud
 		 * @param appVersion The version
 		 */
 		void initializeWithApps(const char * defaultAppId, const std::map<std::string, std::string>& secretMap, const char * appVersion);
+
+		/**
+		 * Initializes with a profile that signs requests in place of the app secret.
+		 *
+		 * @param serverURL The url to the brainCloud server
+		 * @param appProfile Signs each request
+		 * @param appId The app id
+		 * @param appVersion The version
+		 */
+		void initialize(const char * serverURL, const std::shared_ptr<IAppProfile>& appProfile, const char * appId, const char * appVersion);
+
+		/**
+		 * Initializes with profiles that sign requests for each app in place of the app secrets.
+		 *
+		 * @param serverURL The url to the brainCloud server
+		 * @param defaultAppId The default app id that we start with
+		 * @param appProfiles A map of <appId, profile>
+		 * @param appVersion The version
+		 */
+		void initializeWithApps(const char * serverURL, const char * defaultAppId, const std::map<std::string, std::shared_ptr<IAppProfile> >& appProfiles, const char * appVersion);
+
+		/**
+		 * Re-initializes with the app profiles already held, so the app's credentials never
+		 * have to be passed in again (e.g. after a redirect to another server).
+		 *
+		 * @param serverURL The url to the brainCloud server
+		 * @param appId The app id, or NULL to keep the current one
+		 */
+		void reinitialize(const char * serverURL, const char * appId);
 
 		/**
 		* Initialize - initializes the identity service with the saved
@@ -662,7 +693,7 @@ namespace BrainCloud
 		const char * getRttConnectionId() const;
 
 	protected:
-		void initializeComms(const char * serverURL, const char * appId, const std::map<std::string, std::string>& secretMap);
+		void initializeComms(const char * serverURL, const char * appId, const std::map<std::string, std::shared_ptr<IAppProfile> >* profiles);
 
 		static BrainCloudClient * _instance;
 

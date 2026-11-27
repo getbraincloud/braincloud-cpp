@@ -17,7 +17,7 @@ namespace BrainCloud {
     {
     public:
         virtual ~CppRestBrainCloudComms();
-        virtual void initialize(const char * serverURL, const char * appId, const char * secretKey);
+        virtual void initialize(const char * serverURL, const char * appId);
         virtual void registerEventCallback(IEventCallback * in_eventCallback);
         virtual void deregisterEventCallback();
         virtual void registerFileUploadCallback(IFileUploadCallback *in_fileUploadCallback);

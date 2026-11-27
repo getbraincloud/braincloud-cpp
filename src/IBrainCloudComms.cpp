@@ -61,18 +61,38 @@ namespace BrainCloud {
 	{
 	}
 
-    void IBrainCloudComms::initializeWithApps(const char * serverURL, const char * defaultAppId, const std::map<std::string, std::string>& secretMap)
+    void IBrainCloudComms::initializeWithProfiles(const char * serverURL, const char * defaultAppId, const std::map<std::string, std::shared_ptr<IAppProfile> >& profiles)
     {
-        _secretMap = secretMap;
+        _appProfiles = profiles;
+        selectAppProfile(defaultAppId);
+        initialize(serverURL, defaultAppId);
+    }
 
-        _secretKey = "MISSING";
-        std::map<std::string, std::string>::const_iterator it = _secretMap.find(defaultAppId);
-        if (it != _secretMap.end())
+    void IBrainCloudComms::reinitialize(const char * serverURL, const char * appId)
+    {
+        const std::string newAppId = (appId != NULL && appId[0] != '\0') ? appId : _appId;
+        if (_appProfile && _appProfiles.find(newAppId) == _appProfiles.end())
         {
-            _secretKey = it->second;
+            _appProfiles[newAppId] = _appProfile;
         }
+        selectAppProfile(newAppId);
+        initialize(serverURL, newAppId.c_str());
+    }
 
-        initialize(serverURL, defaultAppId, _secretKey.c_str());
+    void IBrainCloudComms::selectAppProfile(const std::string& appId)
+    {
+        std::map<std::string, std::shared_ptr<IAppProfile> >::const_iterator it = _appProfiles.find(appId);
+        _appProfile = it != _appProfiles.end() ? it->second : std::shared_ptr<IAppProfile>();
+    }
+
+    std::string IBrainCloudComms::signPayload(const std::string& payload) const
+    {
+        char signature[IAppProfile::SignatureLength + 1];
+        if (!_appProfile || !_appProfile->sign(reinterpret_cast<const uint8_t*>(payload.data()), payload.size(), signature))
+        {
+            return std::string();
+        }
+        return std::string(signature, IAppProfile::SignatureLength);
     }
 
 	void IBrainCloudComms::enableLogging(bool shouldEnable)
@@ -224,14 +244,7 @@ namespace BrainCloud {
             if (jsonData["switchToAppId"] != Json::nullValue)
             {
                 _appId = jsonData.get("switchToAppId", "").asString();
-
-                // Update secret key
-                _secretKey = "MISSING";
-                std::map<std::string, std::string>::const_iterator it = _secretMap.find(_appId);
-                if (it != _secretMap.end())
-                {
-                    _secretKey = it->second;
-                }
+                selectAppProfile(_appId);
             }
         }
 	}

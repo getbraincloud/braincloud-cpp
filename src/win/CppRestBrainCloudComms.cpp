@@ -2,12 +2,13 @@
 #include <iostream>
 #include <sstream>
 #include <chrono>
+#include <algorithm>
+#include <cctype>
 
 #include "json/json.h"
 #include "cpprest/http_client.h"
 
 #include "braincloud/internal/win/CppRestBrainCloudComms.h"
-#include "braincloud/internal/win/MD5.h"
 
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/http_codes.h"
@@ -40,7 +41,7 @@ namespace BrainCloud
     {
     }
 
-    void CppRestBrainCloudComms::initialize(const char * serverURL, const char * appId, const char * secretKey)
+    void CppRestBrainCloudComms::initialize(const char * serverURL, const char * appId)
     {
 #ifdef VERBOSE
         std::cout << "Entering initialize(), initialized:" << _isInitialized << std::endl;
@@ -62,8 +63,6 @@ namespace BrainCloud
             }
             _uploadUrl += "/uploader";
             _appId = appId;
-            _secretKey = secretKey;
-            _secretMap[_appId] = _secretKey;
 
             _processQueue = std::thread(&CppRestBrainCloudComms::processQueue, this);
         }
@@ -309,12 +308,14 @@ namespace BrainCloud
             utility::string_t body = utility::conversions::to_string_t(dataString);
             request.set_body(body);
 
-            if (_secretKey.length())
+            if (hasAppProfile())
             {
-                std::string secret = md5(dataString + _secretKey);
-                utility::string_t secretHeader = utility::conversions::to_string_t(secret);
+                // This path has always sent lowercase; the server accepts either.
+                std::string signature = signPayload(dataString);
+                std::transform(signature.begin(), signature.end(), signature.begin(), ::tolower);
+                utility::string_t signatureHeader = utility::conversions::to_string_t(signature);
                 // add signature to header
-                request.headers().add(L"X-SIG", secretHeader);
+                request.headers().add(L"X-SIG", signatureHeader);
             }
 
             pplx::task<web::http::http_response> respTask = client.request(request);

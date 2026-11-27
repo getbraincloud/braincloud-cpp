@@ -57,6 +57,7 @@ Pod::Spec.new do |s|
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
   s.libraries               = 'c++', 'z'
+  s.frameworks              = 'Security' # SecureRandom
   s.osx.framework           = 'LDAP'
   s.dependency                'BrainCloudJsonCpp', '~>6.1.1'
   s.ios.dependency            'BrainCloudSocketRocket', '0.7.1'

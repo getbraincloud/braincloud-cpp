@@ -8,11 +8,6 @@
 #include <string>
 #include <list>
 #include <sstream>
-#if defined(BC_UWP)
-#include "braincloud/internal/win/MD5.h"
-#else
-#include "braincloud/internal/md5x.h"
-#endif
 #include "braincloud/reason_codes.h"
 #include "braincloud/http_codes.h"
 
@@ -47,7 +42,7 @@ namespace BrainCloud
 	// Public methods
 	////////////////////////////////////////////////////////
 
-	void DefaultBrainCloudComms::initialize(const char * serverURL, const char * appId, const char * secretKey)
+	void DefaultBrainCloudComms::initialize(const char * serverURL, const char * appId)
 	{
 		resetCommunication();
         {
@@ -74,8 +69,6 @@ namespace BrainCloud
         }
 
 		_appId = appId;
-		_secretKey = secretKey;
-		_secretMap[_appId] = _secretKey;
 
 		_isInitialized = true;
 	}
@@ -953,13 +946,7 @@ namespace BrainCloud
 		if(switchToAppId != "" || switchToAppId != "unknown")
 		{
 			_appId = switchToAppId;
-
-			//update secretKey
-			std::map<std::string, std::string>::const_iterator it = _secretMap.find(_appId);
-			if (it != _secretMap.end())
-			{
-				_secretKey = it->second;
-			}
+			selectAppProfile(_appId);
 		}
 	}
 
@@ -1125,38 +1112,14 @@ namespace BrainCloud
 			
 			request->setContentType("application/json");
 
-			// Now we'll take our string append an application secret, and MD5 it, adding that to the HTTP header
-			// This is based loosely on facebook signatures...
+			// MD5 of the payload plus the app's credentials, loosely based on Facebook signatures:
 			// http://developers.facebook.com/docs/authentication/fb_sig/
-			if (_secretKey.length())
+			if (hasAppProfile())
 			{
-				// append secret key
-				dataString += _secretKey;
-				// get binary md5 digest
-
+				std::string sig = signPayload(dataString);
 #if defined(BC_UWP)
-                MD5 state(dataString);
-                std::string sig = state.hexdigest();
-#else
-				//encode the string in an md5 format
-				const int DIGEST_LENGTH = 16;
-				md5_state_t     state;
-				md5_byte_t      digest[DIGEST_LENGTH];
-
-				md5_init(&state);
-				md5_append(&state, (const md5_byte_t *)dataString.c_str(), (int)dataString.length());
-				md5_finish(&state, digest);
-
-				// convert each byte to string form
-				char buf[DIGEST_LENGTH * 2 + 1];
-				for (unsigned char i = 0; i < DIGEST_LENGTH; ++i)
-				{
-					snprintf(&buf[i * 2], 8, "%02x", digest[i]);
-				}
-
-				// convert to uppercase std::string and add sig to header
-				std::string sig((const char*)buf, DIGEST_LENGTH * 2);
-				std::transform(sig.begin(), sig.end(), sig.begin(), toupper);
+				// UWP has always sent lowercase; the server accepts either.
+				std::transform(sig.begin(), sig.end(), sig.begin(), ::tolower);
 #endif
 				request->addHeader(URLRequestHeader("X-SIG", sig));
 				request->addHeader(URLRequestHeader("X-APPID", _appId));

@@ -40,6 +40,10 @@ source_group(src FILES ${SOURCES})
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 add_executable(bctests ${BC_INCS} ${WRAPPER_INCS} ${INCS} ${SOURCES})
+# Written with braincloud.cfg by brainCloud setup (bccm keeps it in data/test_cpp_tuning.cpp).
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/braincloud_tuning.cpp")
+	target_sources(bctests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/braincloud_tuning.cpp")
+endif()
 
 if (APPLE)
 	find_library(GAMEKIT_LIB GameKit)

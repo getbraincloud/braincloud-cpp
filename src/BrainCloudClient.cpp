@@ -11,6 +11,7 @@
 #include "braincloud/BrainCloudClient.h"
 
 #include "braincloud/internal/Device.h"
+#include "braincloud/internal/HeldAppProfile.h"
 #include "braincloud/internal/JsonUtil.h"
 #include "braincloud/internal/URLRequestMethod.h"
 
@@ -162,7 +163,8 @@ namespace BrainCloud
         return(_rttComms->getConnectionId().c_str());
     }
 
-    void BrainCloudClient::initializeComms(const char * serverURL, const char * appId, const std::map<std::string, std::string>& secretMap)
+    // A NULL profiles map keeps the profiles comms already holds.
+    void BrainCloudClient::initializeComms(const char * serverURL, const char * appId, const std::map<std::string, std::shared_ptr<IAppProfile> >* profiles)
     {
         if (_brainCloudComms)
         {
@@ -181,7 +183,14 @@ namespace BrainCloud
                     urlToUse = url.c_str();
                 }
             }
-            _brainCloudComms->initializeWithApps(urlToUse, appId, secretMap);
+            if (profiles != NULL)
+            {
+                _brainCloudComms->initializeWithProfiles(urlToUse, appId, *profiles);
+            }
+            else
+            {
+                _brainCloudComms->reinitialize(urlToUse, appId);
+            }
         }
 
         if (_rttComms)
@@ -214,10 +223,10 @@ namespace BrainCloud
             return;
         }
 
-        std::map<std::string, std::string> secretMap;
-        secretMap[appId] = secretKey;
+        std::map<std::string, std::shared_ptr<IAppProfile> > profiles;
+        profiles[appId] = std::make_shared<HeldAppProfile>(secretKey, strlen(secretKey));
 
-        initializeComms(serverURL, appId, secretMap);
+        initializeComms(serverURL, appId, &profiles);
         setupOSLocaleData();
 
         _releasePlatform = Device::getPlatformName();
@@ -248,7 +257,14 @@ namespace BrainCloud
             return;
         }
 
-        initializeComms(serverURL, defaultAppId, secretMap);
+        // The caller's map is theirs to wipe; from here on only the profiles hold the values.
+        std::map<std::string, std::shared_ptr<IAppProfile> > profiles;
+        for (std::map<std::string, std::string>::const_iterator it = secretMap.begin(); it != secretMap.end(); ++it)
+        {
+            profiles[it->first] = std::make_shared<HeldAppProfile>(it->second);
+        }
+
+        initializeComms(serverURL, defaultAppId, &profiles);
         setupOSLocaleData();
 
         _releasePlatform = Device::getPlatformName();
@@ -258,6 +274,53 @@ namespace BrainCloud
     void BrainCloudClient::initializeWithApps(const char* defaultAppId, const std::map<std::string, std::string>& secretMap, const char* appVersion)
     {
         initializeWithApps(BC_SERVER_URL, defaultAppId, secretMap, appVersion);
+    }
+
+    void BrainCloudClient::initialize(const char * serverURL, const std::shared_ptr<IAppProfile>& appProfile, const char * appId, const char * appVersion)
+    {
+        std::map<std::string, std::shared_ptr<IAppProfile> > profiles;
+        if (appId != NULL)
+            profiles[appId] = appProfile;
+        initializeWithApps(serverURL, appId, profiles, appVersion);
+    }
+
+    void BrainCloudClient::initializeWithApps(const char * serverURL, const char * defaultAppId, const std::map<std::string, std::shared_ptr<IAppProfile> >& profiles, const char * appVersion)
+    {
+        resetCommunication();
+        std::string error = "";
+        if (serverURL == NULL || strlen(serverURL) <= 0)
+            error = "serverURL was null or empty";
+        else if (defaultAppId == NULL || strlen(defaultAppId) <= 0)
+            error = "appId was null or empty";
+        else if (appVersion == NULL || strlen(appVersion) <= 0)
+            error = "appVersion was null or empty";
+        else if (profiles.find(defaultAppId) == profiles.end() || !profiles.find(defaultAppId)->second)
+            error = "no profile for appid";
+
+        if (error.length() > 0)
+        {
+            std::cout << "ERROR | Failed to initialize brainCloud - " << error;
+            return;
+        }
+
+        initializeComms(serverURL, defaultAppId, &profiles);
+        setupOSLocaleData();
+
+        _releasePlatform = Device::getPlatformName();
+        _appVersion = appVersion;
+    }
+
+    void BrainCloudClient::reinitialize(const char * serverURL, const char * appId)
+    {
+        resetCommunication();
+        if (serverURL == NULL || strlen(serverURL) <= 0 || _brainCloudComms == NULL || !_brainCloudComms->hasAppProfile())
+        {
+            std::cout << "ERROR | Failed to reinitialize brainCloud - not initialized";
+            return;
+        }
+
+        initializeComms(serverURL, appId, NULL);
+        setupOSLocaleData();
     }
 
     void BrainCloudClient::initializeIdentity(const char * profileId, const char * anonymousId)

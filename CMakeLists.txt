@@ -303,6 +303,7 @@ add_library(brainCloud STATIC
         include/braincloud/INetworkErrorCallback.h
         include/braincloud/IRewardCallback.h
         include/braincloud/IRelayConnectCallback.h
+        include/braincloud/IAppProfile.h
         include/braincloud/IServerCallback.h
         include/braincloud/OperationParam.h
         include/braincloud/Platform.h
@@ -322,7 +323,11 @@ add_library(brainCloud STATIC
         include/braincloud/internal/DefaultWebSocket.h
         include/braincloud/internal/Device.h
         include/braincloud/internal/GUID.h
+        include/braincloud/internal/HeldAppProfile.h
         include/braincloud/internal/IBrainCloudComms.h
+        include/braincloud/internal/NativeConfigProfile.h
+        include/braincloud/internal/SecureMemory.h
+        include/braincloud/internal/SecureRandom.h
         include/braincloud/internal/IFileUploader.h
         include/braincloud/internal/IPinger.h
         include/braincloud/internal/IRelaySocket.h
@@ -398,7 +403,11 @@ add_library(brainCloud STATIC
         src/DataUtilities.cpp
         src/FriendPlatform.cpp
         src/GUID.cpp
+        src/HeldAppProfile.cpp
         src/IBrainCloudComms.cpp
+        src/NativeConfigProfile.cpp
+        src/NativeTuning.cpp
+        src/SecureRandom.cpp
         src/JsonUtil.cpp
         src/OperationParam.cpp
         src/Platform.cpp
@@ -501,7 +510,8 @@ elseif (WIN32)
 	endif()
 	
 	list(APPEND libs 
-				${BC_ZLIB})
+				${BC_ZLIB}
+				bcrypt) # SecureRandom
 	
     if (USE_CURL_WIN)
         # pthread
@@ -649,6 +659,83 @@ if (USE_LIBWEBSOCKETS)
             )
 
 endif()
+
+#=============================================================================
+# BrainCloudNative: reads the braincloud.cfg written by the brainCloud setup tool
+#=============================================================================
+# Synced into lib/braincloud-native by `node bccm syncsdk braincloud-cpp-secure`. On by
+# default when there's a library for this platform; without it initialize() needs the secret.
+set(BC_NATIVE_DIR "${BC_DIR}/lib/braincloud-native")
+set(BC_NATIVE_LIB "")
+set(BC_NATIVE_LIB_DEBUG "")
+if (WIN32 AND NOT UWP AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(BC_NATIVE_LIB "${BC_NATIVE_DIR}/lib/Win64/BrainCloudNative.lib")
+    set(BC_NATIVE_LIB_DEBUG "${BC_NATIVE_DIR}/lib/Win64/BrainCloudNatived.lib")
+elseif (IOS AND CMAKE_OSX_SYSROOT MATCHES "[Ss]imulator")
+    set(BC_NATIVE_LIB "${BC_NATIVE_DIR}/lib/iOS-sim/BrainCloudNative-iOS.a")
+elseif (IOS)
+    set(BC_NATIVE_LIB "${BC_NATIVE_DIR}/lib/iOS/BrainCloudNative-iOS.a")
+elseif (APPLE)
+    set(BC_NATIVE_LIB "${BC_NATIVE_DIR}/lib/Mac/BrainCloudNative-Mac.a")
+elseif (ANDROID)
+    set(BC_NATIVE_LIB "${BC_NATIVE_DIR}/lib/Android/${ANDROID_ABI}/libBrainCloudNative.a")
+elseif (LINUX)
+    set(BC_NATIVE_LIB "${BC_NATIVE_DIR}/lib/Linux/libBrainCloudNative.a")
+endif()
+
+if (BC_NATIVE_LIB AND EXISTS "${BC_NATIVE_LIB}")
+    set(BC_NATIVE_CONFIG_DEFAULT ON)
+else()
+    set(BC_NATIVE_CONFIG_DEFAULT OFF)
+endif()
+option(BC_NATIVE_CONFIG "Read the app config written by the brainCloud setup tool" ${BC_NATIVE_CONFIG_DEFAULT})
+
+if (BC_NATIVE_CONFIG)
+    if (NOT EXISTS "${BC_NATIVE_LIB}")
+        message(FATAL_ERROR "BC_NATIVE_CONFIG is on but ${BC_NATIVE_LIB} is missing. Run: node bccm syncsdk braincloud-cpp-secure")
+    endif()
+    message(STATUS "brainCloud Building with BrainCloudNative: ${BC_NATIVE_LIB}")
+    target_compile_definitions(brainCloud PUBLIC BC_NATIVE_CONFIG)
+    list(APPEND includes PUBLIC "${BC_NATIVE_DIR}/include")
+    # The Windows library is built per CRT, so Debug links the /MDd one.
+    if (BC_NATIVE_LIB_DEBUG AND EXISTS "${BC_NATIVE_LIB_DEBUG}")
+        list(APPEND libs optimized "${BC_NATIVE_LIB}" debug "${BC_NATIVE_LIB_DEBUG}")
+    else()
+        list(APPEND libs "${BC_NATIVE_LIB}")
+    endif()
+    # `cmake --build <dir> --target braincloud_setup` writes braincloud.cfg into the top-level project.
+    if (CMAKE_HOST_WIN32)
+        set(BC_SETUP_TOOL "${CMAKE_CURRENT_SOURCE_DIR}/tools/setup/windows/braincloud_setup.exe")
+    elseif (CMAKE_HOST_APPLE)
+        set(BC_SETUP_TOOL "${CMAKE_CURRENT_SOURCE_DIR}/tools/setup/mac/braincloud_setup")
+    else()
+        set(BC_SETUP_TOOL "${CMAKE_CURRENT_SOURCE_DIR}/tools/setup/linux/braincloud_setup")
+    endif()
+    if (EXISTS "${BC_SETUP_TOOL}" AND NOT TARGET braincloud_setup)
+        add_custom_target(braincloud_setup COMMAND "${BC_SETUP_TOOL}" "${CMAKE_SOURCE_DIR}" USES_TERMINAL VERBATIM)
+    endif()
+else()
+    message(STATUS "brainCloud Building without BrainCloudNative: initialize() needs an app id and secret")
+endif()
+
+# braincloud_copy_config(<app>): compiles the project's braincloud_tuning.cpp into <app> and copies
+# braincloud.cfg beside it after each build.
+set(BC_COPY_CONFIG_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/braincloud_copy_config.cmake" CACHE INTERNAL "")
+function(braincloud_copy_config target)
+    if (EXISTS "${CMAKE_SOURCE_DIR}/braincloud_tuning.cpp")
+        target_sources(${target} PRIVATE "${CMAKE_SOURCE_DIR}/braincloud_tuning.cpp")
+    else()
+        message(WARNING "No braincloud_tuning.cpp in ${CMAKE_SOURCE_DIR}. Run brainCloud setup.")
+    endif()
+    # Android reads it from the APK assets, which Gradle packages.
+    if (ANDROID)
+        return()
+    endif()
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -DSRC=${CMAKE_SOURCE_DIR}/braincloud.cfg -DDST=$<TARGET_FILE_DIR:${target}>/braincloud.cfg
+                -P "${BC_COPY_CONFIG_SCRIPT}"
+        VERBATIM)
+endfunction()
 
 # Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "include" ${includes})

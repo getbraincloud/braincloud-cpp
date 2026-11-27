@@ -54,6 +54,7 @@ protected:
 
     static void LoadIds();
     void Init();
+    bool InitWrapper();
 
 private:
     static bool m_init;

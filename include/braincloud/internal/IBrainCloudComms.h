@@ -1,6 +1,7 @@
 #pragma once
 
 #include "braincloud/BrainCloudTypes.h"
+#include "braincloud/IAppProfile.h"
 
 #include "braincloud/IEventCallback.h"
 #include "braincloud/IFileUploadCallback.h"
@@ -15,6 +16,7 @@
 #include "braincloud/ServiceOperation.h"
 
 #include <map>
+#include <memory>
 
 #define NO_PACKET_EXPECTED -1
 #define DEFAULT_AUTHENTICATION_TIMEOUT_MILLIS 15000
@@ -64,8 +66,16 @@ namespace BrainCloud
 		virtual ~IBrainCloudComms();
 
 		// pure virtual methods
-		virtual void initialize(const char * serverURL, const char * appId, const char * secretKey) = 0;
-		void initializeWithApps(const char * serverURL, const char * defaultAppId, const std::map<std::string, std::string>& secretMap);
+		virtual void initialize(const char * serverURL, const char * appId) = 0;
+		void initializeWithProfiles(const char * serverURL, const char * defaultAppId, const std::map<std::string, std::shared_ptr<IAppProfile> >& profiles);
+
+		// Keeps the profiles already held. An app id with no profile of its own signs with the current one.
+		void reinitialize(const char * serverURL, const char * appId);
+
+		bool hasAppProfile() const { return _appProfile != NULL; }
+
+		// Uppercase hex, or empty if the current app has no profile.
+		std::string signPayload(const std::string& payload) const;
 		virtual void addToQueue(ServerCall *) = 0;
 
 		virtual void sendHeartbeat() = 0;
@@ -114,6 +124,7 @@ namespace BrainCloud
 		void setImmediateRetryOnError(bool value);
 
 		const std::string& getAppId() const;
+		const std::string& getServerUrl() const { return _serverUrl; }
 		void clearSessionId();
 		const std::string& getSessionId() const;
 		void setSessionId(const char *);
@@ -188,8 +199,10 @@ namespace BrainCloud
 		std::string _sessionId;
 		std::string _serverUrl;
 		std::string _uploadUrl;
-		std::string _secretKey;
-		std::map<std::string, std::string> _secretMap;
+		std::shared_ptr<IAppProfile> _appProfile;
+		std::map<std::string, std::shared_ptr<IAppProfile> > _appProfiles;
+
+		void selectAppProfile(const std::string& appId);
 		std::vector<int> _packetTimeouts;
 
 		typedef std::map<std::string, IFileUploader *>::iterator tFileUploadsIterator;
